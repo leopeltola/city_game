@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cgyxlqk31dq1x"]
+
+[ext_resource type="Script" uid="uid://cunjnnxov51gm" path="res://src/features/main_menu/lobby_list_item.gd" id="1_7ushc"]
+
+[node name="LobbyListItem" type="HBoxContainer" unique_id=653459191]
+script = ExtResource("1_7ushc")
+
+[node name="LobbyName" type="Label" parent="." unique_id=501839048]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lobby name haha"
+
+[node name="JoinButton" type="Button" parent="." unique_id=1049862431]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join"

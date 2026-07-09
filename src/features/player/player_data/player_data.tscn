@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dehave4dh422p"]
+
+[ext_resource type="Script" uid="uid://bcdthkrfrwtwf" path="res://src/features/player/player_data/player_data.gd" id="1_fqo0s"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fqo0s"]
+properties/0/path = NodePath(".:player_name")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:player_id")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:peer_id")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[node name="PlayerData" type="Node" unique_id=322242590]
+script = ExtResource("1_fqo0s")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1087529684]
+replication_config = SubResource("SceneReplicationConfig_fqo0s")

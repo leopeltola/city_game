@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ltn2tghmlwo8"]
+
+[ext_resource type="Texture2D" uid="uid://7f7hbirvfixp" path="res://src/features/player/assets/models/textures/Character Color.png" id="1_j8hp3"]
+[ext_resource type="Texture2D" uid="uid://idkawyutr1a4" path="res://src/features/player/assets/models/textures/Character Normal.png" id="2_p1ub3"]
+
+[resource]
+albedo_texture = ExtResource("1_j8hp3")
+normal_texture = ExtResource("2_p1ub3")
+texture_filter = 0

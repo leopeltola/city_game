@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://cponjrynpiw40"]
+
+[ext_resource type="Script" uid="uid://dvvq3ok1a7rie" path="res://src/features/main_menu/lobby_menu.gd" id="1_jmdcs"]
+
+[node name="LobbyMenu" type="MarginContainer" unique_id=455128080]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -166.0
+offset_top = -83.0
+offset_right = 166.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jmdcs")
+
+[node name="Panel" type="Panel" parent="." unique_id=1038895758]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=7987406]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2074800984]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer" unique_id=567806752]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Control" unique_id=2032181755]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+text = "Lobbies"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=775946116]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer" unique_id=897310117]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer" unique_id=1156875496]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer" unique_id=97966902]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="LobbyList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/ScrollContainer" unique_id=1696629247]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1968204462]
+layout_mode = 2
+text = "Back"

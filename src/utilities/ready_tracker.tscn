@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dvayn06x70g2q"]
+
+[ext_resource type="Script" uid="uid://br0wpwc51jr0a" path="res://src/utilities/ready_tracker.gd" id="1_o41fh"]
+
+[node name="NetNotifier" type="Node" unique_id=1309713202]
+script = ExtResource("1_o41fh")

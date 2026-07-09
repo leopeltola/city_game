@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dvu2t6cq0gt6r"]
+
+[ext_resource type="Script" uid="uid://ds7qv0tb7qklg" path="res://src/features/items/player/item_inventory_ui.gd" id="1_1aojl"]
+
+[node name="ItemInventoryUI" type="MarginContainer" unique_id=757571756]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_1aojl")

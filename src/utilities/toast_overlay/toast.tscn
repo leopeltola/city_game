@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://djx0ikuv0cg14"]
+
+[ext_resource type="Script" uid="uid://c0goug28umlu7" path="res://src/utilities/toast_overlay/toast.gd" id="1_fxn6x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fxn6x"]
+bg_color = Color(0.39, 0.26624, 0.2574, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.58, 0.42775, 0.319, 1)
+
+[node name="Toast" type="MarginContainer" unique_id=1633762360]
+custom_minimum_size = Vector2(122, 13)
+offset_right = 122.0
+offset_bottom = 13.0
+mouse_filter = 2
+script = ExtResource("1_fxn6x")
+time_s = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=230011473]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="Panel" type="Panel" parent="MarginContainer" unique_id=1836262101]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fxn6x")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer" unique_id=1403213727]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 3
+
+[node name="Label" type="Label" parent="MarginContainer/MarginContainer" unique_id=2119901385]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Message shown in toast. "
+horizontal_alignment = 1
+autowrap_mode = 3

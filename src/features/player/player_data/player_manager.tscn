@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://h3lodveg4qxc"]
+
+[ext_resource type="Script" uid="uid://c4e3cq0uo5xio" path="res://src/features/player/player_data/player_manager.gd" id="1_vrm2i"]
+
+[node name="PlayerManager" type="Node" unique_id=1476287317]
+script = ExtResource("1_vrm2i")
+
+[node name="Players" type="Node" parent="." unique_id=63026878]
+unique_name_in_owner = true
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1186699945]
+unique_name_in_owner = true
+_spawnable_scenes = PackedStringArray("uid://dehave4dh422p")
+spawn_path = NodePath("../Players")

@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://cekcjeqc7wp01"]
+
+[ext_resource type="PackedScene" uid="uid://bejfv2je50wk7" path="res://src/features/player/player_spawner.tscn" id="1_bvu6y"]
+[ext_resource type="Script" uid="uid://d0vpw5o6sm0q8" path="res://src/features/interaction/interactable.gd" id="2_q77m8"]
+[ext_resource type="Script" uid="uid://rmxhvlbn4xgi" path="res://src/features/items/item_spawner.gd" id="3_hxguo"]
+[ext_resource type="Script" uid="uid://bwutnfqbytmqn" path="res://src/features/items/item_multiplayer_spawner.gd" id="4_anh6s"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_utssb"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_6wyr4"]
+sky_material = SubResource("ProceduralSkyMaterial_utssb")
+
+[sub_resource type="Environment" id="Environment_j7dey"]
+background_mode = 2
+sky = SubResource("Sky_6wyr4")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bvu6y"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_q77m8"]
+
+[node name="InGame" type="Node3D" unique_id=1046277669]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1233711505]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=449070883]
+environment = SubResource("Environment_j7dey")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=415749210]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 1, 2.6191978)
+
+[node name="PlayerSpawner" parent="." unique_id=1399950565 instance=ExtResource("1_bvu6y")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1585099289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1367035, -0.29467773, -1.7922974)
+use_collision = true
+size = Vector3(14.88858, 0.41064453, 16.654663)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=530156843]
+transform = Transform3D(0.74907136, 0, 0.66248935, 0, 1, 0, -0.66248935, 0, 0.74907136, -2.0551863, 0, 0.63637066)
+collision_layer = 5
+collision_mask = 0
+script = ExtResource("2_q77m8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=401523745]
+shape = SubResource("BoxShape3D_bvu6y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1352704923]
+mesh = SubResource("BoxMesh_q77m8")
+
+[node name="ItemSpawner" type="Node3D" parent="." unique_id=1823134331]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7838888, 1.2120125, 0.50883484)
+script = ExtResource("3_hxguo")
+
+[node name="ItemMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1943494257]
+spawn_path = NodePath("../WorldItemContainer")
+script = ExtResource("4_anh6s")
+
+[node name="WorldItemContainer" type="Node3D" parent="." unique_id=1066446355]

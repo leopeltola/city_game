@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://b7huwh4xl12t6"]
+
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_r1ktd"]
+
+[resource]
+script = ExtResource("1_r1ktd")
+name = "Crowbar"
+instance_data = Dictionary[StringName, Variant]({
+&"n_used": 0
+})
+metadata/_custom_type_script = "uid://1v4ix87tn325"

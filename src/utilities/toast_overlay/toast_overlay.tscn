@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bccd3u0w44auk"]
+
+[ext_resource type="Script" uid="uid://b21ak2wdueplg" path="res://src/utilities/toast_overlay/toast_overlay.gd" id="1_s81lg"]
+
+[node name="ToastOverlay" type="CanvasLayer" unique_id=640645414]
+script = ExtResource("1_s81lg")
+
+[node name="Control" type="Control" parent="." unique_id=1752539881]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=1393759149]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -122.0
+offset_bottom = 205.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="ToastContainer" type="VBoxContainer" parent="Control/MarginContainer" unique_id=821146072]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
