@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://d0vpw5o6sm0q8" path="res://src/features/interaction/interactable.gd" id="2_q77m8"]
 [ext_resource type="Script" uid="uid://rmxhvlbn4xgi" path="res://src/features/items/item_spawner.gd" id="3_hxguo"]
 [ext_resource type="Script" uid="uid://bwutnfqbytmqn" path="res://src/features/items/item_multiplayer_spawner.gd" id="4_anh6s"]
+[ext_resource type="PackedScene" uid="uid://bdc0jn8yomhhk" path="res://src/features/ui/window/GameWindow.tscn" id="5_5ds0p"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_utssb"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -57,8 +58,50 @@ mesh = SubResource("BoxMesh_q77m8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7838888, 1.2120125, 0.50883484)
 script = ExtResource("3_hxguo")
 
+[node name="ItemSpawner2" type="Node3D" parent="." unique_id=1849916319]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4561865, 1.2120125, -1.2108054)
+script = ExtResource("3_hxguo")
+
 [node name="ItemMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1943494257]
 spawn_path = NodePath("../WorldItemContainer")
 script = ExtResource("4_anh6s")
 
 [node name="WorldItemContainer" type="Node3D" parent="." unique_id=1066446355]
+
+[node name="GameWindow" parent="." unique_id=476716297 instance=ExtResource("5_5ds0p")]
+offset_left = 214.0
+offset_top = 34.0
+offset_right = 392.0
+offset_bottom = 118.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameWindow" unique_id=2110367657]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameWindow/VBoxContainer" unique_id=863210877]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Hello world"
+
+[node name="PanelContainer" type="PanelContainer" parent="GameWindow/VBoxContainer" unique_id=1502222729]
+layout_mode = 2
+theme_type_variation = &"MainPanelContainer"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameWindow/VBoxContainer/PanelContainer" unique_id=420598444]
+layout_mode = 2
+
+[node name="FoldableContainer" type="FoldableContainer" parent="GameWindow/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1759823122]
+layout_mode = 2
+theme_type_variation = &"FreeFoldableContainer"
+folded = true
+title = "Contents"
+
+[node name="Label2" type="Label" parent="GameWindow/VBoxContainer/PanelContainer/VBoxContainer/FoldableContainer" unique_id=740137177]
+visible = false
+layout_mode = 2
+theme_type_variation = &"ContentLabel"
+text = "Hello Content lorem ipsum henceforth this company shall be known as the Tomato Co. company seljling high-quality tomatoes."
+autowrap_mode = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="GameWindow" unique_id=1437300466]
+visible = false
+layout_mode = 2

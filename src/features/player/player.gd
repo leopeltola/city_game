@@ -1,9 +1,13 @@
 class_name Player
 extends CharacterBody3D
 
+
+@export var inventory: PlayerInventory = null
 @export var player_id := 0:
 	set(val):
 		player_id = val
+		if player_id == 0:
+			return
 		is_local = player_data.is_local()
 var player_data: PlayerData:
 	get:
@@ -21,9 +25,17 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready() -> void:
 	assert(player_id)
+	assert(inventory)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+	# Register the player in the PlayerManager
+	PlayerManager.register_player_node(self)
+	
+	print(player_data)
+	
 	if is_local:
 		%Camera3D.make_current()
+		%ItemInventoryUI.show()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -39,8 +51,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		
 		
-
-
 func _physics_process(delta: float) -> void:
 	if not is_local:
 		return
@@ -62,3 +72,7 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, walk_speed)
 
 	move_and_slide()
+
+
+func _to_string() -> String:
+	return "Player: %s" % str(player_data)

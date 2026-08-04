@@ -20,29 +20,48 @@ var _id_count := 0
 var _items: Dictionary[int, Dictionary] = { }
 
 
-## Creates an item of given type in the ItemManager WITHOUT spawning it anywhere.
-## Returns the just-made item data dict.
-## {
-##	item_id (int): {
-##		"type": StringName,
-##		"id": int,
-##		"type_var1": Variant,
-##		"anothervar": int,
-##		"etc": String,
-## }
-func create_item_of_type(type: ItemType) -> Dictionary:
+## Creates an item of given type in the ItemManager and propagates it to everyone
+## Returns the just-made item's ID when called on server. Returns nothing on clients.
+func create_item_of_type(type_name: StringName) -> Variant:
+	if Net.is_server:
+		return _rpc_request_create_item(type_name)
+	elif Net.is_client:
+		_rpc_request_create_item.rpc_id(1, type_name)
+	return null
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _rpc_request_create_item(type_name: StringName) -> int:
+	assert(Net.is_server)
 	var new_id := generate_id()
+	var type := get_item_type(type_name)
 	var data := type.get_data_dict(new_id)
-	_items[new_id] = data
-	return data
+	_rpc_create_item.rpc(data)
+	return new_id
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_create_item(data: Dictionary) -> void:
+	_items[data["id"]] = data
 
 
 ## Creates and returns a WorldItem for given item_id. 
 func create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO) -> void:
 	assert(ItemMultiplayerSpawner.instance, "ItemMultiplayerSpawner not present")
-	# TODO replace Node with WorldItem class
+	assert(_items.has(item_id))
+
+	if Net.is_server:
+		_rpc_create_world_item_for(item_id, position, rotation)
+	elif Net.is_client:
+		_rpc_create_world_item_for.rpc_id(1, item_id, position, rotation)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO) -> void:
+	assert(Net.is_server)
 	var data := _items[item_id]
 	data["position"] = position
+	data["rotation"] = rotation
 	ItemMultiplayerSpawner.instance.spawn(data)
 
 
@@ -52,21 +71,8 @@ func get_item_data_dict_by_id(item_id: int) -> Dictionary:
 
 
 ## Called by client or server to update the given item's value by key. Atomic operation. 
-func modify_item_data(item_id: int, key: StringName, value: Variant) -> void:
+func set_and_sync_item_data(item_id: int, key: StringName, value: Variant) -> void:
 	_rpc_modify_item_data.rpc(item_id, key, value)
-
-
-func get_item_types() -> Array[ItemType]:
-	return _item_types.values()
-
-
-func get_item_type(item_type_name: StringName) -> ItemType:
-	return _item_types.get(item_type_name)
-
-
-func generate_id() -> int:
-	_id_count += 1
-	return _id_count
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -75,3 +81,17 @@ func _rpc_modify_item_data(item_id: int, key: StringName, value: Variant) -> voi
 	if not item_data:
 		return
 	item_data[key] = value
+
+
+func get_item_types() -> Array[ItemType]:
+	return _item_types.values()
+
+
+func get_item_type(item_type_name: StringName) -> ItemType:
+	assert(_item_types.has(item_type_name))
+	return _item_types.get(item_type_name)
+
+
+func generate_id() -> int:
+	_id_count += 1
+	return _id_count

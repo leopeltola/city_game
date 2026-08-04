@@ -6,3 +6,30 @@
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_1aojl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1000394130]
+layout_mode = 2
+
+[node name="1" type="ColorRect" parent="HBoxContainer" unique_id=2140764254]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+color = Color(0, 0, 0, 0.09019608)
+
+[node name="2" type="ColorRect" parent="HBoxContainer" unique_id=1696921045]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+color = Color(0, 0, 0, 0.09019608)
+
+[node name="3" type="ColorRect" parent="HBoxContainer" unique_id=720267414]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+color = Color(0, 0, 0, 0.09019608)
+
+[node name="4" type="ColorRect" parent="HBoxContainer" unique_id=1754187216]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+color = Color(0, 0, 0, 0.09019608)

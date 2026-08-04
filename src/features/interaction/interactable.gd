@@ -7,7 +7,7 @@ signal interacted(player_id: int)
 
 
 func get_prompt() -> String:
-	return "prompt"
+	return prompt
 
 
 func interact(player_id: int) -> void:

@@ -14,23 +14,7 @@ var color: Color:
 
 
 func _to_string() -> String:
-	return "%s, player_id: %s, peer_id: %s" % [name, player_id, peer_id]
-
-
-func is_left() -> bool:
-	var players: Array[PlayerData] = PlayerManager.get_players()
-	for p in players:
-		if p.player_id > player_id:
-			return true
-	return false
-
-
-func is_right() -> bool:
-	return not is_left()
-
-
-func is_red() -> bool:
-	return is_right()
+	return "(%s, player_id: %s, peer_id: %s, is_local: %s)" % [name, player_id, peer_id, is_local()]
 
 
 func set_own_name_to(new_name: String) -> void:
@@ -42,8 +26,7 @@ func set_own_name_to(new_name: String) -> void:
 func is_local() -> bool:
 	if Net.is_server:
 		return false
-	assert(PlayerManager.get_local_player_or_null() != null)
-	return PlayerManager.get_local_player_or_null().player_id == player_id
+	return multiplayer.get_unique_id() == peer_id
 
 
 @rpc("any_peer", "call_remote", "reliable")

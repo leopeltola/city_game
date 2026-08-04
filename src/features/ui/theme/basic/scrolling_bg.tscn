@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://b4jjssbq3mt8c"]
+
+[ext_resource type="Shader" uid="uid://bq8dpsdl8boex" path="res://src/features/ui/theme/basic/scrolling_bg.gdshader" id="1_4pf6n"]
+[ext_resource type="Texture2D" uid="uid://c4xo6xrkiscl5" path="res://src/features/ui/theme/assets/textures/pattern.png" id="2_asfhp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m6yi3"]
+shader = ExtResource("1_4pf6n")
+shader_parameter/scale = 1.999999955296
+shader_parameter/speed = 0.15999999642368
+
+[node name="ScrollingBackground" type="Control" unique_id=1162263174]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=526588326]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.036461145, 0.036461096, 0.0364611, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1414055606]
+material = SubResource("ShaderMaterial_m6yi3")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_asfhp")
+expand_mode = 1
+stretch_mode = 1

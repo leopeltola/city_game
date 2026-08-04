@@ -16,7 +16,8 @@ func _exit_tree() -> void:
 
 func _spawn_function(data: Dictionary) -> Node:
 	print("_spawn_function of ItemMultiplayerSpawner called")
-	var node := MeshInstance3D.new()
-	node.mesh = SphereMesh.new()
+	var node: ItemWorld = ItemManager.get_item_type(data["type"]).get_world_item_scene().instantiate()
 	node.position = data["position"]
+	node.item_id = data["id"]
+	
 	return node

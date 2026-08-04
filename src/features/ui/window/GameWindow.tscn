@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://bdc0jn8yomhhk"]
+
+[ext_resource type="PackedScene" uid="uid://b4jjssbq3mt8c" path="res://src/features/ui/theme/basic/scrolling_bg.tscn" id="1_erpkg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erpkg"]
+bg_color = Color(0.01, 0.01, 0.01, 0)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.41546753, 0.41546753, 0.41546753, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_size = 1
+
+[node name="GameWindow" type="MarginContainer" unique_id=476716297]
+custom_minimum_size = Vector2(40, 40)
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1725057256]
+layout_mode = 2
+theme_override_constants/margin_left = -28
+theme_override_constants/margin_top = -10
+theme_override_constants/margin_right = -28
+theme_override_constants/margin_bottom = -10
+
+[node name="PanelClip" type="Panel" parent="MarginContainer" unique_id=939477217]
+clip_children = 1
+layout_mode = 2
+
+[node name="ScrollingBackground" parent="MarginContainer/PanelClip" unique_id=1162263174 instance=ExtResource("1_erpkg")]
+layout_mode = 1
+
+[node name="PanelForeground" type="Panel" parent="MarginContainer" unique_id=1128717960]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_erpkg")

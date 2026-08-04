@@ -8,6 +8,8 @@ const PlayerDataScene := preload("res://src/features/player/player_data/player_d
 
 ## Peer ID: [PlayerData] mapping.
 var _player_data: Dictionary[int, PlayerData] = { }
+## Player ID: [PlayerData] mapping.
+var _player_nodes: Dictionary[int, Player] = { }
 
 
 func _ready() -> void:
@@ -45,7 +47,7 @@ func _on_node_spawned(node: Node) -> void:
 	_player_data[player.peer_id] = player
 
 	player_added.emit(player)
-	
+
 	push_warning("%s joined" % player.player_name)
 	ToastOverlay.show_info("%s joined" % player.player_name)
 
@@ -89,7 +91,7 @@ func get_local_player() -> PlayerData:
 
 ## Returns the [PlayerData] for this local machine, or [code]null[/code] if unassigned.
 func get_local_player_or_null() -> PlayerData:
-	return _player_data.get(multiplayer.get_unique_id())
+	return get_player_by_peer_id(multiplayer.get_unique_id())
 
 
 ## Returns the [PlayerData] associated with a specific network peer ID.
@@ -107,10 +109,33 @@ func get_players() -> Array[PlayerData]:
 	return _player_data.values()
 
 
+func get_player_nodes() -> Array[Player]:
+	return _player_nodes.values()
+
+
+func get_player_node_by_id(player_id: int) -> Player:
+	for p in _player_nodes.values():
+		if is_instance_valid(p) and p.player_id == player_id:
+			return p
+	return null
+
+
+func get_local_player_node_or_null() -> Player:
+	var lp = get_local_player_or_null()
+	if lp:
+		return get_player_node_by_id(lp.player_id)
+	return null
+
+
+func register_player_node(player: Player) -> void:
+	assert(player)
+	_player_nodes[player.player_id] = player
+
+
 ## Creates and spawns a player node for the specified peer. Must be called on server.
 func _create_player_for(peer_id: int) -> PlayerData:
 	assert(Net.is_server)
-	
+
 	var player_id = _player_data.size() + 1
 	var data = {
 		"player_id": player_id,
@@ -120,14 +145,14 @@ func _create_player_for(peer_id: int) -> PlayerData:
 
 	# spawn() triggers the custom function on the server and notifies clients
 	var pd = %PlayerSpawner.spawn(data) as PlayerData
-	
+
 	# Register the node in the local dictionary
 	_player_data[pd.peer_id] = pd
 	player_added.emit(pd)
-	
+
 	push_warning("%s joined" % pd.player_name)
 	ToastOverlay.show_info("%s joined" % pd.player_name)
-	
+
 	return pd
 
 

@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c3p84usna18pn"]
+
+[ext_resource type="Texture2D" uid="uid://brasah5qobxl6" path="res://src/features/player/assets/models/simple/texture/gradient_grid.png" id="1_r6ofw"]
+
+[resource]
+diffuse_mode = 3
+albedo_texture = ExtResource("1_r6ofw")

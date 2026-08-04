@@ -17,7 +17,7 @@ func _process(_delta: float) -> void:
 		%Label.text = i.get_prompt()
 	else:
 		%Label.hide()
-		
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("e") and is_colliding():

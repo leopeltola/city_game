@@ -22,5 +22,5 @@ func _spawn_func(player_id: int):
 	var pd := PlayerManager.get_player_by_id(player_id)
 	var p: Player = PlayerScene.instantiate()
 	p.set_multiplayer_authority(pd.peer_id)
-	p.player_id = pd.player_id
+	p.player_id = player_id
 	return p

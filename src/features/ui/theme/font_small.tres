@@ -1,0 +1,10 @@
+[gd_resource type="FontVariation" format=3 uid="uid://bxiouwxjnvq55"]
+
+[ext_resource type="FontFile" uid="uid://b8s4d7c8loivc" path="res://src/features/ui/theme/assets/fonts/fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="1_iafkl"]
+
+[resource]
+base_font = ExtResource("1_iafkl")
+variation_opentype = {
+2003072104: 85,
+2003265652: 550
+}

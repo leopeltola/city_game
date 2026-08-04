@@ -6,10 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://y457mwoct4um" path="res://src/features/interaction/interact_ray.tscn" id="4_p2vpv"]
 [ext_resource type="PackedScene" uid="uid://dvu2t6cq0gt6r" path="res://src/features/items/player/item_inventory_ui.tscn" id="5_ti7vc"]
 [ext_resource type="Script" uid="uid://byjrh17ptlrd" path="res://src/features/items/player/player_inventory.gd" id="6_rybn4"]
+[ext_resource type="PackedScene" uid="uid://baoioe1plauut" path="res://src/features/player/assets/models/simple/guy.glb" id="7_1mqja"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xe5qy"]
 radius = 0.3
 height = 1.8
+
+[sub_resource type="JointLimitationCone3D" id="JointLimitationCone3D_rybn4"]
+angle = 0.4457571
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3v8pm"]
 properties/0/path = NodePath(".:position")
@@ -18,13 +22,23 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath("PlayerInventory:active_index")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:player_id")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("PlayerInventory:tool_slots")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath("PlayerInventory:item_slots")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
-[sub_resource type="BoxMesh" id="BoxMesh_p2vpv"]
-size = Vector3(0.1, 0.1, 0.1)
-
-[node name="Player" type="CharacterBody3D" unique_id=685935176]
+[node name="Player" type="CharacterBody3D" unique_id=685935176 node_paths=PackedStringArray("inventory")]
 collision_layer = 2
 script = ExtResource("1_3v8pm")
+inventory = NodePath("PlayerInventory")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1183623979]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -35,46 +49,69 @@ shape = SubResource("CapsuleShape3D_xe5qy")
 [node name="character_tpose" parent="Visual" unique_id=665656003 instance=ExtResource("1_oubcf")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="GeneralSkeleton" parent="Visual/character_tpose/Armature" parent_id_path=PackedInt32Array(665656003, 1097818961) index="0" unique_id=1915031772]
-bones/0/rotation = Quaternion(-1.8189896e-12, 2.273737e-13, -2.9103834e-11, 1)
-bones/1/rotation = Quaternion(9.113138e-10, 4.6584964e-13, -5.8205128e-11, 1)
-bones/2/rotation = Quaternion(0.014060256, 0.010666946, 0.0072178035, 0.9998182)
-bones/3/rotation = Quaternion(0.014140758, 0.010601077, 0.0071042026, 0.99981856)
-bones/4/rotation = Quaternion(-0.006257696, -0.003192521, -0.00075316994, 0.99997514)
-bones/5/rotation = Quaternion(-0.13749647, -0.038760554, -0.037759084, 0.9890231)
-bones/8/rotation = Quaternion(0.49999994, 0.49999994, 0.5000002, -0.49999994)
-bones/9/rotation = Quaternion(2.9802319e-08, 1, 2.9802319e-08, 2.9802319e-08)
-bones/11/rotation = Quaternion(-3.1432144e-09, 0.70710677, -3.1432144e-09, 0.70710677)
-bones/12/rotation = Quaternion(-4.4703484e-08, -1.6391277e-07, -2.9802322e-08, 1)
-bones/13/rotation = Quaternion(-1.4901159e-08, -1.3411044e-07, 0, 1)
-bones/14/rotation = Quaternion(0, -5.9604638e-08, 5.9604638e-08, 1)
-bones/18/rotation = Quaternion(-5.9604638e-08, 1, 0, 5.9604638e-08)
-bones/19/rotation = Quaternion(0, 0.7071068, 0, 0.7071068)
-bones/20/rotation = Quaternion(6.98492e-09, -0.70710677, -6.98492e-09, 0.70710677)
-bones/21/rotation = Quaternion(0, 0, 5.9604645e-08, 1)
-bones/22/rotation = Quaternion(-4.470349e-08, 1.4901163e-08, -1.4901163e-08, 1)
-bones/23/rotation = Quaternion(-2.9802322e-08, -2.9802322e-08, -8.940697e-08, 1)
-bones/26/rotation = Quaternion(7.52442e-10, -3.1829214e-07, 1, 4.138474e-08)
-bones/27/rotation = Quaternion(-4.656613e-10, 1, 2.9802322e-08, 7.2759576e-11)
-bones/28/rotation = Quaternion(3.7866297e-09, 0.7071068, -0.7071067, 2.1567326e-08)
-bones/29/rotation = Quaternion(6.5854444e-08, 0.9987894, 0.049189888, -2.634177e-09)
-bones/32/rotation = Quaternion(-1.35458595e-08, 4.096025e-08, 1, -4.5576183e-08)
-bones/33/rotation = Quaternion(0, 1, -9.313225e-09, -1.6734701e-10)
-bones/34/rotation = Quaternion(4.132367e-08, 0.70710677, -0.70710677, 9.71353e-09)
-bones/35/rotation = Quaternion(-0.0010567951, 0.99205315, 0.121778145, 0.031617183)
+[node name="JacobianIK3D" type="JacobianIK3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="1" unique_id=270207432]
+active = false
 
-[node name="JacobianIK3D" type="JacobianIK3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" index="1" unique_id=270207432]
-
-[node name="HeadAttachment" type="BoneAttachment3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" index="2" unique_id=727498849]
-transform = Transform3D(0.9980076, 0.050078727, -0.038378503, -0.0398963, 0.9721304, 0.23102117, 0.048878156, -0.22902974, 0.9721915, 0.0010345723, 1.5581201, 0.030520666)
+[node name="HeadAttachment" type="BoneAttachment3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="2" unique_id=727498849]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00958112, 1.5597314, 0.012175091)
 bone_name = "Head"
 bone_idx = 5
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="Visual/character_tpose/Armature/GeneralSkeleton/HeadAttachment" unique_id=373230468]
-transform = Transform3D(1, -1.8626451e-09, -7.450581e-09, -6.519258e-09, 0.99999976, 0, -7.450581e-09, -2.9802322e-08, 0.99999976, -0.0025349222, 0.092603564, 0.054915845)
+transform = Transform3D(1, 0, -1.8626451e-08, -1.5832484e-08, 0.9999994, 1.4901161e-08, -1.8626451e-08, -7.4505806e-08, 0.9999994, -0.001657702, 0.07252276, 0.051524073)
 remote_path = NodePath("../../../../../../SightPivot")
 update_rotation = false
 update_scale = false
+
+[node name="RightHandIK" type="JacobianIK3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="3" unique_id=41017140]
+unique_name_in_owner = true
+angular_delta_limit = 0.6981317007977318
+deterministic = true
+setting_count = 1
+settings/0/target_node = NodePath("../../../../../RightHandIKTarget/TrueTargetRight")
+settings/0/root_bone_name = "RightShoulder"
+settings/0/root_bone = 17
+settings/0/end_bone_name = "RightHand"
+settings/0/end_bone = 20
+settings/0/extend_end_bone = false
+settings/0/joint_count = 4
+settings/0/joints/0/rotation_axis = 3
+settings/0/joints/0/limitation = SubResource("JointLimitationCone3D_rybn4")
+settings/0/joints/0/limitation/right_axis = 0
+settings/0/joints/0/limitation/rotation_offset = Quaternion(0, 0, 0, 1)
+settings/0/joints/1/rotation_axis = 3
+settings/0/joints/1/limitation = null
+settings/0/joints/2/rotation_axis = 3
+settings/0/joints/2/limitation = null
+settings/0/joints/3/rotation_axis = 3
+settings/0/joints/3/limitation = null
+
+[node name="RightHandCopyTransform" type="CopyTransformModifier3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="4" unique_id=1926050888]
+unique_name_in_owner = true
+setting_count = 1
+settings/0/amount = 1.0
+settings/0/apply_bone_name = "RightHand"
+settings/0/apply_bone = 20
+settings/0/reference_type = 1
+settings/0/reference_node = NodePath("../../../../../RightHandIKTarget/TrueTargetRight")
+settings/0/copy = 7
+settings/0/axes = 7
+settings/0/invert = 0
+settings/0/additive = false
+
+[node name="RightHandTwist" type="BoneTwistDisperser3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="5" unique_id=1749915058]
+unique_name_in_owner = true
+setting_count = 1
+settings/0/root_bone_name = "RightUpperArm"
+settings/0/root_bone = 18
+settings/0/end_bone_name = "RightHand"
+settings/0/end_bone = 20
+settings/0/extend_end_bone = false
+settings/0/twist_from_rest = false
+settings/0/twist_from = Quaternion(0, 0, 0, 1)
+settings/0/disperse_mode = 1
+settings/0/weight_position = 0.426
+settings/0/joint_count = 3
 
 [node name="AnimationPlayer" parent="Visual/character_tpose" index="1" unique_id=644622320]
 libraries/jog_forward = ExtResource("2_0ph83")
@@ -85,28 +122,52 @@ replication_config = SubResource("SceneReplicationConfig_3v8pm")
 
 [node name="SightPivot" type="Node3D" parent="." unique_id=585508126]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010345756, 1.6609308, -0.06257652)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007923412, 1.6322541, -0.06369916)
 
 [node name="Camera3D" type="Camera3D" parent="SightPivot" unique_id=2142492323]
 unique_name_in_owner = true
 transform = Transform3D(0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 
 [node name="InteractRay" parent="SightPivot/Camera3D" unique_id=259004837 node_paths=PackedStringArray("player") instance=ExtResource("4_p2vpv")]
+unique_name_in_owner = true
 player = NodePath("../../..")
 
 [node name="RightItemSlot" type="Node3D" parent="SightPivot/Camera3D" unique_id=1375988061]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33652106, -0.26769674, -0.38052517)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SightPivot/Camera3D/RightItemSlot" unique_id=759687447]
-mesh = SubResource("BoxMesh_p2vpv")
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=417817184]
 
-[node name="ItemInventory" parent="CanvasLayer" unique_id=757571756 instance=ExtResource("5_ti7vc")]
+[node name="ItemInventoryUI" parent="CanvasLayer" unique_id=757571756 node_paths=PackedStringArray("inv") instance=ExtResource("5_ti7vc")]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -86.0
+offset_top = -40.0
+offset_right = 86.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+inv = NodePath("../../PlayerInventory")
 
-[node name="PlayerInventory" type="Node" parent="." unique_id=335220812]
+[node name="PlayerInventory" type="Node" parent="." unique_id=335220812 node_paths=PackedStringArray("player", "_equip_slot")]
 script = ExtResource("6_rybn4")
+player = NodePath("..")
+_equip_slot = NodePath("../SightPivot/Camera3D/RightItemSlot")
 metadata/_custom_type_script = "uid://byjrh17ptlrd"
+
+[node name="RightHandIKTarget" type="Node3D" parent="." unique_id=1534163235]
+unique_name_in_owner = true
+transform = Transform3D(0.45232576, -0.8918528, 0, 0.8918528, 0.45232576, 0, 0, 0, 1, 0.21212338, 1.4397651, -0.40749323)
+
+[node name="TrueTargetRight" type="Node3D" parent="RightHandIKTarget" unique_id=189212019]
+transform = Transform3D(-0.034449782, 0.23178159, -0.97215766, 0.9891342, 0.14701538, 0, 0.14292212, -0.9615944, -0.23432775, 0, 0, 0.09972182)
+
+[node name="guy" parent="." unique_id=1294200275 instance=ExtResource("7_1mqja")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66670287, 0, 0.077471554)
 
 [editable path="Visual/character_tpose"]
