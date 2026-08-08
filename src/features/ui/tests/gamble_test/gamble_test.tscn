@@ -1,0 +1,265 @@
+[gd_scene format=3 uid="uid://ckb1palbr2hyj"]
+
+[ext_resource type="PackedScene" uid="uid://b4jjssbq3mt8c" path="res://src/features/ui/theme/basic/scrolling_bg_dark.tscn" id="1_prcsc"]
+[ext_resource type="FontVariation" uid="uid://crg8pwcywimra" path="res://src/features/ui/theme/font_title.tres" id="2_mf1pc"]
+[ext_resource type="FontVariation" uid="uid://bxiouwxjnvq55" path="res://src/features/ui/theme/font_small.tres" id="3_po1pc"]
+[ext_resource type="Texture2D" uid="uid://b8t00bn7pc6ms" path="res://src/features/ui/theme/assets/textures/icons/cancel.svg" id="4_e670g"]
+[ext_resource type="Texture2D" uid="uid://b77t8p12em8m5" path="res://src/features/ui/theme/assets/textures/icons/chevron-right.png" id="5_2a4lp"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_mf1pc"]
+color = Color(0.43529412, 0.43529412, 0.43529412, 1)
+grow_begin = 0.0
+grow_end = 0.0
+vertical = true
+
+[sub_resource type="FoldableGroup" id="FoldableGroup_prcsc"]
+allow_folding_all = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_po1pc"]
+color = Color(0.4627451, 0.4627451, 0.4627451, 1)
+grow_begin = 5.0
+grow_end = 5.0
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_e670g"]
+color = Color(0.4627451, 0.4627451, 0.4627451, 1)
+grow_begin = 7.0
+grow_end = 14.0
+
+[node name="GambleTest" type="Control" unique_id=1450873746]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollingBackground" parent="." unique_id=1162263174 instance=ExtResource("1_prcsc")]
+layout_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1578526347]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1634375870]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Label" type="RichTextLabel" parent="CenterContainer/VBoxContainer" unique_id=1366392474]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_mf1pc")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[wave connected=0]STATS FOR DAY 3[/wave]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1974997026]
+layout_mode = 2
+text = "Hello World"
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer" unique_id=1636859118]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer/VBoxContainer/MarginContainer" unique_id=1605533452]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer" unique_id=1397401955]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1363798409]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/MarginContainer" unique_id=648477069]
+layout_mode = 2
+text = "QUOTA"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1037151215]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+theme_override_constants/autohide = 1
+theme_override_styles/split_bar_background = SubResource("StyleBoxLine_mf1pc")
+split_offsets = PackedInt32Array(20, 48)
+split_offset = 20
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/HSplitContainer" unique_id=25044866]
+layout_mode = 2
+text = "Mo"
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/HSplitContainer" unique_id=735024175]
+layout_mode = 2
+text = "Mo"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/HSplitContainer" unique_id=883183156]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/HSplitContainer/VBoxContainer" unique_id=1644039915]
+layout_mode = 2
+text = "Mo"
+
+[node name="Label4" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/HSplitContainer/VBoxContainer" unique_id=1539397295]
+layout_mode = 2
+text = "Mo"
+
+[node name="Label5" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/HSplitContainer/VBoxContainer" unique_id=1988889392]
+layout_mode = 2
+text = "Mo"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/VBoxContainer" unique_id=1795279925]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer/VBoxContainer/MarginContainer2" unique_id=928027122]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/MarginContainer2" unique_id=1886218979]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 5
+
+[node name="FoldableContainer" type="FoldableContainer" parent="CenterContainer/VBoxContainer/MarginContainer2/MarginContainer" unique_id=815721831]
+layout_mode = 2
+theme_type_variation = &"FreeFoldableContainer"
+folded = true
+title = "Oir Industry"
+foldable_group = SubResource("FoldableGroup_prcsc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer2/MarginContainer/FoldableContainer" unique_id=197221673]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer2/MarginContainer/FoldableContainer/VBoxContainer" unique_id=121066593]
+layout_mode = 2
+theme_type_variation = &"ContentLabel"
+text = "Hello Content"
+
+[node name="Label2" type="RichTextLabel" parent="CenterContainer/VBoxContainer/MarginContainer2/MarginContainer/FoldableContainer/VBoxContainer" unique_id=2063421245]
+layout_mode = 2
+bbcode_enabled = true
+text = "Hello ContentTest"
+fit_content = true
+
+[node name="Label3" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer2/MarginContainer/FoldableContainer/VBoxContainer" unique_id=987899670]
+layout_mode = 2
+text = "Hello Content"
+
+[node name="MarginContainer3" type="MarginContainer" parent="CenterContainer/VBoxContainer" unique_id=1208238010]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer/VBoxContainer/MarginContainer3" unique_id=1623112783]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/MarginContainer3" unique_id=2006745773]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer" unique_id=1127258423]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer" unique_id=967831626]
+layout_mode = 2
+text = "Company Tabs"
+
+[node name="FoldableContainer" type="FoldableContainer" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer" unique_id=1112600425]
+layout_mode = 2
+theme_type_variation = &"FreeFoldableContainer"
+folded = true
+title = "Tomato Co."
+foldable_group = SubResource("FoldableGroup_prcsc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer" unique_id=222780480]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer/VBoxContainer" unique_id=440324384]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_po1pc")
+theme_override_font_sizes/normal_font_size = 13
+text = "Hello Content lorem ipsum henceforth this company shall be known as the Tomato Co. company seljling high-quality tomatoes."
+fit_content = true
+
+[node name="FoldableContainer2" type="FoldableContainer" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer" unique_id=233673640]
+layout_mode = 2
+theme_type_variation = &"FreeFoldableContainer"
+folded = true
+title = "K-Market"
+foldable_group = SubResource("FoldableGroup_prcsc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer2" unique_id=1469798240]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer2/VBoxContainer" unique_id=1093334457]
+layout_mode = 2
+text = "Hello Content"
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer2/VBoxContainer" unique_id=126029001]
+layout_mode = 2
+text = "Hello Content"
+
+[node name="Label3" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer2/VBoxContainer" unique_id=1399051804]
+layout_mode = 2
+text = "Hello Content"
+
+[node name="Label4" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer2/VBoxContainer" unique_id=1306954254]
+layout_mode = 2
+text = "Hello Content"
+
+[node name="Cancel" type="Sprite2D" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer" unique_id=1521508075]
+position = Vector2(204, -221.00002)
+scale = Vector2(0.735, 0.735)
+texture = ExtResource("4_e670g")
+
+[node name="ChevronRight" type="Sprite2D" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer" unique_id=1401366726]
+visible = false
+position = Vector2(0, 34)
+scale = Vector2(0.45833334, 0.45833334)
+texture = ExtResource("5_2a4lp")
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/VBoxContainer" unique_id=325399877]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/PanelContainer" unique_id=1179478346]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 5
+
+[node name="HSplitContainer" type="HSplitContainer" parent="CenterContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=291892450]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_constants/minimum_grab_thickness = 6
+theme_override_constants/autohide = 1
+theme_override_styles/split_bar_background = SubResource("StyleBoxLine_po1pc")
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/PanelContainer/MarginContainer/HSplitContainer" unique_id=1619479087]
+layout_mode = 2
+text = "as"
+
+[node name="VSplitContainer" type="VSplitContainer" parent="CenterContainer/VBoxContainer/PanelContainer/MarginContainer/HSplitContainer" unique_id=737166079]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/split_bar_background = SubResource("StyleBoxLine_e670g")
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/PanelContainer/MarginContainer/HSplitContainer/VSplitContainer" unique_id=1190570553]
+layout_mode = 2
+text = "as"
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer/PanelContainer/MarginContainer/HSplitContainer/VSplitContainer" unique_id=81879458]
+layout_mode = 2
+text = "as"

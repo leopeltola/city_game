@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://b6lnx0flgcaor"]
 
 [ext_resource type="Script" uid="uid://ybms3qt45poi" path="res://src/features/player/player.gd" id="1_3v8pm"]
-[ext_resource type="PackedScene" uid="uid://drj8pdwww5yvn" path="res://src/features/player/assets/models/character_tpose.fbx" id="1_oubcf"]
-[ext_resource type="AnimationLibrary" uid="uid://chvvbqx8bemw4" path="res://src/features/player/assets/models/anims/jog_forward.fbx" id="2_0ph83"]
 [ext_resource type="PackedScene" uid="uid://y457mwoct4um" path="res://src/features/interaction/interact_ray.tscn" id="4_p2vpv"]
 [ext_resource type="PackedScene" uid="uid://dvu2t6cq0gt6r" path="res://src/features/items/player/item_inventory_ui.tscn" id="5_ti7vc"]
 [ext_resource type="Script" uid="uid://byjrh17ptlrd" path="res://src/features/items/player/player_inventory.gd" id="6_rybn4"]
@@ -10,10 +8,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xe5qy"]
 radius = 0.3
-height = 1.8
-
-[sub_resource type="JointLimitationCone3D" id="JointLimitationCone3D_rybn4"]
-angle = 0.4457571
+height = 1.5845703
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3v8pm"]
 properties/0/path = NodePath(".:position")
@@ -34,6 +29,9 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath("PlayerInventory:item_slots")
 properties/5/spawn = true
 properties/5/replication_mode = 2
+properties/6/path = NodePath("SightPivot:rotation")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=685935176 node_paths=PackedStringArray("inventory")]
 collision_layer = 2
@@ -41,88 +39,29 @@ script = ExtResource("1_3v8pm")
 inventory = NodePath("PlayerInventory")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1183623979]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79228514, 0)
 shape = SubResource("CapsuleShape3D_xe5qy")
 
 [node name="Visual" type="Node3D" parent="." unique_id=850032725]
-
-[node name="character_tpose" parent="Visual" unique_id=665656003 instance=ExtResource("1_oubcf")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="JacobianIK3D" type="JacobianIK3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="1" unique_id=270207432]
-active = false
-
-[node name="HeadAttachment" type="BoneAttachment3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="2" unique_id=727498849]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00958112, 1.5597314, 0.012175091)
-bone_name = "Head"
-bone_idx = 5
-
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Visual/character_tpose/Armature/GeneralSkeleton/HeadAttachment" unique_id=373230468]
-transform = Transform3D(1, 0, -1.8626451e-08, -1.5832484e-08, 0.9999994, 1.4901161e-08, -1.8626451e-08, -7.4505806e-08, 0.9999994, -0.001657702, 0.07252276, 0.051524073)
-remote_path = NodePath("../../../../../../SightPivot")
-update_rotation = false
-update_scale = false
-
-[node name="RightHandIK" type="JacobianIK3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="3" unique_id=41017140]
 unique_name_in_owner = true
-angular_delta_limit = 0.6981317007977318
-deterministic = true
-setting_count = 1
-settings/0/target_node = NodePath("../../../../../RightHandIKTarget/TrueTargetRight")
-settings/0/root_bone_name = "RightShoulder"
-settings/0/root_bone = 17
-settings/0/end_bone_name = "RightHand"
-settings/0/end_bone = 20
-settings/0/extend_end_bone = false
-settings/0/joint_count = 4
-settings/0/joints/0/rotation_axis = 3
-settings/0/joints/0/limitation = SubResource("JointLimitationCone3D_rybn4")
-settings/0/joints/0/limitation/right_axis = 0
-settings/0/joints/0/limitation/rotation_offset = Quaternion(0, 0, 0, 1)
-settings/0/joints/1/rotation_axis = 3
-settings/0/joints/1/limitation = null
-settings/0/joints/2/rotation_axis = 3
-settings/0/joints/2/limitation = null
-settings/0/joints/3/rotation_axis = 3
-settings/0/joints/3/limitation = null
 
-[node name="RightHandCopyTransform" type="CopyTransformModifier3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="4" unique_id=1926050888]
-unique_name_in_owner = true
-setting_count = 1
-settings/0/amount = 1.0
-settings/0/apply_bone_name = "RightHand"
-settings/0/apply_bone = 20
-settings/0/reference_type = 1
-settings/0/reference_node = NodePath("../../../../../RightHandIKTarget/TrueTargetRight")
-settings/0/copy = 7
-settings/0/axes = 7
-settings/0/invert = 0
-settings/0/additive = false
+[node name="guy" parent="Visual" unique_id=1294200275 instance=ExtResource("7_1mqja")]
 
-[node name="RightHandTwist" type="BoneTwistDisperser3D" parent="Visual/character_tpose/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(665656003, 1915031772) index="5" unique_id=1749915058]
-unique_name_in_owner = true
-setting_count = 1
-settings/0/root_bone_name = "RightUpperArm"
-settings/0/root_bone = 18
-settings/0/end_bone_name = "RightHand"
-settings/0/end_bone = 20
-settings/0/extend_end_bone = false
-settings/0/twist_from_rest = false
-settings/0/twist_from = Quaternion(0, 0, 0, 1)
-settings/0/disperse_mode = 1
-settings/0/weight_position = 0.426
-settings/0/joint_count = 3
+[node name="HandLeft" parent="Visual/guy" index="2" unique_id=1406225538]
+visible = false
 
-[node name="AnimationPlayer" parent="Visual/character_tpose" index="1" unique_id=644622320]
-libraries/jog_forward = ExtResource("2_0ph83")
-autoplay = &"Armature|Armature|mixamo_com|Layer0"
+[node name="PupilLeft" parent="Visual/guy" index="4" unique_id=252652262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12412056, 1.2890496, -0.17658189)
+
+[node name="HandRight" parent="Visual/guy" index="9" unique_id=926367019]
+visible = false
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1818941594]
 replication_config = SubResource("SceneReplicationConfig_3v8pm")
 
 [node name="SightPivot" type="Node3D" parent="." unique_id=585508126]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007923412, 1.6322541, -0.06369916)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007923412, 1.2941656, -0.06369916)
 
 [node name="Camera3D" type="Camera3D" parent="SightPivot" unique_id=2142492323]
 unique_name_in_owner = true
@@ -135,6 +74,16 @@ player = NodePath("../../..")
 [node name="RightItemSlot" type="Node3D" parent="SightPivot/Camera3D" unique_id=1375988061]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33652106, -0.26769674, -0.38052517)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="SightPivot/Camera3D" unique_id=944993532]
+remote_path = NodePath("../../../Visual/guy/PupilLeft")
+update_position = false
+update_scale = false
+
+[node name="RemoteTransform3D2" type="RemoteTransform3D" parent="SightPivot/Camera3D" unique_id=77671775]
+remote_path = NodePath("../../../Visual/guy/PupilRight")
+update_position = false
+update_scale = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=417817184]
 
@@ -167,7 +116,4 @@ transform = Transform3D(0.45232576, -0.8918528, 0, 0.8918528, 0.45232576, 0, 0, 
 [node name="TrueTargetRight" type="Node3D" parent="RightHandIKTarget" unique_id=189212019]
 transform = Transform3D(-0.034449782, 0.23178159, -0.97215766, 0.9891342, 0.14701538, 0, 0.14292212, -0.9615944, -0.23432775, 0, 0, 0.09972182)
 
-[node name="guy" parent="." unique_id=1294200275 instance=ExtResource("7_1mqja")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66670287, 0, 0.077471554)
-
-[editable path="Visual/character_tpose"]
+[editable path="Visual/guy"]

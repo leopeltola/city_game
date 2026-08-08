@@ -124,10 +124,10 @@ func _equip_item(slot_idx: int) -> void:
 	if item_id == -1:
 		if _equit_tween:
 			_equit_tween.kill()
-		_equit_tween = create_tween()
-		_equit_tween.tween_property(%RightHandIK, "influence", 0, 0.1)
-		_equit_tween.tween_property(%RightHandCopyTransform, "influence", 0, 0.1)
-		_equit_tween.tween_property(%RightHandTwist, "influence", 0, 0.1)
+		#_equit_tween = create_tween()
+		#_equit_tween.tween_property(%RightHandIK, "influence", 0, 0.1)
+		#_equit_tween.tween_property(%RightHandCopyTransform, "influence", 0, 0.1)
+		#_equit_tween.tween_property(%RightHandTwist, "influence", 0, 0.1)
 		return
 	
 	var data := ItemManager.get_item_data_dict_by_id(item_id)
@@ -140,10 +140,10 @@ func _equip_item(slot_idx: int) -> void:
 	_equipped_node = equipped_item
 	_equip_slot.add_child(equipped_item)
 	
-	if _equip_right_hand_target:
-		if _equit_tween:
-			_equit_tween.kill()
-		_equit_tween = create_tween()
-		_equit_tween.tween_property(%RightHandIK, "influence", 1, 0.1)
-		_equit_tween.tween_property(%RightHandCopyTransform, "influence", 1, 0.1)
-		_equit_tween.tween_property(%RightHandTwist, "influence", 1, 0.1)
+	#if _equip_right_hand_target:
+		#if _equit_tween:
+			#_equit_tween.kill()
+		#_equit_tween = create_tween()
+		#_equit_tween.tween_property(%RightHandIK, "influence", 1, 0.1)
+		#_equit_tween.tween_property(%RightHandCopyTransform, "influence", 1, 0.1)
+		#_equit_tween.tween_property(%RightHandTwist, "influence", 1, 0.1)

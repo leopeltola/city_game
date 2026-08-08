@@ -5,8 +5,9 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m6yi3"]
 shader = ExtResource("1_4pf6n")
+shader_parameter/color = Color(0, 0, 0, 1)
 shader_parameter/scale = 1.999999955296
-shader_parameter/speed = 0.15999999642368
+shader_parameter/speed = 0.11999999731776
 
 [node name="ScrollingBackground" type="Control" unique_id=1162263174]
 layout_mode = 3

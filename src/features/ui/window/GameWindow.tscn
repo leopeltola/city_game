@@ -1,6 +1,17 @@
 [gd_scene format=3 uid="uid://bdc0jn8yomhhk"]
 
-[ext_resource type="PackedScene" uid="uid://b4jjssbq3mt8c" path="res://src/features/ui/theme/basic/scrolling_bg.tscn" id="1_erpkg"]
+[ext_resource type="PackedScene" uid="uid://b0p5f4rpaxj47" path="res://src/features/ui/theme/basic/scrolling_bg_light.tscn" id="1_wwj3x"]
+[ext_resource type="Texture2D" uid="uid://b8t00bn7pc6ms" path="res://src/features/ui/theme/assets/textures/icons/cancel.svg" id="2_wwj3x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwj3x"]
+bg_color = Color(0.01, 0.01, 0.01, 0)
+border_color = Color(0.8392157, 0.8392157, 0.8392157, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.25882354)
+shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erpkg"]
 bg_color = Color(0.01, 0.01, 0.01, 0)
@@ -9,17 +20,17 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.41546753, 0.41546753, 0.41546753, 1)
+border_color = Color(0.8392157, 0.8392157, 0.8392157, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-shadow_size = 1
+shadow_color = Color(1, 1, 1, 0)
 
 [node name="GameWindow" type="MarginContainer" unique_id=476716297]
 custom_minimum_size = Vector2(40, 40)
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 110.0
+offset_bottom = 93.0
 theme_override_constants/margin_left = 28
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 28
@@ -32,13 +43,36 @@ theme_override_constants/margin_top = -10
 theme_override_constants/margin_right = -28
 theme_override_constants/margin_bottom = -10
 
+[node name="PanelShadow" type="Panel" parent="MarginContainer" unique_id=2101232366]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wwj3x")
+
 [node name="PanelClip" type="Panel" parent="MarginContainer" unique_id=939477217]
 clip_children = 1
 layout_mode = 2
 
-[node name="ScrollingBackground" parent="MarginContainer/PanelClip" unique_id=1162263174 instance=ExtResource("1_erpkg")]
+[node name="ScrollingBackgroundLight" parent="MarginContainer/PanelClip" unique_id=478385047 instance=ExtResource("1_wwj3x")]
 layout_mode = 1
 
 [node name="PanelForeground" type="Panel" parent="MarginContainer" unique_id=1128717960]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_erpkg")
+
+[node name="Control" type="Control" parent="." unique_id=118892635]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureButton" type="TextureButton" parent="Control" unique_id=104498132]
+modulate = Color(0.34803188, 0.3480317, 0.34803176, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 18.0
+offset_bottom = 16.0
+grow_horizontal = 0
+texture_normal = ExtResource("2_wwj3x")
+ignore_texture_size = true
+stretch_mode = 5

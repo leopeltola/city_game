@@ -1,7 +1,6 @@
 class_name Player
 extends CharacterBody3D
 
-
 @export var inventory: PlayerInventory = null
 @export var player_id := 0:
 	set(val):
@@ -30,12 +29,13 @@ func _ready() -> void:
 
 	# Register the player in the PlayerManager
 	PlayerManager.register_player_node(self)
-	
+
 	print(player_data)
-	
+
 	if is_local:
 		%Camera3D.make_current()
 		%ItemInventoryUI.show()
+		%Visual.hide()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -49,8 +49,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif event.is_action_released("e"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		
-		
+
+
 func _physics_process(delta: float) -> void:
 	if not is_local:
 		return

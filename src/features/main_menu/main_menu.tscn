@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://bhavc374u564a"]
 
 [ext_resource type="Script" uid="uid://dqesxrdrk4mlj" path="res://src/features/main_menu/main_menu.gd" id="1_oa53l"]
+[ext_resource type="PackedScene" uid="uid://b0p5f4rpaxj47" path="res://src/features/ui/theme/basic/scrolling_bg_light.tscn" id="2_54l6f"]
 [ext_resource type="PackedScene" uid="uid://cponjrynpiw40" path="res://src/features/main_menu/lobby_menu.tscn" id="2_d3a7t"]
+[ext_resource type="FontVariation" uid="uid://crg8pwcywimra" path="res://src/features/ui/theme/font_title.tres" id="2_h6vdu"]
 [ext_resource type="PackedScene" uid="uid://cqbhgp5t1ryvv" path="res://src/features/main_menu/create_lobby_menu.tscn" id="3_3shxk"]
 
 [node name="MainMenu" type="Control" unique_id=496020962]
@@ -12,6 +14,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_oa53l")
+
+[node name="ScrollingBackgroundLight" parent="." unique_id=478385047 instance=ExtResource("2_54l6f")]
+layout_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1970592083]
 layout_mode = 1
@@ -26,10 +31,14 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 33
 
-[node name="Label" type="Label" parent="CenterContainer/MainMenu" unique_id=325694578]
+[node name="Title" type="RichTextLabel" parent="CenterContainer/MainMenu" unique_id=351186702]
 layout_mode = 2
-text = "Game Title"
-horizontal_alignment = 1
+theme_override_fonts/normal_font = ExtResource("2_h6vdu")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[wave connected=0]Game Title[/wave]"
+fit_content = true
+autowrap_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MainMenu" unique_id=1413601703]
 layout_mode = 2

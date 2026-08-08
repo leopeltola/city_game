@@ -43,7 +43,8 @@ enabled=PackedStringArray("res://addons/gdscript_formatter/plugin.cfg", "res://a
 [file_customization]
 
 folder_colors={
-"res://src/core/": "red"
+"res://src/core/": "red",
+"res://src/features/ui/": "blue"
 }
 
 [filesystem]
@@ -52,7 +53,7 @@ import/blender/enabled=false
 
 [gui]
 
-theme/custom="uid://dk1a7d5gwgjj8"
+theme/custom="uid://cc474s6hx67yx"
 
 [input]
 

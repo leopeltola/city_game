@@ -1,10 +1,11 @@
-[gd_scene format=3 uid="uid://ckb1palbr2hyj"]
+[gd_scene format=3 uid="uid://24toavjt8a2p"]
 
-[ext_resource type="PackedScene" uid="uid://b4jjssbq3mt8c" path="res://src/features/ui/theme/basic/scrolling_bg.tscn" id="1_prcsc"]
-[ext_resource type="FontVariation" uid="uid://crg8pwcywimra" path="res://src/features/ui/theme/font_title.tres" id="2_mf1pc"]
-[ext_resource type="FontVariation" uid="uid://bxiouwxjnvq55" path="res://src/features/ui/theme/font_small.tres" id="3_po1pc"]
-[ext_resource type="Texture2D" uid="uid://b8t00bn7pc6ms" path="res://src/features/ui/theme/assets/textures/icons/cancel.svg" id="4_e670g"]
-[ext_resource type="Texture2D" uid="uid://b77t8p12em8m5" path="res://src/features/ui/theme/assets/textures/icons/chevron-right.png" id="5_2a4lp"]
+[ext_resource type="Theme" uid="uid://cc474s6hx67yx" path="res://src/features/ui/theme/light_theme.tres" id="1_rvupp"]
+[ext_resource type="PackedScene" uid="uid://b0p5f4rpaxj47" path="res://src/features/ui/theme/basic/scrolling_bg_light.tscn" id="2_a1s4p"]
+[ext_resource type="FontVariation" uid="uid://crg8pwcywimra" path="res://src/features/ui/theme/font_title.tres" id="2_huw3x"]
+[ext_resource type="FontVariation" uid="uid://bxiouwxjnvq55" path="res://src/features/ui/theme/font_small.tres" id="3_i7yly"]
+[ext_resource type="Texture2D" uid="uid://b8t00bn7pc6ms" path="res://src/features/ui/theme/assets/textures/icons/cancel.svg" id="4_utcag"]
+[ext_resource type="Texture2D" uid="uid://b77t8p12em8m5" path="res://src/features/ui/theme/assets/textures/icons/chevron-right.png" id="5_dpp4p"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_mf1pc"]
 color = Color(0.43529412, 0.43529412, 0.43529412, 1)
@@ -16,25 +17,26 @@ vertical = true
 allow_folding_all = true
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_po1pc"]
-color = Color(0.4627451, 0.4627451, 0.4627451, 1)
+color = Color(0.8509804, 0.8509804, 0.8509804, 1)
 grow_begin = 5.0
 grow_end = 5.0
 vertical = true
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_e670g"]
-color = Color(0.4627451, 0.4627451, 0.4627451, 1)
+color = Color(0.8509804, 0.8509804, 0.8509804, 1)
 grow_begin = 7.0
 grow_end = 14.0
 
-[node name="GampleTest" type="Control" unique_id=1450873746]
+[node name="GambleTest" type="Control" unique_id=1450873746]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_rvupp")
 
-[node name="ScrollingBackground" parent="." unique_id=1162263174 instance=ExtResource("1_prcsc")]
+[node name="ScrollingBackgroundLight" parent="." unique_id=478385047 instance=ExtResource("2_a1s4p")]
 layout_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1578526347]
@@ -51,7 +53,7 @@ theme_override_constants/separation = 13
 
 [node name="Label" type="RichTextLabel" parent="CenterContainer/VBoxContainer" unique_id=1366392474]
 layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("2_mf1pc")
+theme_override_fonts/normal_font = ExtResource("2_huw3x")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "[wave connected=0]STATS FOR DAY 3[/wave]"
@@ -176,17 +178,15 @@ text = "Company Tabs"
 [node name="FoldableContainer" type="FoldableContainer" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer" unique_id=1112600425]
 layout_mode = 2
 theme_type_variation = &"FreeFoldableContainer"
-folded = true
 title = "Tomato Co."
 foldable_group = SubResource("FoldableGroup_prcsc")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer" unique_id=222780480]
-visible = false
 layout_mode = 2
 
 [node name="Label" type="RichTextLabel" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer/FoldableContainer/VBoxContainer" unique_id=440324384]
 layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("3_po1pc")
+theme_override_fonts/normal_font = ExtResource("3_i7yly")
 theme_override_font_sizes/normal_font_size = 13
 text = "Hello Content lorem ipsum henceforth this company shall be known as the Tomato Co. company seljling high-quality tomatoes."
 fit_content = true
@@ -221,13 +221,13 @@ text = "Hello Content"
 [node name="Cancel" type="Sprite2D" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer" unique_id=1521508075]
 position = Vector2(204, -221.00002)
 scale = Vector2(0.735, 0.735)
-texture = ExtResource("4_e670g")
+texture = ExtResource("4_utcag")
 
 [node name="ChevronRight" type="Sprite2D" parent="CenterContainer/VBoxContainer/MarginContainer3/MarginContainer/VBoxContainer" unique_id=1401366726]
 visible = false
 position = Vector2(0, 34)
 scale = Vector2(0.45833334, 0.45833334)
-texture = ExtResource("5_2a4lp")
+texture = ExtResource("5_dpp4p")
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer/VBoxContainer" unique_id=325399877]
 custom_minimum_size = Vector2(0, 100)
