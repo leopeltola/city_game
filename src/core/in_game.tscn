@@ -70,6 +70,7 @@ script = ExtResource("4_anh6s")
 [node name="WorldItemContainer" type="Node3D" parent="." unique_id=1066446355]
 
 [node name="GameWindow" parent="." unique_id=476716297 instance=ExtResource("5_5ds0p")]
+visible = false
 offset_left = 214.0
 offset_top = 34.0
 offset_right = 525.0

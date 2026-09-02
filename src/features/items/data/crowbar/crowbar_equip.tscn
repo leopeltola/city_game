@@ -1,7 +1,19 @@
 [gd_scene format=4 uid="uid://b1m0cxbm5lkgg"]
 
 [ext_resource type="Script" uid="uid://b0ecb7gqlqwrv" path="res://src/features/items/data/crowbar/crowbar_equip.gd" id="1_rdh1i"]
+[ext_resource type="AudioStream" uid="uid://c7wgnvkqy641e" path="res://assets/sfx/kenney_impacts/impactSoft_medium_002.ogg" id="2_15tih"]
+[ext_resource type="AudioStream" uid="uid://ctgcye33bd6fy" path="res://assets/sfx/kenney_impacts/impactWood_medium_004.ogg" id="2_042oc"]
 [ext_resource type="Material" uid="uid://c3p84usna18pn" path="res://src/features/player/assets/models/simple/gradient_mat.tres" id="2_kpkvl"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j2mp7"]
+random_pitch = 1.1805152
+streams_count = 1
+stream_0/stream = ExtResource("2_042oc")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_042oc"]
+random_pitch = 1.1805152
+streams_count = 1
+stream_0/stream = ExtResource("2_15tih")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_6sjwj"]
 _surfaces = [{
@@ -43,6 +55,8 @@ radius = 0.067
 
 [node name="CrowbarEquip" type="Node3D" unique_id=1920707759]
 script = ExtResource("1_rdh1i")
+hit_sound = SubResource("AudioStreamRandomizer_j2mp7")
+block_sound = SubResource("AudioStreamRandomizer_042oc")
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1027162091]

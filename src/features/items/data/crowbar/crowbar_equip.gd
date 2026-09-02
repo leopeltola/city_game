@@ -5,6 +5,9 @@ signal hit_registered(target: Node3D, point: Vector3)
 
 enum State { IDLE, ATTACKING, BLOCKING }
 
+@export var hit_sound: AudioStream = null
+@export var block_sound: AudioStream = null
+
 @export var damage: float = 25.0
 @onready var _shape_cast: ShapeCast3D = %ShapeCast3D
 
@@ -45,11 +48,13 @@ func _physics_process(_delta: float) -> void:
 					_rpc_interrupt_state.rpc(0.85)
 					if col_parent.has_method("trigger_block_success"):
 						col_parent.trigger_block_success()
+					Audio.play_sfx(block_sound)
 				else:
 					_rpc_interrupt_state.rpc(0.1)
 					var force: Vector3 = (collider.global_position - player.global_position).normalized() * 10.0
 					force.y += 2.0
 					col_parent.get_hit(damage, force)
+					Audio.play_sfx(hit_sound)
 
 	_prev_cast_pos = _shape_cast.global_position
 

@@ -26,6 +26,7 @@ BackgroundLoader="*uid://c86rgs1n14cep"
 SimpleWebRTC="*uid://c8uq7a8cywwqe"
 ReadyTracker="*uid://dvayn06x70g2q"
 ItemManager="*uid://8edp4mb0x500"
+Audio="*uid://d3v2fbyc153xo"
 
 [display]
 
