@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Siren game"
+config/name="City Game"
 config/tags=PackedStringArray("online")
 run/main_scene="uid://cb8vft8i7s12g"
 config/features=PackedStringArray("4.6", "Forward Plus")

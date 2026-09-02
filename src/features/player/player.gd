@@ -37,8 +37,9 @@ func _ready() -> void:
 	assert(player_id)
 	assert(inventory)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
 	PlayerManager.register_player_node(self)
+
+	anim_player.animation_finished.connect(_on_animation_finished)
 
 	if is_local:
 		%Camera3D.make_current()
@@ -60,12 +61,39 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_released("e"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+## Emitted when an override animation naturally finishes or is explicitly canceled.
+signal override_anim_finished
 
-func play_override_animation(anim_name: String) -> void:
+
+## Plays an animation, yielding until natural completion or cancellation.
+func play_override_animation(anim_name: String, blend_time: float = 0.0) -> void:
 	_override_anim = anim_name
-	anim_player.play(anim_name)
-	await anim_player.animation_finished
+	anim_player.play(anim_name, blend_time)
+	await override_anim_finished
+
+## Cancels the current override animation and safely resumes execution for yielded scripts.
+func cancel_override_animation(blend_time: float = 0.0) -> void:
+	if _override_anim == "":
+		return
 	_override_anim = ""
+	var fallback := "bat_hold" if shown_item == "bat" else "idle"
+	anim_player.play(fallback, blend_time)
+	override_anim_finished.emit()
+
+
+## Triggers a quick block recovery network call.
+func trigger_block_success() -> void:
+	_rpc_trigger_block_success.rpc()
+
+func _on_animation_finished(anim_name: String) -> void:
+	if anim_name == _override_anim:
+		_override_anim = ""
+		override_anim_finished.emit()
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_trigger_block_success() -> void:
+	is_blocking = false
+	cancel_override_animation(0.1)
 
 
 ## Applies damage and knockback force to the player.
