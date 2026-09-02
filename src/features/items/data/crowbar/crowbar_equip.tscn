@@ -1,19 +1,21 @@
 [gd_scene format=4 uid="uid://b1m0cxbm5lkgg"]
 
 [ext_resource type="Script" uid="uid://b0ecb7gqlqwrv" path="res://src/features/items/data/crowbar/crowbar_equip.gd" id="1_rdh1i"]
-[ext_resource type="AudioStream" uid="uid://c7wgnvkqy641e" path="res://assets/sfx/kenney_impacts/impactSoft_medium_002.ogg" id="2_15tih"]
-[ext_resource type="AudioStream" uid="uid://ctgcye33bd6fy" path="res://assets/sfx/kenney_impacts/impactWood_medium_004.ogg" id="2_042oc"]
+[ext_resource type="AudioStream" uid="uid://bib4wg7ivmx25" path="res://assets/sfx/punch_1.ogg" id="2_j2mp7"]
 [ext_resource type="Material" uid="uid://c3p84usna18pn" path="res://src/features/player/assets/models/simple/gradient_mat.tres" id="2_kpkvl"]
+[ext_resource type="AudioStream" uid="uid://bmghj5gdws2pa" path="res://assets/sfx/wood_hit_1.ogg" id="3_yhffj"]
+[ext_resource type="AudioStream" uid="uid://dmlexjbw1cb4t" path="res://assets/sfx/wood_hit_2.ogg" id="4_burvo"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j2mp7"]
 random_pitch = 1.1805152
 streams_count = 1
-stream_0/stream = ExtResource("2_042oc")
+stream_0/stream = ExtResource("2_j2mp7")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_042oc"]
 random_pitch = 1.1805152
-streams_count = 1
-stream_0/stream = ExtResource("2_15tih")
+streams_count = 2
+stream_0/stream = ExtResource("3_yhffj")
+stream_1/stream = ExtResource("4_burvo")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_6sjwj"]
 _surfaces = [{
