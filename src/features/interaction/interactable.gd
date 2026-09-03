@@ -4,6 +4,7 @@ extends CollisionObject3D
 signal interacted(player_id: int)
 
 @export var prompt: String = "Interact"
+@export var active := true
 
 
 func get_prompt() -> String:
@@ -16,4 +17,4 @@ func interact(player_id: int) -> void:
 
 
 func can_interact(player_id: int) -> bool:
-	return true
+	return active

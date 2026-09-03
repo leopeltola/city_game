@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://6plypgigf1ic"]
+
+[ext_resource type="Texture2D" uid="uid://3ja0ibtegkk7" path="res://src/features/gambling/assets/textures/slot_roll.png" id="1_a6kd1"]
+
+[resource]
+albedo_texture = ExtResource("1_a6kd1")

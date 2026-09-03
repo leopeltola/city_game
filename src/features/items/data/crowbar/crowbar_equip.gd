@@ -7,6 +7,7 @@ enum State { IDLE, ATTACKING, BLOCKING }
 
 @export var hit_sound: AudioStream = null
 @export var block_sound: AudioStream = null
+@export var swoosh_sound: AudioStream = null
 
 @export var damage: float = 25.0
 @onready var _shape_cast: ShapeCast3D = %ShapeCast3D
@@ -19,14 +20,8 @@ var _attack_start_msec: int = 0
 
 func _ready() -> void:
 	super()
-	player.shown_item = "bat"
 	_shape_cast.enabled = false
 	_shape_cast.add_exception(player.hittable_area)
-
-
-func _exit_tree() -> void:
-	if player.shown_item == "bat":
-		player.shown_item = ""
 
 
 func _physics_process(_delta: float) -> void:
@@ -48,15 +43,25 @@ func _physics_process(_delta: float) -> void:
 					_rpc_interrupt_state.rpc(0.85)
 					if col_parent.has_method("trigger_block_success"):
 						col_parent.trigger_block_success()
-					Audio.play_sfx(block_sound)
+					_rpc_play_sfx("block")
 				else:
-					_rpc_interrupt_state.rpc(0.1)
+					_rpc_interrupt_state.rpc(0.3)
 					var force: Vector3 = (collider.global_position - player.global_position).normalized() * 10.0
 					force.y += 2.0
 					col_parent.get_hit(damage, force)
-					Audio.play_sfx(hit_sound)
-
+					_rpc_play_sfx("hit")
 	_prev_cast_pos = _shape_cast.global_position
+
+
+@rpc("authority", "reliable")
+func _rpc_play_sfx(id: StringName) -> void:
+	match id:
+		"hit":
+			Audio.play_sfx(hit_sound)
+		"block":
+			Audio.play_sfx(block_sound)
+		_:
+			assert(false, "Unknown sfx requested")
 
 
 func _unhandled_input(event: InputEvent) -> void:

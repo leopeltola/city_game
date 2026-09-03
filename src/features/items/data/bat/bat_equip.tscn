@@ -1,0 +1,7 @@
+[gd_scene format=3 ]
+
+[ext_resource type="Script" path="res://src/features/items/item_equip.gd" id="1_ux7ua"]
+
+[node name="TemplateEquip" type="Node3D" unique_id=1920707759]
+script = ExtResource("1_ux7ua")
+metadata/_custom_type_script = "uid://cuouyiv4rgvf"

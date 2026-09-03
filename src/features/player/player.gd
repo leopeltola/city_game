@@ -14,7 +14,6 @@ var player_data: PlayerData:
 var is_local: bool
 
 var _override_anim := ""
-var shown_item := ""
 
 ## Multiplier applied to mouse look sensitivity. Lower values simulate drag/resistance.
 var look_drag_multiplier := 1.0
@@ -76,8 +75,7 @@ func cancel_override_animation(blend_time: float = 0.0) -> void:
 	if _override_anim == "":
 		return
 	_override_anim = ""
-	var fallback := "bat_hold" if shown_item == "bat" else "idle"
-	anim_player.play(fallback, blend_time)
+	anim_player.play("idle", blend_time)
 	override_anim_finished.emit()
 
 
@@ -107,12 +105,9 @@ func _rpc_get_hit(_damage: float, force: Vector3) -> void:
 
 
 func _process(_delta: float) -> void:
-	if shown_item == "bat":
-		if not _override_anim:
-			anim_player.play("bat_hold")
-	else:
-		if not _override_anim:
-			anim_player.play("idle")
+	if not _override_anim:
+		var idle_anim := inventory.get_idle_animation_override()
+		anim_player.play(idle_anim if not idle_anim.is_empty() else "idle")
 
 
 func _physics_process(delta: float) -> void:

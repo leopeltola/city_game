@@ -13,6 +13,7 @@ var data: Dictionary:
 
 func _ready() -> void:
 	assert(interaction_area)
+	assert(interaction_area.get_collision_layer_value(3) == true, "Interactable must have collision layer 3 enabled")
 	assert(type)
 	
 	interaction_area.prompt = "Pick up %s" % type.display_name

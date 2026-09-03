@@ -18,7 +18,6 @@ signal inventory_updated()
 @export var _equip_slot: Node3D = null
 
 var _equipped_node: ItemEquip = null
-var _equip_right_hand_target: Node3D = null
 
 
 func _ready() -> void:
@@ -38,9 +37,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func _process(_delta: float) -> void:
-	if is_instance_valid(_equip_right_hand_target):
-		%RightHandIKTarget.global_transform = _equip_right_hand_target.global_transform
+## Return's the currently equipped item's idle anim override's name. Empty string == none
+func get_idle_animation_override() -> String:
+	return _equipped_node.idle_animation_override if _equipped_node else ""
 
 
 ## Returns the item ID at the specified index, or -1 if empty.
@@ -86,7 +85,6 @@ func _equip_item(slot_idx: int) -> void:
 	if is_instance_valid(_equipped_node):
 		_equipped_node.queue_free()
 		_equipped_node = null
-		_equip_right_hand_target = null
 
 	var item_id := get_item_at_idx(slot_idx)
 	if item_id == -1:
@@ -98,7 +96,6 @@ func _equip_item(slot_idx: int) -> void:
 	
 	equipped_item.interact_ray = %InteractRay
 	equipped_item.player = player
-	_equip_right_hand_target = equipped_item.right_hand_ik_target
 	_equipped_node = equipped_item
 	
 	_equip_slot.add_child(equipped_item)

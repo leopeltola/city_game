@@ -2,6 +2,7 @@ extends Node
 
 const _item_types: Dictionary[StringName, ItemType] = {
 	"crowbar": preload("res://src/features/items/data/crowbar/crowbar.tres"),
+	"cash": preload("res://src/features/items/data/cash/cash.tres"),
 }
 
 var _id_count := 0

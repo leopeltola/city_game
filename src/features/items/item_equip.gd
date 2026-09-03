@@ -6,10 +6,10 @@ extends Node3D
 
 const InteractRay := preload("res://src/features/interaction/interact_ray.gd")
 
+@export var idle_animation_override := ""
+
 var interact_ray: InteractRay = null
 var player: Player = null
-@export var right_hand_ik_target: Node3D = null
-@export var left_hand_ik_target: Node3D = null
 
 
 func _ready() -> void:

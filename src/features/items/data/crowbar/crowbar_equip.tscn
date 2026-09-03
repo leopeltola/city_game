@@ -5,6 +5,8 @@
 [ext_resource type="Material" uid="uid://c3p84usna18pn" path="res://src/features/player/assets/models/simple/gradient_mat.tres" id="2_kpkvl"]
 [ext_resource type="AudioStream" uid="uid://bmghj5gdws2pa" path="res://assets/sfx/wood_hit_1.ogg" id="3_yhffj"]
 [ext_resource type="AudioStream" uid="uid://dmlexjbw1cb4t" path="res://assets/sfx/wood_hit_2.ogg" id="4_burvo"]
+[ext_resource type="AudioStream" uid="uid://bq4byeifb23rx" path="res://assets/sfx/whoosh_1.ogg" id="5_burvo"]
+[ext_resource type="AudioStream" uid="uid://cqcoy7720741g" path="res://assets/sfx/whoosh_2.ogg" id="6_v317b"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j2mp7"]
 random_pitch = 1.1805152
@@ -16,6 +18,12 @@ random_pitch = 1.1805152
 streams_count = 2
 stream_0/stream = ExtResource("3_yhffj")
 stream_1/stream = ExtResource("4_burvo")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_mcev4"]
+random_pitch = 1.1805152
+streams_count = 2
+stream_0/stream = ExtResource("5_burvo")
+stream_1/stream = ExtResource("6_v317b")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_6sjwj"]
 _surfaces = [{
@@ -59,10 +67,12 @@ radius = 0.067
 script = ExtResource("1_rdh1i")
 hit_sound = SubResource("AudioStreamRandomizer_j2mp7")
 block_sound = SubResource("AudioStreamRandomizer_042oc")
+swoosh_sound = SubResource("AudioStreamRandomizer_mcev4")
+idle_animation_override = "bat_hold"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1027162091]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, -0.09488076, 0)
 
 [node name="Bat" type="MeshInstance3D" parent="Visual" unique_id=1560021504]
 transform = Transform3D(0.99999964, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0.60529405, 0)
@@ -70,7 +80,7 @@ mesh = SubResource("ArrayMesh_15tih")
 
 [node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=1337978351]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7441378, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64925706, 0)
 shape = SubResource("CylinderShape3D_kpkvl")
 target_position = Vector3(0, 0, 0)
 collision_mask = 16

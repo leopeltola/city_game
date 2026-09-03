@@ -1,0 +1,110 @@
+{
+	"connections": [
+		{
+			"from": "bricks_uneven",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
+		},
+		{
+			"from": "colorize",
+			"from_port": 0,
+			"to": "Material",
+			"to_port": 0
+		}
+	],
+	"label": "Graph",
+	"longdesc": "",
+	"name": "@Node@800",
+	"node_position": {
+		"x": 0.0,
+		"y": 0.0
+	},
+	"nodes": [
+		{
+			"export_paths": {
+
+			},
+			"name": "Material",
+			"node_position": {
+				"x": 0.0,
+				"y": 0.0
+			},
+			"parameters": {
+				"albedo_color": {
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
+					"type": "Color"
+				},
+				"ao": 1.0,
+				"depth_scale": 0.5,
+				"emission_energy": 1.0,
+				"flags_transparent": true,
+				"metallic": 0.0,
+				"normal": 1.0,
+				"roughness": 1.0,
+				"size": 11,
+				"sss": 1.0
+			},
+			"seed_int": 0,
+			"type": "material"
+		},
+		{
+			"name": "bricks_uneven",
+			"node_position": {
+				"x": -850.027526855469,
+				"y": -17.851655960083
+			},
+			"parameters": {
+				"bevel": 0.061,
+				"corner": 0.5,
+				"iterations": 8.0,
+				"min_size": 0.3,
+				"mortar": 0.051,
+				"round": 0.3,
+				"rows": 6.0
+			},
+			"seed_int": 0,
+			"type": "bricks_uneven3_2"
+		},
+		{
+			"name": "colorize",
+			"node_position": {
+				"x": -485.529693603516,
+				"y": 82.6071548461914
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1.0,
+							"b": 0.8125,
+							"g": 0.8125,
+							"pos": 0.0,
+							"r": 0.8125
+						},
+						{
+							"a": 1.0,
+							"b": 0.87158203125,
+							"g": 0.87158203125,
+							"pos": 1.0,
+							"r": 0.875
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		}
+	],
+	"parameters": {
+
+	},
+	"seed_int": 0,
+	"shortdesc": "",
+	"type": "graph"
+}

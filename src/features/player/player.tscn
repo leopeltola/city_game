@@ -47,40 +47,38 @@ shape = SubResource("CapsuleShape3D_xe5qy")
 [node name="Visual" type="Node3D" parent="." unique_id=850032725]
 unique_name_in_owner = true
 
-[node name="guy" parent="Visual" unique_id=1933286192 instance=ExtResource("7_1mqja")]
+[node name="guy" parent="Visual" unique_id=1618958129 instance=ExtResource("7_1mqja")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="Skeleton3D" parent="Visual/guy/Armature" parent_id_path=PackedInt32Array(1933286192, 1230791975) index="0" unique_id=184859847]
-bones/8/position = Vector3(-0.18208319, 0.087227456, -0.19563839)
-bones/8/rotation = Quaternion(0.111561164, -0.33461392, -0.10155053, 0.93020177)
-bones/9/position = Vector3(-0.058804523, 0.16228358, 0.089140646)
-bones/9/rotation = Quaternion(-0.15110736, -0.118439995, 0.48463026, 0.85338855)
-bones/10/rotation = Quaternion(0.09520527, -0.13634658, 0.41635513, 0.8938647)
-bones/11/position = Vector3(-0.016491702, 0.18960512, 0.0029060137)
-bones/11/rotation = Quaternion(-0.13090189, -0.05546595, 0.52106345, 0.84159446)
-bones/12/rotation = Quaternion(-0.06627498, 0.014626723, 0.5432676, 0.8368118)
-bones/13/position = Vector3(-0.06597403, 0.05664501, -0.079014994)
+[node name="Skeleton3D" parent="Visual/guy/Armature" parent_id_path=PackedInt32Array(1618958129, 1420631471) index="0" unique_id=409632325]
+bones/8/position = Vector3(-0.15388101, 0.2075868, -0.05807007)
+bones/8/rotation = Quaternion(0.09100439, 0.36922756, -0.108184904, 0.91852343)
+bones/9/position = Vector3(-0.05880459, 0.16228352, 0.08914064)
+bones/9/rotation = Quaternion(-0.15110734, -0.11844006, 0.4846303, 0.85338855)
+bones/10/rotation = Quaternion(0.09520527, -0.13634655, 0.41635513, 0.8938647)
+bones/11/position = Vector3(-0.016491761, 0.18960504, 0.00290599)
+bones/11/rotation = Quaternion(-0.13090193, -0.05546598, 0.5210634, 0.8415945)
+bones/12/rotation = Quaternion(-0.066274986, 0.014626719, 0.5432677, 0.83681184)
+bones/13/position = Vector3(-0.0659741, 0.05664499, -0.079014964)
 bones/13/rotation = Quaternion(-0.20172244, 0.13407531, 0.42793122, 0.8707507)
-bones/14/rotation = Quaternion(0.61763304, -0.05163758, 0.3373042, 0.70858234)
-bones/16/position = Vector3(-0.44496763, 0.13720143, -0.2630289)
-bones/16/rotation = Quaternion(0.06816703, -0.4933938, -0.07387678, 0.863978)
-bones/17/position = Vector3(0.04224472, 0.1621493, 0.07831639)
-bones/17/rotation = Quaternion(-0.11575701, -0.055450357, -0.54850614, 0.8262364)
-bones/18/rotation = Quaternion(-0.10620186, 0.13651167, -0.5025289, 0.84708345)
-bones/19/position = Vector3(0.037159722, 0.17279692, -0.0023789671)
-bones/19/rotation = Quaternion(-0.021936117, 0.040045865, -0.4856768, 0.87294513)
-bones/20/rotation = Quaternion(0.03013233, 0.019945264, -0.5307147, 0.8467799)
-bones/21/position = Vector3(0.056612514, 0.028398767, -0.0796109)
-bones/21/rotation = Quaternion(-0.21256123, -0.20293292, -0.63373727, 0.71555084)
-bones/22/rotation = Quaternion(0.55837584, -0.30910552, -0.25279003, 0.72716403)
+bones/14/rotation = Quaternion(0.61763304, -0.05163761, 0.3373042, 0.70858234)
+bones/15/rotation = Quaternion(0.72294396, -0.6840311, -0.07214441, -0.06518301)
+bones/16/position = Vector3(-0.25737208, 0.21267197, 0.19753209)
+bones/16/rotation = Quaternion(0.082967356, 0.20220295, -0.072139606, 0.9731528)
+bones/17/position = Vector3(0.04224467, 0.16214928, 0.07831633)
+bones/17/rotation = Quaternion(-0.115757115, -0.055450328, -0.54850626, 0.82623637)
+bones/18/rotation = Quaternion(-0.10620184, 0.13651165, -0.5025289, 0.84708345)
+bones/19/position = Vector3(0.037159745, 0.17279692, -0.0023789539)
+bones/19/rotation = Quaternion(-0.021936113, 0.040045865, -0.4856768, 0.87294513)
+bones/20/rotation = Quaternion(0.030132294, 0.019945253, -0.5307147, 0.8467799)
+bones/21/position = Vector3(0.056612585, 0.028398782, -0.0796109)
+bones/21/rotation = Quaternion(-0.21256122, -0.20293294, -0.6337374, 0.71555084)
+bones/22/rotation = Quaternion(0.55837584, -0.3091055, -0.25279006, 0.72716403)
+bones/23/position = Vector3(0.11620465, 0.11037255, 0.008061466)
+bones/23/rotation = Quaternion(0.72294396, 0.684031, 0.07214443, -0.06518304)
 
-[node name="HandSlot_R" parent="Visual/guy/Armature/Skeleton3D" index="0" unique_id=764850829]
-transform = Transform3D(0.45756927, 0.87308323, -0.16839239, -0.88435405, 0.4665453, 0.015912436, 0.092455626, 0.14163744, 0.9855916, -0.37897387, 0.93185407, 0.32968003)
-
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Visual/guy/Armature/Skeleton3D/HandSlot_R" index="0" unique_id=79185890]
-remote_path = NodePath("../../../../../../SightPivot/Camera3D/RightItemSlot")
-
-[node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="Visual/guy/Armature/Skeleton3D" index="4" unique_id=1604843836]
+[node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="Visual/guy/Armature/Skeleton3D" index="3" unique_id=1604843836]
+influence = 0.624
 setting_count = 1
 settings/0/amount = 1.0
 settings/0/apply_bone_name = "HandsPivot"
@@ -92,7 +90,16 @@ settings/0/axes = 7
 settings/0/invert = 0
 settings/0/additive = false
 
-[node name="AnimationPlayer" parent="Visual/guy" index="1" unique_id=993404431]
+[node name="HandSlotRightAttachment" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" index="4" unique_id=1791211880]
+transform = Transform3D(0.29307958, 0.8984084, -0.32705697, -0.2827977, 0.40823078, 0.8679705, 0.91330683, -0.16189359, 0.373712, -0.124658376, 0.5998674, 0.41218966)
+bone_name = "HandSlot.R"
+bone_idx = 23
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Visual/guy/Armature/Skeleton3D/HandSlotRightAttachment" unique_id=79185890]
+transform = Transform3D(1.0000002, 0, 0, 0, -4.37114e-08, -1.0000002, 0, 1.0000002, -4.37114e-08, 0, 0, 0)
+remote_path = NodePath("../../../../../../SightPivot/Camera3D/RightItemSlot")
+
+[node name="AnimationPlayer" parent="Visual/guy" index="1" unique_id=909398906]
 autoplay = &"idle"
 playback_default_blend_time = 0.2
 
@@ -113,7 +120,7 @@ player = NodePath("../../..")
 
 [node name="RightItemSlot" type="Node3D" parent="SightPivot/Camera3D" unique_id=1375988061]
 unique_name_in_owner = true
-transform = Transform3D(-0.45756927, -0.87308323, 0.1683923, -0.88435405, 0.4665453, 0.015912436, -0.09245559, -0.14163737, -0.9855916, 0.38689727, -0.36231154, -0.2659809)
+transform = Transform3D(-0.29307973, 0.32705706, 0.89840865, -0.28279775, 0.8679707, -0.4082309, -0.9133071, -0.37371212, -0.1618937, 0.13258176, -0.6942982, -0.3484905)
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="SightPivot/Camera3D" unique_id=944993532]
 remote_path = NodePath("../../../Visual/guy/PupilLeft")
@@ -164,13 +171,6 @@ player = NodePath("..")
 _equip_slot = NodePath("../SightPivot/Camera3D/RightItemSlot")
 metadata/_custom_type_script = "uid://byjrh17ptlrd"
 
-[node name="RightHandIKTarget" type="Node3D" parent="." unique_id=1534163235]
-unique_name_in_owner = true
-transform = Transform3D(0.45232576, -0.8918528, 0, 0.8918528, 0.45232576, 0, 0, 0, 1, 0.21212338, 1.4397651, -0.40749323)
-
-[node name="TrueTargetRight" type="Node3D" parent="RightHandIKTarget" unique_id=189212019]
-transform = Transform3D(-0.034449782, 0.23178159, -0.97215766, 0.9891342, 0.14701538, 0, 0.14292212, -0.9615944, -0.23432775, 0, 0, 0.09972182)
-
 [node name="HittableArea" type="Area3D" parent="." unique_id=655373883]
 unique_name_in_owner = true
 collision_layer = 16
@@ -179,5 +179,8 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HittableArea" unique_id=23527784]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78356934, 0)
 shape = SubResource("CapsuleShape3D_rybn4")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=790756614]
+volume_db = -15.605
 
 [editable path="Visual/guy"]

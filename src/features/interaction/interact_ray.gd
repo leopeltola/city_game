@@ -8,6 +8,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if not player.is_local:
+		return
 	if is_colliding():
 		var col = get_collider()
 		if not col is Interactable:
