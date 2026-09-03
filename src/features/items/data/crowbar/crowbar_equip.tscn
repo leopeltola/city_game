@@ -68,6 +68,7 @@ script = ExtResource("1_rdh1i")
 hit_sound = SubResource("AudioStreamRandomizer_j2mp7")
 block_sound = SubResource("AudioStreamRandomizer_042oc")
 swoosh_sound = SubResource("AudioStreamRandomizer_mcev4")
+type_path = "uid://bhkl0q4xpy325"
 idle_animation_override = "bat_hold"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 

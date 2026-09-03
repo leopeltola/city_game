@@ -10,13 +10,12 @@ size = Vector3(0.2, 0.2, 0.2)
 [sub_resource type="BoxMesh" id="BoxMesh_ijgx7"]
 size = Vector3(0.2, 0.2, 0.2)
 
-[node name="CrowbarWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area", "debug_label")]
+[node name="CrowbarWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 8
 collision_mask = 9
 script = ExtResource("1_rbl3i")
 type = ExtResource("2_ijgx7")
 interaction_area = NodePath("InteractableArea")
-debug_label = NodePath("Label3D")
 metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1324848502]

@@ -74,6 +74,16 @@ func has_space() -> bool:
 	return item_slots.has(-1)
 
 
+## Removes and returns the item ID currently held in the active slot, or -1 if empty.
+func pop_active_item() -> int:
+	var item_id := get_item_at_idx(active_index)
+	if item_id == -1:
+		return -1
+
+	_set_item(active_index, -1)
+	return item_id
+
+
 func _set_item(slot_idx: int, item_id: int) -> void:
 	item_slots[slot_idx] = item_id
 	if slot_idx == active_index:
@@ -93,9 +103,9 @@ func _equip_item(slot_idx: int) -> void:
 	var data := ItemManager.get_item_data_dict_by_id(item_id)
 	var type: ItemType = ItemManager.get_item_type(data["type"])
 	var equipped_item: ItemEquip = type.get_equip_item_scene().instantiate()
-	
+
 	equipped_item.interact_ray = %InteractRay
 	equipped_item.player = player
 	_equipped_node = equipped_item
-	
+
 	_equip_slot.add_child(equipped_item)

@@ -6,22 +6,24 @@
 [ext_resource type="Script" uid="uid://d0vpw5o6sm0q8" path="res://src/features/interaction/interactable.gd" id="4_6a2bw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ijgx7"]
-size = Vector3(0.1840332, 0.323584, 0.0567749)
+size = Vector3(0.18186036, 0.32194823, 0.05594177)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ijgx7"]
 size = Vector3(0.2, 0.2, 0.2)
 
-[node name="CashWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area", "debug_label")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_6a2bw"]
+size = Vector3(0.19481054, 0.33649218, 0.09025586)
+
+[node name="CashWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 12
 collision_mask = 9
 script = ExtResource("1_rbl3i")
 type = ExtResource("2_ijgx7")
 interaction_area = NodePath("Area3D")
-debug_label = NodePath("Label3D")
 metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1324848502]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007104486, 0.048583996, 0.008843988)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.006018065, 0.049401876, 0.007029718)
 shape = SubResource("BoxShape3D_ijgx7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=684219485]
@@ -41,5 +43,5 @@ script = ExtResource("4_6a2bw")
 prompt = "Cash"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1856834476]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007104486, 0.05314943, 0.008843988)
-shape = SubResource("BoxShape3D_ijgx7")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0049140602, 0.051895525, 0.009034418)
+shape = SubResource("BoxShape3D_6a2bw")

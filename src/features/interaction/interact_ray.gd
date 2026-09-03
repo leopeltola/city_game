@@ -13,10 +13,15 @@ func _process(_delta: float) -> void:
 	if is_colliding():
 		var col = get_collider()
 		if not col is Interactable:
+			%Label.hide()
 			return
 		var i: Interactable = col as Interactable
-		%Label.show()
-		%Label.text = i.get_prompt()
+		if i.active:
+			%Label.show()
+			%Label.text = i.get_prompt(player.player_id)
+		else:
+			%Label.hide()
+			
 	else:
 		%Label.hide()
 

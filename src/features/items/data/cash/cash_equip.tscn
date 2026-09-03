@@ -5,6 +5,7 @@
 
 [node name="CashEquip" type="Node3D" unique_id=1920707759]
 script = ExtResource("1_ux7ua")
+type_path = "uid://dx75cf3mfbggv"
 idle_animation_override = "cash_idle"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 

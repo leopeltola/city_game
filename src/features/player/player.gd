@@ -64,6 +64,11 @@ func _unhandled_input(event: InputEvent) -> void:
 signal override_anim_finished
 
 
+## Returns equipped item if any exists. Null otherwise
+func get_equipped_item() -> ItemEquip:
+	return inventory._equipped_node
+
+
 ## Plays an animation, yielding until natural completion or cancellation.
 func play_override_animation(anim_name: String, blend_time: float = 0.0) -> void:
 	_override_anim = anim_name
