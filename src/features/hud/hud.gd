@@ -9,6 +9,8 @@ const MoneyPrompt := preload("res://src/features/hud/prompts/money_prompt.gd")
 func _ready() -> void:
 	HUD.instance = self
 
+	%MoneyPrompt.hide()
+
 
 func _exit_tree() -> void:
 	if HUD.instance == self:

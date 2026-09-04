@@ -15,4 +15,5 @@ script = ExtResource("1_8n2dx")
 
 [node name="MoneyPrompt" parent="." unique_id=971607912 instance=ExtResource("2_8n2dx")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1

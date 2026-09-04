@@ -195,10 +195,29 @@ func _on_cash_input_interacted(player_id: int) -> void:
 	var item := player.get_equipped_item()
 	if not item or item.item_type.name != "cash":
 		return
-	var item_id := player.inventory.pop_active_item()
-	var amount: int = ItemManager.get_item_data(item_id, "amount", 0)
-	ItemManager.destroy_item(item_id)
-	_rpc_add_balance.rpc(amount)
+	var item_id: int = item.item_id
+	var total_amount: int = ItemManager.get_item_data(item_id, "amount", 0)
+
+	if not HUD.instance:
+		return
+	var result := await HUD.instance.prompt_money(total_amount)
+	if result.cancelled or result.amount <= 0:
+		return
+
+	var equipped := player.get_equipped_item()
+	if not equipped or equipped.item_id != item_id:
+		return
+
+	var put_in := mini(result.amount, total_amount)
+	player.inventory.pop_active_item()
+
+	var remaining := total_amount - put_in
+	if remaining <= 0:
+		ItemManager.destroy_item(item_id)
+	else:
+		ItemManager.set_and_sync_item_data(item_id, "amount", remaining)
+
+	_rpc_add_balance.rpc(put_in)
 
 
 @rpc("any_peer", "reliable", "call_local")

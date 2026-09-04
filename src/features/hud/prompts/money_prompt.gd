@@ -5,6 +5,7 @@ class Result:
 	var cancelled := false
 	var amount: int = 0
 
+
 @onready var line_edit: LineEdit = %LineEdit
 @onready var ok_button: Button = %OkButton
 @onready var cancel_button: Button = %CancelButton
@@ -20,6 +21,12 @@ func _ready() -> void:
 	ok_button.pressed.connect(_try_submit)
 	cancel_button.pressed.connect(_cancel)
 	hidden.connect(_cancel)
+
+	visibility_changed.connect(
+		func():
+			if visible:
+				line_edit.grab_focus()
+	)
 
 
 ## Awaits until player either cancels or inputs a valid amount (0+).

@@ -40,12 +40,17 @@ size_flags_vertical = 0
 text = "100"
 alignment = 1
 
-[node name="OkButton" type="Button" parent="GameWindow/VBoxContainer" unique_id=752605847]
-unique_name_in_owner = true
+[node name="HBoxContainer" type="HBoxContainer" parent="GameWindow/VBoxContainer" unique_id=737433612]
 layout_mode = 2
-text = "Ok"
 
-[node name="CancelButton" type="Button" parent="GameWindow/VBoxContainer" unique_id=1474869235]
+[node name="CancelButton" type="Button" parent="GameWindow/VBoxContainer/HBoxContainer" unique_id=1474869235]
 unique_name_in_owner = true
+modulate = Color(1, 0.48000002, 0.48000002, 1)
 layout_mode = 2
-text = "Ok"
+text = "X"
+
+[node name="OkButton" type="Button" parent="GameWindow/VBoxContainer/HBoxContainer" unique_id=752605847]
+unique_name_in_owner = true
+modulate = Color(0.39, 1, 0.4814999, 1)
+layout_mode = 2
+text = "Continue"
