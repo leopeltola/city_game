@@ -3,6 +3,11 @@ extends Node3D
 const SYMBOL_COUNT: int = 7
 const STEP_ANGLE: float = TAU / SYMBOL_COUNT
 
+## Maximum amount a single spawned bill can hold; larger payouts are split into multiple bills.
+const MAX_BILL_AMOUNT: int = PlayerInventory.CASH_STACK_LIMIT
+## Delay between staggered bill spawns when a payout is split.
+const BILL_SPAWN_DELAY: float = 0.5
+
 @export var sfx_win: AudioStream
 @export var sfx_lose: AudioStream
 @export var sfx_cash_input: AudioStream
@@ -44,7 +49,8 @@ func _ready() -> void:
 	_set_buttons_active(false)
 
 
-## Spawns cash item into the world via the server.
+## Spawns cash into the world via the server. Payouts above the bill cap are split into
+## multiple bills, staggered by [BILL_SPAWN_DELAY]. Plays the cash register sound per bill.
 func spawn_cash(amount: int) -> void:
 	if Net.is_client:
 		_rpc_spawn_cash.rpc_id(1, amount)
@@ -55,8 +61,20 @@ func spawn_cash(amount: int) -> void:
 @rpc("any_peer", "reliable", "call_remote")
 func _rpc_spawn_cash(amount: int) -> void:
 	assert(Net.is_server)
-	var id: int = ItemManager.create_item_of_type("cash", { "amount": amount })
-	ItemManager.create_world_item_for(id, %CashSpawnPos.global_position, %CashSpawnPos.global_rotation)
+	var remaining := amount
+	while remaining > 0:
+		var bill := mini(MAX_BILL_AMOUNT, remaining)
+		var id: int = ItemManager.create_item_of_type("cash", { "amount": bill })
+		ItemManager.create_world_item_for(id, %CashSpawnPos.global_position, %CashSpawnPos.global_rotation)
+		_rpc_play_cash_spawn_sfx.rpc()
+		remaining -= bill
+		if remaining > 0:
+			await get_tree().create_timer(BILL_SPAWN_DELAY).timeout
+
+
+@rpc("authority", "reliable", "call_local")
+func _rpc_play_cash_spawn_sfx() -> void:
+	_play_sfx(sfx_cash_input)
 
 
 func _play_sfx(stream: AudioStream) -> void:
