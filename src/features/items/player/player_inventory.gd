@@ -9,7 +9,15 @@ const CASH_STACK_LIMIT := 1000
 
 @export var player: Player = null
 @export var slot_count := 4
-@export var item_slots: Array[int] = []
+
+## Replicated slot contents (item ID per slot, -1 == empty). Replaced by the
+## MultiplayerSynchronizer on remote peers; the setter keeps the equipped visual in sync.
+@export var item_slots: Array[int] = []:
+	set(val):
+		item_slots = val
+		if is_inside_tree():
+			_equip_item(active_index)
+			inventory_updated.emit()
 
 ## Index of the currently selected slot. Setting this updates the equipped item.
 @export var active_index := 0:

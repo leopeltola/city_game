@@ -85,7 +85,7 @@ unique_name_in_owner = true
 [node name="guy" parent="Visual" unique_id=1618958129 instance=ExtResource("7_1mqja")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="Skeleton3D" parent="Visual/guy/Armature" parent_id_path=PackedInt32Array(1618958129, 1420631471) index="0" unique_id=409632325]
+[node name="Skeleton3D" parent="Visual/guy/Armature" parent_id_path=PackedInt32Array(1618958129, 178378098) index="0" unique_id=1658819607]
 bones/8/position = Vector3(-0.15388101, 0.2075868, -0.05807007)
 bones/8/rotation = Quaternion(0.09100439, 0.36922756, -0.108184904, 0.91852343)
 bones/9/position = Vector3(-0.05880459, 0.16228352, 0.08914064)
@@ -134,7 +134,7 @@ bone_idx = 23
 transform = Transform3D(1.0000002, 0, 0, 0, -4.37114e-08, -1.0000002, 0, 1.0000002, -4.37114e-08, 0, 0, 0)
 remote_path = NodePath("../../../../../../SightPivot/Camera3D/RightItemSlot")
 
-[node name="AnimationPlayer" parent="Visual/guy" index="1" unique_id=909398906]
+[node name="AnimationPlayer" parent="Visual/guy" index="1" unique_id=2004145987]
 autoplay = &"idle"
 playback_default_blend_time = 0.2
 
