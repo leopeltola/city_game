@@ -30,6 +30,7 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="GameWindow/VBoxContainer" unique_id=1328531620]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Put in money"
 

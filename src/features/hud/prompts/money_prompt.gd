@@ -5,7 +5,10 @@ class Result:
 	var cancelled := false
 	var amount: int = 0
 
+## Default label text shown when no custom title is passed to [method prompt].
+const DEFAULT_TITLE := "Put in money"
 
+@onready var label: Label = %Label
 @onready var line_edit: LineEdit = %LineEdit
 @onready var ok_button: Button = %OkButton
 @onready var cancel_button: Button = %CancelButton
@@ -23,22 +26,18 @@ func _ready() -> void:
 	cancel_button.pressed.connect(_cancel)
 	hidden.connect(_cancel)
 
-	visibility_changed.connect(
-		func():
-			if visible:
-				line_edit.grab_focus()
-	)
-
 
 ## Awaits until player either cancels or inputs a valid amount (0+).
 ## Cancels any ongoing prompt before starting a new one.
-func prompt(max_val: int, default: int = 0) -> Result:
+## [title] overrides the prompt's label text when provided.
+func prompt(max_val: int, default: int = 0, title: String = "") -> Result:
 	if visible:
 		_cancel()
 
 	_max_amount = max_val
+	label.text = title if not title.is_empty() else DEFAULT_TITLE
 	line_edit.text = str(default) if default > 0 else ""
-	
+
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	show()
 	line_edit.grab_focus()

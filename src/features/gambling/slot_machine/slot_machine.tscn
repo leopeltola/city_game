@@ -118,16 +118,19 @@ libraries/ = SubResource("AnimationLibrary_ibs5n")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.98531866, -0.17072544, 0, 0.17072544, 0.98531866, -0.25005674, 0.80394393, 0.52657217)
 toggleable = true
+prompt = "Lock"
 
 [node name="InteractableButton2" parent="." unique_id=1381886434 instance=ExtResource("4_pbkt6")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.98531866, -0.17072544, 0, 0.17072544, 0.98531866, -0.012374714, 0.80394393, 0.52657217)
 toggleable = true
+prompt = "Lock"
 
 [node name="InteractableButton3" parent="." unique_id=1435791110 instance=ExtResource("4_pbkt6")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.98531866, -0.17072544, 0, 0.17072544, 0.98531866, 0.23932417, 0.80394393, 0.52657217)
 toggleable = true
+prompt = "Lock"
 
 [node name="CashInteractable" type="Area3D" parent="." unique_id=1470966492]
 unique_name_in_owner = true

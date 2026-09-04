@@ -7,6 +7,9 @@ signal inventory_updated()
 ## Maximum amount of cash a single cash item can hold.
 const CASH_STACK_LIMIT := 1000
 
+## How long the drop item action must be held before the money-split prompt opens.
+const DROP_LONG_PRESS_TIME := 0.5
+
 @export var player: Player = null
 @export var slot_count := 4
 
@@ -29,12 +32,24 @@ const CASH_STACK_LIMIT := 1000
 @export var _equip_slot: Node3D = null
 
 var _equipped_node: ItemEquip = null
+var _drop_press_timer: SceneTreeTimer = null
 
 
 func _ready() -> void:
 	if item_slots.is_empty():
 		item_slots.resize(slot_count)
 		item_slots.fill(-1)
+
+
+func _input(event: InputEvent) -> void:
+	if not is_multiplayer_authority():
+		return
+	# While the money prompt is open, swallow the drop key — including the
+	# auto-repeat of the still-held key — so it can't type into the LineEdit
+	# and wipe the default value. Runs before GUI input, so the LineEdit never
+	# sees it.
+	if HUD.instance and HUD.instance.is_money_prompt_open() and event.is_action_pressed("drop_item", true):
+		get_viewport().set_input_as_handled()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -47,7 +62,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		active_index = wrapi(active_index + 1, 0, slot_count)
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("drop_item"):
-		drop_active_item()
+		if _drop_press_timer == null:
+			_drop_press_timer = get_tree().create_timer(DROP_LONG_PRESS_TIME)
+			_drop_press_timer.timeout.connect(_on_drop_press_held)
+		get_viewport().set_input_as_handled()
+	elif event.is_action_released("drop_item"):
+		if _drop_press_timer:
+			_drop_press_timer.timeout.disconnect(_on_drop_press_held)
+			_drop_press_timer = null
+			drop_active_item()
 		get_viewport().set_input_as_handled()
 
 
@@ -159,6 +182,66 @@ func drop_active_item() -> void:
 		return
 
 	ItemManager.create_world_item_for(item_id, _drop_position())
+
+
+## Fired when the drop action has been held long enough. For cash, opens a prompt
+## asking how much to drop instead of dropping the whole stack.
+func _on_drop_press_held() -> void:
+	var item_id := get_item_at_idx(active_index)
+	if item_id == -1:
+		return
+	if ItemManager.get_item_data(item_id, "type") != "cash":
+		return
+
+	_drop_press_timer = null
+	_prompt_drop_cash(item_id)
+
+
+## Opens the money prompt to ask how much cash to drop from the held stack.
+func _prompt_drop_cash(item_id: int) -> void:
+	if not HUD.instance:
+		return
+	var total: int = ItemManager.get_item_data(item_id, "amount", 0)
+	if total <= 0:
+		return
+
+	var result := await HUD.instance.prompt_money(total, total, "Drop money")
+	if result.cancelled or result.amount <= 0:
+		return
+	if get_item_at_idx(active_index) != item_id:
+		return
+
+	drop_cash_amount(item_id, mini(result.amount, total))
+
+
+## Drops a specific [amount] from the cash stack held in [item_id]. If [amount]
+## covers the whole stack, the entire stack is dropped as-is.
+func drop_cash_amount(item_id: int, amount: int) -> void:
+	var total: int = ItemManager.get_item_data(item_id, "amount", 0)
+	if total <= 0 or amount <= 0:
+		return
+	if amount >= total:
+		drop_active_item()
+		return
+
+	if Net.is_server:
+		_server_split_cash_drop(item_id, amount, _drop_position())
+	elif Net.is_client:
+		_server_split_cash_drop.rpc_id(1, item_id, amount, _drop_position())
+
+
+## Splits a cash stack server-side: shrinks the held stack to the remainder and
+## spawns the dropped portion as a new cash world item at [position].
+@rpc("any_peer", "call_remote", "reliable")
+func _server_split_cash_drop(item_id: int, amount: int, position: Vector3) -> void:
+	assert(Net.is_server)
+	var total: int = ItemManager.get_item_data(item_id, "amount", 0)
+	if total <= 0 or amount <= 0 or amount >= total:
+		return
+
+	ItemManager.set_and_sync_item_data(item_id, "amount", total - amount)
+	var dropped_id: int = ItemManager.create_item_of_type("cash", { "amount": amount })
+	ItemManager.create_world_item_for(dropped_id, position)
 
 
 ## Returns a world position about 1.5m in front of the player.
