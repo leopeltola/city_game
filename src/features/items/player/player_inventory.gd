@@ -35,6 +35,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("scroll_up"):
 		active_index = wrapi(active_index + 1, 0, slot_count)
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("drop_item"):
+		drop_active_item()
+		get_viewport().set_input_as_handled()
 
 
 ## Return's the currently equipped item's idle anim override's name. Empty string == none
@@ -82,6 +85,21 @@ func pop_active_item() -> int:
 
 	_set_item(active_index, -1)
 	return item_id
+
+
+## Drops the item currently held in the active slot as a world item in front of the player.
+func drop_active_item() -> void:
+	var item_id := pop_active_item()
+	if item_id == -1:
+		return
+
+	var camera := player.sight_pivot.get_node_or_null("Camera3D") as Camera3D
+	var forward := -camera.global_transform.basis.z if camera else -player.global_transform.basis.z
+	forward.y = 0.0
+	forward = forward.normalized()
+
+	var drop_pos := player.global_position + forward * 1.5 + Vector3.UP * 0.5
+	ItemManager.create_world_item_for(item_id, drop_pos)
 
 
 func _set_item(slot_idx: int, item_id: int) -> void:
