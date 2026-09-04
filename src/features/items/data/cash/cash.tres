@@ -8,4 +8,7 @@ name = "cash"
 display_name = "Cash"
 world_item_path = "uid://dh7u0ookonvr0"
 equip_item_path = "uid://q70jeqbi543h"
+instance_data = Dictionary[StringName, Variant]({
+&"amount": 100
+})
 metadata/_custom_type_script = "uid://1v4ix87tn325"

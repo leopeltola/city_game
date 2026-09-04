@@ -21,22 +21,23 @@ var _id_count := 0
 var _items: Dictionary[int, Dictionary] = { }
 
 
-## Creates an item of given type in the ItemManager and propagates it to everyone
+## Creates an item of given type in the ItemManager and propagates it to everyone.
+## [instance_data] is merged over the type's schema defaults for this specific item.
 ## Returns the just-made item's ID when called on server. Returns nothing on clients.
-func create_item_of_type(type_name: StringName) -> Variant:
+func create_item_of_type(type_name: StringName, instance_data: Dictionary = {}) -> Variant:
 	if Net.is_server:
-		return _rpc_request_create_item(type_name)
+		return _rpc_request_create_item(type_name, instance_data)
 	elif Net.is_client:
-		_rpc_request_create_item.rpc_id(1, type_name)
+		_rpc_request_create_item.rpc_id(1, type_name, instance_data)
 	return null
 
 
 @rpc("any_peer", "call_remote", "reliable")
-func _rpc_request_create_item(type_name: StringName) -> int:
+func _rpc_request_create_item(type_name: StringName, instance_data: Dictionary = {}) -> int:
 	assert(Net.is_server)
 	var new_id := generate_id()
 	var type := get_item_type(type_name)
-	var data := type.get_data_dict(new_id)
+	var data := type.get_data_dict(new_id, instance_data)
 	_rpc_create_item.rpc(data)
 	return new_id
 
@@ -66,18 +67,62 @@ func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vecto
 	ItemMultiplayerSpawner.instance.spawn(data)
 
 
-## Returns an empty dictionary if item was not found
-func get_item_data_dict_by_id(item_id: int) -> Dictionary:
-	return _items.get(item_id, { })
+## Destroys the given item's data. Call from client or server; the server applies it to all peers.
+func destroy_item(item_id: int) -> void:
+	if Net.is_server:
+		_rpc_request_destroy_item(item_id)
+	elif Net.is_client:
+		_rpc_request_destroy_item.rpc_id(1, item_id)
 
 
-## Called by client or server to update the given item's value by key. Atomic operation. 
-func set_and_sync_item_data(item_id: int, key: StringName, value: Variant) -> void:
-	_rpc_modify_item_data.rpc(item_id, key, value)
+@rpc("any_peer", "call_remote", "reliable")
+func _rpc_request_destroy_item(item_id: int) -> void:
+	assert(Net.is_server)
+	if not _items.has(item_id):
+		return
+	_rpc_apply_destroy_item.rpc(item_id)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func _rpc_modify_item_data(item_id: int, key: StringName, value: Variant) -> void:
+func _rpc_apply_destroy_item(item_id: int) -> void:
+	_items.erase(item_id)
+
+
+## Returns the live replicated data dictionary for the given item.
+## READ-ONLY: do not mutate, or you will desync peers. Use get_item_data() for safe reads.
+## Returns an empty dictionary if the item was not found.
+func get_item_data_dict_raw(item_id: int) -> Dictionary:
+	return _items.get(item_id, { })
+
+
+## Safe single-key read of an item's instance data. Returns [default] if the item or key is missing.
+func get_item_data(item_id: int, key: StringName, default: Variant = null) -> Variant:
+	return get_item_data_dict_raw(item_id).get(key, default)
+
+
+## Called by client or server to request an update of the given item's value by key.
+## Applied only on the server (authority) after schema validation, then synced to all peers.
+func set_and_sync_item_data(item_id: int, key: StringName, value: Variant) -> void:
+	if Net.is_server:
+		_rpc_request_modify_item_data(item_id, key, value)
+	elif Net.is_client:
+		_rpc_request_modify_item_data.rpc_id(1, item_id, key, value)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _rpc_request_modify_item_data(item_id: int, key: StringName, value: Variant) -> void:
+	assert(Net.is_server)
+	var item_data: Dictionary = _items.get(item_id)
+	if not item_data:
+		return
+	var type: ItemType = get_item_type(item_data["type"])
+	if not type.validate_instance_data_key(key, value):
+		return
+	_rpc_apply_item_data.rpc(item_id, key, value)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_apply_item_data(item_id: int, key: StringName, value: Variant) -> void:
 	var item_data: Dictionary = _items.get(item_id)
 	if not item_data:
 		return

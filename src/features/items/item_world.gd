@@ -8,7 +8,7 @@ extends RigidBody3D
 var item_id: int = -1 # -1 is invalid
 var data: Dictionary:
 	get:
-		return ItemManager.get_item_data_dict_by_id(item_id)
+		return ItemManager.get_item_data_dict_raw(item_id)
 
 
 func _ready() -> void:

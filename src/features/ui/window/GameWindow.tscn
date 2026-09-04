@@ -63,6 +63,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="TextureButton" type="TextureButton" parent="Control" unique_id=104498132]
+visible = false
 modulate = Color(0.34803188, 0.3480317, 0.34803176, 1)
 layout_mode = 1
 anchors_preset = 1

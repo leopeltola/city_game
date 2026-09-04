@@ -100,10 +100,10 @@ func _equip_item(slot_idx: int) -> void:
 	if item_id == -1:
 		return
 
-	var data := ItemManager.get_item_data_dict_by_id(item_id)
-	var type: ItemType = ItemManager.get_item_type(data["type"])
+	var type: ItemType = ItemManager.get_item_type(ItemManager.get_item_data(item_id, "type"))
 	var equipped_item: ItemEquip = type.get_equip_item_scene().instantiate()
 
+	equipped_item.item_id = item_id
 	equipped_item.interact_ray = %InteractRay
 	equipped_item.player = player
 	_equipped_node = equipped_item

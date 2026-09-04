@@ -9,11 +9,13 @@ const InteractRay := preload("res://src/features/interaction/interact_ray.gd")
 @export var item_type: ItemType = null
 @export var idle_animation_override := ""
 
+var item_id: int = -1 # -1 is invalid
 var interact_ray: InteractRay = null
 var player: Player = null
 
 
 func _ready() -> void:
 	assert(item_type)
+	assert(item_id != -1)
 	assert(interact_ray)
 	assert(player)

@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://d03w011lo6pwn"]
+
+[ext_resource type="PackedScene" uid="uid://bdc0jn8yomhhk" path="res://src/features/ui/window/GameWindow.tscn" id="1_2qain"]
+[ext_resource type="Script" uid="uid://biiee3b27ks1g" path="res://src/features/hud/prompts/money_prompt.gd" id="1_qjap5"]
+
+[node name="MoneyPrompt" type="Control" unique_id=971607912]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qjap5")
+
+[node name="GameWindow" parent="." unique_id=476716297 instance=ExtResource("1_2qain")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.5
+offset_top = -52.0
+offset_right = 69.5
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameWindow" unique_id=1667776054]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameWindow/VBoxContainer" unique_id=1328531620]
+layout_mode = 2
+text = "Put in money"
+
+[node name="LineEdit" type="LineEdit" parent="GameWindow/VBoxContainer" unique_id=1972237116]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+text = "100"
+alignment = 1
+
+[node name="OkButton" type="Button" parent="GameWindow/VBoxContainer" unique_id=752605847]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ok"
+
+[node name="CancelButton" type="Button" parent="GameWindow/VBoxContainer" unique_id=1474869235]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ok"

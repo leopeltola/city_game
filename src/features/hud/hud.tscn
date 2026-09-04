@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c18owk4geliw8"]
+
+[ext_resource type="Script" uid="uid://ba6orgofkp3er" path="res://src/features/hud/hud.gd" id="1_8n2dx"]
+[ext_resource type="PackedScene" uid="uid://d03w011lo6pwn" path="res://src/features/hud/prompts/money_prompt.tscn" id="2_8n2dx"]
+
+[node name="HUD" type="Control" unique_id=440749633]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_8n2dx")
+
+[node name="MoneyPrompt" parent="." unique_id=971607912 instance=ExtResource("2_8n2dx")]
+unique_name_in_owner = true
+layout_mode = 1

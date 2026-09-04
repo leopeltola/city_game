@@ -12,19 +12,31 @@ static var _scene_cache: Dictionary[String, PackedScene] = { }
 @export var instance_data: Dictionary[StringName, Variant] = { }
 
 
-## Used by ItemManager to get the data dict
-func get_data_dict(id: int = -1) -> Dictionary:
+## Used by ItemManager to get the data dict.
+## [instance_overrides] are merged over the schema defaults; invalid keys are skipped.
+func get_data_dict(id: int = -1, instance_overrides: Dictionary = {}) -> Dictionary:
 	var ret: Dictionary = {
 		"type": name,
 		"id": id,
 		"position": Vector3.ZERO,
 	}
-	var inst_data := _get_instance_data_dict()
+	var inst_data := _get_instance_data_dict().duplicate()
+	for key: Variant in instance_overrides:
+		if validate_instance_data_key(key, instance_overrides[key]):
+			inst_data[StringName(key)] = instance_overrides[key]
 	return ret.merged(inst_data)
 
 
 func _get_instance_data_dict() -> Dictionary:
 	return instance_data
+
+
+## Returns true if [key] is an allowed instance-data key and [value] matches its schema type.
+func validate_instance_data_key(key: Variant, value: Variant) -> bool:
+	var key_name := StringName(key)
+	if not instance_data.has(key_name):
+		return false
+	return typeof(value) == typeof(instance_data[key_name])
 
 
 func get_world_item_scene() -> PackedScene:

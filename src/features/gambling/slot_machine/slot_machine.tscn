@@ -76,19 +76,19 @@ sfx_base_jingle = ExtResource("7_shpxc")
 
 [node name="slot_machine" parent="." unique_id=78761518 instance=ExtResource("1_kcej3")]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="slot_machine/Machine" parent_id_path=PackedInt32Array(78761518, 1176115608) index="0" unique_id=83667267]
+[node name="StaticBody3D" type="StaticBody3D" parent="slot_machine/Machine" parent_id_path=PackedInt32Array(78761518, 395707476) index="0" unique_id=83667267]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="slot_machine/Machine/StaticBody3D" unique_id=1018721108]
 visible = false
 shape = SubResource("ConcavePolygonShape3D_bl4dq")
 
-[node name="Button1" parent="slot_machine" index="5" unique_id=687063578]
+[node name="Button1" parent="slot_machine" index="5" unique_id=582023121]
 visible = false
 
-[node name="Button2" parent="slot_machine" index="6" unique_id=1196393996]
+[node name="Button2" parent="slot_machine" index="6" unique_id=775793640]
 visible = false
 
-[node name="Button3" parent="slot_machine" index="7" unique_id=661301276]
+[node name="Button3" parent="slot_machine" index="7" unique_id=81126758]
 visible = false
 
 [node name="LevelInteract" type="StaticBody3D" parent="." unique_id=2002168919]

@@ -53,9 +53,9 @@ func spawn_cash(amount: int) -> void:
 
 
 @rpc("any_peer", "reliable", "call_remote")
-func _rpc_spawn_cash(_amount: int) -> void:
+func _rpc_spawn_cash(amount: int) -> void:
 	assert(Net.is_server)
-	var id: int = ItemManager.create_item_of_type("cash")
+	var id: int = ItemManager.create_item_of_type("cash", { "amount": amount })
 	ItemManager.create_world_item_for(id, %CashSpawnPos.global_position, %CashSpawnPos.global_rotation)
 
 
@@ -195,8 +195,10 @@ func _on_cash_input_interacted(player_id: int) -> void:
 	var item := player.get_equipped_item()
 	if not item or item.item_type.name != "cash":
 		return
-	var _item_id := player.inventory.pop_active_item()
-	_rpc_add_balance.rpc(100)
+	var item_id := player.inventory.pop_active_item()
+	var amount: int = ItemManager.get_item_data(item_id, "amount", 0)
+	ItemManager.destroy_item(item_id)
+	_rpc_add_balance.rpc(amount)
 
 
 @rpc("any_peer", "reliable", "call_local")
