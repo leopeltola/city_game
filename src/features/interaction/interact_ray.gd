@@ -37,6 +37,8 @@ func hide_label() -> void:
 	HUD.instance.hide_interact_label()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not player.is_local:
+		return
 	if event.is_action_pressed("e") and is_colliding():
 		var col = get_collider()
 		if not col is Interactable:
