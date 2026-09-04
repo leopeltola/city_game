@@ -1,0 +1,1 @@
+magick .\blank_5_euro_bill.jpg .\blank_10_euro_bill.jpg .\blank_20_euro_bill.jpg .\blank_50_euro_bill.jpg .\blank_100_euro_bill.jpg .\blank_200_euro_bill.jpg .\blank_500_euro_bill.jpg -append bill_array.jpg

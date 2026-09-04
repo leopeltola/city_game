@@ -1,29 +1,30 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://dxw1ln475muce"]
 
-[ext_resource type="Texture2D" uid="uid://uyh5mcngeg5q" path="res://assets/textures/bill/blank_euro_bill.jpg" id="1_ykqcd"]
+[ext_resource type="CompressedTexture2DArray" uid="uid://2tvwomlni7aj" path="res://assets/textures/bill/bill_array.jpg" id="1_ykqcd"]
 [ext_resource type="Texture2D" uid="uid://co0ubes2jkrbt" path="res://assets/textures/bill/number_atlas_packed.png" id="2_sd3dj"]
 
 [sub_resource type="Shader" id="Shader_gnqur"]
 code = "shader_type spatial;
 
-uniform sampler2D base_texture : source_color, filter_linear_mipmap;
+uniform sampler2DArray base_textures : source_color, filter_linear_mipmap;
 uniform sampler2D font_atlas : source_color, filter_linear_mipmap;
 
 uniform vec2 text_position = vec2(0.1, 0.1);
 uniform float char_width = 0.05;
-uniform float letter_gap = 0.1; 
+uniform float letter_gap = 0.1;
 
-uniform float texture_aspect = 2.0; // 806.0 / 403.0
-uniform vec2 atlas_size = vec2(708.0, 128.0); // Adjust if atlas dimensions change
+uniform float texture_aspect = 2.0;
+uniform vec2 atlas_size = vec2(708.0, 128.0);
 
 instance uniform int bill_amount = 100;
+instance uniform int texture_index : hint_range(0, 4) = 0;
+instance uniform vec4 text_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 
 void fragment() {
-	vec4 albedo = texture(base_texture, UV);
+	vec4 albedo = texture(base_textures, vec3(UV, float(texture_index)));
 	
 	int num_digits = bill_amount >= 1000 ? 4 : (bill_amount >= 100 ? 3 : (bill_amount >= 10 ? 2 : 1));
 	
-	// Calculate the accurate height to maintain the character's pixel aspect ratio
 	float char_pixel_width = atlas_size.x / 10.0;
 	float atlas_char_aspect = char_pixel_width / atlas_size.y;
 	float char_height = char_width * texture_aspect / atlas_char_aspect;
@@ -40,18 +41,18 @@ void fragment() {
 		
 		if (char_local_x <= char_width) {
 			int divisor = 1;
-			for(int i = 0; i < (num_digits - 1 - digit_idx); i++) {
+			for (int i = 0; i < (num_digits - 1 - digit_idx); i++) {
 				divisor *= 10;
 			}
 			int digit = (bill_amount / divisor) % 10;
 			
 			vec2 atlas_uv = vec2(
-				(char_local_x / char_width + float(digit)) * 0.1, 
+				(char_local_x / char_width + float(digit)) * 0.1,
 				(UV.y - text_position.y) / char_height
 			);
 			
-			vec4 text_color = texture(font_atlas, atlas_uv);
-			albedo.rgb = mix(albedo.rgb, text_color.rgb, text_color.a);
+			float mask = texture(font_atlas, atlas_uv).a;
+			albedo.rgb = mix(albedo.rgb, text_color.rgb, mask * text_color.a);
 		}
 	}
 	
@@ -61,7 +62,7 @@ void fragment() {
 [resource]
 render_priority = 0
 shader = SubResource("Shader_gnqur")
-shader_parameter/base_texture = ExtResource("1_ykqcd")
+shader_parameter/base_textures = ExtResource("1_ykqcd")
 shader_parameter/font_atlas = ExtResource("2_sd3dj")
 shader_parameter/text_position = Vector2(0.202, 0.022)
 shader_parameter/char_width = 0.112
