@@ -53,8 +53,17 @@ func get_item_at_idx(slot_idx: int) -> int:
 
 
 ## Attempts to store an item. Prioritizes the active slot, then the first free slot.
+## Cash is merged into an existing cash item in the inventory instead of using a new slot.
 ## Returns true if the item was added.
 func try_add_item_to_inv(item_id: int) -> bool:
+	if ItemManager.get_item_data(item_id, "type") == "cash":
+		var held_cash_id := find_item_id_of_type("cash")
+		if held_cash_id != -1:
+			var total: int = ItemManager.get_item_data(held_cash_id, "amount", 0) + ItemManager.get_item_data(item_id, "amount", 0)
+			ItemManager.set_and_sync_item_data(held_cash_id, "amount", total)
+			ItemManager.destroy_item(item_id)
+			return true
+
 	if not has_space():
 		return false
 
@@ -75,6 +84,15 @@ func try_add_item_to_inv(item_id: int) -> bool:
 ## Returns true if there is at least one free slot.
 func has_space() -> bool:
 	return item_slots.has(-1)
+
+
+## Returns the item ID of the first item of the given type in the inventory, or -1 if none.
+func find_item_id_of_type(item_type_name: StringName) -> int:
+	for i in item_slots.size():
+		var item_id := item_slots[i]
+		if item_id != -1 and ItemManager.get_item_data(item_id, "type") == item_type_name:
+			return item_id
+	return -1
 
 
 ## Removes and returns the item ID currently held in the active slot, or -1 if empty.
