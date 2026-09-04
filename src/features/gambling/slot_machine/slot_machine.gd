@@ -27,7 +27,6 @@ const BILL_SPAWN_DELAY: float = 0.5
 ]
 @onready var cash_interact: Interactable = %CashInteractable
 @onready var balance_label: Label3D = %BalanceLabel3D
-@onready var audio_player: AudioStreamPlayer3D = AudioStreamPlayer3D.new()
 
 var balance := 0:
 	set(val):
@@ -42,7 +41,6 @@ var current_symbols: Array[int] = [0, 0, 0]
 
 
 func _ready() -> void:
-	add_child(audio_player)
 	balance = 0
 	$LevelInteract.interacted.connect(_lever_pulled)
 	cash_interact.interacted.connect(_on_cash_input_interacted)
@@ -79,8 +77,7 @@ func _rpc_play_cash_spawn_sfx() -> void:
 
 func _play_sfx(stream: AudioStream) -> void:
 	if stream:
-		audio_player.stream = stream
-		audio_player.play()
+		Audio.play_sfx_3d(stream, global_position)
 
 
 func _set_buttons_active(active: bool) -> void:
