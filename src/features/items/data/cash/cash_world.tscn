@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_rbl3i"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="2_ijgx7"]
-[ext_resource type="PackedScene" uid="uid://c81ekrj2oseis" path="res://src/features/player/assets/models/simple/test/cash.glb" id="3_xam1e"]
+[ext_resource type="PackedScene" uid="uid://de2xtq6nj4ktw" path="res://src/features/items/data/cash/cash.glb" id="3_xam1e"]
 [ext_resource type="Script" uid="uid://d0vpw5o6sm0q8" path="res://src/features/interaction/interactable.gd" id="4_6a2bw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ijgx7"]

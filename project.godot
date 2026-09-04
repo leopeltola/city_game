@@ -13,7 +13,7 @@ config_version=5
 config/name="City Game"
 config/tags=PackedStringArray("online")
 run/main_scene="uid://cb8vft8i7s12g"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 run/max_fps=60
 config/icon="res://icon.svg"
 
