@@ -54,7 +54,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var effective_sensitivity := mouse_sensitivity * look_drag_multiplier
 		rotate_y(-event.relative.x * effective_sensitivity)
 		sight_pivot.rotate_x(-event.relative.y * effective_sensitivity)
-		sight_pivot.rotation.x = clamp(sight_pivot.rotation.x, deg_to_rad(-89), deg_to_rad(89))
+		sight_pivot.rotation.x = clamp(sight_pivot.rotation.x, deg_to_rad(-85), deg_to_rad(85))
 	if event.is_action_pressed("e"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif event.is_action_released("e"):
