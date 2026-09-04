@@ -135,7 +135,7 @@ transform = Transform3D(1.0000002, 0, 0, 0, -4.37114e-08, -1.0000002, 0, 1.00000
 remote_path = NodePath("../../../../../../SightPivot/Camera3D/RightItemSlot")
 
 [node name="LookAtModifier3D" type="LookAtModifier3D" parent="Visual/guy/Armature/Skeleton3D" index="5" unique_id=1133754285]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.007923319, 1.0372273, 1.062357)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.00792313, 1.0593438, 3.2247233)
 target_node = NodePath(".")
 bone_name = "Head_2"
 bone = 1
@@ -174,7 +174,7 @@ update_position = false
 update_scale = false
 
 [node name="LookAtTarget" type="RemoteTransform3D" parent="SightPivot/Camera3D" unique_id=306580535]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25693834, -0.99865776)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2348218, -3.161024)
 remote_path = NodePath("../../../Visual/guy/Armature/Skeleton3D/LookAtModifier3D")
 
 [node name="HandsLookAtTarget" type="Node3D" parent="SightPivot" unique_id=1828768383]
