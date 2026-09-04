@@ -1,0 +1,20 @@
+[gd_resource type="ORMMaterial3D" format=3 uid="uid://gkhvo6vyqq1d"]
+
+[ext_resource type="Texture2D" uid="uid://emeacest142x" path="res://assets/textures/glass_pane_wall/glass_pane_wall_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://xb2mfr04dsr0" path="res://assets/textures/glass_pane_wall/glass_pane_wall_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://nhm2mqvmthyk" path="res://assets/textures/glass_pane_wall/glass_pane_wall_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://lv3ll648ghoy" path="res://assets/textures/glass_pane_wall/glass_pane_wall_heightmap.png" id="4"]
+
+[resource]
+albedo_texture = ExtResource("1")
+orm_texture = ExtResource("2")
+normal_enabled = true
+normal_texture = ExtResource("3")
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_deep_parallax = true
+heightmap_min_layers = 8
+heightmap_max_layers = 32
+heightmap_texture = ExtResource("4")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_triplanar = true

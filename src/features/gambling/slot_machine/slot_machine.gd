@@ -169,6 +169,7 @@ func _rpc_execute_spin(target_symbols: Array[int], holds: Array[bool], bet: int,
 
 	if spun_any:
 		_play_sfx(sfx_wheel_roll)
+		_play_sfx(sfx_base_jingle)
 		await tween.finished
 
 	if roll_stage == 0:
