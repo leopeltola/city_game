@@ -1,18 +1,18 @@
 [gd_scene format=3 uid="uid://q70jeqbi543h"]
 
-[ext_resource type="Script" uid="uid://cuouyiv4rgvf" path="res://src/features/items/item_equip.gd" id="1_ux7ua"]
+[ext_resource type="Script" uid="uid://bl1mx0el81877" path="res://src/features/items/data/cash/cash_equip.gd" id="1_csvf1"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="2_csvf1"]
 [ext_resource type="PackedScene" uid="uid://de2xtq6nj4ktw" path="res://src/features/items/data/cash/cash.glb" id="2_pbesq"]
 
 [node name="CashEquip" type="Node3D" unique_id=1920707759]
-script = ExtResource("1_ux7ua")
+script = ExtResource("1_csvf1")
 item_type = ExtResource("2_csvf1")
 idle_animation_override = "cash_idle"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
 [node name="cash" parent="." unique_id=589054387 instance=ExtResource("2_pbesq")]
 
-[node name="SpringBoneSimulator3D" type="SpringBoneSimulator3D" parent="cash/CashArmature/Skeleton3D" parent_id_path=PackedInt32Array(589054387, 907802806) index="1" unique_id=2140975982]
+[node name="SpringBoneSimulator3D" type="SpringBoneSimulator3D" parent="cash/CashArmature/Skeleton3D" parent_id_path=PackedInt32Array(589054387, 483927709) index="1" unique_id=2140975982]
 external_force = Vector3(0, -0.175, 0)
 setting_count = 1
 settings/0/root_bone_name = "Bone.003"

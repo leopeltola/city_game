@@ -15,10 +15,10 @@ func _ready() -> void:
 	assert(interaction_area)
 	assert(interaction_area.get_collision_layer_value(3) == true, "Interactable must have collision layer 3 enabled")
 	assert(type)
-	
+
 	interaction_area.prompt = "Pick up %s" % type.display_name
 	interaction_area.interacted.connect(_on_interacted)
-	
+
 	if debug_label:
 		debug_label.text = "ID %s" % item_id
 
@@ -30,7 +30,7 @@ func _on_interacted(_player_id: int) -> void:
 		return # no space in inv, abort
 	# destroy world item
 	_rpc_destroy_world_item.rpc_id(1)
-	
+
 
 @rpc("any_peer", "call_remote", "reliable")
 func _rpc_destroy_world_item() -> void:

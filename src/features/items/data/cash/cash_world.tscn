@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dh7u0ookonvr0"]
 
-[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_rbl3i"]
+[ext_resource type="Script" uid="uid://dr477323rukhc" path="res://src/features/items/data/cash/cash_world.gd" id="1_6a2bw"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="2_ijgx7"]
 [ext_resource type="PackedScene" uid="uid://de2xtq6nj4ktw" path="res://src/features/items/data/cash/cash.glb" id="3_xam1e"]
 [ext_resource type="Script" uid="uid://d0vpw5o6sm0q8" path="res://src/features/interaction/interactable.gd" id="4_6a2bw"]
@@ -17,7 +17,7 @@ size = Vector3(0.19481054, 0.33649218, 0.09025586)
 [node name="CashWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 12
 collision_mask = 9
-script = ExtResource("1_rbl3i")
+script = ExtResource("1_6a2bw")
 type = ExtResource("2_ijgx7")
 interaction_area = NodePath("Area3D")
 metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
@@ -45,3 +45,5 @@ prompt = "Cash"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1856834476]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0049140602, 0.051895525, 0.009034418)
 shape = SubResource("BoxShape3D_6a2bw")
+
+[editable path="cash"]

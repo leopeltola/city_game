@@ -43,8 +43,8 @@ _subresources={
 "materials": {
 "Bill Material": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/bill/cash_material.tres",
-"use_external/path": "uid://helgmfpw8d08"
+"use_external/fallback_path": "res://assets/textures/bill/smart_cash_material.tres",
+"use_external/path": "uid://dxw1ln475muce"
 }
 }
 }
