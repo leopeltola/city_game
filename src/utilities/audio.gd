@@ -1,6 +1,7 @@
 extends Node
 
 var sfx_players: Array[AudioStreamPlayer] = []
+var sfx_players_3d: Array[AudioStreamPlayer3D] = []
 # Music Management
 var music_players: Array[AudioStreamPlayer] = []
 var _active_music_idx: int = 0
@@ -18,6 +19,13 @@ func _ready() -> void:
 		pl.bus = "Sfx"
 		add_child(pl)
 		sfx_players.append(pl)
+
+	# 3D SFX Pool
+	for i in 15:
+		var pl := AudioStreamPlayer3D.new()
+		pl.bus = "Sfx"
+		add_child(pl)
+		sfx_players_3d.append(pl)
 
 	# Dual Music Players for crossfading
 	for i in 2:
@@ -37,6 +45,21 @@ func play_sfx(audio_stream: AudioStream, volume_db: float = 0) -> void:
 
 	pl.stream = audio_stream
 	pl.volume_db = volume_db
+	pl.play()
+
+
+## Play a positional 3D sound at [position] in the world.
+func play_sfx_3d(audio_stream: AudioStream, position: Vector3, volume_db: float = 0, max_distance: float = 4000.0) -> void:
+	if not audio_stream:
+		return
+	var pl := _get_empty_sfx_player_3d()
+	if not pl:
+		return
+
+	pl.stream = audio_stream
+	pl.volume_db = volume_db
+	pl.max_distance = max_distance
+	pl.global_position = position
 	pl.play()
 
 
@@ -91,6 +114,13 @@ func stop_music(fade_sec: float = 1.0) -> void:
 
 func _get_empty_sfx_player() -> AudioStreamPlayer:
 	for pl in sfx_players:
+		if not pl.playing:
+			return pl
+	return null
+
+
+func _get_empty_sfx_player_3d() -> AudioStreamPlayer3D:
+	for pl in sfx_players_3d:
 		if not pl.playing:
 			return pl
 	return null
