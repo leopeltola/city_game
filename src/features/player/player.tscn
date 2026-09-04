@@ -48,35 +48,35 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79228514, 0)
 shape = SubResource("CapsuleShape3D_xe5qy")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=277726324]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.14206594, 0.24361032)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.12, 0.24361032)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=150800085]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.261, 0.142, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.261, 0.12, 0)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=1757182926]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.142, -0.28)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.12, -0.28)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=2039826348]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.24402201, 0.142, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.24402201, 0.12, 0)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D6" type="CollisionShape3D" parent="." unique_id=2139958368]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.1868675, 0.142, 0.18149424)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.1868675, 0.12, 0.18149424)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D7" type="CollisionShape3D" parent="." unique_id=25186514]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.19634417, 0.142, -0.17150858)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.19634417, 0.12, -0.17150858)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D8" type="CollisionShape3D" parent="." unique_id=1225087382]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.1969342, 0.142, -0.17150858)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.1969342, 0.12, -0.17150858)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D9" type="CollisionShape3D" parent="." unique_id=1672584886]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.17561182, 0.142, 0.21466231)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.17561182, 0.12, 0.21466231)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="Visual" type="Node3D" parent="." unique_id=850032725]

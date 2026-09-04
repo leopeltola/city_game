@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://50os4om535ge"
+uid="uid://cmh1ulyic8m3m"
 path="res://.godot/imported/bat.glb-80ca9c8bb02e227f96a11d9ae79180f8.scn"
 
 [deps]
@@ -37,6 +37,14 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
+_subresources={
+"materials": {
+"Guy": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://src/features/player/assets/models/simple/gradient_mat.tres",
+"use_external/path": "uid://c3p84usna18pn"
+}
+}
+}
 gltf/naming_version=2
 gltf/embedded_image_handling=1

@@ -1,7 +1,7 @@
 extends Node
 
 const _item_types: Dictionary[StringName, ItemType] = {
-	"crowbar": preload("res://src/features/items/data/crowbar/crowbar.tres"),
+	"bat": preload("res://src/features/items/data/bat/bat.tres"),
 	"cash": preload("res://src/features/items/data/cash/cash.tres"),
 }
 

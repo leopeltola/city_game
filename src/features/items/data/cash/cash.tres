@@ -6,6 +6,6 @@
 script = ExtResource("1_h8nvy")
 name = "cash"
 display_name = "Cash"
-world_item_path = "res://src/features/items/data/cash/cash_world.tscn"
-equip_item_path = "res://src/features/items/data/cash/cash_equip.tscn"
+world_item_path = "uid://dh7u0ookonvr0"
+equip_item_path = "uid://q70jeqbi543h"
 metadata/_custom_type_script = "uid://1v4ix87tn325"

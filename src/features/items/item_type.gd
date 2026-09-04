@@ -7,8 +7,8 @@ static var _scene_cache: Dictionary[String, PackedScene] = { }
 @export var display_name: String = "":
 	get:
 		return name if display_name.is_empty() else display_name
-@export var world_item_path: String = ""
-@export var equip_item_path: String = ""
+@export_file("*.tscn") var world_item_path: String = ""
+@export_file("*.tscn") var equip_item_path: String = ""
 @export var instance_data: Dictionary[StringName, Variant] = { }
 
 

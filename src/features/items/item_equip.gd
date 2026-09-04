@@ -6,12 +6,9 @@ extends Node3D
 
 const InteractRay := preload("res://src/features/interaction/interact_ray.gd")
 
-@export_file() var type_path: String = ""
+@export var item_type: ItemType = null
 @export var idle_animation_override := ""
 
-var item_type: ItemType = null:
-	get:
-		return load(type_path)
 var interact_ray: InteractRay = null
 var player: Player = null
 

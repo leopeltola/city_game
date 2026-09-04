@@ -1,7 +1,55 @@
-[gd_scene format=3 ]
+[gd_scene format=3 uid="uid://b1m0cxbm5lkgg"]
 
-[ext_resource type="Script" path="res://src/features/items/item_equip.gd" id="1_ux7ua"]
+[ext_resource type="Script" uid="uid://b0ecb7gqlqwrv" path="res://src/features/items/data/bat/bat_equip.gd" id="1_rdh1i"]
+[ext_resource type="AudioStream" uid="uid://bib4wg7ivmx25" path="res://assets/sfx/punch_1.ogg" id="2_j2mp7"]
+[ext_resource type="AudioStream" uid="uid://bmghj5gdws2pa" path="res://assets/sfx/wood_hit_1.ogg" id="3_yhffj"]
+[ext_resource type="AudioStream" uid="uid://dmlexjbw1cb4t" path="res://assets/sfx/wood_hit_2.ogg" id="4_burvo"]
+[ext_resource type="AudioStream" uid="uid://bq4byeifb23rx" path="res://assets/sfx/whoosh_1.ogg" id="5_burvo"]
+[ext_resource type="AudioStream" uid="uid://cqcoy7720741g" path="res://assets/sfx/whoosh_2.ogg" id="6_v317b"]
+[ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="7_v317b"]
+[ext_resource type="PackedScene" uid="uid://cmh1ulyic8m3m" path="res://src/features/items/data/bat/bat.glb" id="8_22mll"]
 
-[node name="TemplateEquip" type="Node3D" unique_id=1920707759]
-script = ExtResource("1_ux7ua")
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j2mp7"]
+random_pitch = 1.1805152
+streams_count = 1
+stream_0/stream = ExtResource("2_j2mp7")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_042oc"]
+random_pitch = 1.1805152
+streams_count = 2
+stream_0/stream = ExtResource("3_yhffj")
+stream_1/stream = ExtResource("4_burvo")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_mcev4"]
+random_pitch = 1.1805152
+streams_count = 2
+stream_0/stream = ExtResource("5_burvo")
+stream_1/stream = ExtResource("6_v317b")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kpkvl"]
+height = 0.92
+radius = 0.067
+
+[node name="BatEquip" type="Node3D" unique_id=1920707759]
+script = ExtResource("1_rdh1i")
+hit_sound = SubResource("AudioStreamRandomizer_j2mp7")
+block_sound = SubResource("AudioStreamRandomizer_042oc")
+swoosh_sound = SubResource("AudioStreamRandomizer_mcev4")
+item_type = ExtResource("7_v317b")
+idle_animation_override = "bat_hold"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1027162091]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="bat" parent="Visual" unique_id=483928586 instance=ExtResource("8_22mll")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025257472, 0)
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=1337978351]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64925706, 0)
+shape = SubResource("CylinderShape3D_kpkvl")
+target_position = Vector3(0, 0, 0)
+collision_mask = 16
+collide_with_areas = true
+collide_with_bodies = false

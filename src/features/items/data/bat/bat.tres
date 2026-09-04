@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="ItemType" format=3 ]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://bhkl0q4xpy325"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1_h8nvy"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_3v51p"]
 
 [resource]
-script = ExtResource("1_h8nvy")
+script = ExtResource("1_3v51p")
 name = "bat"
-world_item_path = "res://src/features/items/data/bat/bat_world.tscn"
-equip_item_path = "res://src/features/items/data/bat/bat_equip.tscn"
+display_name = "Bat"
+world_item_path = "uid://bdx5ismm5bh76"
+equip_item_path = "uid://b1m0cxbm5lkgg"
 metadata/_custom_type_script = "uid://1v4ix87tn325"

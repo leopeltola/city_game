@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://rmxhvlbn4xgi" path="res://src/features/items/item_spawner.gd" id="3_hxguo"]
 [ext_resource type="Script" uid="uid://bwutnfqbytmqn" path="res://src/features/items/item_multiplayer_spawner.gd" id="4_anh6s"]
 [ext_resource type="PackedScene" uid="uid://bdc0jn8yomhhk" path="res://src/features/ui/window/GameWindow.tscn" id="5_5ds0p"]
-[ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/crowbar/crowbar.tres" id="5_udf63"]
+[ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="5_udf63"]
 [ext_resource type="FontVariation" uid="uid://crg8pwcywimra" path="res://src/features/ui/theme/font_title.tres" id="6_3n7uv"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="6_rur3b"]
 [ext_resource type="Texture2D" uid="uid://diluu1udom0vt" path="res://assets/textures/plaster_wall_04_2k/plaster_wall_02_basecolor_2k.png" id="7_4l076"]
@@ -28,7 +28,6 @@ background_mode = 2
 sky = SubResource("Sky_rur3b")
 tonemap_mode = 2
 ssao_enabled = true
-ssil_enabled = true
 glow_enabled = true
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0025
