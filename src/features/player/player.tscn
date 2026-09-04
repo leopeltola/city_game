@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://ybms3qt45poi" path="res://src/features/player/player.gd" id="1_3v8pm"]
 [ext_resource type="PackedScene" uid="uid://y457mwoct4um" path="res://src/features/interaction/interact_ray.tscn" id="4_p2vpv"]
-[ext_resource type="Texture2D" uid="uid://b22kwnd7bdwn" path="res://src/features/player/assets/sprites/png/light/crosshair-000.png" id="5_rybn4"]
 [ext_resource type="PackedScene" uid="uid://dvu2t6cq0gt6r" path="res://src/features/items/player/item_inventory_ui.tscn" id="5_ti7vc"]
 [ext_resource type="Script" uid="uid://byjrh17ptlrd" path="res://src/features/items/player/player_inventory.gd" id="6_rybn4"]
 [ext_resource type="PackedScene" uid="uid://baoioe1plauut" path="res://src/features/player/assets/models/simple/guy.glb" id="7_1mqja"]
@@ -181,18 +180,6 @@ remote_path = NodePath("../../../Visual/guy/Armature/Skeleton3D/LookAtModifier3D
 transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, -1.1920929e-07, -0.31295907, 0.05509726)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=417817184]
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer" unique_id=639642306]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/CenterContainer" unique_id=1092833197]
-layout_mode = 2
-texture = ExtResource("5_rybn4")
 
 [node name="ItemInventoryUI" parent="CanvasLayer" unique_id=757571756 node_paths=PackedStringArray("inv") instance=ExtResource("5_ti7vc")]
 unique_name_in_owner = true

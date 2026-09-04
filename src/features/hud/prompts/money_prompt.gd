@@ -13,6 +13,7 @@ class Result:
 signal _resolved(result: Result)
 
 var _regex := RegEx.create_from_string(r"\D")
+var _max_amount: int = 0
 
 
 func _ready() -> void:
@@ -31,25 +32,36 @@ func _ready() -> void:
 
 ## Awaits until player either cancels or inputs a valid amount (0+).
 ## Cancels any ongoing prompt before starting a new one.
-func prompt(max: int) -> Result:
+func prompt(max_val: int, default: int = 0) -> Result:
 	if visible:
 		_cancel()
 
-	line_edit.text = ""
+	_max_amount = max_val
+	line_edit.text = str(default) if default > 0 else ""
+	
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	show()
 	line_edit.grab_focus()
 
 	var res: Result = await _resolved
 	hide()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	return res
 
 
 func _on_text_changed(new_text: String) -> void:
 	var stripped := _regex.sub(new_text, "", true)
+	if stripped.is_empty():
+		line_edit.text = ""
+		return
+
+	if stripped.to_int() > _max_amount:
+		stripped = str(_max_amount)
+
 	if stripped != new_text:
-		var caret_pos := line_edit.caret_column - (new_text.length() - stripped.length())
+		var caret_pos := mini(line_edit.caret_column, stripped.length())
 		line_edit.text = stripped
-		line_edit.caret_column = max(0, caret_pos)
+		line_edit.caret_column = caret_pos
 
 
 func _try_submit() -> void:

@@ -215,7 +215,7 @@ func _on_cash_input_interacted(player_id: int) -> void:
 
 	if not HUD.instance:
 		return
-	var result := await HUD.instance.prompt_money(total_amount)
+	var result := await HUD.instance.prompt_money(total_amount, total_amount)
 	if result.cancelled or result.amount <= 0:
 		return
 

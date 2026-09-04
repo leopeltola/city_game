@@ -13,18 +13,28 @@ func _process(_delta: float) -> void:
 	if is_colliding():
 		var col = get_collider()
 		if not col is Interactable:
-			%Label.hide()
+			hide_label()
 			return
 		var i: Interactable = col as Interactable
 		if i.active:
-			%Label.show()
-			%Label.text = i.get_prompt(player.player_id)
+			show_label(i.get_prompt(player.player_id))
 		else:
-			%Label.hide()
-			
-	else:
-		%Label.hide()
+			hide_label()
 
+	else:
+		hide_label()
+
+
+func show_label(text: String) -> void:
+	if not HUD.instance:
+		return
+	HUD.instance.show_interact_label(text)
+
+
+func hide_label() -> void:
+	if not HUD.instance:
+		return
+	HUD.instance.hide_interact_label()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("e") and is_colliding():

@@ -17,5 +17,17 @@ func _exit_tree() -> void:
 		HUD.instance = null
 
 
-func prompt_money(max: int = 1_000_000) -> MoneyPrompt.Result:
-	return await %MoneyPrompt.prompt(max)
+func prompt_money(max: int = 1_000_000, default: int = 0) -> MoneyPrompt.Result:
+	return await %MoneyPrompt.prompt(max, default)
+
+
+func show_interact_label(text: String) -> void:
+	%InteractLabel.text = text
+	%InteractLabel.show()
+	%Crosshair.hide()
+
+
+func hide_interact_label() -> void:
+	%InteractLabel.hide()
+	%Crosshair.show()
+	

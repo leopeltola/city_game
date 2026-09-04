@@ -37,8 +37,11 @@ text = "Put in money"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
-text = "100"
+focus_next = NodePath("../HBoxContainer/CancelButton")
+focus_previous = NodePath("../HBoxContainer/OkButton")
+text = "0"
 alignment = 1
+select_all_on_focus = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GameWindow/VBoxContainer" unique_id=737433612]
 layout_mode = 2

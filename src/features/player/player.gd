@@ -55,9 +55,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotate_y(-event.relative.x * effective_sensitivity)
 		sight_pivot.rotate_x(-event.relative.y * effective_sensitivity)
 		sight_pivot.rotation.x = clamp(sight_pivot.rotation.x, deg_to_rad(-85), deg_to_rad(85))
-	if event.is_action_pressed("e"):
+	if event.is_action_pressed("free_mouse"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	elif event.is_action_released("e"):
+	elif event.is_action_released("free_mouse"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 ## Emitted when an override animation naturally finishes or is explicitly canceled.
