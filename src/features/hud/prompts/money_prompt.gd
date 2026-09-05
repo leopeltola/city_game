@@ -37,14 +37,17 @@ func prompt(max_val: int, default: int = 0, title: String = "") -> Result:
 	_max_amount = max_val
 	label.text = title if not title.is_empty() else DEFAULT_TITLE
 	line_edit.text = str(default) if default > 0 else ""
-
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	var _prev_mouse_mode := Input.mouse_mode
+	if _prev_mouse_mode != Input.MOUSE_MODE_VISIBLE:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		get_viewport().warp_mouse(ok_button.get_global_rect().get_center())
 	show()
 	line_edit.grab_focus()
 
 	var res: Result = await _resolved
 	hide()
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Input.mouse_mode = _prev_mouse_mode
 	return res
 
 
