@@ -20,11 +20,20 @@ var _max_amount: int = 0
 
 
 func _ready() -> void:
+	line_edit.gui_input.connect(_on_line_edit_gui_input)
 	line_edit.text_changed.connect(_on_text_changed)
 	line_edit.text_submitted.connect(func(_text: String) -> void: _try_submit())
 	ok_button.pressed.connect(_try_submit)
 	cancel_button.pressed.connect(_cancel)
 	hidden.connect(_cancel)
+
+
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		_cancel()
+		get_viewport().set_input_as_handled()
 
 
 ## Awaits until player either cancels or inputs a valid amount (0+).
@@ -37,7 +46,7 @@ func prompt(max_val: int, default: int = 0, title: String = "") -> Result:
 	_max_amount = max_val
 	label.text = title if not title.is_empty() else DEFAULT_TITLE
 	line_edit.text = str(default) if default > 0 else ""
-	
+
 	var _prev_mouse_mode := Input.mouse_mode
 	if _prev_mouse_mode != Input.MOUSE_MODE_VISIBLE:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -80,3 +89,19 @@ func _cancel() -> void:
 	var res := Result.new()
 	res.cancelled = true
 	_resolved.emit(res)
+
+
+func _on_line_edit_gui_input(event: InputEvent) -> void:
+	if not event is InputEventKey or not event.is_pressed():
+		return
+
+	# Allow shortcuts (e.g., Ctrl+C, Ctrl+V, Ctrl+A) and navigational/control keys
+	if event.ctrl_pressed or event.alt_pressed or event.meta_pressed:
+		return
+	if event.unicode == 0:
+		return
+
+	# Block non-digit characters from being inserted or replacing the selection
+	var char_typed := char(event.unicode)
+	if char_typed < "0" or char_typed > "9":
+		line_edit.accept_event()

@@ -36,4 +36,8 @@ func show_interact_label(text: String) -> void:
 func hide_interact_label() -> void:
 	%InteractLabel.hide()
 	%Crosshair.show()
-	
+
+
+## Returns true if an active modal or overlay should block player gameplay inputs.
+func is_blocking_input() -> bool:
+	return is_money_prompt_open()
