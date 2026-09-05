@@ -133,7 +133,7 @@ func _animate_display_value(from: int, to: int, duration: float = 0.35) -> void:
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 	var half_dur: float = duration * 0.5
-	_balance_tween.tween_property(balance_label, "scale", _base_label_scale * 1.4, half_dur) \
+	_balance_tween.tween_property(balance_label, "scale", _base_label_scale * 1.3, half_dur) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	_balance_tween.tween_property(balance_label, "scale", _base_label_scale, half_dur) \
 			.set_delay(half_dur).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
@@ -204,19 +204,15 @@ func _rpc_execute_spin(target_symbols: Array[int], holds: Array[bool], bet: int,
 	if roll_stage == 0:
 		current_bet = bet
 
-		# Silently deduct the balance without triggering a 0 tween
 		_auto_animate_balance = false
 		balance -= bet
 		_auto_animate_balance = true
 
-		if _balance_tween and _balance_tween.is_valid():
-			_balance_tween.kill()
-
 		_display_prefix = "[ "
 		_display_suffix = "€ ]"
-		_displayed_val = current_bet
-		_update_label_text()
-		balance_label.scale = _base_label_scale
+
+		# Trigger the text update and scale animation without changing the numeric value
+		_animate_display_value(current_bet, current_bet, 0.35)
 
 	_set_buttons_active(false)
 	$LevelInteract.prompt = ""
@@ -282,7 +278,6 @@ func _rpc_execute_spin(target_symbols: Array[int], holds: Array[bool], bet: int,
 		if payout > 0:
 			_play_sfx(sfx_win)
 			_animate_display_value(current_bet, payout, 0.5)
-			# Ensure win text finishes settling before cash starts dispersing
 			await get_tree().create_timer(0.6).timeout
 			if Net.is_server:
 				spawn_cash(payout)

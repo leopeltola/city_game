@@ -48,7 +48,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_local:
+	if not is_local or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var effective_sensitivity := mouse_sensitivity * look_drag_multiplier
@@ -75,6 +75,7 @@ func play_override_animation(anim_name: String, blend_time: float = 0.0) -> void
 	anim_player.play(anim_name, blend_time)
 	await override_anim_finished
 
+
 ## Cancels the current override animation and safely resumes execution for yielded scripts.
 func cancel_override_animation(blend_time: float = 0.0) -> void:
 	if _override_anim == "":
@@ -88,10 +89,12 @@ func cancel_override_animation(blend_time: float = 0.0) -> void:
 func trigger_block_success() -> void:
 	_rpc_trigger_block_success.rpc()
 
+
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == _override_anim:
 		_override_anim = ""
 		override_anim_finished.emit()
+
 
 @rpc("any_peer", "call_local", "reliable")
 func _rpc_trigger_block_success() -> void:
@@ -122,19 +125,30 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
+	_jumping(delta)
+	_walking(delta)
+
+	move_and_slide()
+
+
+func _jumping(_delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
+		if HUD.instance and HUD.instance.is_blocking_input():
+			return
 		velocity.y = jump_velocity
 
+
+func _walking(delta: float) -> void:
 	var current_walk_speed := walk_speed * move_speed_multiplier
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_down")
+	if HUD.instance and HUD.instance.is_blocking_input():
+		input_dir = Vector2.ZERO
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	var target_vel := direction * current_walk_speed
 	var accel := 10.0 if direction else 8.0
 	velocity.x = move_toward(velocity.x, target_vel.x, accel * delta * current_walk_speed)
 	velocity.z = move_toward(velocity.z, target_vel.z, accel * delta * current_walk_speed)
-
-	move_and_slide()
 
 
 func _to_string() -> String:

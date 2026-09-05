@@ -8,7 +8,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if not player.is_local:
+	if not player.is_local or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
 	if is_colliding():
 		var col = get_collider()
@@ -36,8 +36,9 @@ func hide_label() -> void:
 		return
 	HUD.instance.hide_interact_label()
 
+
 func _unhandled_input(event: InputEvent) -> void:
-	if not player.is_local:
+	if not player.is_local or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
 	if event.is_action_pressed("e") and is_colliding():
 		var col = get_collider()

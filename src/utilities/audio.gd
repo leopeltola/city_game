@@ -13,6 +13,8 @@ var _is_soundtrack_looping: bool = true
 
 
 func _ready() -> void:
+	_check_cli_mute()
+
 	# SFX Pool
 	for i in 15:
 		var pl := AudioStreamPlayer.new()
@@ -35,6 +37,14 @@ func _ready() -> void:
 		add_child(pl)
 		music_players.append(pl)
 
+func _check_cli_mute() -> void:
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
+	if "--mute" in args:
+		var master_idx := AudioServer.get_bus_index("Master")
+		AudioServer.set_bus_mute(master_idx, true)
+		AudioServer.set_bus_volume_db(master_idx, -80.0)
+		
+		get_window().title = get_window().title + " [MUTE]"
 
 func play_sfx(audio_stream: AudioStream, volume_db: float = 0) -> void:
 	if not audio_stream:
