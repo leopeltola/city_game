@@ -270,7 +270,16 @@ func _equip_item(slot_idx: int) -> void:
 	if item_id == -1:
 		return
 
-	var type: ItemType = ItemManager.get_item_type(ItemManager.get_item_data(item_id, "type"))
+	# The item may have been destroyed (e.g. full cash insert into the slot
+	# machine) while a stale slot snapshot is still being replicated. Guard
+	# against it so we never hand a nil type name to get_item_type().
+	var item_data := ItemManager.get_item_data_dict_raw(item_id)
+	if item_data.is_empty():
+		item_slots[slot_idx] = -1
+		inventory_updated.emit()
+		return
+
+	var type: ItemType = ItemManager.get_item_type(item_data["type"])
 	var equipped_item: ItemEquip = type.get_equip_item_scene().instantiate()
 
 	equipped_item.item_id = item_id
