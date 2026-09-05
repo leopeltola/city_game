@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 run/max_fps=60
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://nfg25joxk44b"
+
 [autoload]
 
 Net="*uid://yr61n0umcjjk"
