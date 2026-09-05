@@ -1,0 +1,200 @@
+{
+	"connections": [
+		{
+			"from": "fill_to_random_grey",
+			"from_port": 0,
+			"to": "colorize_2",
+			"to_port": 0
+		},
+		{
+			"from": "colorize_2",
+			"from_port": 0,
+			"to": "blend2",
+			"to_port": 1
+		},
+		{
+			"from": "blend2",
+			"from_port": 0,
+			"to": "Material",
+			"to_port": 0
+		},
+		{
+			"from": "bricks",
+			"from_port": 0,
+			"to": "blend2",
+			"to_port": 2
+		},
+		{
+			"from": "bricks",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
+		},
+		{
+			"from": "colorize",
+			"from_port": 0,
+			"to": "blend2",
+			"to_port": 0
+		},
+		{
+			"from": "bricks",
+			"from_port": 1,
+			"to": "fill_to_random_grey",
+			"to_port": 0
+		}
+	],
+	"label": "Graph",
+	"longdesc": "",
+	"name": "@Node@39652",
+	"node_position": {
+		"x": 0.0,
+		"y": 0.0
+	},
+	"nodes": [
+		{
+			"export_last_target": "Godot/Godot 4 Standard",
+			"export_paths": {
+				"Godot/Godot 4 Standard": "C:/Users/leope/Documents/dev/godot/projects/2026/city_game/assets/textures/red_bricks/gray_bricks"
+			},
+			"name": "Material",
+			"node_position": {
+				"x": 131.063674926758,
+				"y": 18.2327308654785
+			},
+			"parameters": {
+				"albedo_color": {
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
+					"type": "Color"
+				},
+				"ao": 1.0,
+				"depth_scale": 0.5,
+				"emission_energy": 1.0,
+				"flags_transparent": true,
+				"metallic": 0.0,
+				"normal": 1.0,
+				"roughness": 1.0,
+				"size": 11,
+				"sss": 1.0
+			},
+			"seed_int": 0,
+			"type": "material"
+		},
+		{
+			"name": "bricks",
+			"node_position": {
+				"x": -612.590881347656,
+				"y": -131.090911865234
+			},
+			"parameters": {
+				"bevel": 0.01,
+				"columns": 3.0,
+				"corner": 0.3,
+				"mortar": 0.01,
+				"pattern": 0,
+				"repeat": 1.0,
+				"round": 0.0,
+				"row_offset": 0.5,
+				"rows": 5.0
+			},
+			"seed_int": 0,
+			"type": "bricks3"
+		},
+		{
+			"name": "fill_to_random_grey",
+			"node_position": {
+				"x": -322.655853271484,
+				"y": 122.110656738281
+			},
+			"parameters": {
+				"edgecolor": 0.96
+			},
+			"seed_int": 0,
+			"type": "fill_to_random_grey2"
+		},
+		{
+			"name": "colorize_2",
+			"node_position": {
+				"x": -325.383117675781,
+				"y": 0.292443454265594
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1.0,
+							"b": 0.6015625,
+							"g": 0.6015625,
+							"pos": 0.0,
+							"r": 0.6015625
+						},
+						{
+							"a": 1.0,
+							"b": 0.7890625,
+							"g": 0.7890625,
+							"pos": 1.0,
+							"r": 0.7890625
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		},
+		{
+			"generic_size": 1,
+			"name": "blend2",
+			"node_position": {
+				"x": -138.110336303711,
+				"y": -173.343978881836
+			},
+			"parameters": {
+				"amount1": 1.0,
+				"blend_type1": 0.0
+			},
+			"seed_int": 0,
+			"type": "blend2"
+		},
+		{
+			"name": "colorize",
+			"node_position": {
+				"x": -311.746765136719,
+				"y": -197.889434814453
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1.0,
+							"b": 0.71875,
+							"g": 0.71875,
+							"pos": 0.0,
+							"r": 0.71875
+						},
+						{
+							"a": 0.0,
+							"b": 0.7379150390625,
+							"g": 0.7379150390625,
+							"pos": 1.0,
+							"r": 0.76171875
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		}
+	],
+	"parameters": {
+
+	},
+	"seed_int": 0,
+	"shortdesc": "",
+	"type": "graph"
+}
