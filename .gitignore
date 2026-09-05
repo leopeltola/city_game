@@ -4,3 +4,8 @@
 
 
 /webrtc/
+
+# Blender backups
+**/*.blend1
+# Material maker crash rescue files
+**/*.ptex.mmcr
