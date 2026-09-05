@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bi0yohs048ee5"]
+
+[ext_resource type="PackedScene" uid="uid://dotguatoyaf1b" path="res://src/features/city/assets/models/road/plaza.glb" id="1_5v1gy"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_7esjy"]
+data = PackedVector3Array(-5, 0.099999994, 5, 5, 0.099999994, -5, 5, 0.099999994, 5, -5, 0.099999994, 5, -5, 0.099999994, -5, 5, 0.099999994, -5)
+
+[node name="Plaza" unique_id=609859498 instance=ExtResource("1_5v1gy")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Plane" parent_id_path=PackedInt32Array(1690905237) index="0" unique_id=1750265685]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plane/StaticBody3D" index="0" unique_id=184154109]
+shape = SubResource("ConcavePolygonShape3D_7esjy")

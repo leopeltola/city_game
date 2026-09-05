@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://dhkrvkv2u5i5u"]
+
+[ext_resource type="Script" uid="uid://b0y3b6doptcg5" path="res://src/features/city/buildings/modular1_building/modular_1_building.gd" id="1_yajmn"]
+[ext_resource type="Script" uid="uid://dheva72pividh" path="res://src/features/city/buildings/building_part.gd" id="2_tcobc"]
+[ext_resource type="PackedScene" uid="uid://5xgfs6mm0l3b" path="res://src/features/city/assets/models/modular1/base1.glb" id="3_bqpkn"]
+[ext_resource type="PackedScene" uid="uid://bn6f3do6iguhn" path="res://src/features/city/assets/models/modular1/base2.glb" id="4_bqpkn"]
+[ext_resource type="PackedScene" uid="uid://dsej6vmmmhrh2" path="res://src/features/city/assets/models/modular1/layer_brick.glb" id="4_c7uii"]
+[ext_resource type="PackedScene" uid="uid://bblwc76gjrjpi" path="res://src/features/city/assets/models/modular1/roof1.glb" id="5_grwx5"]
+[ext_resource type="PackedScene" uid="uid://b8wmlmnme0e6m" path="res://src/features/city/assets/models/modular1/layer_window.glb" id="6_c7uii"]
+
+[sub_resource type="Resource" id="Resource_4r2mf"]
+script = ExtResource("2_tcobc")
+scene = ExtResource("3_bqpkn")
+height = 5.0
+metadata/_custom_type_script = "uid://dheva72pividh"
+
+[sub_resource type="Resource" id="Resource_8ekmf"]
+script = ExtResource("2_tcobc")
+scene = ExtResource("4_bqpkn")
+height = 5.0
+metadata/_custom_type_script = "uid://dheva72pividh"
+
+[sub_resource type="Resource" id="Resource_q1gf2"]
+script = ExtResource("2_tcobc")
+scene = ExtResource("4_c7uii")
+height = 4.0
+metadata/_custom_type_script = "uid://dheva72pividh"
+
+[sub_resource type="Resource" id="Resource_g318b"]
+script = ExtResource("2_tcobc")
+scene = ExtResource("6_c7uii")
+height = 4.0
+metadata/_custom_type_script = "uid://dheva72pividh"
+
+[sub_resource type="Resource" id="Resource_b3iag"]
+script = ExtResource("2_tcobc")
+scene = ExtResource("5_grwx5")
+height = 3.45
+metadata/_custom_type_script = "uid://dheva72pividh"
+
+[node name="Modular1Building" type="Node3D" unique_id=1343563861]
+script = ExtResource("1_yajmn")
+bases = Array[ExtResource("2_tcobc")]([SubResource("Resource_4r2mf"), SubResource("Resource_8ekmf")])
+stories = Array[ExtResource("2_tcobc")]([SubResource("Resource_q1gf2"), SubResource("Resource_g318b")])
+roofs = Array[ExtResource("2_tcobc")]([SubResource("Resource_b3iag")])
