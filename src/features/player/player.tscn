@@ -11,7 +11,7 @@ radius = 0.3
 height = 1.5845703
 
 [sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_rybn4"]
-length = 0.12
+length = 0.2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3v8pm"]
 properties/0/path = NodePath(".:position")
@@ -47,35 +47,35 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79228514, 0)
 shape = SubResource("CapsuleShape3D_xe5qy")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=277726324]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.12, 0.24361032)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.2, 0.24361032)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=150800085]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.261, 0.12, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.261, 0.2, 0)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=1757182926]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.12, -0.28)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.2, -0.28)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=2039826348]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.24402201, 0.12, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.24402201, 0.2, 0)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D6" type="CollisionShape3D" parent="." unique_id=2139958368]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.1868675, 0.12, 0.18149424)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.1868675, 0.2, 0.18149424)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D7" type="CollisionShape3D" parent="." unique_id=25186514]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.19634417, 0.12, -0.17150858)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.19634417, 0.2, -0.17150858)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D8" type="CollisionShape3D" parent="." unique_id=1225087382]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.1969342, 0.12, -0.17150858)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.1969342, 0.2, -0.17150858)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="CollisionShape3D9" type="CollisionShape3D" parent="." unique_id=1672584886]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.17561182, 0.12, 0.21466231)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.17561182, 0.2, 0.21466231)
 shape = SubResource("SeparationRayShape3D_rybn4")
 
 [node name="Visual" type="Node3D" parent="." unique_id=850032725]
@@ -84,34 +84,7 @@ unique_name_in_owner = true
 [node name="guy" parent="Visual" unique_id=1618958129 instance=ExtResource("7_1mqja")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="Skeleton3D" parent="Visual/guy/Armature" parent_id_path=PackedInt32Array(1618958129, 178378098) index="0" unique_id=1658819607]
-bones/8/position = Vector3(-0.15388101, 0.2075868, -0.05807007)
-bones/8/rotation = Quaternion(0.09100439, 0.36922756, -0.108184904, 0.91852343)
-bones/9/position = Vector3(-0.05880459, 0.16228352, 0.08914064)
-bones/9/rotation = Quaternion(-0.15110734, -0.11844006, 0.4846303, 0.85338855)
-bones/10/rotation = Quaternion(0.09520527, -0.13634655, 0.41635513, 0.8938647)
-bones/11/position = Vector3(-0.016491761, 0.18960504, 0.00290599)
-bones/11/rotation = Quaternion(-0.13090193, -0.05546598, 0.5210634, 0.8415945)
-bones/12/rotation = Quaternion(-0.066274986, 0.014626719, 0.5432677, 0.83681184)
-bones/13/position = Vector3(-0.0659741, 0.05664499, -0.079014964)
-bones/13/rotation = Quaternion(-0.20172244, 0.13407531, 0.42793122, 0.8707507)
-bones/14/rotation = Quaternion(0.61763304, -0.05163761, 0.3373042, 0.70858234)
-bones/15/rotation = Quaternion(0.72294396, -0.6840311, -0.07214441, -0.06518301)
-bones/16/position = Vector3(-0.25737208, 0.21267197, 0.19753209)
-bones/16/rotation = Quaternion(0.082967356, 0.20220295, -0.072139606, 0.9731528)
-bones/17/position = Vector3(0.04224467, 0.16214928, 0.07831633)
-bones/17/rotation = Quaternion(-0.115757115, -0.055450328, -0.54850626, 0.82623637)
-bones/18/rotation = Quaternion(-0.10620184, 0.13651165, -0.5025289, 0.84708345)
-bones/19/position = Vector3(0.037159745, 0.17279692, -0.0023789539)
-bones/19/rotation = Quaternion(-0.021936113, 0.040045865, -0.4856768, 0.87294513)
-bones/20/rotation = Quaternion(0.030132294, 0.019945253, -0.5307147, 0.8467799)
-bones/21/position = Vector3(0.056612585, 0.028398782, -0.0796109)
-bones/21/rotation = Quaternion(-0.21256122, -0.20293294, -0.6337374, 0.71555084)
-bones/22/rotation = Quaternion(0.55837584, -0.3091055, -0.25279006, 0.72716403)
-bones/23/position = Vector3(0.11620465, 0.11037255, 0.008061466)
-bones/23/rotation = Quaternion(0.72294396, 0.684031, 0.07214443, -0.06518304)
-
-[node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="Visual/guy/Armature/Skeleton3D" index="3" unique_id=1604843836]
+[node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(1618958129, 1658819607) index="3" unique_id=1604843836]
 influence = 0.624
 setting_count = 1
 settings/0/amount = 1.0
@@ -124,8 +97,8 @@ settings/0/axes = 7
 settings/0/invert = 0
 settings/0/additive = false
 
-[node name="HandSlotRightAttachment" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" index="4" unique_id=1791211880]
-transform = Transform3D(0.29307958, 0.8984084, -0.32705697, -0.2827977, 0.40823078, 0.8679705, 0.91330683, -0.16189359, 0.373712, -0.124658376, 0.5998674, 0.41218966)
+[node name="HandSlotRightAttachment" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(1618958129, 1658819607) index="4" unique_id=1791211880]
+transform = Transform3D(-0.17773026, 0.003977573, 0.98407125, 0.08529672, -0.996166, 0.019431587, 0.9803756, 0.08739143, 0.17670959, -0.4282194, 0.66983277, 0.2384598)
 bone_name = "HandSlot.R"
 bone_idx = 23
 
@@ -133,7 +106,7 @@ bone_idx = 23
 transform = Transform3D(1.0000002, 0, 0, 0, -4.37114e-08, -1.0000002, 0, 1.0000002, -4.37114e-08, 0, 0, 0)
 remote_path = NodePath("../../../../../../SightPivot/Camera3D/RightItemSlot")
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Visual/guy/Armature/Skeleton3D" index="5" unique_id=1133754285]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(1618958129, 1658819607) index="5" unique_id=1133754285]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.00792313, 1.0593438, 3.2247233)
 target_node = NodePath(".")
 bone_name = "Head_2"
@@ -160,7 +133,7 @@ player = NodePath("../../..")
 
 [node name="RightItemSlot" type="Node3D" parent="SightPivot/Camera3D" unique_id=1375988061]
 unique_name_in_owner = true
-transform = Transform3D(-0.29307973, 0.32705706, 0.89840865, -0.28279775, 0.8679707, -0.4082309, -0.9133071, -0.37371212, -0.1618937, 0.13258176, -0.6942982, -0.3484905)
+transform = Transform3D(0.17773022, -0.9840715, 0.0039776242, 0.08529674, 0.019431634, 0.9961662, -0.9803758, -0.17670955, 0.08739146, 0.4361428, -0.62433285, -0.17476067)
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="SightPivot/Camera3D" unique_id=944993532]
 remote_path = NodePath("../../../Visual/guy/PupilLeft")
