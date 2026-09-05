@@ -1,0 +1,39 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://j0ui84b6nx1y"]
+
+[ext_resource type="Texture2D" uid="uid://bjsvmr2c37f0i" path="res://assets/textures/gradient/gradients1.webp" id="1_g6s6l"]
+
+[sub_resource type="Shader" id="Shader_ds8tu"]
+code = "shader_type spatial;
+render_mode cull_disabled;
+
+uniform sampler2D albedo_texture : source_color, filter_linear_mipmap;
+uniform float sway_speed : hint_range(0.0, 10.0) = 1.5;
+uniform float sway_strength : hint_range(0.0, 1.0) = 0.05;
+uniform float sway_phase_offset : hint_range(0.0, 10.0) = 1.0;
+
+void vertex() {
+	// Vertical factor: 0.0 at mesh base (UV.y = 1.0), 1.0 at mesh top (UV.y = 0.0)
+	float height_factor = 1.0 - UV.y;
+	
+	// World position offset to prevent identical movement across instances
+	vec3 world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	float wave = sin(TIME * sway_speed + (world_pos.x + world_pos.z) * sway_phase_offset);
+	
+	VERTEX.x += wave * sway_strength * height_factor;
+	VERTEX.z += wave * sway_strength * 0.5 * height_factor;
+}
+
+void fragment() {
+	vec4 color = texture(albedo_texture, UV);
+	ALBEDO = color.rgb;
+	ALPHA = color.a;
+	ALPHA_SCISSOR_THRESHOLD = 0.5;
+}"
+
+[resource]
+render_priority = 0
+shader = SubResource("Shader_ds8tu")
+shader_parameter/albedo_texture = ExtResource("1_g6s6l")
+shader_parameter/sway_speed = 1.5
+shader_parameter/sway_strength = 0.05
+shader_parameter/sway_phase_offset = 1.0
