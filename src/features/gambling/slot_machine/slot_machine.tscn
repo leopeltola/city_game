@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://2n3b4p5w0rl7" path="res://src/features/interaction/button.tscn" id="4_pbkt6"]
 [ext_resource type="AudioStream" uid="uid://ce4gilnv726fo" path="res://assets/sfx/slot_machine/cash_register.ogg" id="4_tgln3"]
 [ext_resource type="AudioStream" uid="uid://l0iky670b644" path="res://assets/sfx/slot_machine/roll.ogg" id="5_1lmtd"]
-[ext_resource type="Script" uid="uid://creafbuc5v1gr" path="res://src/features/gambling/slot_machine/cash_interactable.gd" id="5_ibs5n"]
+[ext_resource type="Script" path="res://src/features/gambling/slot_machine/cash_interactable.gd" id="5_ibs5n"]
 [ext_resource type="AudioStream" uid="uid://cs18a08fdec2" path="res://assets/sfx/slot_machine/lever.ogg" id="6_basqm"]
 [ext_resource type="AudioStream" uid="uid://dmqrl5j2wuq8j" path="res://assets/sfx/slot_machine/base_jingle.ogg" id="7_shpxc"]
 [ext_resource type="Texture2D" uid="uid://cais5dyxcumdt" path="res://src/features/gambling/assets/textures/slot_machine_instructions.jpg" id="12_pfyov"]
@@ -84,19 +84,19 @@ sfx_base_jingle = ExtResource("7_shpxc")
 
 [node name="slot_machine" parent="." unique_id=78761518 instance=ExtResource("1_kcej3")]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="slot_machine/Machine" parent_id_path=PackedInt32Array(78761518, 395707476) index="0" unique_id=83667267]
+[node name="StaticBody3D" type="StaticBody3D" parent="slot_machine/Machine" parent_id_path=PackedInt32Array(78761518, 1159367068) index="0" unique_id=83667267]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="slot_machine/Machine/StaticBody3D" unique_id=1018721108]
 visible = false
 shape = SubResource("ConcavePolygonShape3D_bl4dq")
 
-[node name="Button1" parent="slot_machine" index="5" unique_id=582023121]
+[node name="Button1" parent="slot_machine" index="5" unique_id=1271151859]
 visible = false
 
-[node name="Button2" parent="slot_machine" index="6" unique_id=775793640]
+[node name="Button2" parent="slot_machine" index="6" unique_id=1945772718]
 visible = false
 
-[node name="Button3" parent="slot_machine" index="7" unique_id=81126758]
+[node name="Button3" parent="slot_machine" index="7" unique_id=129406397]
 visible = false
 
 [node name="LevelInteract" type="StaticBody3D" parent="." unique_id=2002168919]
