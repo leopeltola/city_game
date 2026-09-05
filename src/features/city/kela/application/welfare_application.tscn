@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bwboswlefrlgv"]
+
+[ext_resource type="Script" uid="uid://bbiy25p2fq7g4" path="res://src/features/city/kela/application/welfare_application.gd" id="1_8dkvk"]
+[ext_resource type="Texture2D" uid="uid://dk2wuyesagyuf" path="res://src/features/city/kela/assets/textures/application_form.jpg" id="2_8dkvk"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_thr7g"]
+size = Vector2(0.315, 0.435)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o1nvk"]
+albedo_texture = ExtResource("2_8dkvk")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q1gf2"]
+size = Vector3(0.34191895, 0.073791504, 0.4522705)
+
+[node name="WelfareApplication" type="Area3D" unique_id=16495480]
+script = ExtResource("1_8dkvk")
+prompt = "Apply for Welfare"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=608534371]
+mesh = SubResource("PlaneMesh_thr7g")
+surface_material_override/0 = SubResource("StandardMaterial3D_o1nvk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=657607545]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0018920898, 0.008148193, -0.002380371)
+shape = SubResource("BoxShape3D_q1gf2")

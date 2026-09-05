@@ -53,7 +53,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_multiplayer_authority():
+	if not is_multiplayer_authority() or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
 	if event.is_action_pressed("scroll_down"):
 		active_index = wrapi(active_index - 1, 0, slot_count)
@@ -275,6 +275,7 @@ func _equip_item(slot_idx: int) -> void:
 	# against it so we never hand a nil type name to get_item_type().
 	var item_data := ItemManager.get_item_data_dict_raw(item_id)
 	if item_data.is_empty():
+		push_error("Tried equipping item but item_id not found: ID: %s\nitem_data: %s" % [item_id, item_data])
 		item_slots[slot_idx] = -1
 		inventory_updated.emit()
 		return

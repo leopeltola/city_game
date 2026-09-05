@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://d03w011lo6pwn" path="res://src/features/hud/prompts/money_prompt.tscn" id="2_8n2dx"]
 [ext_resource type="FontFile" uid="uid://b8s4d7c8loivc" path="res://src/features/ui/theme/assets/fonts/fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="3_dsqr1"]
 [ext_resource type="Texture2D" uid="uid://b22kwnd7bdwn" path="res://src/features/player/assets/sprites/png/light/crosshair-000.png" id="4_f77pw"]
+[ext_resource type="PackedScene" uid="uid://ctof200ajqq6c" path="res://src/features/city/kela/application/welfare_prompt.tscn" id="5_s6xnv"]
 
 [sub_resource type="FontVariation" id="FontVariation_ioa1u"]
 base_font = ExtResource("3_dsqr1")
@@ -61,6 +62,11 @@ grow_vertical = 2
 texture = ExtResource("4_f77pw")
 
 [node name="MoneyPrompt" parent="." unique_id=971607912 instance=ExtResource("2_8n2dx")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="WelfarePrompt" parent="." unique_id=1707526647 instance=ExtResource("5_s6xnv")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1

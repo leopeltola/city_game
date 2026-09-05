@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://bxvfvqthvy8k"]
+
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_h8nvy"]
+
+[resource]
+script = ExtResource("1_h8nvy")
+name = "application_form"
+display_name = "Application Form"
+world_item_path = "res://src/features/items/data/application_form/application_form_world.tscn"
+equip_item_path = "res://src/features/items/data/application_form/application_form_equip.tscn"
+metadata/_custom_type_script = "uid://1v4ix87tn325"
