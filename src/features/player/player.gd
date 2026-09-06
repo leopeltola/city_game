@@ -31,6 +31,15 @@ var is_blocking := false
 @onready var anim_player: AnimationPlayer = $Visual/guy/AnimationPlayer
 @onready var hittable_area: Area3D = %HittableArea
 
+## Authoritative world transform written by the local player and replicated via
+## MultiplayerSynchronizer. Remote peers interpolate their body toward these.
+var network_position: Vector3
+var network_rotation: Vector3
+
+## How quickly remote players catch up to the latest synced position.
+@export var network_interp_speed := 12.0
+var _network_interp_ready := false
+
 
 func _ready() -> void:
 	assert(player_id)
@@ -39,6 +48,9 @@ func _ready() -> void:
 	PlayerManager.register_player_node(self)
 
 	anim_player.animation_finished.connect(_on_animation_finished)
+
+	network_position = global_position
+	network_rotation = global_rotation
 
 	if is_local:
 		%Camera3D.make_current()
@@ -120,6 +132,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	if not is_local:
+		_interpolate_network_transform(delta)
 		return
 
 	if not is_on_floor():
@@ -129,6 +142,22 @@ func _physics_process(delta: float) -> void:
 	_walking(delta)
 
 	move_and_slide()
+
+	network_position = global_position
+	network_rotation = global_rotation
+
+
+## Smoothly moves a remote player's body toward the latest synced transform.
+func _interpolate_network_transform(delta: float) -> void:
+	if not _network_interp_ready:
+		global_position = network_position
+		global_rotation = network_rotation
+		_network_interp_ready = true
+		return
+
+	var k := 1.0 - exp(-network_interp_speed * delta)
+	global_position = global_position.lerp(network_position, k)
+	global_basis = global_basis.slerp(Basis.from_euler(network_rotation), k)
 
 
 func _jumping(_delta: float) -> void:

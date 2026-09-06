@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://ctof200ajqq6c"]
+
+[ext_resource type="Script" uid="uid://dgcm76ojvm1l0" path="res://src/features/city/kela/application/welfare_prompt.gd" id="1_1ablb"]
+[ext_resource type="Texture2D" uid="uid://dk2wuyesagyuf" path="res://src/features/city/kela/assets/textures/application_form.jpg" id="1_edhv1"]
+[ext_resource type="FontFile" uid="uid://becdvm01ieft6" path="res://src/features/ui/theme/assets/fonts/inter/Inter_18pt-Medium.ttf" id="3_2wbg6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1gf2"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_q1gf2"]
+font = ExtResource("3_2wbg6")
+font_size = 6
+font_color = Color(0, 0, 0, 1)
+
+[node name="WelfarePrompt" type="MarginContainer" unique_id=1707526647]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_1ablb")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=131851646]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 89
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1724420878]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=1917064093]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_edhv1")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="NameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/TextureRect" unique_id=1983115695]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 34.0
+offset_top = 242.0
+offset_right = 206.0
+offset_bottom = 260.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_2wbg6")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_q1gf2")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q1gf2")
+
+[node name="UnemploymentCheckbox" type="CheckBox" parent="MarginContainer/VBoxContainer/TextureRect" unique_id=1237759648]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 32.0
+offset_top = 333.0
+offset_right = 144.0
+offset_bottom = 357.0
+scale = Vector2(0.725, 0.725)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.014321542, 0.014321542, 0.014321542, 1)
+theme_override_fonts/font = ExtResource("3_2wbg6")
+theme_override_font_sizes/font_size = 8
+text = "Unemployment Benefit"
+
+[node name="DisabilityCheckbox" type="CheckBox" parent="MarginContainer/VBoxContainer/TextureRect" unique_id=1697520271]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 32.0
+offset_top = 352.0
+offset_right = 144.0
+offset_bottom = 376.0
+scale = Vector2(0.725, 0.725)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.014321542, 0.014321542, 0.014321542, 1)
+theme_override_fonts/font = ExtResource("3_2wbg6")
+theme_override_font_sizes/font_size = 8
+text = "Disability Allowance"
+
+[node name="SocialAssistanceCheckbox" type="CheckBox" parent="MarginContainer/VBoxContainer/TextureRect" unique_id=1131576663]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 32.0
+offset_top = 315.0
+offset_right = 123.0
+offset_bottom = 339.0
+scale = Vector2(0.725, 0.725)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.014321542, 0.014321542, 0.014321542, 1)
+theme_override_fonts/font = ExtResource("3_2wbg6")
+theme_override_font_sizes/font_size = 8
+text = "Social Assistance"
+
+[node name="TermsCheckbox" type="CheckBox" parent="MarginContainer/VBoxContainer/TextureRect" unique_id=1963205012]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 29.0
+offset_top = 399.0
+offset_right = 53.0
+offset_bottom = 423.0
+scale = Vector2(0.66, 0.66)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.014321542, 0.014321542, 0.014321542, 1)
+theme_override_fonts/font = ExtResource("3_2wbg6")
+theme_override_font_sizes/font_size = 8
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TextureRect" unique_id=271748729]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 234.0
+offset_right = 93.0
+offset_bottom = 242.0
+text = "Applicant Full Name"
+label_settings = SubResource("LabelSettings_q1gf2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=211749723]
+layout_mode = 2
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=721327737]
+unique_name_in_owner = true
+modulate = Color(1, 0.47000003, 0.47000003, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Cancel"
+
+[node name="SendButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=234662832]
+unique_name_in_owner = true
+modulate = Color(0.728, 1, 0.65999997, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Send Application"
