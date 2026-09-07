@@ -19,5 +19,6 @@ func _spawn_function(data: Dictionary) -> Node:
 	var node: ItemWorld = ItemManager.get_item_type(data["type"]).get_world_item_scene().instantiate()
 	node.position = data["position"]
 	node.item_id = data["id"]
-	
+	node.launch_force = data.get("launch_force", Vector3.ZERO)
+
 	return node

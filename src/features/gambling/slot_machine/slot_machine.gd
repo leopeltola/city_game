@@ -7,6 +7,8 @@ const STEP_ANGLE: float = TAU / SYMBOL_COUNT
 const MAX_BILL_AMOUNT: int = PlayerInventory.CASH_STACK_LIMIT
 ## Delay between staggered bill spawns when a payout is split.
 const BILL_SPAWN_DELAY: float = 0.4
+## Force applied to bills at spawn
+const BILL_LAUNCH_FORCE: Vector3 = Vector3(0, 0.0, 0.0)
 
 ## Multipliers mapped per symbol index for 2-of-a-kind combinations.
 const COMBO_PAIRS: Dictionary[int, float] = {

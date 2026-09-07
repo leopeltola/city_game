@@ -48,22 +48,24 @@ func _rpc_create_item(data: Dictionary) -> void:
 
 
 ## Creates and returns a WorldItem for given item_id. 
-func create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO) -> void:
+## [force] is an optional initial impulse (Vector3) applied once on spawn to fly the item.
+func create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO) -> void:
 	assert(ItemMultiplayerSpawner.instance, "ItemMultiplayerSpawner not present")
 	assert(_items.has(item_id))
 
 	if Net.is_server:
-		_rpc_create_world_item_for(item_id, position, rotation)
+		_rpc_create_world_item_for(item_id, position, rotation, force)
 	elif Net.is_client:
-		_rpc_create_world_item_for.rpc_id(1, item_id, position, rotation)
+		_rpc_create_world_item_for.rpc_id(1, item_id, position, rotation, force)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO) -> void:
+func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO) -> void:
 	assert(Net.is_server)
 	var data := _items[item_id]
 	data["position"] = position
 	data["rotation"] = rotation
+	data["launch_force"] = force
 	ItemMultiplayerSpawner.instance.spawn(data)
 
 

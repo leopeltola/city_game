@@ -6,6 +6,7 @@ extends RigidBody3D
 @export var debug_label: Label3D = null
 
 var item_id: int = -1 # -1 is invalid
+var launch_force: Vector3 = Vector3.ZERO
 var data: Dictionary:
 	get:
 		return ItemManager.get_item_data_dict_raw(item_id)
@@ -21,6 +22,9 @@ func _ready() -> void:
 
 	if debug_label:
 		debug_label.text = "ID %s" % item_id
+
+	if not launch_force.is_zero_approx():
+		apply_central_impulse(launch_force)
 
 
 func _on_interacted(_player_id: int) -> void:
