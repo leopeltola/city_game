@@ -15,6 +15,10 @@ func _ready() -> void:
 
 	PlayerManager.player_added.connect(
 		func(_pd: PlayerData):
+			if _pd.is_local():
+				var pname: String = Settings.get_setting("player_name", "Player")
+				_pd.set_own_name_to(pname)
+
 			if not Net.is_server:
 				return
 			if PlayerManager.get_player_count() == 2:

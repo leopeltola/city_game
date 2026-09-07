@@ -2,14 +2,20 @@ extends Node
 
 signal setting_changed(setting: String, new_value, old_value)
 
+const FILE_PATH: StringName = "user://settings.config"
+
 var settings_data: Dictionary = {} # String: int | String
 
 
-func save_settings(data: Dictionary, file_path: String) -> void:
+func _ready() -> void:
+	load_settings(FILE_PATH)
+
+
+func save_settings(file_path: String) -> void:
 	var cf := ConfigFile.new()
 	
 	for key in settings_data.keys():
-		cf.set_value("Settings", key, data[key])
+		cf.set_value("Settings", key, settings_data[key])
 	
 	cf.save(file_path)
 
@@ -33,7 +39,8 @@ func set_setting(key: String, value) -> void:
 	var old_value = settings_data.get(key, null)
 	settings_data[key] = value
 	setting_changed.emit(key, value, old_value)
+	save_settings(FILE_PATH)
 
 
-func get_setting(key: String) -> Variant:
-	return settings_data[key]
+func get_setting(key: String, default: Variant = null) -> Variant:
+	return settings_data.get(key, default)

@@ -12,6 +12,15 @@ func _ready() -> void:
 
 	lobby_menu.back_requested.connect(_show_main_menu)
 	create_lobby_menu.back_requested.connect(_show_main_menu)
+	
+	%PlayerNameLineEdit.text = Settings.get_setting("player_name", "")
+	%PlayerNameLineEdit.text_changed.connect(
+		func(new_text):
+			Settings.set_setting("player_name", new_text)
+			var pd := PlayerManager.get_local_player_or_null()
+			if pd:
+				pd.set_own_name_to(new_text)
+	)
 
 	_show_main_menu()
 

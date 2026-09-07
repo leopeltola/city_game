@@ -59,6 +59,22 @@ func _ready() -> void:
 		$Visual/guy/Armature/Skeleton3D/Body.hide()
 
 
+func _process(_delta: float) -> void:
+	if not _override_anim:
+		var idle_anim := inventory.get_idle_animation_override()
+		anim_player.play(idle_anim if not idle_anim.is_empty() else "idle")
+	
+	if Input.is_action_pressed("show_player_names"):
+		%NameLabel3D.text = player_data.player_name
+		%NameLabel3D.show()
+		if is_local:
+			%OwnNameLabel.text = player_data.player_name
+			%OwnNameLabel.show()
+	else:
+		%NameLabel3D.hide()
+		%OwnNameLabel.hide()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_local or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
@@ -122,12 +138,6 @@ func get_hit(_damage: float, force: Vector3) -> void:
 @rpc("any_peer", "reliable")
 func _rpc_get_hit(_damage: float, force: Vector3) -> void:
 	velocity += force
-
-
-func _process(_delta: float) -> void:
-	if not _override_anim:
-		var idle_anim := inventory.get_idle_animation_override()
-		anim_player.play(idle_anim if not idle_anim.is_empty() else "idle")
 
 
 func _physics_process(delta: float) -> void:

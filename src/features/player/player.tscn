@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ybms3qt45poi" path="res://src/features/player/player.gd" id="1_3v8pm"]
 [ext_resource type="PackedScene" uid="uid://y457mwoct4um" path="res://src/features/interaction/interact_ray.tscn" id="4_p2vpv"]
+[ext_resource type="FontVariation" uid="uid://fir33fe3w0j3" path="res://src/features/ui/theme/font_basic.tres" id="5_rybn4"]
 [ext_resource type="PackedScene" uid="uid://dvu2t6cq0gt6r" path="res://src/features/items/player/item_inventory_ui.tscn" id="5_ti7vc"]
 [ext_resource type="Script" uid="uid://byjrh17ptlrd" path="res://src/features/items/player/player_inventory.gd" id="6_rybn4"]
 [ext_resource type="PackedScene" uid="uid://baoioe1plauut" path="res://src/features/player/assets/models/simple/guy.glb" id="7_1mqja"]
@@ -32,6 +33,11 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath("SightPivot:rotation")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_q1gf2"]
+font = ExtResource("5_rybn4")
+outline_size = 7
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rybn4"]
 radius = 0.30810547
@@ -203,6 +209,19 @@ grow_horizontal = 2
 grow_vertical = 0
 inv = NodePath("../../PlayerInventory")
 
+[node name="OwnNameLabel" type="Label" parent="CanvasLayer" unique_id=1904916066]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -41.5
+offset_top = 3.0
+offset_right = 41.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Player Name"
+label_settings = SubResource("LabelSettings_q1gf2")
+
 [node name="PlayerInventory" type="Node" parent="." unique_id=335220812 node_paths=PackedStringArray("player", "_equip_slot")]
 script = ExtResource("6_rybn4")
 player = NodePath("..")
@@ -220,5 +239,11 @@ shape = SubResource("CapsuleShape3D_rybn4")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=790756614]
 volume_db = -15.605
+
+[node name="NameLabel3D" type="Label3D" parent="." unique_id=823770662]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7507629, 0)
+billboard = 2
+text = "Player Name"
 
 [editable path="Visual/guy"]
