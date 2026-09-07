@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dvu2t6cq0gt6r" path="res://src/features/items/player/item_inventory_ui.tscn" id="5_ti7vc"]
 [ext_resource type="Script" uid="uid://byjrh17ptlrd" path="res://src/features/items/player/player_inventory.gd" id="6_rybn4"]
 [ext_resource type="PackedScene" uid="uid://baoioe1plauut" path="res://src/features/player/assets/models/simple/guy.glb" id="7_1mqja"]
+[ext_resource type="PackedScene" uid="uid://dgheud6qxg21r" path="res://src/features/player/effects/run_particles.tscn" id="7_njwrn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xe5qy"]
 radius = 0.3
@@ -245,5 +246,10 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7507629, 0)
 billboard = 2
 text = "Player Name"
+
+[node name="RunParticles" parent="." unique_id=391505324 instance=ExtResource("7_njwrn")]
+unique_name_in_owner = true
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, -0.005447626, 0, -0.09716058)
+emitting = false
 
 [editable path="Visual/guy"]

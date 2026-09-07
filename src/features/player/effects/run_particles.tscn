@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dgheud6qxg21r"]
+
+[sub_resource type="Curve" id="Curve_155sy"]
+_data = [Vector2(0, 0.25000036), 0.0, 0.0, 0, 0, Vector2(0.13467483, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_b3iag"]
+curve = SubResource("Curve_155sy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q1gf2"]
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 1.5
+initial_velocity_max = 3.0
+gravity = Vector3(0, 0, 0)
+damping_min = 3.92
+damping_max = 8.495001
+scale_min = 0.71
+scale_curve = SubResource("CurveTexture_b3iag")
+
+[sub_resource type="SphereMesh" id="SphereMesh_g318b"]
+radius = 0.162
+height = 0.345
+radial_segments = 9
+rings = 4
+
+[node name="RunParticles" type="GPUParticles3D" unique_id=391505324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005447626, 0, -0.09716058)
+amount = 15
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_q1gf2")
+draw_pass_1 = SubResource("SphereMesh_g318b")

@@ -139,6 +139,21 @@ func get_hit(_damage: float, force: Vector3) -> void:
 func _rpc_get_hit(_damage: float, force: Vector3) -> void:
 	velocity += force
 
+	if is_local:
+		_spawn_knocked_item()
+
+
+## Knocks a random inventory item out of the player: spawned 1m above them with a
+## random upward/sideways launch force.
+func _spawn_knocked_item() -> void:
+	var dir := Vector3(randf_range(-1.0, 1.0), 0.0, randf_range(-1.0, 1.0))
+	if dir.length_squared() < 0.01:
+		dir = Vector3.FORWARD
+	dir = dir.normalized()
+
+	var force := dir * randf_range(3.0, 6.5) + Vector3.UP * randf_range(2.0, 4.0)
+	inventory.drop_random_item(global_position + Vector3.UP, force)
+
 
 func _physics_process(delta: float) -> void:
 	if not is_local:

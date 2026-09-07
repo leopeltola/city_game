@@ -184,6 +184,29 @@ func drop_active_item() -> void:
 	ItemManager.create_world_item_for(item_id, _drop_position())
 
 
+## Removes a random non-empty item from the inventory and spawns it as a world item at
+## [position] with the given launch [force]. Returns the item ID, or -1 if the inventory is empty.
+func drop_random_item(position: Vector3, force: Vector3) -> int:
+	var slots := _get_non_empty_slots()
+	if slots.is_empty():
+		return -1
+
+	var slot: int = slots[randi() % slots.size()]
+	var item_id := get_item_at_idx(slot)
+	_set_item(slot, -1)
+	ItemManager.create_world_item_for(item_id, position, Vector3.ZERO, force)
+	return item_id
+
+
+## Returns the indices of all slots currently holding an item.
+func _get_non_empty_slots() -> Array[int]:
+	var slots: Array[int] = []
+	for i in item_slots.size():
+		if item_slots[i] != -1:
+			slots.append(i)
+	return slots
+
+
 ## Fired when the drop action has been held long enough. For cash, opens a prompt
 ## asking how much to drop instead of dropping the whole stack.
 func _on_drop_press_held() -> void:
