@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bkt04pylx8a84"
-path="res://.godot/imported/skyscraper1.glb-d7a867a217a34849034e545a8fcf162e.scn"
+uid="uid://s8xtdcprwb6n"
+path="res://.godot/imported/bank_counter.glb-49f987cad7ef4f07b1d9393dc5679f91.scn"
 
 [deps]
 
-source_file="res://src/features/city/assets/models/skyscraper1/skyscraper1.glb"
-dest_files=["res://.godot/imported/skyscraper1.glb-d7a867a217a34849034e545a8fcf162e.scn"]
+source_file="res://src/features/interior/bank/bank_counter.glb"
+dest_files=["res://.godot/imported/bank_counter.glb-49f987cad7ef4f07b1d9393dc5679f91.scn"]
 
 [params]
 
@@ -41,18 +41,13 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"GlassPane": {
+"Material.001": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/glass_pane_wall/glass_pane_wall.tres",
-"use_external/path": "uid://gkhvo6vyqq1d"
-},
-"Marble": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/marble1/marble1.tres",
-"use_external/path": "uid://bbj1r0dsu7b76"
+"use_external/fallback_path": "res://assets/textures/gradient/gradient1_material.tres",
+"use_external/path": "uid://koub2ugueubx"
 }
 }
 }
 gltf/naming_version=2
 gltf/embedded_image_handling=1
-gltf/texture_map_mode=0
+gltf/texture_map_mode=1

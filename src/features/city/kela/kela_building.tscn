@@ -1,9 +1,83 @@
 [gd_scene format=3 uid="uid://b26uwc072v7qd"]
 
 [ext_resource type="PackedScene" uid="uid://bg23gchsboc43" path="res://src/features/city/kela/assets/models/building.glb" id="1_4ft2f"]
+[ext_resource type="PackedScene" uid="uid://blensfktqyb4x" path="res://src/features/interior/bank/bench.glb" id="2_4nt5x"]
+[ext_resource type="PackedScene" uid="uid://s8xtdcprwb6n" path="res://src/features/interior/bank/bank_counter.glb" id="3_ewyqs"]
+[ext_resource type="PackedScene" uid="uid://bey8j0jaql73q" path="res://src/features/interior/bank/bank_counter_office.glb" id="4_ewyqs"]
+[ext_resource type="PackedScene" uid="uid://dbosmwunqa0fq" path="res://src/features/interior/bank/bank_counter_corner.glb" id="5_pq00f"]
+[ext_resource type="PackedScene" uid="uid://bj3prdfge4t0j" path="res://src/features/interior/bank/plant.glb" id="6_xpsyw"]
+[ext_resource type="PackedScene" uid="uid://jy8p3mhkwvey" path="res://src/features/interior/bank/notice_board.glb" id="7_3l52i"]
+[ext_resource type="PackedScene" uid="uid://we3n7sklupbq" path="res://src/features/interior/bank/tubelamp.glb" id="8_o76h5"]
 
 [node name="KelaBuilding" type="Node3D" unique_id=131200258]
 
 [node name="building" parent="." unique_id=834896675 instance=ExtResource("1_4ft2f")]
+
+[node name="Label3D" type="Label3D" parent="." unique_id=667620626]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -6.7102466, 3.1891956, 0.97244585)
+text = "KELA"
+font_size = 177
+
+[node name="FurnitureContainer" type="Node3D" parent="." unique_id=687014201]
+
+[node name="bench" parent="FurnitureContainer" unique_id=1772564776 instance=ExtResource("2_4nt5x")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.9714067, 0, -2.7459736)
+
+[node name="bench2" parent="FurnitureContainer" unique_id=139987890 instance=ExtResource("2_4nt5x")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.9714067, 0, -1.7459735)
+
+[node name="bench3" parent="FurnitureContainer" unique_id=1299255378 instance=ExtResource("2_4nt5x")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.9714067, 0, -0.74597347)
+
+[node name="bench4" parent="FurnitureContainer" unique_id=219697279 instance=ExtResource("2_4nt5x")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.9714067, 0, 2.4372673)
+
+[node name="bench5" parent="FurnitureContainer" unique_id=90705650 instance=ExtResource("2_4nt5x")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.9714067, 0, 3.4372673)
+
+[node name="bench6" parent="FurnitureContainer" unique_id=2023656239 instance=ExtResource("2_4nt5x")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.9714067, 0, 4.4372673)
+
+[node name="bank_counter" parent="FurnitureContainer" unique_id=1529493039 instance=ExtResource("3_ewyqs")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3.9856675, 0, -4.7553687)
+
+[node name="bank_counter_office" parent="FurnitureContainer" unique_id=1077076752 instance=ExtResource("4_ewyqs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.2381444, 0, -0.9905931)
+
+[node name="bank_counter_corner" parent="FurnitureContainer" unique_id=836388662 instance=ExtResource("5_pq00f")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.2472436, 0, -0.998521)
+
+[node name="bank_counter2" parent="FurnitureContainer" unique_id=1989729010 instance=ExtResource("3_ewyqs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.2502923, 0, -0.996311)
+
+[node name="bank_counter3" parent="FurnitureContainer" unique_id=778684893 instance=ExtResource("3_ewyqs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4.25081, 0, -0.996311)
+
+[node name="plant" parent="FurnitureContainer" unique_id=862833265 instance=ExtResource("6_xpsyw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4199038, 2.3841858e-07, -3.1545496)
+
+[node name="plant2" parent="FurnitureContainer" unique_id=121962481 instance=ExtResource("6_xpsyw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4199038, 2.3841858e-07, 5.425317)
+
+[node name="notice_board" parent="FurnitureContainer" unique_id=951540190 instance=ExtResource("7_3l52i")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.8309014, 2.3841858e-07, 5.906956)
+
+[node name="tubelamp" parent="FurnitureContainer" unique_id=370111757 instance=ExtResource("8_o76h5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.0080357, 1.0184464, -1.2720385)
+
+[node name="tubelamp2" parent="FurnitureContainer" unique_id=877770905 instance=ExtResource("8_o76h5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.018, -1.272)
+
+[node name="tubelamp3" parent="FurnitureContainer" unique_id=1770974997 instance=ExtResource("8_o76h5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 1.018, -1.272)
+
+[node name="tubelamp4" parent="FurnitureContainer" unique_id=697404831 instance=ExtResource("8_o76h5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.0080357, 1.0184464, 3.2145987)
+
+[node name="tubelamp5" parent="FurnitureContainer" unique_id=971994610 instance=ExtResource("8_o76h5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.018, 3.2146373)
+
+[node name="tubelamp6" parent="FurnitureContainer" unique_id=97257331 instance=ExtResource("8_o76h5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 1.018, 3.2146373)
 
 [editable path="building"]
