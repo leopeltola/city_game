@@ -18,6 +18,7 @@ func _spawn_function(data: Dictionary) -> Node:
 	print("_spawn_function of ItemMultiplayerSpawner called")
 	var node: ItemWorld = ItemManager.get_item_type(data["type"]).get_world_item_scene().instantiate()
 	node.position = data["position"]
+	node.rotation = data["rotation"]
 	node.item_id = data["id"]
 	node.launch_force = data.get("launch_force", Vector3.ZERO)
 

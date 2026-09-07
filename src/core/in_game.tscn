@@ -251,17 +251,17 @@ script = ExtResource("4_anh6s")
 [node name="CasinoSkyscraper" parent="City" unique_id=1418599293 instance=ExtResource("17_xdh1b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.46692, 0.13125515, -9.959579)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 592319556) index="0" unique_id=2137893935]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 969999495) index="0" unique_id=2137893935]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper/StaticBody3D" unique_id=1988896395]
 shape = SubResource("ConcavePolygonShape3D_a54ph")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 612543169) index="0" unique_id=1235067300]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 1607977321) index="0" unique_id=1235067300]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper_001/StaticBody3D" unique_id=562831225]
 shape = SubResource("ConcavePolygonShape3D_2h7sf")
 
-[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=982927261]
+[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=1491844758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0038805008, 4.3149405, 0.014133453)
 
 [node name="casino_table" parent="City/CasinoSkyscraper" unique_id=475239430 instance=ExtResource("24_txgtg")]
@@ -633,11 +633,11 @@ size = Vector3(70.24011, 43.744263, 39.792053)
 data = ExtResource("21_a54ph")
 
 [node name="WelfareApplication" parent="." unique_id=16495480 node_paths=PackedStringArray("cash_spawn_pos") instance=ExtResource("26_2hs6j")]
-transform = Transform3D(0.9062853, 0.026749654, 0.4218192, 0, 0.99799544, -0.063287854, -0.42266646, 0.05735685, 0.9044686, 2.3102603, 0.47745246, -3.2324126)
+transform = Transform3D(-0.99982065, 0.011973081, -0.0146750035, 0.012698127, 0.99865097, -0.050352037, 0.014052332, -0.05052936, -0.99862385, 14.868546, 1.1941943, 25.838104)
 cash_spawn_pos = NodePath("CashSpawnPos")
 
 [node name="CashSpawnPos" type="Node3D" parent="WelfareApplication" unique_id=622466902]
-transform = Transform3D(0.99999994, -3.7252903e-09, -5.9604645e-08, 3.7252903e-09, 0.9999999, 0, 2.9802322e-08, -1.1175871e-08, 0.99999994, 0.33680487, 0.48693824, 0.21431696)
+transform = Transform3D(0.012126995, -0.9979475, 0.0628776, -0.03781919, 0.06237946, 0.9973355, -0.99921083, -0.014472652, -0.036985092, -0.28268623, 0.24489582, 0.013877869)
 
 [node name="lamp" parent="." unique_id=424244391 instance=ExtResource("27_nmu3v")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 22.303516, 0.10000038, 1.1394212)
