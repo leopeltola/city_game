@@ -171,7 +171,7 @@ outline_size = 33
 
 [node name="CashSpawnPos" type="Node3D" parent="." unique_id=941066357]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.52029437, 0.853987, 0, -0.853987, 0.52029437, 0.21218126, 0.6151218, 0.6743454)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21218126, 0.648112, 0.72862166)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1315477202]
 transform = Transform3D(-1.5517543e-08, -0.355, 1.5517543e-08, 0, -1.5517543e-08, -0.355, 0.355, -1.5517543e-08, 6.7829334e-16, -0.46916187, 1.148298, -0.055110067)
