@@ -31,6 +31,8 @@
 [ext_resource type="PackedScene" uid="uid://bxu36b6vyrf6i" path="res://src/features/city/street_props/park_bench.glb" id="28_sc8gu"]
 [ext_resource type="PackedScene" uid="uid://blsuorotrv5bo" path="res://src/features/city/street_props/trash_can.glb" id="29_rlhkn"]
 [ext_resource type="PackedScene" uid="uid://dmp5lcjvp26px" path="res://src/features/city/street_props/trash_container.glb" id="30_j2hit"]
+[ext_resource type="PackedScene" uid="uid://bkm3nveganw6c" path="res://src/features/city/street_props/chain_fence.glb" id="32_sc8gu"]
+[ext_resource type="PackedScene" uid="uid://c085gkinj7n7d" path="res://src/features/city/street_props/rail_fence.glb" id="33_rlhkn"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_udf63"]
 panorama = ExtResource("1_yfk00")
@@ -248,17 +250,17 @@ script = ExtResource("4_anh6s")
 [node name="CasinoSkyscraper" parent="City" unique_id=1418599293 instance=ExtResource("17_xdh1b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.46692, 0.13125515, -9.959579)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 1094435842) index="0" unique_id=2137893935]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 1404526762) index="0" unique_id=2137893935]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper/StaticBody3D" unique_id=1988896395]
 shape = SubResource("ConcavePolygonShape3D_a54ph")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 1318139394) index="0" unique_id=1235067300]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 507795737) index="0" unique_id=1235067300]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper_001/StaticBody3D" unique_id=562831225]
 shape = SubResource("ConcavePolygonShape3D_2h7sf")
 
-[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=1754682556]
+[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=1883737270]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0038805008, 4.3149405, 0.014133453)
 
 [node name="casino_table" parent="City/CasinoSkyscraper" unique_id=475239430 instance=ExtResource("24_txgtg")]
@@ -719,5 +721,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.262951, 0.099999905, 7.348
 
 [node name="trash_can9" parent="." unique_id=349027827 instance=ExtResource("29_rlhkn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.262951, 0.9000076, 7.3486032)
+
+[node name="chain_fence" parent="." unique_id=878054904 instance=ExtResource("32_sc8gu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 15)
+
+[node name="chain_fence2" parent="." unique_id=1087481537 instance=ExtResource("32_sc8gu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 15)
+
+[node name="chain_fence3" parent="." unique_id=1027977171 instance=ExtResource("32_sc8gu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 15)
+
+[node name="rail_fence" parent="." unique_id=1477480819 instance=ExtResource("33_rlhkn")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 22, 0.11, 3)
+
+[node name="rail_fence2" parent="." unique_id=2077356360 instance=ExtResource("33_rlhkn")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 22, 0.11, 6)
+
+[node name="rail_fence3" parent="." unique_id=1115569661 instance=ExtResource("33_rlhkn")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 22, 0.11, 9)
 
 [editable path="City/CasinoSkyscraper"]
