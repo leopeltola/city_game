@@ -18,20 +18,27 @@ script = ExtResource("1_oa53l")
 [node name="ScrollingBackgroundLight" parent="." unique_id=478385047 instance=ExtResource("2_54l6f")]
 layout_mode = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1970592083]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1254384809]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
 
-[node name="MainMenu" type="VBoxContainer" parent="CenterContainer" unique_id=179172927]
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer" unique_id=1970592083]
+layout_mode = 2
+
+[node name="MainMenu" type="VBoxContainer" parent="MarginContainer/CenterContainer" unique_id=179172927]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 33
 
-[node name="Title" type="RichTextLabel" parent="CenterContainer/MainMenu" unique_id=351186702]
+[node name="Title" type="RichTextLabel" parent="MarginContainer/CenterContainer/MainMenu" unique_id=351186702]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("2_h6vdu")
 theme_override_font_sizes/normal_font_size = 32
@@ -40,33 +47,50 @@ text = "[wave connected=0]Game Title[/wave]"
 fit_content = true
 autowrap_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MainMenu" unique_id=1413601703]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/CenterContainer/MainMenu" unique_id=1413601703]
 layout_mode = 2
 
-[node name="JoinButton" type="Button" parent="CenterContainer/MainMenu/VBoxContainer" unique_id=1387062499]
+[node name="JoinButton" type="Button" parent="MarginContainer/CenterContainer/MainMenu/VBoxContainer" unique_id=1387062499]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Join Lobby"
 
-[node name="ServerButton" type="Button" parent="CenterContainer/MainMenu/VBoxContainer" unique_id=206660013]
+[node name="ServerButton" type="Button" parent="MarginContainer/CenterContainer/MainMenu/VBoxContainer" unique_id=206660013]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Create Lobby"
 
-[node name="Spacer" type="Control" parent="CenterContainer/MainMenu/VBoxContainer" unique_id=1161027488]
+[node name="Spacer" type="Control" parent="MarginContainer/CenterContainer/MainMenu/VBoxContainer" unique_id=1161027488]
 layout_mode = 2
 
-[node name="QuitButton" type="Button" parent="CenterContainer/MainMenu/VBoxContainer" unique_id=2021206830]
+[node name="QuitButton" type="Button" parent="MarginContainer/CenterContainer/MainMenu/VBoxContainer" unique_id=2021206830]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Quit"
 
-[node name="LobbyMenu" parent="CenterContainer" unique_id=1223815142 instance=ExtResource("2_d3a7t")]
+[node name="LobbyMenu" parent="MarginContainer/CenterContainer" unique_id=1223815142 instance=ExtResource("2_d3a7t")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="CreateLobbyMenu" parent="CenterContainer" unique_id=34379040 instance=ExtResource("3_3shxk")]
+[node name="CreateLobbyMenu" parent="MarginContainer/CenterContainer" unique_id=34379040 instance=ExtResource("3_3shxk")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1314341777]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1740075523]
+layout_mode = 2
+text = "Your Name:"
+
+[node name="PlayerNameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=1309338922]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+max_length = 20

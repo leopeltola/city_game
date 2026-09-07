@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://monjl4k3eeb1"]
+
+[ext_resource type="Texture2D" uid="uid://xjap5nl57tyl" path="res://assets/textures/chain_link/chain_link_albedo.png" id="1"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1")
+uv1_scale = Vector3(2.525, 2.525, 2.525)
+uv1_triplanar = true

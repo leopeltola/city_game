@@ -7,7 +7,7 @@ signal interacted(player_id: int)
 @export var active := true
 
 
-func get_prompt(player_id) -> String:
+func get_prompt(_player_id: int) -> String:
 	return prompt
 
 
@@ -16,5 +16,5 @@ func interact(player_id: int) -> void:
 	interacted.emit(player_id)
 
 
-func can_interact(player_id: int) -> bool:
+func can_interact(_player_id: int) -> bool:
 	return active

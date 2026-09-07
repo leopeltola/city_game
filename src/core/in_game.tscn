@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://bi0yohs048ee5" path="res://src/features/city/ground/plaza.tscn" id="22_4e13v"]
 [ext_resource type="PackedScene" uid="uid://ln5uarworkc6" path="res://src/features/interior/casino/casino_table.glb" id="24_txgtg"]
 [ext_resource type="PackedScene" uid="uid://6oi0vu48dce8" path="res://src/features/interior/casino/chandelier.glb" id="25_323nh"]
+[ext_resource type="Material" uid="uid://monjl4k3eeb1" path="res://assets/textures/chain_link/chain_link.tres" id="25_nmu3v"]
 [ext_resource type="PackedScene" uid="uid://bwboswlefrlgv" path="res://src/features/city/kela/application/welfare_application.tscn" id="26_2hs6j"]
 [ext_resource type="PackedScene" uid="uid://b6fba0h3hry7l" path="res://src/features/interior/casino/pillar.glb" id="26_rtbsw"]
 [ext_resource type="PackedScene" uid="uid://dln1ucilt6pj2" path="res://src/features/city/street_props/lamp.glb" id="27_nmu3v"]
@@ -61,6 +62,9 @@ size = Vector2(5.16, 8.03)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g318b"]
 albedo_color = Color(0.65, 0.08449999, 0.08449999, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g318b"]
+size = Vector2(4.24, 2.48)
 
 [node name="InGame" type="Node3D" unique_id=1046277669]
 
@@ -381,6 +385,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -9)
 [node name="Plaza6" parent="City/Roads" unique_id=818143170 instance=ExtResource("22_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, -9)
 
+[node name="Plaza18" parent="City/Roads" unique_id=1472373501 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, -19)
+
+[node name="Plaza19" parent="City/Roads" unique_id=482198835 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -19)
+
+[node name="Plaza20" parent="City/Roads" unique_id=1362254896 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -19)
+
 [node name="Plaza7" parent="City/Roads" unique_id=1996960469 instance=ExtResource("22_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -9)
 
@@ -401,16 +414,51 @@ max_stories = 6
 [node name="roof1" parent="City/Buildings/Modular1Building" unique_id=1594805640 instance=ExtResource("19_2h7sf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
+[node name="Modular1Building9" parent="City/Buildings" unique_id=1551871623 instance=ExtResource("16_nj3ha")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -11.82889, 0, -22.377073)
+max_stories = 2
+
+[node name="base2" parent="City/Buildings/Modular1Building9" unique_id=474504544 instance=ExtResource("17_4e13v")]
+
+[node name="layer_brick" parent="City/Buildings/Modular1Building9" unique_id=702661810 instance=ExtResource("18_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="@Node3D@98177" parent="City/Buildings/Modular1Building9" unique_id=1651313714 instance=ExtResource("19_2h7sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+
+[node name="Modular1Building12" parent="City/Buildings" unique_id=2072970869 instance=ExtResource("16_nj3ha")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.6906118, 0, -21.975468)
+max_stories = 2
+
+[node name="base2" parent="City/Buildings/Modular1Building12" unique_id=578576831 instance=ExtResource("17_4e13v")]
+
+[node name="layer_brick" parent="City/Buildings/Modular1Building12" unique_id=1518359784 instance=ExtResource("18_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="_Node3D_98177" parent="City/Buildings/Modular1Building12" unique_id=1794369504 instance=ExtResource("19_2h7sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+
+[node name="Modular1Building10" parent="City/Buildings" unique_id=972271081 instance=ExtResource("16_nj3ha")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.82889, 0, -22.377073)
+
+[node name="base1" parent="City/Buildings/Modular1Building10" unique_id=890463539 instance=ExtResource("17_a54ph")]
+
+[node name="layer_window" parent="City/Buildings/Modular1Building10" unique_id=1303920124 instance=ExtResource("20_2h7sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="roof1" parent="City/Buildings/Modular1Building10" unique_id=42308256 instance=ExtResource("19_2h7sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+
 [node name="Modular1Building2" parent="City/Buildings" unique_id=1158659002 instance=ExtResource("16_nj3ha")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.799126, 0, -8.160296)
 max_stories = 9
 
-[node name="base1" parent="City/Buildings/Modular1Building2" unique_id=890463539 instance=ExtResource("17_a54ph")]
+[node name="base1" parent="City/Buildings/Modular1Building2" unique_id=301777750 instance=ExtResource("17_a54ph")]
 
-[node name="layer_brick" parent="City/Buildings/Modular1Building2" unique_id=702661810 instance=ExtResource("18_4e13v")]
+[node name="layer_brick" parent="City/Buildings/Modular1Building2" unique_id=1774872764 instance=ExtResource("18_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
-[node name="layer_window" parent="City/Buildings/Modular1Building2" unique_id=1303920124 instance=ExtResource("20_2h7sf")]
+[node name="layer_window" parent="City/Buildings/Modular1Building2" unique_id=368166049 instance=ExtResource("20_2h7sf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 
 [node name="@Node3D@53809" parent="City/Buildings/Modular1Building2" unique_id=1068857368 instance=ExtResource("20_2h7sf")]
@@ -453,6 +501,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
 
 [node name="roof1" parent="City/Buildings/Modular1Building4" unique_id=1633873989 instance=ExtResource("19_2h7sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
+
+[node name="Modular1Building11" parent="City/Buildings" unique_id=1287175283 instance=ExtResource("16_nj3ha")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -32.15233, -3.8146973e-06, -18.596455)
+max_stories = 8
+
+[node name="_Node3D_54325" parent="City/Buildings/Modular1Building11" unique_id=538809330 instance=ExtResource("17_a54ph")]
+
+[node name="layer_brick" parent="City/Buildings/Modular1Building11" unique_id=1940156045 instance=ExtResource("18_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="_Node3D_54326" parent="City/Buildings/Modular1Building11" unique_id=526543718 instance=ExtResource("20_2h7sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+
+[node name="_Node3D_54327" parent="City/Buildings/Modular1Building11" unique_id=1681934395 instance=ExtResource("20_2h7sf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
+
+[node name="roof1" parent="City/Buildings/Modular1Building11" unique_id=279054616 instance=ExtResource("19_2h7sf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
 
 [node name="Modular1Building7" parent="City/Buildings" unique_id=1701219290 instance=ExtResource("16_nj3ha")]
@@ -551,13 +617,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 29, 0)
 [node name="roof1" parent="City/Buildings/Modular1Building6" unique_id=241299128 instance=ExtResource("19_2h7sf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33, 0)
 
+[node name="StreetProps" type="Node3D" parent="City" unique_id=1043532628]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="City/StreetProps" unique_id=617577401]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -10.245213, 1.0405964, -11.961172)
+mesh = SubResource("PlaneMesh_g318b")
+surface_material_override/0 = ExtResource("25_nmu3v")
+
 [node name="VoxelGI" type="VoxelGI" parent="." unique_id=1405583343]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.565491, 19.857971, -1.3495483)
-size = Vector3(70.24011, 43.744263, 35.9386)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.565491, 19.857971, -3.2762756)
+size = Vector3(70.24011, 43.744263, 39.792053)
 data = ExtResource("21_a54ph")
 
-[node name="WelfareApplication" parent="." unique_id=16495480 instance=ExtResource("26_2hs6j")]
-transform = Transform3D(1, 0, 0, 0, 0.02881529, -0.99958473, 0, 0.99958473, 0.02881529, 2.1135063, 0.8278711, -3.0413733)
+[node name="WelfareApplication" parent="." unique_id=16495480 node_paths=PackedStringArray("cash_spawn_pos") instance=ExtResource("26_2hs6j")]
+transform = Transform3D(0.9062853, 0.026749654, 0.4218192, 0, 0.99799544, -0.063287854, -0.42266646, 0.05735685, 0.9044686, 2.3102603, 0.47745246, -3.2324126)
+cash_spawn_pos = NodePath("CashSpawnPos")
+
+[node name="CashSpawnPos" type="Node3D" parent="WelfareApplication" unique_id=622466902]
+transform = Transform3D(0.99999994, -3.7252903e-09, -5.9604645e-08, 3.7252903e-09, 0.9999999, 0, 2.9802322e-08, -1.1175871e-08, 0.99999994, 0.33680487, 0.48693824, 0.21431696)
 
 [node name="lamp" parent="." unique_id=424244391 instance=ExtResource("27_nmu3v")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 22.303516, 0.10000038, 1.1394212)
@@ -580,11 +657,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8890944, 0.10000038, -3.405
 [node name="trash_container2" parent="." unique_id=845366290 instance=ExtResource("30_j2hit")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -9.1874485, 0.10008627, -7.0183606)
 
+[node name="trash_container3" parent="." unique_id=1665883010 instance=ExtResource("30_j2hit")]
+transform = Transform3D(-0.9250294, 0, -0.37989563, 0, 1, 0, 0.37989563, 0, -0.9250294, -12.606109, 0.10008639, -12.938298)
+
+[node name="trash_container4" parent="." unique_id=529821559 instance=ExtResource("30_j2hit")]
+transform = Transform3D(0.9529794, 0, -0.30303493, 0, 1, 0, 0.30303493, 0, 0.9529794, -12.105379, 0.10008639, -17.103897)
+
 [node name="trash_can2" parent="." unique_id=1104783776 instance=ExtResource("29_rlhkn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.971976, 0.099999666, -5.9937963)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.177944, 0.09999943, -5.6760607)
+
+[node name="trash_can10" parent="." unique_id=1197849788 instance=ExtResource("29_rlhkn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.862451, 0.09999943, -11.404729)
+
+[node name="trash_can11" parent="." unique_id=304934387 instance=ExtResource("29_rlhkn")]
+transform = Transform3D(0.8895726, 0, -0.45679376, 0, 1, 0, 0.45679376, 0, 0.8895726, -10.875831, 0.09999943, -17.531704)
 
 [node name="trash_can3" parent="." unique_id=1098898606 instance=ExtResource("29_rlhkn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.303566, 0.099999905, -6.358987)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.893967, 0.099999905, -6.0976553)
 
 [node name="park_bench3" parent="." unique_id=546593418 instance=ExtResource("28_sc8gu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.42646, 0.09999943, -3.1471105)
@@ -625,7 +714,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -32.
 [node name="trash_can7" parent="." unique_id=367741451 instance=ExtResource("29_rlhkn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.59611, 0.099999905, 13.209957)
 
-[node name="trash_can8" parent="." unique_id=1197849788 instance=ExtResource("29_rlhkn")]
+[node name="trash_can8" parent="." unique_id=650531517 instance=ExtResource("29_rlhkn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.262951, 0.099999905, 7.3486032)
 
 [node name="trash_can9" parent="." unique_id=349027827 instance=ExtResource("29_rlhkn")]

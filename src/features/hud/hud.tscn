@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://b8s4d7c8loivc" path="res://src/features/ui/theme/assets/fonts/fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="3_dsqr1"]
 [ext_resource type="Texture2D" uid="uid://b22kwnd7bdwn" path="res://src/features/player/assets/sprites/png/light/crosshair-000.png" id="4_f77pw"]
 [ext_resource type="PackedScene" uid="uid://ctof200ajqq6c" path="res://src/features/city/kela/application/welfare_prompt.tscn" id="5_s6xnv"]
+[ext_resource type="PackedScene" uid="uid://clyw4ta2imx4o" path="res://src/features/hud/personal_menu/personal_menu.tscn" id="6_ypb4a"]
 
 [sub_resource type="FontVariation" id="FontVariation_ioa1u"]
 base_font = ExtResource("3_dsqr1")
@@ -70,3 +71,12 @@ layout_mode = 1
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
+
+[node name="PersonalMenu" parent="." unique_id=1818278617 instance=ExtResource("6_ypb4a")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
