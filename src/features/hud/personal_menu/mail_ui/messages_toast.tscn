@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://b3c06lv2dg0nq"]
+
+[ext_resource type="Script" uid="uid://ca820lm4xg02r" path="res://src/features/hud/personal_menu/mail_ui/messages_toast.gd" id="1_0comb"]
+
+[node name="MessagesToast" type="MarginContainer" unique_id=868931879]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+script = ExtResource("1_0comb")
+
+[node name="Control" type="Control" parent="." unique_id=600790842]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ToastContainer" type="MarginContainer" parent="Control" unique_id=2043004234]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 66.0
+grow_horizontal = 0
+offset_transform_enabled = true

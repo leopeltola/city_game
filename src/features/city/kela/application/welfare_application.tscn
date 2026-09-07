@@ -2,6 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bbiy25p2fq7g4" path="res://src/features/city/kela/application/welfare_application.gd" id="1_8dkvk"]
 [ext_resource type="Texture2D" uid="uid://dk2wuyesagyuf" path="res://src/features/city/kela/assets/textures/application_form.jpg" id="2_8dkvk"]
+[ext_resource type="AudioStream" uid="uid://ce4gilnv726fo" path="res://assets/sfx/slot_machine/cash_register.ogg" id="2_thr7g"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qyaxu"]
+random_pitch = 1.122462
+random_volume_offset_db = 0.92
+streams_count = 1
+stream_0/stream = ExtResource("2_thr7g")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_thr7g"]
 size = Vector2(0.315, 0.435)
@@ -14,6 +21,7 @@ size = Vector3(0.34191895, 0.073791504, 0.4522705)
 
 [node name="WelfareApplication" type="Area3D" unique_id=16495480]
 script = ExtResource("1_8dkvk")
+cash_spawn_sfx = SubResource("AudioStreamRandomizer_qyaxu")
 prompt = "Apply for Welfare"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=608534371]

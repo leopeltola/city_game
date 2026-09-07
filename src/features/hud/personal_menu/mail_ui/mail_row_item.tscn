@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cftnhwpivwvg4"]
+
+[ext_resource type="Script" uid="uid://g6n7f8p4qnnh" path="res://src/features/hud/personal_menu/mail_ui/mail_row_item.gd" id="1_1wf8t"]
+
+[node name="MailRowItem" type="MarginContainer" unique_id=394897817]
+size_flags_vertical = 3
+script = ExtResource("1_1wf8t")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1506847295]
+layout_mode = 2
+color = Color(0.91764706, 0.91764706, 0.91764706, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1235751810]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Sender" type="Label" parent="HBoxContainer" unique_id=1360907518]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+custom_maximum_size = Vector2(100, -1)
+layout_mode = 2
+text = "Kimmo"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Title" type="Label" parent="HBoxContainer" unique_id=1950844522]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Your payments are late..."
+
+[node name="Time" type="Label" parent="HBoxContainer" unique_id=2109723994]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 2

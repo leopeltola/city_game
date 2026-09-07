@@ -59,7 +59,7 @@ func play_sfx(audio_stream: AudioStream, volume_db: float = 0) -> void:
 
 
 ## Play a positional 3D sound at [position] in the world.
-func play_sfx_3d(audio_stream: AudioStream, position: Vector3, volume_db: float = 0, max_distance: float = 4000.0) -> void:
+func play_sfx_3d(audio_stream: AudioStream, position: Vector3, volume_db: float = 0, max_distance: float = 30.0) -> void:
 	if not audio_stream:
 		return
 	var pl := _get_empty_sfx_player_3d()

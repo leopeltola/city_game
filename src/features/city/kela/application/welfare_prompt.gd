@@ -33,6 +33,11 @@ class Result:
 func _ready() -> void:
 	cancel_button.pressed.connect(_cancel)
 	send_button.pressed.connect(_send)
+	visibility_changed.connect(
+		func():
+			if not visible:
+				_cancel()
+	)
 
 
 func _input(event: InputEvent) -> void:

@@ -11,11 +11,47 @@ func _ready() -> void:
 	HUD.instance = self
 
 	%MoneyPrompt.hide()
+	%PersonalMenu.hide()
 
 
 func _exit_tree() -> void:
 	if HUD.instance == self:
 		HUD.instance = null
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("open_info"):
+		print("open info pressed")
+		toggle_personal_menu("info")
+	elif event.is_action_pressed("open_messages"):
+		toggle_personal_menu("messages")
+
+
+func clear_menus() -> void:
+	hide_personal_menu()
+
+
+func queue_msg_toast(from: String, title: String, msg: String) -> void:
+	$MessagesToast.queue_msg_toast(from, title, msg)
+
+
+func open_personal_menu(tab: StringName = "info") -> void:
+	if is_blocking_input():
+		return
+	%PersonalMenu.show()
+	%PersonalMenu.set_tab(tab)
+
+
+func toggle_personal_menu(tab: StringName = "info") -> void:
+	if %PersonalMenu.visible:
+		%PersonalMenu.hide()
+		return
+	else:
+		open_personal_menu(tab)
+
+
+func hide_personal_menu() -> void:
+	%PersonalMenu.hide()
 
 
 func prompt_money(max: int = 1_000_000, default: int = 0, title: String = "") -> MoneyPrompt.Result:
@@ -34,6 +70,11 @@ func is_money_prompt_open() -> bool:
 ## Returns true while the welfare prompt is on screen.
 func is_welfare_prompt_open() -> bool:
 	return %WelfarePrompt.visible
+
+
+## Returns true while the personal menu is on screen.
+func is_personal_menu_open() -> bool:
+	return %PersonalMenu.visible
 
 
 func show_interact_label(text: String) -> void:

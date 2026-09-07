@@ -25,7 +25,11 @@ func _ready() -> void:
 	line_edit.text_submitted.connect(func(_text: String) -> void: _try_submit())
 	ok_button.pressed.connect(_try_submit)
 	cancel_button.pressed.connect(_cancel)
-	hidden.connect(_cancel)
+	visibility_changed.connect(
+		func():
+			if not visible:
+				_cancel()
+	)
 
 
 func _input(event: InputEvent) -> void:

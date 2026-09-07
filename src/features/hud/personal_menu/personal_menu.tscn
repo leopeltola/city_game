@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://clyw4ta2imx4o"]
 
 [ext_resource type="Theme" uid="uid://cc474s6hx67yx" path="res://src/features/ui/theme/light_theme.tres" id="1_ud2db"]
+[ext_resource type="Script" uid="uid://n00mik10cutg" path="res://src/features/hud/personal_menu/personal_menu.gd" id="2_e6eos"]
+[ext_resource type="PackedScene" uid="uid://dc2k0k5uhehuy" path="res://src/features/hud/personal_menu/information_ui/information_ui.tscn" id="2_id41w"]
+[ext_resource type="PackedScene" uid="uid://5tubv0e7r1ka" path="res://src/features/hud/personal_menu/mail_ui/mail_ui.tscn" id="2_u4wdq"]
 
 [node name="PersonalMenu" type="Control" unique_id=1818278617]
 layout_mode = 3
@@ -10,6 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ud2db")
+script = ExtResource("2_e6eos")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=343224055]
 layout_mode = 1
@@ -20,33 +24,24 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TabContainer" type="TabContainer" parent="CenterContainer" unique_id=1102267306]
-custom_minimum_size = Vector2(500, 500)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
 theme_override_constants/tab_separation = 1
-current_tab = 0
+current_tab = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/TabContainer" unique_id=541683152]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/MarginContainer" unique_id=2060996607]
-layout_mode = 2
-text = "Test"
-
-[node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/TabContainer" unique_id=680848918]
+[node name="Information" parent="CenterContainer/TabContainer" unique_id=1217193896 instance=ExtResource("2_id41w")]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 1
 
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/MarginContainer2" unique_id=796884210]
+[node name="Messages" parent="CenterContainer/TabContainer" unique_id=1117558386 instance=ExtResource("2_u4wdq")]
 layout_mode = 2
-text = "Test"
 
-[node name="MarginContainer3" type="MarginContainer" parent="CenterContainer/TabContainer" unique_id=1520928947]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 2
-
-[node name="Label" type="Label" parent="CenterContainer/TabContainer/MarginContainer3" unique_id=254700167]
-layout_mode = 2
-text = "Test"
+[node name="CloseButton" type="Button" parent="." unique_id=780930085]
+layout_mode = 0
+offset_left = 261.0
+offset_top = 166.0
+offset_right = 305.0
+offset_bottom = 194.0
+focus_mode = 0
+text = "Close"

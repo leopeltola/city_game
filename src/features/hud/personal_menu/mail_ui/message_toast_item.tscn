@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://b8v3mu5f00qh8"]
+
+[ext_resource type="Texture2D" uid="uid://busjygir7mi0i" path="res://src/features/ui/theme/assets/textures/icons/mail.png" id="1_3oin3"]
+[ext_resource type="Script" uid="uid://d1fboe6xa8fpp" path="res://src/features/hud/personal_menu/mail_ui/message_toast_item.gd" id="1_t53fx"]
+
+[node name="MessageToastItem" type="PanelContainer" unique_id=1961847361]
+custom_minimum_size = Vector2(200, 0)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -168.0
+offset_bottom = 44.0
+grow_horizontal = 0
+script = ExtResource("1_t53fx")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=546115328]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2038853391]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=678669279]
+layout_mode = 2
+
+[node name="MailIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1639649047]
+modulate = Color(0.6586832, 0.6586829, 0.65868294, 1)
+layout_mode = 2
+texture = ExtResource("1_3oin3")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Sender" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1793379635]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6586832, 0.6586829, 0.65868294, 1)
+theme_override_font_sizes/font_size = 12
+text = "Mafia Boss"
+
+[node name="ShortcutInfo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=705565995]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6586832, 0.6586829, 0.65868294, 1)
+theme_override_font_sizes/font_size = 11
+text = "[M]"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=819025897]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2139936645]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Your payments are late"
+clip_text = true
+text_overrun_behavior = 5
+
+[node name="Message" type="Label" parent="MarginContainer/VBoxContainer" unique_id=817370037]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 21.24)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.28617662, 0.2861765, 0.28617656, 1)
+theme_override_constants/line_spacing = -2
+theme_override_font_sizes/font_size = 10
+text = "Lore ipsum sit amet, consecteur apsidictaum. Lore ipsum sit amet, consecteur apsidictaum."
+autowrap_mode = 3
+clip_text = true
+text_overrun_behavior = 5

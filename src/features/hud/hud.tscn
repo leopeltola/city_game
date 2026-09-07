@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b22kwnd7bdwn" path="res://src/features/player/assets/sprites/png/light/crosshair-000.png" id="4_f77pw"]
 [ext_resource type="PackedScene" uid="uid://ctof200ajqq6c" path="res://src/features/city/kela/application/welfare_prompt.tscn" id="5_s6xnv"]
 [ext_resource type="PackedScene" uid="uid://clyw4ta2imx4o" path="res://src/features/hud/personal_menu/personal_menu.tscn" id="6_ypb4a"]
+[ext_resource type="PackedScene" uid="uid://b3c06lv2dg0nq" path="res://src/features/hud/personal_menu/mail_ui/messages_toast.tscn" id="7_0r6hx"]
 
 [sub_resource type="FontVariation" id="FontVariation_ioa1u"]
 base_font = ExtResource("3_dsqr1")
@@ -26,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_8n2dx")
 
 [node name="InteractLabel" type="Label" parent="." unique_id=2074325233]
@@ -60,6 +61,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("4_f77pw")
 
 [node name="MoneyPrompt" parent="." unique_id=971607912 instance=ExtResource("2_8n2dx")]
@@ -73,10 +75,9 @@ visible = false
 layout_mode = 1
 
 [node name="PersonalMenu" parent="." unique_id=1818278617 instance=ExtResource("6_ypb4a")]
+unique_name_in_owner = true
 visible = false
-layout_mode = 0
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 1
+
+[node name="MessagesToast" parent="." unique_id=868931879 instance=ExtResource("7_0r6hx")]
+layout_mode = 1
