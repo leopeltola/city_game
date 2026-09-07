@@ -21,7 +21,7 @@ func _ready() -> void:
 
 			if not Net.is_server:
 				return
-			if PlayerManager.get_player_count() == 2:
+			if PlayerManager.get_player_count() == 3:
 				# Prevent instant execution to let network frames settle
 				await get_tree().create_timer(0.3).timeout
 				rpc_start_loading.rpc()
