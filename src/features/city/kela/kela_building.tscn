@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://b26uwc072v7qd"]
+
+[ext_resource type="PackedScene" uid="uid://bg23gchsboc43" path="res://src/features/city/kela/assets/models/building.glb" id="1_4ft2f"]
+
+[node name="KelaBuilding" type="Node3D" unique_id=131200258]
+
+[node name="building" parent="." unique_id=834896675 instance=ExtResource("1_4ft2f")]
+
+[editable path="building"]
