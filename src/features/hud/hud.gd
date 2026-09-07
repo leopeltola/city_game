@@ -6,6 +6,8 @@ static var instance: HUD = null
 const MoneyPrompt := preload("res://src/features/hud/prompts/money_prompt.gd")
 const WelfarePrompt := preload("res://src/features/city/kela/application/welfare_prompt.gd")
 
+var _stamina_tween: Tween
+
 
 func _ready() -> void:
 	HUD.instance = self
@@ -33,6 +35,45 @@ func clear_menus() -> void:
 
 func queue_msg_toast(from: String, title: String, msg: String) -> void:
 	$MessagesToast.queue_msg_toast(from, title, msg)
+
+
+## Sets stamina bar value in the 0-1 range with juice for chunk costs and exhaustion.
+func set_stamina(value: float) -> void:
+	var target := clampf(value, 0.0, 1.0)
+	var delta: float = target - %StaminaBar.value
+	var was_depleted := is_zero_approx(%StaminaBar.value)
+
+	%StaminaBar.value = target
+
+	# Discrete chunk cost (e.g. ability or heavy action dropped > 5% in one tick)
+	if delta < -0.05:
+		punch_stamina(Vector2(1.25, 0.75))
+	# Exhaustion pop when reaching 0
+	elif is_zero_approx(target) and not was_depleted:
+		punch_stamina(Vector2(0.75, 1.3), 8.0)
+
+
+## Triggers an elastic squash/stretch and optional tilt on the stamina bar.
+func punch_stamina(punch_scale: Vector2 = Vector2(1.25, 0.75), shake_deg: float = 0.0) -> void:
+	var bar: Control = %StaminaBar
+	bar.pivot_offset = bar.size * 0.5
+
+	if _stamina_tween:
+		_stamina_tween.kill()
+
+	bar.scale = punch_scale
+	if shake_deg > 0.0:
+		bar.rotation_degrees = randf_range(-shake_deg, shake_deg)
+
+	_stamina_tween = create_tween().set_parallel(true)
+	_stamina_tween.tween_property(bar, "scale", Vector2.ONE, 0.4) \
+			.set_trans(Tween.TRANS_ELASTIC) \
+			.set_ease(Tween.EASE_OUT)
+
+	if shake_deg > 0.0:
+		_stamina_tween.tween_property(bar, "rotation_degrees", 0.0, 0.35) \
+				.set_trans(Tween.TRANS_ELASTIC) \
+				.set_ease(Tween.EASE_OUT)
 
 
 func open_personal_menu(tab: StringName = "info") -> void:

@@ -726,6 +726,21 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1gf2"]
+bg_color = Color(0.55, 0.55, 0.55, 0.5803922)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g318b"]
+bg_color = Color(0.92, 0.92, 0.92, 0.6901961)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [sub_resource type="DPITexture" id="DPITexture_p0qtr"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"#fefffe\" fill-opacity=\".75\"/><path fill=\"none\" stroke=\"#1a1a1a\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\".65\" stroke-width=\"2\" d=\"m9 5-3 3 3 3\"/></svg>
 "
@@ -879,6 +894,13 @@ MainPanelContainer/base_type = &"PanelContainer"
 MainPanelContainer/styles/panel = SubResource("StyleBoxFlat_p0qtr")
 Panel/styles/panel = SubResource("StyleBoxFlat_e26al")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_e26al")
+ProgressBar/colors/font_color = Color(0, 0, 0, 1)
+ProgressBar/colors/font_outline_color = Color(0, 0, 0, 1)
+ProgressBar/constants/outline_size = 0
+ProgressBar/font_sizes/font_size = 16
+ProgressBar/fonts/font = ExtResource("2_2mr05")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_q1gf2")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_g318b")
 RichTextLabel/colors/default_color = Color(0.17752913, 0.17752913, 0.17752907, 1)
 RichTextLabel/colors/font_outline_color = Color(0.1764706, 0.1764706, 0.1764706, 1)
 RichTextLabel/colors/font_selected_color = Color(0.1764706, 0.1764706, 0.1764706, 1)

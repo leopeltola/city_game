@@ -34,6 +34,9 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath("SightPivot:rotation")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+properties/6/path = NodePath("RunParticles:emitting")
+properties/6/spawn = true
+properties/6/replication_mode = 2
 
 [sub_resource type="LabelSettings" id="LabelSettings_q1gf2"]
 font = ExtResource("5_rybn4")
