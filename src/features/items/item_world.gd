@@ -11,6 +11,9 @@ var data: Dictionary:
 	get:
 		return ItemManager.get_item_data_dict_raw(item_id)
 
+var owner_player_id: int = 0 # 0 means owned by no-one
+@onready var spawn_stopwatch: Stopwatch = Stopwatch.new()
+
 
 func _ready() -> void:
 	assert(interaction_area)
@@ -27,11 +30,28 @@ func _ready() -> void:
 		apply_central_impulse(launch_force)
 
 
-func _on_interacted(_player_id: int) -> void:
+func get_prompt(player_id: int) -> String:
+	print(has_right_to_pick_up(player_id))
+	if has_right_to_pick_up(player_id):
+		return "Pick up %s" % type.display_name
+	else:
+		return "Steal %s (%ss)" % [type.display_name, roundi(15 - spawn_stopwatch.measure_s())]
+
+
+func has_right_to_pick_up(player_id: int) -> bool:
+	if owner_player_id != 0 and owner_player_id != player_id and spawn_stopwatch.measure_s() < 15:
+		return false
+	return true
+
+
+func _on_interacted(player_id: int) -> void:
 	# create equip item for it
 	var p: Player = PlayerManager.get_local_player_node_or_null()
 	if not p.inventory.try_add_item_to_inv(item_id):
 		return # no space in inv, abort
+	# Increase Guilt if stealing
+	if not has_right_to_pick_up(player_id):
+		CrimeManager.add_guilt(player_id, "Stole %s" % type.display_name, 90, 100)
 	# destroy world item
 	_rpc_destroy_world_item.rpc_id(1)
 

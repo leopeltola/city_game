@@ -73,6 +73,8 @@ var _display_suffix: String = "€"
 var _balance_tween: Tween
 var _base_label_scale: Vector3
 
+var _round_owner_player_id: int = 0 # 0 means not set
+
 
 func _ready() -> void:
 	_base_label_scale = balance_label.scale
@@ -104,7 +106,7 @@ func _rpc_spawn_cash(amount: int) -> void:
 	while remaining > 0:
 		var bill: int = mini(MAX_BILL_AMOUNT, remaining)
 		var id: int = ItemManager.create_item_of_type("cash", { "amount": bill })
-		ItemManager.create_world_item_for(id, %CashSpawnPos.global_position, %CashSpawnPos.global_rotation)
+		ItemManager.create_world_item_for(id, %CashSpawnPos.global_position, %CashSpawnPos.global_rotation, Vector3.ZERO, _round_owner_player_id)
 		remaining -= bill
 		_rpc_on_cash_bill_spawned.rpc(remaining)
 		if remaining > 0:
@@ -289,6 +291,7 @@ func _rpc_execute_spin(target_symbols: Array[int], holds: Array[bool], bet: int,
 			_animate_display_value(current_bet, balance, 0.3)
 
 		current_bet = 0
+		_round_owner_player_id = 0
 		$LevelInteract.prompt = "Play"
 		$LevelInteract.active = true
 
@@ -337,8 +340,17 @@ func _on_cash_input_interacted(player_id: int) -> void:
 		ItemManager.destroy_item(item_id)
 	else:
 		ItemManager.set_and_sync_item_data(item_id, "amount", remaining)
-
+	
+	if _round_owner_player_id == 0:
+		_rpc_set_round_owning_player.rpc(player_id)
 	_rpc_add_balance.rpc(put_in)
+
+
+
+@rpc("any_peer", "reliable", "call_local")
+func _rpc_set_round_owning_player(player_id: int) -> void:
+	_round_owner_player_id = player_id
+
 
 
 @rpc("any_peer", "reliable", "call_local")

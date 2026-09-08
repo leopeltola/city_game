@@ -12,7 +12,7 @@ func get_prompt(_player_id: int) -> String:
 
 
 func interact(player_id: int) -> void:
-	print("Player %s interacted with %s" % [player_id, self])
+	#print("Player %s interacted with %s" % [player_id, self])
 	interacted.emit(player_id)
 
 

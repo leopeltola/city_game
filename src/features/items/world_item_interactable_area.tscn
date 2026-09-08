@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cum3c03ptrqm"]
+
+[ext_resource type="Script" uid="uid://cpm5k01qnjn7y" path="res://src/features/items/world_item_interactable_area.gd" id="1_egpht"]
+
+[node name="WorldItemInteractableArea" type="Area3D" unique_id=1650245416]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_egpht")

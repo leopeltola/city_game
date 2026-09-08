@@ -20,5 +20,6 @@ func _spawn_function(data: Dictionary) -> Node:
 	node.rotation = data["rotation"]
 	node.item_id = data["id"]
 	node.launch_force = data.get("launch_force", Vector3.ZERO)
+	node.owner_player_id = data.get("owner", 0)
 
 	return node

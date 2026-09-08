@@ -18,6 +18,11 @@ func measure() -> int:
 	return Time.get_ticks_msec() - start_time_ms
 
 
+## Returns the elapsed time in seconds since the stopwatch started.
+func measure_s() -> int:
+	return (Time.get_ticks_msec() - start_time_ms) * 0.001
+
+
 ## Resets the start time to the current system tick.
 func restart() -> void:
 	start_time_ms = Time.get_ticks_msec()
