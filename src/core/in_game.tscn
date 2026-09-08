@@ -36,7 +36,6 @@
 [ext_resource type="PackedScene" uid="uid://c085gkinj7n7d" path="res://src/features/city/street_props/rail_fence.glb" id="33_rlhkn"]
 [ext_resource type="PackedScene" uid="uid://b26uwc072v7qd" path="res://src/features/city/kela/kela_building.tscn" id="34_j2hit"]
 [ext_resource type="PackedScene" uid="uid://c8xqutmxfag3h" path="res://src/features/city/casino/casino_building.tscn" id="35_64k4k"]
-[ext_resource type="PackedScene" uid="uid://jy8p3mhkwvey" path="res://src/features/interior/bank/notice_board.glb" id="36_8at8h"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_udf63"]
 panorama = ExtResource("1_yfk00")
@@ -649,23 +648,5 @@ data = ExtResource("21_a54ph")
 
 [node name="CasinoBuilding" parent="." unique_id=108205738 instance=ExtResource("35_64k4k")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 40, 0.11, 6)
-
-[node name="bench" parent="." unique_id=856891797 instance=ExtResource("28_323nh")]
-transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 35, 0, -1)
-
-[node name="bench2" parent="." unique_id=1817677140 instance=ExtResource("28_323nh")]
-transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 35, 0, 0)
-
-[node name="bench3" parent="." unique_id=881146522 instance=ExtResource("28_323nh")]
-transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 35, 0, 1)
-
-[node name="casino_table" parent="." unique_id=2048276435 instance=ExtResource("24_txgtg")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 33.451088, 0, 0)
-
-[node name="bench4" parent="." unique_id=820668353 instance=ExtResource("28_323nh")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 32, 0, 0)
-
-[node name="notice_board" parent="." unique_id=1400187531 instance=ExtResource("36_8at8h")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 31.093102, 0, 12)
 
 [editable path="City/CasinoSkyscraper"]

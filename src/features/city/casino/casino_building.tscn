@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ln5uarworkc6" path="res://src/features/interior/casino/casino_table.glb" id="10_0axky"]
 [ext_resource type="PackedScene" uid="uid://daewxbpt0g5sd" path="res://src/features/interior/casino/bench.glb" id="11_t4bbe"]
 [ext_resource type="PackedScene" uid="uid://cfje0kyuwhxbs" path="res://src/features/gambling/slot_machine/slot_machine.tscn" id="12_t4bbe"]
+[ext_resource type="PackedScene" uid="uid://b7r6p65mc2wu5" path="res://src/features/interior/bank/atm.glb" id="13_0orc8"]
 
 [node name="CasinoBuilding" type="Node3D" unique_id=108205738]
 
@@ -284,3 +285,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -5)
 
 [node name="plant6" parent="." unique_id=2033189556 instance=ExtResource("7_g3y4y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -13)
+
+[node name="atm" parent="." unique_id=1505557634 instance=ExtResource("13_0orc8")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 7, 0, 8)
+
+[node name="atm3" parent="." unique_id=1867645428 instance=ExtResource("13_0orc8")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 5, 0, 8)
+
+[node name="bench13" parent="." unique_id=904179703 instance=ExtResource("11_t4bbe")]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -6.9097824, 0, 5.0902176)
+
+[node name="bench14" parent="." unique_id=1108788329 instance=ExtResource("11_t4bbe")]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -5.9097824, 0, 5.0902176)
+
+[node name="bench15" parent="." unique_id=1087986550 instance=ExtResource("11_t4bbe")]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -4.9097824, 0, 5.0902176)
+
+[node name="casino_table3" parent="." unique_id=152943188 instance=ExtResource("10_0axky")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -5.9097824, 0, 6.6391296)
+
+[node name="bench16" parent="." unique_id=1017004562 instance=ExtResource("11_t4bbe")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -5.9097824, 0, 8.090218)
