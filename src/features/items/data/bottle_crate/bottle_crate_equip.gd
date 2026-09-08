@@ -24,6 +24,8 @@ signal bottle_broken(bottle: Node3D)
 @export var bounciness: float = 0.2
 ## Downward impact velocity required to shatter a bottle on landing.
 @export var break_impact_velocity: float = 6.5
+## Relative variation factor for bottle airtime responsiveness.
+@export var airtime_stagger: float = 0.15
 
 @onready var bottles: Array[Node3D] = [
 	%wine_bottle1,
@@ -41,8 +43,9 @@ var _last_basis: Basis
 var _sway_angle: Vector2 = Vector2.ZERO
 var _sway_vel: Vector2 = Vector2.ZERO
 
-var _bottle_y: float = 0.0
-var _bottle_vy: float = 0.0
+var _bottle_y: Dictionary = {}
+var _bottle_vy: Dictionary = {}
+var _bottle_stagger: Dictionary = {}
 
 var _base_positions: Dictionary = {}
 var _base_rotations: Dictionary = {}
@@ -51,10 +54,23 @@ var _base_rotations: Dictionary = {}
 func _ready() -> void:
 	_last_pos = global_position
 	_last_basis = global_basis
+
+	var bottle_count: int = ItemManager.get_item_data(item_id, "bottles", 6)
+	var to_erase := []
+	for i in 6 - bottle_count:
+		var b := bottles[i]
+		bottles[i].queue_free()
+		to_erase.append(b)
+	for b in to_erase:
+		bottles.erase(b)
+
 	for bottle in bottles:
 		if is_instance_valid(bottle):
 			_base_positions[bottle] = bottle.position
 			_base_rotations[bottle] = bottle.rotation
+			_bottle_y[bottle] = 0.0
+			_bottle_vy[bottle] = 0.0
+			_bottle_stagger[bottle] = randf_range(1.0 - airtime_stagger, 1.0 + airtime_stagger)
 
 
 func _process(delta: float) -> void:
@@ -87,38 +103,55 @@ func shatter_bottle(bottle: Node3D) -> void:
 	bottles.erase(bottle)
 	_base_positions.erase(bottle)
 	_base_rotations.erase(bottle)
+	_bottle_y.erase(bottle)
+	_bottle_vy.erase(bottle)
+	_bottle_stagger.erase(bottle)
 	bottle_broken.emit(bottle)
 	bottle.queue_free()
+	ItemManager.set_and_sync_item_data(item_id, "bottles", bottles.size())
 
 
 ## Applies an external physical hit (e.g. melee, projectile, explosion).
 func apply_impulse(impulse: Vector3) -> void:
 	var local_impulse: Vector3 = global_basis.inverse() * impulse
 	_sway_vel += Vector2(-local_impulse.z, local_impulse.x) * linear_sway
-	_bottle_vy += local_impulse.y
+	for bottle in bottles:
+		var stagger: float = _bottle_stagger.get(bottle, 1.0)
+		_bottle_vy[bottle] = _bottle_vy.get(bottle, 0.0) + local_impulse.y * stagger
 	if impulse.length() >= break_impact_velocity and not bottles.is_empty():
-		shatter_bottle(bottles.back())
+		shatter_bottle(bottles.front())
 
 
 func _update_airtime(delta: float, local_accel_y: float, world_vel_y: float) -> void:
-	var was_airborne: bool = _bottle_y > 0.002
-
-	# Only downward crate acceleration while falling generates lift.
-	# Positive acceleration (ground impacts and jump takeoff) is ignored so bottles fall purely under bottle_gravity.
 	var lift_accel: float = minf(local_accel_y, 0.0) if world_vel_y < 0.0 else 0.0
+	var to_shatter: Array[Node3D] = []
 
-	_bottle_vy -= (lift_accel * airtime_lift + bottle_gravity) * delta
-	_bottle_y += _bottle_vy * delta
+	for bottle in bottles:
+		var stagger: float = _bottle_stagger.get(bottle, 1.0)
+		var y: float = _bottle_y.get(bottle, 0.0)
+		var vy: float = _bottle_vy.get(bottle, 0.0)
+		var was_airborne: bool = y > 0.002
 
-	if _bottle_y > max_airtime:
-		_bottle_y = max_airtime
-		_bottle_vy = minf(_bottle_vy, 0.0)
-	elif _bottle_y <= 0.0:
-		_bottle_y = 0.0
-		var impact_speed: float = -_bottle_vy
-		if was_airborne and impact_speed >= break_impact_velocity and not bottles.is_empty():
-			shatter_bottle(bottles.back())
-		_bottle_vy = -_bottle_vy * bounciness
+		vy -= (lift_accel * airtime_lift * stagger + bottle_gravity) * delta
+		y += vy * delta
+
+		if y > max_airtime:
+			y = max_airtime
+			vy = minf(vy, 0.0)
+		elif y <= 0.0:
+			y = 0.0
+			var impact_speed: float = -vy
+			if impact_speed >= 2 and is_multiplayer_authority():
+				print(impact_speed)
+			if was_airborne and (impact_speed * randf_range(0.5, 1.2) >= break_impact_velocity):
+				to_shatter.append(bottle)
+			vy = -vy * (bounciness * stagger)
+
+		_bottle_y[bottle] = y
+		_bottle_vy[bottle] = vy
+
+	for bottle in to_shatter:
+		shatter_bottle(bottle)
 
 
 func _update_sway(delta: float, local_accel: Vector3, ang_vel: Vector3) -> void:
@@ -141,8 +174,9 @@ func _apply_transforms() -> void:
 		if is_instance_valid(bottle):
 			var base_pos: Vector3 = _base_positions.get(bottle, Vector3.ZERO)
 			var base_rot: Vector3 = _base_rotations.get(bottle, Vector3.ZERO)
+			var y: float = _bottle_y.get(bottle, 0.0)
 
-			bottle.position = base_pos + Vector3(0.0, _bottle_y, 0.0)
+			bottle.position = base_pos + Vector3(0.0, y, 0.0)
 			bottle.rotation = Vector3(
 				base_rot.x + _sway_angle.x,
 				base_rot.y,

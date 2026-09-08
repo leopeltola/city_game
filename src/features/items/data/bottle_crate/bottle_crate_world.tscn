@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://csllnew1ojss6"]
 
-[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_rbl3i"]
+[ext_resource type="Script" uid="uid://qa7id01hket" path="res://src/features/items/data/bottle_crate/bottle_crate_world.gd" id="1_h5jty"]
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="2_ijgx7"]
 [ext_resource type="PackedScene" uid="uid://dhrimq0wo1rgo" path="res://src/features/items/data/bottle_crate/bottle_crate.glb" id="3_druj4"]
 [ext_resource type="Script" uid="uid://b3a5x0wb8dy61" path="res://src/features/interaction/interactable_area.gd" id="4_18pbx"]
@@ -18,7 +18,7 @@ size = Vector3(0.5956726, 0.45361328, 0.4958496)
 [node name="BottleCrateWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 12
 collision_mask = 9
-script = ExtResource("1_rbl3i")
+script = ExtResource("1_h5jty")
 type = ExtResource("2_ijgx7")
 interaction_area = NodePath("InteractableArea")
 metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
@@ -47,13 +47,13 @@ shape = SubResource("BoxShape3D_bln1f")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0055389404, 0.38940433, -0.0045166016)
 shape = SubResource("BoxShape3D_bln1f")
 
-[node name="wine_bottle2" parent="." unique_id=917808564 instance=ExtResource("5_h5jty")]
-unique_name_in_owner = true
-transform = Transform3D(-0.17582643, 0, -0.9844212, 0, 1, 0, 0.9844212, 0, -0.17582643, -0.22155595, 0.03989482, 0.10055959)
-
 [node name="wine_bottle1" parent="." unique_id=308285533 instance=ExtResource("5_h5jty")]
 unique_name_in_owner = true
 transform = Transform3D(0.446899, 0, 0.8945844, 0, 1, 0, -0.8945844, 0, 0.446899, -0.23512718, 0.083533645, -0.10171442)
+
+[node name="wine_bottle2" parent="." unique_id=917808564 instance=ExtResource("5_h5jty")]
+unique_name_in_owner = true
+transform = Transform3D(-0.17582643, 0, -0.9844212, 0, 1, 0, 0.9844212, 0, -0.17582643, -0.22155595, 0.03989482, 0.10055959)
 
 [node name="wine_bottle3" parent="." unique_id=340327299 instance=ExtResource("5_h5jty")]
 unique_name_in_owner = true

@@ -8,4 +8,7 @@ name = "bottle_crate"
 display_name = "Bottle Crate"
 world_item_path = "res://src/features/items/data/bottle_crate/bottle_crate_world.tscn"
 equip_item_path = "res://src/features/items/data/bottle_crate/bottle_crate_equip.tscn"
+instance_data = Dictionary[StringName, Variant]({
+&"bottles": 6
+})
 metadata/_custom_type_script = "uid://1v4ix87tn325"
