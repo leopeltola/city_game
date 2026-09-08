@@ -24,9 +24,11 @@ var is_sprinting := false
 
 @export var walk_speed: float = 3.0
 @export var sprint_speed: float = 5.5
-@export var jump_velocity: float = 6
+@export var jump_velocity: float = 6.0
+@export var jump_cut_multiplier: float = 0.5
 @export var mouse_sensitivity: float = 0.003
 @export var gravity: float = 15
+
 
 @export_group("Stamina")
 @export var max_stamina: float = 100.0
@@ -165,13 +167,13 @@ func cancel_override_animation(blend_time: float = 0.0) -> void:
 func trigger_block_success() -> void:
 	_rpc_trigger_block_success.rpc()
 
-
 func _jumping(_delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		if HUD.instance and HUD.instance.is_blocking_input():
 			return
 		velocity.y = jump_velocity
-
+	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
+		velocity.y *= jump_cut_multiplier
 
 func _walking(delta: float) -> void:
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_down")
