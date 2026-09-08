@@ -181,7 +181,7 @@ func drop_active_item() -> void:
 	if item_id == -1:
 		return
 
-	ItemManager.create_world_item_for(item_id, _drop_position())
+	ItemManager.create_world_item_for(item_id, _drop_position(), player.rotation)
 
 
 ## Removes a random non-empty item from the inventory and spawns it as a world item at
@@ -267,14 +267,16 @@ func _server_split_cash_drop(item_id: int, amount: int, position: Vector3) -> vo
 	ItemManager.create_world_item_for(dropped_id, position)
 
 
-## Returns a world position about 1.5m in front of the player.
+## Returns a world position about 1.5m in front of the player, offset back from walls.
 func _drop_position() -> Vector3:
-	var camera := player.sight_pivot.get_node_or_null("Camera3D") as Camera3D
-	var forward := -camera.global_transform.basis.z if camera else -player.global_transform.basis.z
-	forward.y = 0.0
-	forward = forward.normalized()
+	if not %ItemDropRay.is_colliding():
+		return %ItemDropPosition.global_position
 
-	return player.global_position + forward * 1.5 + Vector3.UP * 0.5
+	var hit_pos: Vector3 = %ItemDropRay.get_collision_point()
+	var ray_origin: Vector3 = %ItemDropRay.global_position
+	var pull_dir: Vector3 = (ray_origin - hit_pos).normalized()
+
+	return hit_pos + pull_dir * 0.2
 
 
 func _set_item(slot_idx: int, item_id: int) -> void:
