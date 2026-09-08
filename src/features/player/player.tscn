@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://b6lnx0flgcaor"]
 
 [ext_resource type="Script" uid="uid://ybms3qt45poi" path="res://src/features/player/player.gd" id="1_3v8pm"]
+[ext_resource type="AudioStream" uid="uid://0isorfajdaj8" path="res://assets/sfx/jump.ogg" id="2_njwrn"]
 [ext_resource type="PackedScene" uid="uid://y457mwoct4um" path="res://src/features/interaction/interact_ray.tscn" id="4_p2vpv"]
 [ext_resource type="FontVariation" uid="uid://fir33fe3w0j3" path="res://src/features/ui/theme/font_basic.tres" id="5_rybn4"]
 [ext_resource type="PackedScene" uid="uid://dvu2t6cq0gt6r" path="res://src/features/items/player/item_inventory_ui.tscn" id="5_ti7vc"]
 [ext_resource type="Script" uid="uid://byjrh17ptlrd" path="res://src/features/items/player/player_inventory.gd" id="6_rybn4"]
 [ext_resource type="PackedScene" uid="uid://baoioe1plauut" path="res://src/features/player/assets/models/simple/guy.glb" id="7_1mqja"]
 [ext_resource type="PackedScene" uid="uid://dgheud6qxg21r" path="res://src/features/player/effects/run_particles.tscn" id="7_njwrn"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1mqja"]
+random_pitch = 1.158962
+streams_count = 1
+stream_0/stream = ExtResource("2_njwrn")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xe5qy"]
 radius = 0.3
@@ -50,6 +56,7 @@ height = 1.5600586
 [node name="Player" type="CharacterBody3D" unique_id=685935176 node_paths=PackedStringArray("inventory")]
 collision_layer = 2
 script = ExtResource("1_3v8pm")
+jump_sfx = SubResource("AudioStreamRandomizer_1mqja")
 inventory = NodePath("PlayerInventory")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1183623979]
