@@ -4,6 +4,7 @@
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="2_ijgx7"]
 [ext_resource type="PackedScene" uid="uid://dhrimq0wo1rgo" path="res://src/features/items/data/bottle_crate/bottle_crate.glb" id="3_druj4"]
 [ext_resource type="Script" uid="uid://b3a5x0wb8dy61" path="res://src/features/interaction/interactable_area.gd" id="4_18pbx"]
+[ext_resource type="PackedScene" uid="uid://b80rbmge8pvv0" path="res://src/features/items/data/bottle_crate/wine_bottle.glb" id="5_h5jty"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ijgx7"]
 size = Vector3(0.2, 0.2, 0.2)
@@ -45,3 +46,27 @@ shape = SubResource("BoxShape3D_bln1f")
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="InteractableArea" unique_id=1284454007]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0055389404, 0.38940433, -0.0045166016)
 shape = SubResource("BoxShape3D_bln1f")
+
+[node name="wine_bottle2" parent="." unique_id=917808564 instance=ExtResource("5_h5jty")]
+unique_name_in_owner = true
+transform = Transform3D(-0.17582643, 0, -0.9844212, 0, 1, 0, 0.9844212, 0, -0.17582643, -0.22155595, 0.03989482, 0.10055959)
+
+[node name="wine_bottle1" parent="." unique_id=308285533 instance=ExtResource("5_h5jty")]
+unique_name_in_owner = true
+transform = Transform3D(0.446899, 0, 0.8945844, 0, 1, 0, -0.8945844, 0, 0.446899, -0.23512718, 0.083533645, -0.10171442)
+
+[node name="wine_bottle3" parent="." unique_id=340327299 instance=ExtResource("5_h5jty")]
+unique_name_in_owner = true
+transform = Transform3D(-0.26848814, 0, -0.963283, 0, 1, 0, 0.963283, 0, -0.26848814, 0.0023486912, 0.03989482, -0.09863669)
+
+[node name="wine_bottle4" parent="." unique_id=1369020126 instance=ExtResource("5_h5jty")]
+unique_name_in_owner = true
+transform = Transform3D(0.8388365, 0, -0.5443834, 0, 1, 0, 0.5443834, 0, 0.8388365, 0.0023486912, 0.03989482, 0.10055959)
+
+[node name="wine_bottle5" parent="." unique_id=1052979894 instance=ExtResource("5_h5jty")]
+unique_name_in_owner = true
+transform = Transform3D(-0.65014595, 0, -0.7598094, 0, 1, 0, 0.7598094, 0, -0.65014595, 0.23746833, 0.03989482, -0.09863669)
+
+[node name="wine_bottle6" parent="." unique_id=316719891 instance=ExtResource("5_h5jty")]
+unique_name_in_owner = true
+transform = Transform3D(-0.58294356, 0, 0.81251264, 0, 1, 0, -0.81251264, 0, -0.58294356, 0.23746833, 0.03989482, 0.10055959)

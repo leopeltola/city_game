@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dhrimq0wo1rgo"
-path="res://.godot/imported/bottle_crate.glb-68faffbe48d221f37063ba7a99902a3a.scn"
+uid="uid://b80rbmge8pvv0"
+path="res://.godot/imported/wine_bottle.glb-5897da051cfcebe5eaa35136973b8477.scn"
 
 [deps]
 
-source_file="res://src/features/items/data/bottle_crate/bottle_crate.glb"
-dest_files=["res://.godot/imported/bottle_crate.glb-68faffbe48d221f37063ba7a99902a3a.scn"]
+source_file="res://src/features/items/data/bottle_crate/wine_bottle.glb"
+dest_files=["res://.godot/imported/wine_bottle.glb-5897da051cfcebe5eaa35136973b8477.scn"]
 
 [params]
 
@@ -50,42 +50,6 @@ _subresources={
 "use_external/enabled": true,
 "use_external/fallback_path": "res://assets/textures/gradient/gradient_glossy.tres",
 "use_external/path": "uid://ct5oka3tij1gv"
-}
-},
-"nodes": {
-"PATH:Bottles": {
-"physics/body_type": 1,
-"physics/layer": 128,
-"physics/mask": 129
-},
-"PATH:Bottles_001": {
-"physics/body_type": 1,
-"physics/layer": 128,
-"physics/mask": 129
-},
-"PATH:Bottles_002": {
-"physics/body_type": 1,
-"physics/layer": 128,
-"physics/mask": 129
-},
-"PATH:Bottles_003": {
-"physics/body_type": 1,
-"physics/layer": 128,
-"physics/mask": 129
-},
-"PATH:Bottles_004": {
-"physics/body_type": 1,
-"physics/layer": 128,
-"physics/mask": 129
-},
-"PATH:Bottles_005": {
-"physics/body_type": 1,
-"physics/layer": 128,
-"physics/mask": 129
-},
-"PATH:Crate": {
-"physics/layer": 128,
-"physics/mask": 0
 }
 }
 }
