@@ -24,6 +24,10 @@ func _ready() -> void:
 	_shape_cast.add_exception(player.hittable_area)
 
 
+func _exit_tree() -> void:
+	_reset_state()
+
+
 func _physics_process(_delta: float) -> void:
 	if not player.is_local or _state != State.ATTACKING:
 		return
@@ -78,7 +82,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _reset_state(blend_time: float = 0.0) -> void:
 	player.cancel_override_animation(blend_time)
-	await get_tree().create_timer(blend_time).timeout
+	if not is_zero_approx(blend_time):
+		await get_tree().create_timer(blend_time).timeout
 	_state = State.IDLE
 	player.is_blocking = false
 	player.look_drag_multiplier = 1.0
