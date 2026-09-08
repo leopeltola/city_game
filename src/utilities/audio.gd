@@ -37,14 +37,16 @@ func _ready() -> void:
 		add_child(pl)
 		music_players.append(pl)
 
+
 func _check_cli_mute() -> void:
 	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	if "--mute" in args:
 		var master_idx := AudioServer.get_bus_index("Master")
 		AudioServer.set_bus_mute(master_idx, true)
 		AudioServer.set_bus_volume_db(master_idx, -80.0)
-		
+
 		get_window().title = get_window().title + " [MUTE]"
+
 
 func play_sfx(audio_stream: AudioStream, volume_db: float = 0) -> void:
 	if not audio_stream:
@@ -59,7 +61,7 @@ func play_sfx(audio_stream: AudioStream, volume_db: float = 0) -> void:
 
 
 ## Play a positional 3D sound at [position] in the world.
-func play_sfx_3d(audio_stream: AudioStream, position: Vector3, volume_db: float = 0, max_distance: float = 30.0) -> void:
+func play_sfx_3d(audio_stream: AudioStream, position: Vector3, volume_db: float = 0, max_distance: float = 15.0) -> void:
 	if not audio_stream:
 		return
 	var pl := _get_empty_sfx_player_3d()

@@ -47,23 +47,24 @@ func _physics_process(_delta: float) -> void:
 					_rpc_interrupt_state.rpc(0.85)
 					if col_parent.has_method("trigger_block_success"):
 						col_parent.trigger_block_success()
-					_rpc_play_sfx("block")
+					_rpc_play_sfx.rpc("block")
 				else:
-					_rpc_interrupt_state.rpc(0.3)
+					_rpc_interrupt_state.rpc(.5)
 					var force: Vector3 = (collider.global_position - player.global_position).normalized() * 10.0
 					force.y += 2.0
 					col_parent.get_hit(damage, force)
-					_rpc_play_sfx("hit")
+					_rpc_play_sfx.rpc("hit")
 	_prev_cast_pos = _shape_cast.global_position
 
 
-@rpc("authority", "reliable")
+@rpc("any_peer", "reliable")
 func _rpc_play_sfx(id: StringName) -> void:
 	match id:
 		"hit":
-			Audio.play_sfx(hit_sound)
+			print("Hit audio played")
+			Audio.play_sfx_3d(hit_sound, global_position, 0, 10)
 		"block":
-			Audio.play_sfx(block_sound)
+			Audio.play_sfx_3d(block_sound, global_position, 0, 10)
 		_:
 			assert(false, "Unknown sfx requested")
 
