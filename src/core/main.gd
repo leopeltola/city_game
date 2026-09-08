@@ -8,21 +8,26 @@ const LOADING_SCREEN_SCENE := preload("res://src/features/main_menu/loading_scre
 const INGAME_SCENE_PATH := "res://src/core/in_game.tscn"
 
 var _current_ingame_instance: Node = null
+var _loading_started := false
+
+const MIN_CLIENTS_TO_START := 2
 
 
 func _ready() -> void:
 	Main.instance = self
 
 	PlayerManager.player_added.connect(
-		func(_pd: PlayerData):
-			if _pd.is_local():
+		func(pd: PlayerData):
+			if pd.is_local():
 				var pname: String = Settings.get_setting("player_name", "Player")
-				_pd.set_own_name_to(pname)
+				pd.set_own_name_to(pname)
 
 			if not Net.is_server:
 				return
-			if PlayerManager.get_player_count() == 2:
+			print("Players: %s" % PlayerManager.get_player_count())
+			if PlayerManager.get_player_count() >= MIN_CLIENTS_TO_START and not _loading_started:
 				# Prevent instant execution to let network frames settle
+				_loading_started = true
 				await get_tree().create_timer(0.3).timeout
 				rpc_start_loading.rpc()
 	)
@@ -68,19 +73,25 @@ func rpc_start_loading() -> void:
 		load_screen.queue_free()
 		ReadyTracker.set_ready("ingame_loaded")
 
-		await ReadyTracker.everyone_ready
+		# Poll instead of awaiting a one-shot signal: everyone_ready can fire
+		# before the await attaches when a client readies faster than the server.
+		while not ReadyTracker.is_event_complete("ingame_loaded"):
+			await get_tree().process_frame
 		rpc_finalize_game_start.rpc()
 
 
 @rpc("authority", "call_local", "reliable")
 func rpc_finalize_game_start() -> void:
 	if Net.is_server:
+		if not is_instance_valid(_current_ingame_instance) or _current_ingame_instance.is_inside_tree():
+			return
 		# Server now safely adds the scene after all client paths exist
 		ReadyTracker.reset("ingame_loaded")
 		add_child(_current_ingame_instance)
 	else:
 		# Clients now resume or enable processing if it was paused
-		if is_instance_valid(_current_ingame_instance):
+		if is_instance_valid(_current_ingame_instance) \
+				and _current_ingame_instance.process_mode == PROCESS_MODE_DISABLED:
 			_current_ingame_instance.process_mode = PROCESS_MODE_INHERIT
 
 

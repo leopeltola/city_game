@@ -77,7 +77,7 @@ func _process(_delta: float) -> void:
 		var idle_anim := inventory.get_idle_animation_override()
 		anim_player.play(idle_anim if not idle_anim.is_empty() else "idle")
 
-	if Input.is_action_pressed("show_player_names"):
+	if Input.is_action_pressed("show_player_names") and Net.is_client:
 		%NameLabel3D.text = player_data.player_name
 		%NameLabel3D.show()
 		if is_local:

@@ -42,7 +42,13 @@ var _connector: NetConnector
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(func(id): peer_connected.emit(id))
-	multiplayer.peer_disconnected.connect(func(id): peer_disconnected.emit(id))
+	multiplayer.peer_disconnected.connect(
+		func(id):
+			print("%s%s: Peer %s disconnected" % ["Server" if Net.is_server else "Client", multiplayer.get_unique_id(), id])
+			push_warning("Peer %s disconnected" % id)
+			ToastOverlay.show_info("Peer %s disconnected" % id)
+			peer_disconnected.emit(id)
+	)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	_set_backend(backend)
 
@@ -68,6 +74,7 @@ func start_joining_game(id: String) -> Error:
 func stop_net() -> void:
 	if _connector:
 		_connector.stop()
+	push_warning("Net.stop_net() called")
 	is_connected = false
 	connection_closed.emit()
 
@@ -81,6 +88,8 @@ func server_set_accepting_new_connections(value: bool) -> void:
 #region Internal
 
 func _on_server_disconnected() -> void:
+	ToastOverlay.show_info("Server disconnected")
+	push_warning("Server disconnected")
 	stop_net()
 
 #endregion
@@ -96,7 +105,7 @@ func get_all_peer_ids() -> Array[int]:
 
 
 func _set_backend(value: Backend) -> void:
-	match backend:
+	match value:
 		Backend.ENET:
 			_connector = ENetConnectorScript.new(self )
 			return

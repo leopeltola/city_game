@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://2n3b4p5w0rl7"]
 
-[ext_resource type="Script" uid="uid://dxmg434ngx561" path="res://src/features/interaction/button.gd" id="1_kjnq7"]
+[ext_resource type="Script" uid="uid://dxmg434ngx561" path="res://src/features/interaction/buttons/button.gd" id="1_kjnq7"]
 [ext_resource type="Material" uid="uid://koub2ugueubx" path="res://assets/textures/gradient/gradient1_material.tres" id="2_n7b3h"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_axbwm"]

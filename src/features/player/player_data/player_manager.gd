@@ -47,6 +47,7 @@ func _on_node_spawned(node: Node) -> void:
 	_player_data[player.peer_id] = player
 
 	player_added.emit(player)
+	print("PlayerData spawned on %s\n\t%s" % [multiplayer.get_unique_id(), player])
 
 	push_warning("%s joined" % player.player_name)
 	ToastOverlay.show_info("%s joined" % player.player_name)
@@ -146,7 +147,8 @@ func _create_player_for(peer_id: int) -> PlayerData:
 	# spawn() triggers the custom function on the server and notifies clients
 	var pd = %PlayerSpawner.spawn(data) as PlayerData
 
-	# Register the node in the local dictionary
+	# Keep the server dictionary authoritative. _on_node_spawned also registers via
+	# the spawned signal, but registering here guarantees lookups work regardless.
 	_player_data[pd.peer_id] = pd
 	player_added.emit(pd)
 
@@ -167,6 +169,7 @@ func _reset() -> void:
 func _remove_player(pd: PlayerData) -> void:
 	_player_data.erase(pd.peer_id)
 	player_left.emit(pd)
+	push_warning("%s left" % pd.player_name)
 	ToastOverlay.show_info("%s left" % pd.player_name)
 
 #endregion

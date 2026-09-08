@@ -1,5 +1,7 @@
 extends Node3D
 
+const ToggleButton = preload("res://src/features/interaction/buttons/toggle_button.gd")
+
 const SYMBOL_COUNT: int = 7
 const STEP_ANGLE: float = TAU / SYMBOL_COUNT
 
@@ -44,10 +46,10 @@ const COMBO_TRIPLES: Dictionary[int, float] = {
 	$slot_machine/Wheel2,
 	$slot_machine/Wheel3,
 ]
-@onready var buttons: Array[InteractableButton] = [
-	%InteractableButton1,
-	%InteractableButton2,
-	%InteractableButton3,
+@onready var buttons: Array[ToggleButton] = [
+	%ToggleButton1,
+	%ToggleButton2,
+	%ToggleButton3,
 ]
 @onready var cash_interact: Interactable = %CashInteractable
 @onready var balance_label: Label3D = %BalanceLabel3D
@@ -148,13 +150,13 @@ func _play_sfx(stream: AudioStream) -> void:
 
 func _set_buttons_active(active: bool) -> void:
 	for btn in buttons:
-		btn.toggleable = active
+		btn.pressable = active
 
 
 func _reset_buttons() -> void:
 	for btn in buttons:
-		btn.toggle_down = false
-		btn.toggleable = false
+		btn.set_pressed_down(false)
+		btn.pressable = false
 
 
 func _lever_pulled(_player_id: int) -> void:
@@ -167,9 +169,9 @@ func _lever_pulled(_player_id: int) -> void:
 		_start_spin_server()
 	else:
 		var holds: Array[bool] = [
-			buttons[0].toggle_down,
-			buttons[1].toggle_down,
-			buttons[2].toggle_down,
+			buttons[0].is_pressed_down(),
+			buttons[1].is_pressed_down(),
+			buttons[2].is_pressed_down(),
 		]
 		_rpc_request_spin.rpc_id(1, holds)
 
@@ -213,7 +215,6 @@ func _rpc_execute_spin(target_symbols: Array[int], holds: Array[bool], bet: int,
 		_display_prefix = "[ "
 		_display_suffix = "€ ]"
 
-		# Trigger the text update and scale animation without changing the numeric value
 		_animate_display_value(current_bet, current_bet, 0.35)
 
 	_set_buttons_active(false)

@@ -95,6 +95,7 @@ func hide_personal_menu() -> void:
 	%PersonalMenu.hide()
 
 
+@warning_ignore("shadowed_global_identifier")
 func prompt_money(max: int = 1_000_000, default: int = 0, title: String = "") -> MoneyPrompt.Result:
 	return await %MoneyPrompt.prompt(max, default, title)
 

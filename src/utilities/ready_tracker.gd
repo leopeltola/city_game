@@ -41,6 +41,17 @@ func set_ready(event: String) -> void:
 	rpc_update_ready.rpc(event)
 
 
+## Returns true on the server when all currently-connected peers (including the server)
+## have readied [event]. Recomputes against the live peer list, so it also recovers
+## if a peer disconnects before readying.
+func is_event_complete(event: String) -> bool:
+	if not multiplayer.is_server():
+		return false
+	if not _data.has(event):
+		return false
+	return _data[event].size() >= multiplayer.get_peers().size() + 1
+
+
 ## Resets the tracking state for a specific event. Server-only.
 func reset(event: String) -> void:
 	assert(multiplayer.is_server(), "reset must be called on the server.")

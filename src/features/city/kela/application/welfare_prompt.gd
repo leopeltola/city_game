@@ -19,6 +19,7 @@ class Result:
 	var cancelled: bool
 
 
+	@warning_ignore("shadowed_variable")
 	func _init(p_name: String, benefits: Array[String], terms: bool, cancelled: bool) -> void:
 		self.player_name = p_name
 		self.chosen_benefits = benefits

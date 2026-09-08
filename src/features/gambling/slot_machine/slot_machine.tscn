@@ -5,13 +5,13 @@
 [ext_resource type="AudioStream" uid="uid://c8pxkn5yhxsvt" path="res://assets/sfx/slot_machine/win_jingle.ogg" id="2_a3ce5"]
 [ext_resource type="Script" uid="uid://d0vpw5o6sm0q8" path="res://src/features/interaction/interactable.gd" id="3_2rvfj"]
 [ext_resource type="AudioStream" uid="uid://bhnckkeo37ige" path="res://assets/sfx/slot_machine/lose.ogg" id="3_pfyov"]
-[ext_resource type="PackedScene" uid="uid://2n3b4p5w0rl7" path="res://src/features/interaction/button.tscn" id="4_pbkt6"]
 [ext_resource type="AudioStream" uid="uid://ce4gilnv726fo" path="res://assets/sfx/slot_machine/cash_register.ogg" id="4_tgln3"]
 [ext_resource type="AudioStream" uid="uid://l0iky670b644" path="res://assets/sfx/slot_machine/roll.ogg" id="5_1lmtd"]
 [ext_resource type="Script" uid="uid://creafbuc5v1gr" path="res://src/features/gambling/slot_machine/cash_interactable.gd" id="5_ibs5n"]
 [ext_resource type="AudioStream" uid="uid://cs18a08fdec2" path="res://assets/sfx/slot_machine/lever.ogg" id="6_basqm"]
 [ext_resource type="AudioStream" uid="uid://dmqrl5j2wuq8j" path="res://assets/sfx/slot_machine/base_jingle.ogg" id="7_shpxc"]
 [ext_resource type="Texture2D" uid="uid://cais5dyxcumdt" path="res://src/features/gambling/assets/textures/slot_machine_instructions.jpg" id="12_pfyov"]
+[ext_resource type="PackedScene" uid="uid://cn8cu5g7kxqht" path="res://src/features/interaction/buttons/toggle_button.tscn" id="13_1lmtd"]
 [ext_resource type="FontFile" uid="uid://b3ww025y2m15p" path="res://src/features/ui/theme/assets/fonts/fira_sans/FiraSans-Bold.ttf" id="13_tgln3"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_bl4dq"]
@@ -122,24 +122,6 @@ shape = SubResource("SphereShape3D_np1sw")
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_ibs5n")
 
-[node name="InteractableButton1" parent="." unique_id=1270787288 instance=ExtResource("4_pbkt6")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.98531866, -0.17072544, 0, 0.17072544, 0.98531866, -0.25005674, 0.80394393, 0.52657217)
-toggleable = true
-prompt = "Lock"
-
-[node name="InteractableButton2" parent="." unique_id=1381886434 instance=ExtResource("4_pbkt6")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.98531866, -0.17072544, 0, 0.17072544, 0.98531866, -0.012374714, 0.80394393, 0.52657217)
-toggleable = true
-prompt = "Lock"
-
-[node name="InteractableButton3" parent="." unique_id=1435791110 instance=ExtResource("4_pbkt6")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.98531866, -0.17072544, 0, 0.17072544, 0.98531866, 0.23932417, 0.80394393, 0.52657217)
-toggleable = true
-prompt = "Lock"
-
 [node name="CashInteractable" type="Area3D" parent="." unique_id=1470966492]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2016427, 0.6102504, 0.511571)
@@ -204,5 +186,23 @@ outline_modulate = Color(0.38, 0.26245335, 0.1596, 1)
 text = "GOLDEN WILZU"
 font = ExtResource("13_tgln3")
 font_size = 34
+
+[node name="ToggleButton1" parent="." unique_id=1145945638 instance=ExtResource("13_1lmtd")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.98673284, -0.16235292, 0, 0.16235292, 0.98673284, -0.2526043, 0.77898544, 0.53725594)
+up_prompt = "Lock"
+down_prompt = "Unlock"
+
+[node name="ToggleButton2" parent="." unique_id=1397888024 instance=ExtResource("13_1lmtd")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.98673284, -0.16235292, 0, 0.16235292, 0.98673284, 0.010423243, 0.77898544, 0.53725594)
+up_prompt = "Lock"
+down_prompt = "Unlock"
+
+[node name="ToggleButton3" parent="." unique_id=1592911307 instance=ExtResource("13_1lmtd")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.98673284, -0.16235292, 0, 0.16235292, 0.98673284, 0.25797862, 0.77898544, 0.53725594)
+up_prompt = "Lock"
+down_prompt = "Unlock"
 
 [editable path="slot_machine"]
