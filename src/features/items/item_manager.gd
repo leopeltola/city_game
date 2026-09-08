@@ -3,6 +3,7 @@ extends Node
 const _item_types: Dictionary[StringName, ItemType] = {
 	"bat": preload("res://src/features/items/data/bat/bat.tres"),
 	"cash": preload("res://src/features/items/data/cash/cash.tres"),
+	"bottle_crate": preload("res://src/features/items/data/bottle_crate/bottle_crate.tres"),
 }
 
 var _id_count := 0
@@ -136,7 +137,7 @@ func get_item_types() -> Array[ItemType]:
 
 
 func get_item_type(item_type_name: StringName) -> ItemType:
-	assert(_item_types.has(item_type_name))
+	assert(_item_types.has(item_type_name), "Item %s not found in item type registry" % item_type_name)
 	return _item_types.get(item_type_name)
 
 

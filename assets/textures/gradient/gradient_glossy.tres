@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ct5oka3tij1gv"]
+
+[ext_resource type="Texture2D" uid="uid://bjsvmr2c37f0i" path="res://assets/textures/gradient/gradients1.webp" id="1_3krmj"]
+
+[resource]
+albedo_texture = ExtResource("1_3krmj")
+roughness = 0.23

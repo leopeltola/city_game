@@ -182,7 +182,6 @@ func _walking(delta: float) -> void:
 	var sprint_held := Input.is_physical_key_pressed(KEY_SHIFT) and Input.is_action_pressed("sprint")
 	var wants_to_sprint := sprint_held and direction != Vector3.ZERO
 	is_sprinting = wants_to_sprint and stamina > 0.0
-	print(wants_to_sprint)
 
 	if wants_to_sprint:
 		stamina = maxf(stamina - stamina_drain_rate * delta, 0.0)
