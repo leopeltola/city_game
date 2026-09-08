@@ -3,6 +3,8 @@ extends ItemEquip
 ## Emitted when a bottle shatters due to impact forces.
 signal bottle_broken(bottle: Node3D)
 
+@export var glass_clink: AudioStream
+
 ## Spring stiffness for sway tilt recovery.
 @export var sway_stiffness: float = 24.0
 ## Damping factor to prevent endless wobbling.
@@ -50,6 +52,8 @@ var _bottle_stagger: Dictionary = {}
 var _base_positions: Dictionary = {}
 var _base_rotations: Dictionary = {}
 
+var _clink_cooldown: float = 0.0
+
 
 func _ready() -> void:
 	_last_pos = global_position
@@ -76,6 +80,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if delta <= 0.0:
 		return
+
+	if _clink_cooldown > 0.0:
+		_clink_cooldown -= delta
 
 	var current_pos: Vector3 = global_position
 	var current_basis: Basis = global_basis
@@ -118,6 +125,7 @@ func apply_impulse(impulse: Vector3) -> void:
 	for bottle in bottles:
 		var stagger: float = _bottle_stagger.get(bottle, 1.0)
 		_bottle_vy[bottle] = _bottle_vy.get(bottle, 0.0) + local_impulse.y * stagger
+	_play_clink()
 	if impulse.length() >= break_impact_velocity and not bottles.is_empty():
 		shatter_bottle(bottles.front())
 
@@ -143,8 +151,11 @@ func _update_airtime(delta: float, local_accel_y: float, world_vel_y: float) -> 
 			var impact_speed: float = -vy
 			if impact_speed >= 2 and is_multiplayer_authority():
 				print(impact_speed)
-			if was_airborne and (impact_speed * randf_range(0.5, 1.2) >= break_impact_velocity):
-				to_shatter.append(bottle)
+			if was_airborne:
+				if impact_speed > 0.25:
+					_play_clink()
+				if impact_speed * randf_range(0.5, 1.2) >= break_impact_velocity:
+					to_shatter.append(bottle)
 			vy = -vy * (bounciness * stagger)
 
 		_bottle_y[bottle] = y
@@ -168,6 +179,9 @@ func _update_sway(delta: float, local_accel: Vector3, ang_vel: Vector3) -> void:
 		Vector2(max_sway_angle, max_sway_angle),
 	)
 
+	if _sway_vel.length_squared() > 1.4:
+		_play_clink()
+
 
 func _apply_transforms() -> void:
 	for bottle in bottles:
@@ -182,3 +196,10 @@ func _apply_transforms() -> void:
 				base_rot.y,
 				base_rot.z + _sway_angle.y,
 			)
+
+
+func _play_clink() -> void:
+	if _clink_cooldown > 0.0 or bottles.is_empty() or not glass_clink:
+		return
+	_clink_cooldown = randf_range(0.2, 0.35)
+	Audio.play_sfx_3d(glass_clink, global_position, -5.0, 20)

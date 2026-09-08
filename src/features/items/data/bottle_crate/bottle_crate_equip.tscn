@@ -2,11 +2,19 @@
 
 [ext_resource type="Script" uid="uid://p7p1uhkwpb7a" path="res://src/features/items/data/bottle_crate/bottle_crate_equip.gd" id="1_t6g2d"]
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="2_k0i8g"]
+[ext_resource type="AudioStream" uid="uid://dy006s7jagpm2" path="res://src/features/items/data/bottle_crate/glass_clink.wav" id="2_toob8"]
 [ext_resource type="PackedScene" uid="uid://dhrimq0wo1rgo" path="res://src/features/items/data/bottle_crate/bottle_crate.glb" id="3_bln1f"]
 [ext_resource type="PackedScene" uid="uid://b80rbmge8pvv0" path="res://src/features/items/data/bottle_crate/wine_bottle.glb" id="4_t6g2d"]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_toob8"]
+random_pitch = 1.2779517
+random_volume_offset_db = 2.46
+streams_count = 1
+stream_0/stream = ExtResource("2_toob8")
+
 [node name="BottleCrateEquip" type="Node3D" unique_id=1920707759]
 script = ExtResource("1_t6g2d")
+glass_clink = SubResource("AudioStreamRandomizer_toob8")
 angular_sway = 0.164
 max_sway_angle = 0.073
 max_airtime = 0.354
