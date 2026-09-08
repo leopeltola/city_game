@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://boq8whx20hnp1"]
+
+[ext_resource type="FontFile" uid="uid://b8s4d7c8loivc" path="res://src/features/ui/theme/assets/fonts/fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="1_5ywf6"]
+[ext_resource type="Script" uid="uid://7xpcy0ghfvp6" path="res://src/features/hud/crime/crime_overlay.gd" id="1_fquk0"]
+
+[sub_resource type="FontVariation" id="FontVariation_ioa1u"]
+base_font = ExtResource("1_5ywf6")
+variation_opentype = {
+2003072104: 85,
+2003265652: 550
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_ofddy"]
+font = SubResource("FontVariation_ioa1u")
+font_color = Color(0.658683, 0.65868294, 0.65868294, 1)
+outline_size = 7
+outline_color = Color(0.07649998, 0.2788, 0.51, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0r6hx"]
+font = SubResource("FontVariation_ioa1u")
+font_size = 27
+outline_size = 7
+outline_color = Color(0.07649998, 0.2788, 0.51, 1)
+
+[node name="CrimeOverlay" type="Control" unique_id=68613745]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_fquk0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=819548896]
+layout_mode = 1
+offset_left = 11.0
+offset_top = 11.0
+offset_right = 99.0
+offset_bottom = 59.0
+theme_override_constants/separation = -6
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1381427444]
+layout_mode = 2
+text = "Crime"
+label_settings = SubResource("LabelSettings_ofddy")
+
+[node name="GuiltLabel" type="Label" parent="VBoxContainer" unique_id=1459327602]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10 000€"
+label_settings = SubResource("LabelSettings_0r6hx")

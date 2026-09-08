@@ -25,7 +25,7 @@ var _items: Dictionary[int, Dictionary] = { }
 ## Creates an item of given type in the ItemManager and propagates it to everyone.
 ## [instance_data] is merged over the type's schema defaults for this specific item.
 ## Returns the just-made item's ID when called on server. Returns nothing on clients.
-func create_item_of_type(type_name: StringName, instance_data: Dictionary = {}) -> Variant:
+func create_item_of_type(type_name: StringName, instance_data: Dictionary = { }) -> Variant:
 	if Net.is_server:
 		return _rpc_request_create_item(type_name, instance_data)
 	elif Net.is_client:
@@ -34,7 +34,7 @@ func create_item_of_type(type_name: StringName, instance_data: Dictionary = {}) 
 
 
 @rpc("any_peer", "call_remote", "reliable")
-func _rpc_request_create_item(type_name: StringName, instance_data: Dictionary = {}) -> int:
+func _rpc_request_create_item(type_name: StringName, instance_data: Dictionary = { }) -> int:
 	assert(Net.is_server)
 	var new_id := generate_id()
 	var type := get_item_type(type_name)
@@ -50,23 +50,25 @@ func _rpc_create_item(data: Dictionary) -> void:
 
 ## Creates and returns a WorldItem for given item_id. 
 ## [force] is an optional initial impulse (Vector3) applied once on spawn to fly the item.
-func create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO) -> void:
+func create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO, owner_player_id: int = 0) -> void:
 	assert(ItemMultiplayerSpawner.instance, "ItemMultiplayerSpawner not present")
 	assert(_items.has(item_id))
 
 	if Net.is_server:
-		_rpc_create_world_item_for(item_id, position, rotation, force)
+		_rpc_create_world_item_for(item_id, position, rotation, force, owner_player_id)
 	elif Net.is_client:
-		_rpc_create_world_item_for.rpc_id(1, item_id, position, rotation, force)
+		_rpc_create_world_item_for.rpc_id(1, item_id, position, rotation, force, owner_player_id)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO) -> void:
+func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO, owner_player_id: int = 0) -> void:
 	assert(Net.is_server)
 	var data := _items[item_id]
 	data["position"] = position
 	data["rotation"] = rotation
 	data["launch_force"] = force
+	if owner_player_id:
+		data["owner"] = owner_player_id # player id, 0 = none
 	ItemMultiplayerSpawner.instance.spawn(data)
 
 

@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody3D
 
+@export var jump_sfx: AudioStream
+
 @export var inventory: PlayerInventory = null
 @export var player_id := 0:
 	set(val):
@@ -28,7 +30,6 @@ var is_sprinting := false
 @export var jump_cut_multiplier: float = 0.5
 @export var mouse_sensitivity: float = 0.003
 @export var gravity: float = 15
-
 
 @export_group("Stamina")
 @export var max_stamina: float = 100.0
@@ -167,20 +168,23 @@ func cancel_override_animation(blend_time: float = 0.0) -> void:
 func trigger_block_success() -> void:
 	_rpc_trigger_block_success.rpc()
 
+
 func _jumping(_delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		if HUD.instance and HUD.instance.is_blocking_input():
 			return
 		velocity.y = jump_velocity
+		_rpc_play_sfx.rpc("jump")
 	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
 		velocity.y *= jump_cut_multiplier
+
 
 func _walking(delta: float) -> void:
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_down")
 	if HUD.instance and HUD.instance.is_blocking_input():
 		input_dir = Vector2.ZERO
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
+
 	var sprint_held := Input.is_physical_key_pressed(KEY_SHIFT) and Input.is_action_pressed("sprint")
 	var wants_to_sprint := sprint_held and direction != Vector3.ZERO
 	is_sprinting = wants_to_sprint and stamina > 0.0
@@ -226,6 +230,13 @@ func _rpc_get_hit(_damage: float, force: Vector3) -> void:
 
 	if is_local:
 		_spawn_knocked_item()
+
+
+@rpc("any_peer", "reliable", "call_local")
+func _rpc_play_sfx(id: StringName) -> void:
+	match id:
+		"jump":
+			Audio.play_sfx_3d(jump_sfx, global_position)
 
 
 ## Knocks a random inventory item out of the player: spawned 1m above them with a

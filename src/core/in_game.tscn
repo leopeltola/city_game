@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bwutnfqbytmqn" path="res://src/features/items/item_multiplayer_spawner.gd" id="4_anh6s"]
 [ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="5_udf63"]
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="6_j2hit"]
+[ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="7_64k4k"]
 [ext_resource type="PackedScene" uid="uid://ctmyo70nflbwe" path="res://src/features/city/ground/road_straight.tscn" id="13_yfk00"]
 [ext_resource type="PackedScene" uid="uid://cfje0kyuwhxbs" path="res://src/features/gambling/slot_machine/slot_machine.tscn" id="14_5bs2i"]
 [ext_resource type="PackedScene" uid="uid://bh6maorctyn4l" path="res://src/features/city/ground/road_3way.tscn" id="14_udf63"]
@@ -128,6 +129,11 @@ item_type = ExtResource("5_udf63")
 transform = Transform3D(0.9788628, -0.20451781, 0, 0.20451781, 0.9788628, 0, 0, 0, 1, 13.019529, 1.1110339, 0.42469716)
 script = ExtResource("3_hxguo")
 item_type = ExtResource("6_j2hit")
+
+[node name="ItemSpawner36" type="Node3D" parent="Spawners" unique_id=2086450643]
+transform = Transform3D(0.9788628, -0.20451781, 0, 0.20451781, 0.9788628, 0, 0, 0, 1, -4.5795, 1.5886322, -10.733087)
+script = ExtResource("3_hxguo")
+item_type = ExtResource("7_64k4k")
 
 [node name="ItemMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1943494257]
 spawn_path = NodePath("../WorldItemContainer")

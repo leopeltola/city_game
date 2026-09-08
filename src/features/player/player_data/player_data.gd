@@ -5,13 +5,6 @@ extends Node
 @export var player_id: int
 @export var peer_id: int
 
-var color: Color:
-	get:
-		return [
-			Color.DARK_RED,
-			Color.DARK_BLUE,
-		][-player_id]
-
 
 func _to_string() -> String:
 	return "(%s, player_id: %s, peer_id: %s, is_local: %s)" % [name, player_id, peer_id, is_local()]
