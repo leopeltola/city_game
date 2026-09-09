@@ -35,6 +35,7 @@
 [ext_resource type="PackedScene" uid="uid://bkm3nveganw6c" path="res://src/features/city/street_props/chain_fence.glb" id="32_sc8gu"]
 [ext_resource type="PackedScene" uid="uid://c085gkinj7n7d" path="res://src/features/city/street_props/rail_fence.glb" id="33_rlhkn"]
 [ext_resource type="PackedScene" uid="uid://b26uwc072v7qd" path="res://src/features/city/kela/kela_building.tscn" id="34_j2hit"]
+[ext_resource type="PackedScene" uid="uid://c8xqutmxfag3h" path="res://src/features/city/casino/casino_building.tscn" id="35_64k4k"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_udf63"]
 panorama = ExtResource("1_yfk00")
@@ -644,5 +645,8 @@ shape = SubResource("WorldBoundaryShape3D_q1gf2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.565491, 19.857971, -3.2762756)
 size = Vector3(70.24011, 43.744263, 39.792053)
 data = ExtResource("21_a54ph")
+
+[node name="CasinoBuilding" parent="." unique_id=108205738 instance=ExtResource("35_64k4k")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 40, 0.11, 6)
 
 [editable path="City/CasinoSkyscraper"]

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b7r6p65mc2wu5"
-path="res://.godot/imported/atm.glb-a220cebaefaaf5e819aca87f0841b2e5.scn"
+uid="uid://coaiybryvfb1p"
+path="res://.godot/imported/interior_base.glb-296d3b988e9babdf49c17cc137312bcb.scn"
 
 [deps]
 
-source_file="res://src/features/interior/bank/atm.glb"
-dest_files=["res://.godot/imported/atm.glb-a220cebaefaaf5e819aca87f0841b2e5.scn"]
+source_file="res://src/features/interior/casino/assets/interior_base.glb"
+dest_files=["res://.godot/imported/interior_base.glb-296d3b988e9babdf49c17cc137312bcb.scn"]
 
 [params]
 
@@ -41,10 +41,15 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"Material": {
+"Floor": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/gradient/gradient1_material.tres",
-"use_external/path": "uid://koub2ugueubx"
+"use_external/fallback_path": "res://assets/textures/marble1/marble1.tres",
+"use_external/path": "uid://bbj1r0dsu7b76"
+},
+"Wall.001": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/textures/fancy_goldred_wallpaper/fancy_goldred_wallpaper.tres",
+"use_external/path": "uid://y44h0pce5xa8"
 }
 }
 }

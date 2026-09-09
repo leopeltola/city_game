@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b7r6p65mc2wu5"
-path="res://.godot/imported/atm.glb-a220cebaefaaf5e819aca87f0841b2e5.scn"
+uid="uid://delw8jtkdcivo"
+path="res://.godot/imported/railing_corner.glb-131287ba9f26794b7944ac3f29ff483e.scn"
 
 [deps]
 
-source_file="res://src/features/interior/bank/atm.glb"
-dest_files=["res://.godot/imported/atm.glb-a220cebaefaaf5e819aca87f0841b2e5.scn"]
+source_file="res://src/features/interior/casino/assets/railing_corner.glb"
+dest_files=["res://.godot/imported/railing_corner.glb-131287ba9f26794b7944ac3f29ff483e.scn"]
 
 [params]
 
@@ -41,7 +41,7 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"Material": {
+"Gradient": {
 "use_external/enabled": true,
 "use_external/fallback_path": "res://assets/textures/gradient/gradient1_material.tres",
 "use_external/path": "uid://koub2ugueubx"
