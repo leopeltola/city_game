@@ -29,6 +29,10 @@ signal attack_hit(target: Node, attack: MeleeAttack)
 ## All swings this weapon can perform. Populated by _configure_attacks() (or exports).
 @export var attacks: Array[MeleeAttack] = []
 
+## When true, a click while a swing is still playing is buffered and chained into the
+## next attack as soon as the current swing finishes (for nicer punch combos).
+@export var buffer_attack_input := false
+
 ## When non-empty, RMB enters a timed guard that plays [guard_animation] and sets
 ## is_blocking while it lasts (legacy bat behavior). Empty disables RMB.
 @export var guard_animation := ""
@@ -39,6 +43,9 @@ signal attack_hit(target: Node, attack: MeleeAttack)
 var _phase: Phase = Phase.NONE
 var _active_attack: MeleeAttack = null
 var _animator: PlayerAnimator = null
+
+## Set when an attack click arrives during a swing; consumed to chain the next punch.
+var _pending_attack := false
 
 ## Hit shapes collected from HandAnchor children, each keyed to its hand side.
 var _hit_shapes: Array[ShapeCast3D] = []
@@ -117,6 +124,7 @@ func _on_unequipped() -> void:
 	_disable_hit_shapes()
 	_phase = Phase.NONE
 	_active_attack = null
+	_pending_attack = false
 
 
 ## Helper for subclasses to build an attack entry.
@@ -140,7 +148,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _request_attack() -> void:
-	if _phase != Phase.NONE or attacks.is_empty():
+	if attacks.is_empty():
+		return
+	if _phase == Phase.ATTACKING:
+		# A click during a swing: buffer it so it chains the moment the swing finishes.
+		if buffer_attack_input:
+			_pending_attack = true
+		return
+	if _phase != Phase.NONE:
 		return
 	var index := _pick_attack_index()
 	if index < 0 or index >= attacks.size():
@@ -170,6 +185,7 @@ func _rpc_do_attack(index: int) -> void:
 		return
 	if not _ensure_animator_connected():
 		return
+	_pending_attack = false
 	var attack := attacks[index]
 	_action_started_msec = Time.get_ticks_msec()
 	player.is_blocking = false
@@ -312,9 +328,14 @@ func _resolve_hit(collider: Object) -> void:
 
 func _on_animator_action_finished(_anim_name: StringName) -> void:
 	_end_action()
+	if _pending_attack:
+		# A click was buffered during the swing: chain straight into the next attack.
+		_pending_attack = false
+		_request_attack()
 
 
 func _on_animator_action_cancelled(_anim_name: StringName) -> void:
+	_pending_attack = false
 	_end_action()
 
 

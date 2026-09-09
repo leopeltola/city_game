@@ -14,6 +14,7 @@ var _last_punch := -1
 func _configure_attacks() -> void:
 	if not attacks.is_empty():
 		return
+	buffer_attack_input = true
 	attacks = [
 		_make_punch("fists_up_punch_left", HandAnchor.HandSide.LEFT),
 		_make_punch("fists_up_punch_right", HandAnchor.HandSide.RIGHT),
@@ -33,9 +34,20 @@ func _make_punch(anim_name: String, hand: HandAnchor.HandSide) -> MeleeAttack:
 	return punch
 
 
-## Alternates between the left/right punch clips.
+## Alternates left/right punches; a fresh combo (no punch thrown yet on this mount)
+## always starts with the left fist.
 func _pick_attack_index() -> int:
 	if attacks.is_empty():
 		return -1
+	if _last_punch == -1:
+		_last_punch = _index_of_hand(HandAnchor.HandSide.LEFT)
+		return _last_punch
 	_last_punch = (_last_punch + 1) % attacks.size()
 	return _last_punch
+
+
+func _index_of_hand(hand: HandAnchor.HandSide) -> int:
+	for i in attacks.size():
+		if attacks[i].hands.has(hand):
+			return i
+	return 0
