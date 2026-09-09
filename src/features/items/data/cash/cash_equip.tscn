@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bl1mx0el81877" path="res://src/features/items/data/cash/cash_equip.gd" id="1_csvf1"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="2_csvf1"]
 [ext_resource type="PackedScene" uid="uid://de2xtq6nj4ktw" path="res://src/features/items/data/cash/cash.glb" id="2_pbesq"]
-[ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="3_hanchor"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3_hanchor"]
 
 [node name="CashEquip" type="Node3D" unique_id=1920707759]
 script = ExtResource("1_csvf1")

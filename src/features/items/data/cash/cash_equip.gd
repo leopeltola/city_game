@@ -36,6 +36,6 @@ func _update() -> void:
 		index = 4 # 100
 	elif amount < 500:
 		index = 5 # 200
-	$cash/CashArmature/Skeleton3D/Cash.set_instance_shader_parameter("bill_amount", amount)
-	$cash/CashArmature/Skeleton3D/Cash.set_instance_shader_parameter("texture_index", index)
-	$cash/CashArmature/Skeleton3D/Cash.set_instance_shader_parameter("text_color", bill_colors[index])
+	$RightHandAnchor/cash/CashArmature/Skeleton3D/Cash.set_instance_shader_parameter("bill_amount", amount)
+	$RightHandAnchor/cash/CashArmature/Skeleton3D/Cash.set_instance_shader_parameter("texture_index", index)
+	$RightHandAnchor/cash/CashArmature/Skeleton3D/Cash.set_instance_shader_parameter("text_color", bill_colors[index])
