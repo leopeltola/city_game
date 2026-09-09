@@ -1,0 +1,312 @@
+class_name MeleeEquip
+extends ItemEquip
+## Reusable melee engine for one-shot swing attacks plus an optional guard (RMB).
+## Used by fists and bat today; future melee weapons extend it and only configure
+## their `attacks` list (see _configure_attacks) and hit shape.
+##
+## Model:
+##  - Each swing is a MeleeAttack: a rig clip with a hit window expressed as a
+##    fraction of the clip. State therefore follows the animation lifecycle -
+##    the engine listens to PlayerAnimator.action_finished / action_cancelled and
+##    never hand-rolls awaits or magic timers.
+##  - While the local client's action progress is inside the window, the per-weapon
+##    %ShapeCast3D is enabled and swept between frames to catch targets. Everything
+##    else (animation, flags, modifiers) is replayed on every peer via the same RPCs
+##    that started the action.
+##  - Attacks are picked through _pick_attack_index() so a weapon can alternate
+##    swings (fists left/right) or choose by condition (future sprint shove).
+
+enum Phase { NONE, ATTACKING, GUARDING }
+
+## Emitted on the local client when an attack lands on a new target.
+signal attack_hit(target: Node, attack: MeleeAttack)
+
+@export var hit_sound: AudioStream = null
+@export var block_sound: AudioStream = null
+## Played on every peer at the start of a swing.
+@export var swoosh_sound: AudioStream = null
+
+## All swings this weapon can perform. Populated by _configure_attacks() (or exports).
+@export var attacks: Array[MeleeAttack] = []
+
+## When non-empty, RMB enters a timed guard that plays [guard_animation] and sets
+## is_blocking while it lasts (legacy bat behavior). Empty disables RMB.
+@export var guard_animation := ""
+@export var guard_look_drag_multiplier := 0.3
+@export var guard_start_blend := 0.1
+@export var guard_end_blend := 0.15
+
+var _phase: Phase = Phase.NONE
+var _active_attack: MeleeAttack = null
+var _animator: PlayerAnimator = null
+
+@onready var _shape_cast: ShapeCast3D = %ShapeCast3D
+var _hit_targets: Array[Object] = []
+var _prev_cast_pos := Vector3.ZERO
+var _action_started_msec := 0
+
+
+func _on_equipped() -> void:
+	_configure_attacks()
+	_melee_init()
+
+
+## Virtual: subclasses / scenes populate `attacks` (and guard options). Base leaves
+## whatever was exported in place.
+func _configure_attacks() -> void:
+	pass
+
+
+func _melee_init() -> void:
+	assert(_shape_cast, "Melee equip scenes need a %ShapeCast3D node")
+	_shape_cast.enabled = false
+	_shape_cast.add_exception(player.hittable_area)
+	_ensure_animator_connected()
+	_end_action()
+
+
+## Resolves player.animator and connects the action lifecycle signals. Called on init
+## and lazily on every action/physics entry so equips mounted before Player._ready ran
+## (e.g. right after spawn) still attach cleanly on their first use.
+func _ensure_animator_connected() -> bool:
+	if is_instance_valid(_animator):
+		return true
+	if not is_instance_valid(player) or not is_instance_valid(player.animator):
+		return false
+	_animator = player.animator
+	_animator.action_finished.connect(_on_animator_action_finished)
+	_animator.action_cancelled.connect(_on_animator_action_cancelled)
+	return true
+
+
+func _on_unequipped() -> void:
+	if is_instance_valid(_animator):
+		if _animator.action_finished.is_connected(_on_animator_action_finished):
+			_animator.action_finished.disconnect(_on_animator_action_finished)
+		if _animator.action_cancelled.is_connected(_on_animator_action_cancelled):
+			_animator.action_cancelled.disconnect(_on_animator_action_cancelled)
+	_restore_modifiers()
+	if is_instance_valid(player):
+		player.is_blocking = false
+		if is_instance_valid(player.animator):
+			player.animator.cancel_action(0.1)
+	if is_instance_valid(_shape_cast):
+		_shape_cast.enabled = false
+	_phase = Phase.NONE
+	_active_attack = null
+
+
+## Helper for subclasses to build an attack entry.
+func _make_attack(anim_name: String, dmg: float, knockback: float) -> MeleeAttack:
+	var attack := MeleeAttack.new()
+	attack.animation = anim_name
+	attack.damage = dmg
+	attack.knockback_force = knockback
+	return attack
+
+# --- Input (local only) ---
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not player.is_local or (HUD.instance and HUD.instance.is_blocking_input()):
+		return
+	if event.is_action_pressed("left_click"):
+		_request_attack()
+	elif event.is_action_pressed("right_click"):
+		_request_secondary()
+
+
+func _request_attack() -> void:
+	if _phase != Phase.NONE or attacks.is_empty():
+		return
+	var index := _pick_attack_index()
+	if index < 0 or index >= attacks.size():
+		return
+	_rpc_do_attack.rpc(index)
+
+
+## RMB secondary: legacy feint-cancel while a swing is winding up, or a guard when idle.
+func _request_secondary() -> void:
+	if _phase == Phase.ATTACKING:
+		if guard_animation != "" and _phase_started_within(0.5):
+			_rpc_interrupt.rpc(0.2)
+	elif _phase == Phase.NONE and guard_animation != "":
+		_rpc_do_guard.rpc()
+
+
+## Virtual: which attack from `attacks` to perform next. Base always uses the first.
+func _pick_attack_index() -> int:
+	return 0
+
+# --- Action RPCs (replayed on every peer, matching the legacy bat network model) ---
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_do_attack(index: int) -> void:
+	if index < 0 or index >= attacks.size():
+		return
+	if not _ensure_animator_connected():
+		return
+	var attack := attacks[index]
+	_action_started_msec = Time.get_ticks_msec()
+	player.is_blocking = false
+
+	# Play first so a cancel emitted for any previous action fully settles (resetting
+	# modifiers) before we claim this swing's state.
+	player.animator.play_action(attack.animation, attack.start_blend, attack.end_blend)
+	_play_sfx_local("swoosh")
+
+	_phase = Phase.ATTACKING
+	_active_attack = attack
+	player.look_drag_multiplier = attack.look_drag_multiplier
+	player.move_speed_multiplier = attack.move_speed_multiplier
+
+	if player.is_local:
+		_shape_cast.enabled = false
+		_hit_targets.clear()
+		_prev_cast_pos = _shape_cast.global_position
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_do_guard() -> void:
+	if guard_animation.is_empty():
+		return
+	if not _ensure_animator_connected():
+		return
+	_action_started_msec = Time.get_ticks_msec()
+	player.animator.play_action(guard_animation, guard_start_blend, guard_end_blend)
+
+	_phase = Phase.GUARDING
+	_active_attack = null
+	player.is_blocking = true
+	player.look_drag_multiplier = guard_look_drag_multiplier
+	player.move_speed_multiplier = 1.0
+
+
+## Interrupts the current action (attack cancel, hit/block stagger).
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_interrupt(blend_time: float) -> void:
+	if player.animator != null:
+		player.animator.cancel_action(blend_time)
+	_end_action()
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_play_sfx(id: StringName) -> void:
+	var stream: AudioStream
+	match id:
+		"hit":
+			stream = hit_sound
+		"block":
+			stream = block_sound
+		_:
+			return
+	if stream != null:
+		Audio.play_sfx_3d(stream, global_position, 0, 10)
+
+
+func _play_sfx_local(id: StringName) -> void:
+	var stream: AudioStream
+	match id:
+		"swoosh":
+			stream = swoosh_sound
+		_:
+			return
+	if stream != null:
+		Audio.play_sfx_3d(stream, global_position, 0, 10)
+
+# --- Hit detection (local only, while the swing's hit window is active) ---
+# The window itself is authored on the rig clip's Method track: PlayerAnimator
+# receives on_hit_window_start/on_hit_window_end and routes them here, so the shape
+# is enabled/disabled exactly when the track says so.
+
+
+func _physics_process(_delta: float) -> void:
+	if not player.is_local or _phase != Phase.ATTACKING:
+		return
+	if not _shape_cast.enabled:
+		return
+
+	# Sweep the shape between last frame's position and now so fast swings don't tunnel.
+	_shape_cast.target_position = _shape_cast.to_local(_prev_cast_pos)
+	_shape_cast.force_shapecast_update()
+	for i in _shape_cast.get_collision_count():
+		_resolve_hit(_shape_cast.get_collider(i))
+		if _phase != Phase.ATTACKING:
+			return # staggered/blocked: the swing was cut short, stop registering
+	_prev_cast_pos = _shape_cast.global_position
+
+
+## Called by PlayerAnimator when the swing's method track enters the hit window.
+## (Routed to the currently equipped MeleeEquip; local peer only.)
+func on_hit_window_start() -> void:
+	if not player.is_local or _phase != Phase.ATTACKING:
+		return
+	_hit_targets.clear()
+	_prev_cast_pos = _shape_cast.global_position
+	_shape_cast.enabled = true
+
+
+## Called by PlayerAnimator when the swing's method track leaves the hit window.
+func on_hit_window_end() -> void:
+	if not player.is_local:
+		return
+	_shape_cast.enabled = false
+
+
+func _resolve_hit(collider: Object) -> void:
+	if collider in _hit_targets:
+		return
+	_hit_targets.append(collider)
+
+	var attack := _active_attack
+	var target: Node = collider.get_parent()
+	if target == null or not target.has_method("get_hit"):
+		return
+
+	if target.get("is_blocking") == true:
+		_rpc_interrupt.rpc(attack.block_blend)
+		if target.has_method("trigger_block_success"):
+			target.trigger_block_success()
+		_rpc_play_sfx.rpc("block")
+		return
+
+	var target3d := target as Node3D
+	var force := (target3d.global_position - player.global_position).normalized() * attack.knockback_force
+	force.y += 2.0
+	target.get_hit(attack.damage, force)
+	_rpc_play_sfx.rpc("hit")
+	attack_hit.emit(target, attack)
+	if attack.stagger_on_hit:
+		_rpc_interrupt.rpc(attack.hit_blend)
+
+# --- Action lifecycle ---
+
+
+func _on_animator_action_finished(_anim_name: StringName) -> void:
+	_end_action()
+
+
+func _on_animator_action_cancelled(_anim_name: StringName) -> void:
+	_end_action()
+
+
+func _end_action() -> void:
+	_phase = Phase.NONE
+	_active_attack = null
+	if is_instance_valid(_shape_cast):
+		_shape_cast.enabled = false
+	_restore_modifiers()
+	if is_instance_valid(player):
+		player.is_blocking = false
+
+
+func _restore_modifiers() -> void:
+	if not is_instance_valid(player):
+		return
+	player.look_drag_multiplier = 1.0
+	player.move_speed_multiplier = 1.0
+
+
+func _phase_started_within(seconds: float) -> bool:
+	return (Time.get_ticks_msec() - _action_started_msec) <= int(seconds * 1000.0)

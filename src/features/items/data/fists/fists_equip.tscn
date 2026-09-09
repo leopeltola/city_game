@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dsomweev0fq1m"]
+
+[ext_resource type="Script" uid="uid://d27qrpejfbc0g" path="res://src/features/items/data/fists/fists_equip.gd" id="1_fists"]
+[ext_resource type="AudioStream" uid="uid://bib4wg7ivmx25" path="res://assets/sfx/punch_1.ogg" id="2_p6uko"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kpc5l"]
+random_pitch = 1.1184494
+streams_count = 1
+stream_0/stream = ExtResource("2_p6uko")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fist"]
+radius = 0.16
+
+[node name="FistsEquip" type="Node3D" unique_id=1202237575]
+script = ExtResource("1_fists")
+hit_sound = SubResource("AudioStreamRandomizer_kpc5l")
+idle_animation_override = "fists_up_idle"
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=1927041379]
+unique_name_in_owner = true
+shape = SubResource("SphereShape3D_fist")
+target_position = Vector3(0, 0, 0)
+collision_mask = 16
+collide_with_areas = true
+collide_with_bodies = false

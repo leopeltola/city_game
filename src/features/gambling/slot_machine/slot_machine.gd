@@ -317,7 +317,7 @@ func _on_cash_input_interacted(player_id: int) -> void:
 		return
 	var player := PlayerManager.get_player_node_by_id(player_id)
 	var item := player.get_equipped_item()
-	if not item or item.item_type.name != "cash":
+	if not item or not item.item_type or item.item_type.name != "cash":
 		return
 	var item_id: int = item.item_id
 	var total_amount: int = ItemManager.get_item_data(item_id, "amount", 0)

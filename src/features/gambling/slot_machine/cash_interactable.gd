@@ -13,6 +13,7 @@ func can_interact(player_id: int) -> bool:
 	var player: Player = PlayerManager.get_player_node_by_id(player_id)
 	if not player or not active:
 		return false
-	if player.get_equipped_item() and player.get_equipped_item().item_type.name == "cash":
+	var item := player.get_equipped_item()
+	if item and item.item_type and item.item_type.name == "cash":
 		return true
 	return false

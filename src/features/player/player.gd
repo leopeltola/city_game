@@ -15,8 +15,6 @@ var player_data: PlayerData:
 		return PlayerManager.get_player_by_id(player_id)
 var is_local: bool
 
-var _override_anim := ""
-
 ## Multiplier applied to mouse look sensitivity. Lower values simulate drag/resistance.
 var look_drag_multiplier := 1.0
 ## Multiplier applied to movement speed.
@@ -41,8 +39,8 @@ var is_sprinting := false
 var stamina: float = 100.0
 
 @onready var sight_pivot: Node3D = %SightPivot
-@onready var anim_player: AnimationPlayer = $Visual/guy/AnimationPlayer
 @onready var hittable_area: Area3D = %HittableArea
+@onready var animator: PlayerAnimator = %PlayerAnimator
 
 ## Authoritative world transform written by the local player and replicated via
 ## MultiplayerSynchronizer. Remote peers interpolate their body toward these.
@@ -61,7 +59,6 @@ func _ready() -> void:
 	PlayerManager.register_player_node(self)
 
 	stamina = max_stamina
-	anim_player.animation_finished.connect(_on_animation_finished)
 
 	network_position = global_position
 	network_rotation = global_rotation
@@ -76,10 +73,6 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if not _override_anim:
-		var idle_anim := inventory.get_idle_animation_override()
-		anim_player.play(idle_anim if not idle_anim.is_empty() else "idle")
-
 	if Input.is_action_pressed("show_player_names") and Net.is_client:
 		%NameLabel3D.text = player_data.player_name
 		%NameLabel3D.show()
@@ -139,29 +132,10 @@ func consume_stamina(amount: float) -> bool:
 func has_stamina(amount: float) -> bool:
 	return stamina >= amount
 
-## Emitted when an override animation naturally finishes or is explicitly canceled.
-signal override_anim_finished
 
-
-## Returns equipped item if any exists. Null otherwise
+## Returns equipped item if any exists (including unarmed gear like fists). Null otherwise.
 func get_equipped_item() -> ItemEquip:
 	return inventory._equipped_node
-
-
-## Plays an animation, yielding until natural completion or cancellation.
-func play_override_animation(anim_name: String, blend_time: float = 0.0) -> void:
-	_override_anim = anim_name
-	anim_player.play(anim_name, blend_time)
-	await override_anim_finished
-
-
-## Cancels the current override animation and safely resumes execution for yielded scripts.
-func cancel_override_animation(blend_time: float = 0.0) -> void:
-	if _override_anim == "":
-		return
-	_override_anim = ""
-	anim_player.play("idle", blend_time)
-	override_anim_finished.emit()
 
 
 ## Triggers a quick block recovery network call.
@@ -207,16 +181,10 @@ func _walking(delta: float) -> void:
 	velocity.z = move_toward(velocity.z, target_vel.z, accel * delta * active_speed)
 
 
-func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == _override_anim:
-		_override_anim = ""
-		override_anim_finished.emit()
-
-
 @rpc("any_peer", "call_local", "reliable")
 func _rpc_trigger_block_success() -> void:
 	is_blocking = false
-	cancel_override_animation(0.1)
+	animator.cancel_action(0.1)
 
 
 ## Applies damage and knockback force to the player.

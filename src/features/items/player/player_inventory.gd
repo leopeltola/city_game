@@ -10,6 +10,10 @@ const CASH_STACK_LIMIT := 1000
 ## How long the drop item action must be held before the money-split prompt opens.
 const DROP_LONG_PRESS_TIME := 0.5
 
+## Mounted when the active slot is empty so the player can always fight (bare fists).
+## Unlike real items this is unarmed "gear": no ItemType, no ItemManager instance id.
+const UNARMED_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/fists/fists_equip.tscn")
+
 @export var player: Player = null
 @export var slot_count := 4
 
@@ -39,6 +43,11 @@ func _ready() -> void:
 	if item_slots.is_empty():
 		item_slots.resize(slot_count)
 		item_slots.fill(-1)
+	# The authority's own slot values don't arrive via replication, so mount whatever
+	# the active slot holds (fists if empty) once here. Deferred: equipping spawns the
+	# equip node whose _ready reaches into player.animator, which needs Player._ready
+	# to have run first. Remote peers are covered by the replicated setters instead.
+	_equip_item.call_deferred(active_index)
 
 
 func _input(event: InputEvent) -> void:
@@ -77,6 +86,11 @@ func _unhandled_input(event: InputEvent) -> void:
 ## Return's the currently equipped item's idle anim override's name. Empty string == none
 func get_idle_animation_override() -> String:
 	return _equipped_node.idle_animation_override if _equipped_node else ""
+
+
+## Returns the currently mounted equip node (item or unarmed gear like fists), or null.
+func get_equipped_node() -> ItemEquip:
+	return _equipped_node
 
 
 ## Returns the item ID at the specified index, or -1 if empty.
@@ -287,12 +301,20 @@ func _set_item(slot_idx: int, item_id: int) -> void:
 
 
 func _equip_item(slot_idx: int) -> void:
+	if _equip_slot == null:
+		return
 	if is_instance_valid(_equipped_node):
+		# Detach immediately (not just queue_free) so the new equip node gets the
+		# canonical scene-root name. queue_free alone leaves the old node in the tree
+		# until end-of-frame, and Godot renames the freshly added child (e.g. to
+		# "FistsEquip2") - which breaks the RPC node path on peers that re-equip.
+		_equip_slot.remove_child(_equipped_node)
 		_equipped_node.queue_free()
 		_equipped_node = null
 
 	var item_id := get_item_at_idx(slot_idx)
 	if item_id == -1:
+		_mount_unarmed()
 		return
 
 	# The item may have been destroyed (e.g. full cash insert into the slot
@@ -303,6 +325,7 @@ func _equip_item(slot_idx: int) -> void:
 		push_error("Tried equipping item but item_id not found: ID: %s\nitem_data: %s" % [item_id, item_data])
 		item_slots[slot_idx] = -1
 		inventory_updated.emit()
+		_mount_unarmed()
 		return
 
 	var type: ItemType = ItemManager.get_item_type(item_data["type"])
@@ -314,3 +337,11 @@ func _equip_item(slot_idx: int) -> void:
 	_equipped_node = equipped_item
 
 	_equip_slot.add_child(equipped_item)
+
+
+## Mounts the bare-hands fists gear when the active slot holds no item.
+func _mount_unarmed() -> void:
+	var fists: ItemEquip = UNARMED_EQUIP_SCENE.instantiate()
+	fists.player = player
+	_equipped_node = fists
+	_equip_slot.add_child(fists)
