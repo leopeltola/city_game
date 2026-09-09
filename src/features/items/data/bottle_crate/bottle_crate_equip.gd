@@ -42,6 +42,10 @@ var _last_pos: Vector3
 var _last_vel: Vector3
 var _last_basis: Basis
 
+## The equip root is static (neutral %EquipRoot); hand motion is tracked from the
+## right HandAnchor. First _process tick initializes the tracking history from it.
+var _tracking_ready := false
+
 var _sway_angle: Vector2 = Vector2.ZERO
 var _sway_vel: Vector2 = Vector2.ZERO
 
@@ -56,8 +60,9 @@ var _clink_cooldown: float = 0.0
 
 
 func _ready() -> void:
-	_last_pos = global_position
-	_last_basis = global_basis
+	super()
+	# Tracking history is initialized lazily from the right hand anchor on the first
+	# _process tick (the anchor isn't driven by its RemoteTransform until then).
 
 	var bottle_count: int = ItemManager.get_item_data(item_id, "bottles", 6)
 	var to_erase := []
@@ -84,8 +89,17 @@ func _process(delta: float) -> void:
 	if _clink_cooldown > 0.0:
 		_clink_cooldown -= delta
 
-	var current_pos: Vector3 = global_position
-	var current_basis: Basis = global_basis
+	var hand_tf := get_hand_global_transform(HandAnchor.HandSide.RIGHT)
+	if not _tracking_ready:
+		_last_pos = hand_tf.origin
+		_last_basis = hand_tf.basis
+		_last_vel = Vector3.ZERO
+		_tracking_ready = true
+		_apply_transforms()
+		return
+
+	var current_pos: Vector3 = hand_tf.origin
+	var current_basis: Basis = hand_tf.basis
 
 	var vel: Vector3 = (current_pos - _last_pos) / delta
 	var accel: Vector3 = (vel - _last_vel) / delta
@@ -120,7 +134,7 @@ func shatter_bottle(bottle: Node3D) -> void:
 
 ## Applies an external physical hit (e.g. melee, projectile, explosion).
 func apply_impulse(impulse: Vector3) -> void:
-	var local_impulse: Vector3 = global_basis.inverse() * impulse
+	var local_impulse: Vector3 = get_hand_global_transform(HandAnchor.HandSide.RIGHT).basis.inverse() * impulse
 	_sway_vel += Vector2(-local_impulse.z, local_impulse.x) * linear_sway
 	for bottle in bottles:
 		var stagger: float = _bottle_stagger.get(bottle, 1.0)

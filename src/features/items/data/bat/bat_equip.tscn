@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://cqcoy7720741g" path="res://assets/sfx/whoosh_2.ogg" id="6_v317b"]
 [ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="7_v317b"]
 [ext_resource type="PackedScene" uid="uid://cmh1ulyic8m3m" path="res://src/features/items/data/bat/bat.glb" id="8_22mll"]
+[ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="9_hanchor"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j2mp7"]
 random_pitch = 1.1805152
@@ -39,13 +40,16 @@ item_type = ExtResource("7_v317b")
 idle_animation_override = "bat_hold"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
-[node name="Visual" type="Node3D" parent="." unique_id=1027162091]
+[node name="RightHandAnchor" type="Node3D" parent="." unique_id=330184725]
+script = ExtResource("9_hanchor")
+
+[node name="Visual" type="Node3D" parent="RightHandAnchor" unique_id=1027162091]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="bat" parent="Visual" unique_id=483928586 instance=ExtResource("8_22mll")]
+[node name="bat" parent="RightHandAnchor/Visual" unique_id=483928586 instance=ExtResource("8_22mll")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025257472, 0)
 
-[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=1337978351]
+[node name="ShapeCast3D" type="ShapeCast3D" parent="RightHandAnchor" unique_id=1337978351]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64925706, 0)
 shape = SubResource("CylinderShape3D_kpkvl")

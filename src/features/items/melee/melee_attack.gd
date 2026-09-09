@@ -13,6 +13,9 @@ extends Resource
 ## Blend time (seconds) used when the swing's clip ends, easing back to the idle pose
 ## instead of snapping.
 @export var end_blend := 0.15
+## Hands whose hit shapes are active during this swing. Empty array = all registered
+## shapes active. Fists: left jab -> [LEFT], right jab -> [RIGHT]. Bat: [RIGHT].
+@export var hands: Array[HandAnchor.HandSide] = [HandAnchor.HandSide.RIGHT]
 ## Damage dealt by this attack.
 @export var damage := 25.0
 ## Horizontal knockback applied away from the attacker (plus a fixed upward lift).

@@ -33,10 +33,24 @@ const UNARMED_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/
 		_equip_item(active_index)
 		inventory_updated.emit()
 
-@export var _equip_slot: Node3D = null
+## Neutral mount that the whole equip scene parents under (stays put). Per-hand
+## content inside the equip is driven to the hand slots via HandAnchors instead.
+@export var _equip_root: Node3D = null
+## Hand bone slots the HandAnchors get their transforms pushed from.
+@export var _right_equip_slot: Node3D = null
+@export var _left_equip_slot: Node3D = null
 
 var _equipped_node: ItemEquip = null
 var _drop_press_timer: SceneTreeTimer = null
+
+
+## Returns the hand slot node for a given hand side (driven by that hand's bone).
+func get_hand_slot(hand: HandAnchor.HandSide) -> Node3D:
+	match hand:
+		HandAnchor.HandSide.LEFT:
+			return _left_equip_slot
+		_:
+			return _right_equip_slot
 
 
 func _ready() -> void:
@@ -301,14 +315,14 @@ func _set_item(slot_idx: int, item_id: int) -> void:
 
 
 func _equip_item(slot_idx: int) -> void:
-	if _equip_slot == null:
+	if _equip_root == null:
 		return
 	if is_instance_valid(_equipped_node):
 		# Detach immediately (not just queue_free) so the new equip node gets the
 		# canonical scene-root name. queue_free alone leaves the old node in the tree
 		# until end-of-frame, and Godot renames the freshly added child (e.g. to
 		# "FistsEquip2") - which breaks the RPC node path on peers that re-equip.
-		_equip_slot.remove_child(_equipped_node)
+		_equip_root.remove_child(_equipped_node)
 		_equipped_node.queue_free()
 		_equipped_node = null
 
@@ -336,7 +350,7 @@ func _equip_item(slot_idx: int) -> void:
 	equipped_item.player = player
 	_equipped_node = equipped_item
 
-	_equip_slot.add_child(equipped_item)
+	_equip_root.add_child(equipped_item)
 
 
 ## Mounts the bare-hands fists gear when the active slot holds no item.
@@ -344,4 +358,4 @@ func _mount_unarmed() -> void:
 	var fists: ItemEquip = UNARMED_EQUIP_SCENE.instantiate()
 	fists.player = player
 	_equipped_node = fists
-	_equip_slot.add_child(fists)
+	_equip_root.add_child(fists)

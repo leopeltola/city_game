@@ -1,5 +1,12 @@
 class_name FistsEquip
 extends MeleeEquip
+## Unarmed combat gear mounted whenever the player's active slot is empty. Bare
+## hands: this equip carries no mesh - the rig's own hands are animated by the
+## punch clips (fists_up_punch_left / _right). Two quick jabs alternate on LMB;
+## RMB is currently unbound (reserved for a future sprint shove).
+##
+## Scene layout: two HandAnchors (RIGHT + LEFT), each holding a ShapeCast3D at the
+## corresponding fist. Each punch only enables the shape on the punching hand.
 
 var _last_punch := -1
 
@@ -7,11 +14,15 @@ var _last_punch := -1
 func _configure_attacks() -> void:
 	if not attacks.is_empty():
 		return
-	attacks = [_make_punch("fists_up_punch_left"), _make_punch("fists_up_punch_right")]
+	attacks = [
+		_make_punch("fists_up_punch_left", HandAnchor.HandSide.LEFT),
+		_make_punch("fists_up_punch_right", HandAnchor.HandSide.RIGHT),
+	]
 
 
-func _make_punch(anim_name: String) -> MeleeAttack:
+func _make_punch(anim_name: String, hand: HandAnchor.HandSide) -> MeleeAttack:
 	var punch := _make_attack(anim_name, 8.0, 4.0)
+	punch.hands = [hand]
 	punch.start_blend = 0.08
 	punch.end_blend = 0.08
 	punch.move_speed_multiplier = 0.9

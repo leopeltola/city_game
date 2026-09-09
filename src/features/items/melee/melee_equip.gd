@@ -5,14 +5,14 @@ extends ItemEquip
 ## their `attacks` list (see _configure_attacks) and hit shape.
 ##
 ## Model:
-##  - Each swing is a MeleeAttack: a rig clip with a hit window expressed as a
-##    fraction of the clip. State therefore follows the animation lifecycle -
-##    the engine listens to PlayerAnimator.action_finished / action_cancelled and
-##    never hand-rolls awaits or magic timers.
-##  - While the local client's action progress is inside the window, the per-weapon
-##    %ShapeCast3D is enabled and swept between frames to catch targets. Everything
-##    else (animation, flags, modifiers) is replayed on every peer via the same RPCs
-##    that started the action.
+##  - Each swing is a MeleeAttack: a rig clip with a hit window authored as method
+##    keys on the clip (routed via PlayerAnimator), damage/knockback, and the set of
+##    hands whose hit shapes are active during the swing (attack.hands).
+##  - Hit shapes are ShapeCast3D children of HandAnchor nodes (one per hand). While
+##    the window is active on the local client, the shapes whose hand is in the
+##    attack's `hands` are enabled and swept between frames to catch targets.
+##    Everything else (animation, flags, modifiers) is replayed on every peer via the
+##    same RPCs that started the action.
 ##  - Attacks are picked through _pick_attack_index() so a weapon can alternate
 ##    swings (fists left/right) or choose by condition (future sprint shove).
 
@@ -40,13 +40,16 @@ var _phase: Phase = Phase.NONE
 var _active_attack: MeleeAttack = null
 var _animator: PlayerAnimator = null
 
-@onready var _shape_cast: ShapeCast3D = %ShapeCast3D
+## Hit shapes collected from HandAnchor children, each keyed to its hand side.
+var _hit_shapes: Array[ShapeCast3D] = []
+var _shape_hands: Dictionary = {}
+var _prev_cast_pos: Dictionary = {}
 var _hit_targets: Array[Object] = []
-var _prev_cast_pos := Vector3.ZERO
 var _action_started_msec := 0
 
 
 func _on_equipped() -> void:
+	super()
 	_configure_attacks()
 	_melee_init()
 
@@ -58,11 +61,31 @@ func _configure_attacks() -> void:
 
 
 func _melee_init() -> void:
-	assert(_shape_cast, "Melee equip scenes need a %ShapeCast3D node")
-	_shape_cast.enabled = false
-	_shape_cast.add_exception(player.hittable_area)
+	_collect_hit_shapes()
+	assert(not _hit_shapes.is_empty(), "Melee equip scenes need at least one ShapeCast3D under a HandAnchor")
+	for sc: ShapeCast3D in _hit_shapes:
+		sc.enabled = false
+		sc.add_exception(player.hittable_area)
 	_ensure_animator_connected()
 	_end_action()
+
+
+## Registers every ShapeCast3D under a HandAnchor child, keyed to that anchor's hand.
+func _collect_hit_shapes() -> void:
+	_hit_shapes.clear()
+	_shape_hands.clear()
+	for child in get_children():
+		if child is HandAnchor:
+			for sc in child.get_children():
+				if sc is ShapeCast3D:
+					_hit_shapes.append(sc)
+					_shape_hands[sc] = child.hand
+
+
+func _disable_hit_shapes() -> void:
+	for sc: ShapeCast3D in _hit_shapes:
+		if is_instance_valid(sc):
+			sc.enabled = false
 
 
 ## Resolves player.animator and connects the action lifecycle signals. Called on init
@@ -80,6 +103,7 @@ func _ensure_animator_connected() -> bool:
 
 
 func _on_unequipped() -> void:
+	super()
 	if is_instance_valid(_animator):
 		if _animator.action_finished.is_connected(_on_animator_action_finished):
 			_animator.action_finished.disconnect(_on_animator_action_finished)
@@ -90,8 +114,7 @@ func _on_unequipped() -> void:
 		player.is_blocking = false
 		if is_instance_valid(player.animator):
 			player.animator.cancel_action(0.1)
-	if is_instance_valid(_shape_cast):
-		_shape_cast.enabled = false
+	_disable_hit_shapes()
 	_phase = Phase.NONE
 	_active_attack = null
 
@@ -162,9 +185,8 @@ func _rpc_do_attack(index: int) -> void:
 	player.move_speed_multiplier = attack.move_speed_multiplier
 
 	if player.is_local:
-		_shape_cast.enabled = false
+		_disable_hit_shapes()
 		_hit_targets.clear()
-		_prev_cast_pos = _shape_cast.global_position
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -224,34 +246,39 @@ func _play_sfx_local(id: StringName) -> void:
 func _physics_process(_delta: float) -> void:
 	if not player.is_local or _phase != Phase.ATTACKING:
 		return
-	if not _shape_cast.enabled:
-		return
-
-	# Sweep the shape between last frame's position and now so fast swings don't tunnel.
-	_shape_cast.target_position = _shape_cast.to_local(_prev_cast_pos)
-	_shape_cast.force_shapecast_update()
-	for i in _shape_cast.get_collision_count():
-		_resolve_hit(_shape_cast.get_collider(i))
-		if _phase != Phase.ATTACKING:
-			return # staggered/blocked: the swing was cut short, stop registering
-	_prev_cast_pos = _shape_cast.global_position
+	for sc: ShapeCast3D in _hit_shapes:
+		if not sc.enabled:
+			continue
+		# Sweep the shape between last frame's position and now so fast swings don't tunnel.
+		sc.target_position = sc.to_local(_prev_cast_pos[sc])
+		sc.force_shapecast_update()
+		for i in sc.get_collision_count():
+			_resolve_hit(sc.get_collider(i))
+			if _phase != Phase.ATTACKING:
+				return # staggered/blocked: the swing was cut short, stop registering
+		_prev_cast_pos[sc] = sc.global_position
 
 
 ## Called by PlayerAnimator when the swing's method track enters the hit window.
-## (Routed to the currently equipped MeleeEquip; local peer only.)
+## (Routed to the currently equipped MeleeEquip; local peer only.) Only the shapes on
+## hands listed in the active attack's `hands` are enabled.
 func on_hit_window_start() -> void:
 	if not player.is_local or _phase != Phase.ATTACKING:
 		return
 	_hit_targets.clear()
-	_prev_cast_pos = _shape_cast.global_position
-	_shape_cast.enabled = true
+	var attack := _active_attack
+	for sc: ShapeCast3D in _hit_shapes:
+		var active: bool = attack.hands.is_empty() or (_shape_hands[sc] in attack.hands)
+		sc.enabled = active
+		if active:
+			_prev_cast_pos[sc] = sc.global_position
 
 
 ## Called by PlayerAnimator when the swing's method track leaves the hit window.
 func on_hit_window_end() -> void:
 	if not player.is_local:
 		return
-	_shape_cast.enabled = false
+	_disable_hit_shapes()
 
 
 func _resolve_hit(collider: Object) -> void:
@@ -294,8 +321,7 @@ func _on_animator_action_cancelled(_anim_name: StringName) -> void:
 func _end_action() -> void:
 	_phase = Phase.NONE
 	_active_attack = null
-	if is_instance_valid(_shape_cast):
-		_shape_cast.enabled = false
+	_disable_hit_shapes()
 	_restore_modifiers()
 	if is_instance_valid(player):
 		player.is_blocking = false

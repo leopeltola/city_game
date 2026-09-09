@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d27qrpejfbc0g" path="res://src/features/items/data/fists/fists_equip.gd" id="1_fists"]
 [ext_resource type="AudioStream" uid="uid://bib4wg7ivmx25" path="res://assets/sfx/punch_1.ogg" id="2_p6uko"]
+[ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="3_hanchor"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kpc5l"]
 random_pitch = 1.1184494
@@ -16,7 +17,22 @@ script = ExtResource("1_fists")
 hit_sound = SubResource("AudioStreamRandomizer_kpc5l")
 idle_animation_override = "fists_up_idle"
 
-[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=1927041379]
+[node name="RightHandAnchor" type="Node3D" parent="." unique_id=904612388]
+script = ExtResource("3_hanchor")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="RightHandAnchor" unique_id=1927041379]
+unique_name_in_owner = true
+shape = SubResource("SphereShape3D_fist")
+target_position = Vector3(0, 0, 0)
+collision_mask = 16
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="LeftHandAnchor" type="Node3D" parent="." unique_id=551203947]
+script = ExtResource("3_hanchor")
+hand = 1
+
+[node name="LeftFistCast" type="ShapeCast3D" parent="LeftHandAnchor" unique_id=727314902]
 unique_name_in_owner = true
 shape = SubResource("SphereShape3D_fist")
 target_position = Vector3(0, 0, 0)

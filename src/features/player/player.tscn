@@ -193,6 +193,9 @@ transform = Transform3D(0.047468077, -0.40665722, 0.9123466, -0.16295388, 0.8979
 unique_name_in_owner = true
 transform = Transform3D(0.10280165, 0.88575053, -0.45263433, -0.013430789, 0.45623964, 0.8897557, 0.9946111, -0.08538904, 0.05879864, -0.1779508, -0.2882669, -0.53050727)
 
+[node name="EquipRoot" type="Node3D" parent="SightPivot/Camera3D" unique_id=592813467]
+unique_name_in_owner = true
+
 [node name="LookAtTarget" type="RemoteTransform3D" parent="SightPivot/Camera3D" unique_id=306580535]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2348218, -3.161024)
 remote_path = NodePath("../../../Visual/guy/Armature/Skeleton3D/LookAtModifier3D")
@@ -249,10 +252,12 @@ script = ExtResource("9_animtr")
 inventory = NodePath("../PlayerInventory")
 anim_player = NodePath("../Visual/guy/AnimationPlayer")
 
-[node name="PlayerInventory" type="Node" parent="." unique_id=335220812 node_paths=PackedStringArray("player", "_equip_slot")]
+[node name="PlayerInventory" type="Node" parent="." unique_id=335220812 node_paths=PackedStringArray("player", "_equip_root", "_right_equip_slot", "_left_equip_slot")]
 script = ExtResource("6_rybn4")
 player = NodePath("..")
-_equip_slot = NodePath("../SightPivot/Camera3D/RightItemSlot")
+_equip_root = NodePath("../SightPivot/Camera3D/EquipRoot")
+_right_equip_slot = NodePath("../SightPivot/Camera3D/RightItemSlot")
+_left_equip_slot = NodePath("../SightPivot/Camera3D/LeftItemSlot")
 metadata/_custom_type_script = "uid://byjrh17ptlrd"
 
 [node name="HittableArea" type="Area3D" parent="." unique_id=655373883]
