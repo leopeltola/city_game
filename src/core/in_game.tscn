@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://cekcjeqc7wp01"]
 
+[ext_resource type="Shader" uid="uid://dtwg4u0tfdpkq" path="res://src/features/city/sky/day_night_sky.gdshader" id="1_8at8h"]
 [ext_resource type="PackedScene" uid="uid://bejfv2je50wk7" path="res://src/features/player/player_spawner.tscn" id="1_bvu6y"]
-[ext_resource type="Texture2D" uid="uid://b4u56y5puucr4" path="res://assets/textures/skies/sky_22_2k.png" id="1_yfk00"]
+[ext_resource type="Texture2D" uid="uid://c5smh658xpm4a" path="res://assets/textures/skies/sky_14_2k_day.png" id="2_3wrof"]
+[ext_resource type="Texture2D" uid="uid://cqtajnkhui4j6" path="res://assets/textures/skies/sky_14_2k_night.jpg" id="3_5cqoa"]
 [ext_resource type="Script" uid="uid://rmxhvlbn4xgi" path="res://src/features/items/item_spawner.gd" id="3_hxguo"]
 [ext_resource type="Script" uid="uid://bwutnfqbytmqn" path="res://src/features/items/item_multiplayer_spawner.gd" id="4_anh6s"]
 [ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="5_udf63"]
@@ -36,16 +38,22 @@
 [ext_resource type="PackedScene" uid="uid://c085gkinj7n7d" path="res://src/features/city/street_props/rail_fence.glb" id="33_rlhkn"]
 [ext_resource type="PackedScene" uid="uid://b26uwc072v7qd" path="res://src/features/city/kela/kela_building.tscn" id="34_j2hit"]
 [ext_resource type="PackedScene" uid="uid://c8xqutmxfag3h" path="res://src/features/city/casino/casino_building.tscn" id="35_64k4k"]
+[ext_resource type="Script" uid="uid://bq336tdab1r16" path="res://src/features/city/sky/day_night_cycle.gd" id="37_d3xh7"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_udf63"]
-panorama = ExtResource("1_yfk00")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r1j2v"]
+shader = ExtResource("1_8at8h")
+shader_parameter/day_texture = ExtResource("2_3wrof")
+shader_parameter/night_texture = ExtResource("3_5cqoa")
+shader_parameter/blend_range = 0.25
 
-[sub_resource type="Sky" id="Sky_rur3b"]
-sky_material = SubResource("PanoramaSkyMaterial_udf63")
+[sub_resource type="Sky" id="Sky_i88qe"]
+sky_material = SubResource("ShaderMaterial_r1j2v")
 
 [sub_resource type="Environment" id="Environment_j7dey"]
 background_mode = 2
-sky = SubResource("Sky_rur3b")
+sky = SubResource("Sky_i88qe")
+ambient_light_source = 3
+ambient_light_energy = 0.25
 tonemap_mode = 2
 ssr_enabled = true
 ssao_enabled = true
@@ -75,9 +83,14 @@ size = Vector2(4.24, 2.48)
 
 [node name="InGame" type="Node3D" unique_id=1046277669]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1233711505]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-light_energy = 1.2
+[node name="DayLight" type="DirectionalLight3D" parent="." unique_id=1233711505]
+transform = Transform3D(0.8660254, 0.44843638, -0.22114433, 0, 0.44228867, 0.89687276, 0.5, -0.77671456, 0.38303322, 0, 0, 0)
+shadow_enabled = true
+
+[node name="NightLight" type="DirectionalLight3D" parent="." unique_id=1759664559]
+transform = Transform3D(0.8660254, -0.44843638, 0.22114432, 0, -0.44228864, -0.89687276, 0.5, 0.77671456, -0.3830332, 0, 0, 0)
+light_color = Color(0.0936, 0.20460002, 0.36, 1)
+light_energy = 0.0
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=449070883]
@@ -145,17 +158,17 @@ script = ExtResource("4_anh6s")
 [node name="CasinoSkyscraper" parent="City" unique_id=1418599293 instance=ExtResource("17_xdh1b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.46692, 0.13125515, -9.959579)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 592319556) index="0" unique_id=2137893935]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 969999495) index="0" unique_id=2137893935]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper/StaticBody3D" unique_id=1988896395]
 shape = SubResource("ConcavePolygonShape3D_a54ph")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 612543169) index="0" unique_id=1235067300]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 1607977321) index="0" unique_id=1235067300]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper_001/StaticBody3D" unique_id=562831225]
 shape = SubResource("ConcavePolygonShape3D_2h7sf")
 
-[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=982927261]
+[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=1491844758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0038805008, 4.3149405, 0.014133453)
 
 [node name="casino_table" parent="City/CasinoSkyscraper" unique_id=475239430 instance=ExtResource("24_txgtg")]
@@ -648,5 +661,13 @@ data = ExtResource("21_a54ph")
 
 [node name="CasinoBuilding" parent="." unique_id=108205738 instance=ExtResource("35_64k4k")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 40, 0.11, 6)
+
+[node name="DayNightCycle" type="Node" parent="." unique_id=120939032 node_paths=PackedStringArray("sun_light", "moon_light")]
+script = ExtResource("37_d3xh7")
+day_length_seconds = 600.0
+time_of_day = 10.25
+sun_light = NodePath("../DayLight")
+moon_light = NodePath("../NightLight")
+metadata/_custom_type_script = "uid://bq336tdab1r16"
 
 [editable path="City/CasinoSkyscraper"]
