@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dsej6vmmmhrh2"
-path="res://.godot/imported/layer_brick.glb-4327dbe3420afb6e362e8b622b5b83aa.scn"
+uid="uid://bad5ssnf7rex2"
+path="res://.godot/imported/casino_outerior.glb-e14935c1bffd774dd1e7a4ac9e7e7308.scn"
 
 [deps]
 
-source_file="res://src/features/city/assets/models/modular1/layer_brick.glb"
-dest_files=["res://.godot/imported/layer_brick.glb-4327dbe3420afb6e362e8b622b5b83aa.scn"]
+source_file="res://src/features/city/casino/casino_outerior.glb"
+dest_files=["res://.godot/imported/casino_outerior.glb-e14935c1bffd774dd1e7a4ac9e7e7308.scn"]
 
 [params]
 
@@ -41,11 +41,6 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"Brick": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/stone_bricks/stone_bricks.tres",
-"use_external/path": "uid://wjo183lwwbwa"
-},
 "Gradient": {
 "use_external/enabled": true,
 "use_external/fallback_path": "res://assets/textures/gradient/gradient1_material.tres",
