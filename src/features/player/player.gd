@@ -250,6 +250,10 @@ func _rpc_get_hit(damage: float, force: Vector3, interrupt: bool) -> void:
 			_spawn_knocked_item()
 		if is_instance_valid(camera):
 			camera.add_damage_impact(damage)
+		# Put the camera away before the knock; camera_out replicates to every peer.
+		if inventory.camera_out:
+			inventory.camera_out = false
+		_spawn_knocked_item()
 
 	if interrupt and is_instance_valid(animator) and animator.is_action_playing():
 		enter_stagger()

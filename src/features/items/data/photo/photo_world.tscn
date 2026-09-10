@@ -1,0 +1,25 @@
+[gd_scene format=3 ]
+
+[ext_resource type="Script" path="res://src/features/items/item_world.gd" id="1_rbl3i"]
+[ext_resource type="Resource" path="res://src/features/items/data/photo/photo.tres" id="2_ijgx7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ijgx7"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ijgx7"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="TemplateWorld" type="RigidBody3D" unique_id=1876542542]
+collision_layer = 12
+collision_mask = 9
+script = ExtResource("1_rbl3i")
+type = ExtResource("2_ijgx7")
+metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1324848502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("BoxShape3D_ijgx7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=684219485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("BoxMesh_ijgx7")

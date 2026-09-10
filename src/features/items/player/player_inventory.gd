@@ -14,6 +14,10 @@ const DROP_LONG_PRESS_TIME := 0.5
 ## Unlike real items this is unarmed "gear": no ItemType, no ItemManager instance id.
 const UNARMED_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/fists/fists_equip.tscn")
 
+## Camera gear toggled with the "camera" action. Unarmed gear with no backing slot:
+## lowering the camera re-mounts the active slot's item.
+const CAMERA_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/camera/camera_equip.tscn")
+
 @export var player: Player = null
 @export var slot_count := 4
 
@@ -32,6 +36,18 @@ const UNARMED_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/
 		active_index = val
 		_equip_item(active_index)
 		inventory_updated.emit()
+
+## True while the camera is out. Replicated so every peer mounts the same visual.
+## While up, the active slot's item stays stowed and is re-mounted when lowered.
+@export var camera_out := false:
+	set(val):
+		var changed := camera_out != val
+		camera_out = val
+		if changed and is_inside_tree():
+			if camera_out:
+				_equip_camera()
+			else:
+				_equip_item(active_index)
 
 ## Neutral mount that the whole equip scene parents under (stays put). Per-hand
 ## content inside the equip is driven to the hand slots via HandAnchors instead.
@@ -86,21 +102,39 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("scroll_down"):
 		active_index = wrapi(active_index - 1, 0, slot_count)
+		_lower_camera_if_out()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("scroll_up"):
 		active_index = wrapi(active_index + 1, 0, slot_count)
+		_lower_camera_if_out()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("camera"):
+		camera_out = not camera_out
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("drop_item"):
+		if camera_out:
+			# No held item while the camera is up; swallow press and release.
+			get_viewport().set_input_as_handled()
+			return
 		if _drop_press_timer == null:
 			_drop_press_timer = get_tree().create_timer(DROP_LONG_PRESS_TIME)
 			_drop_press_timer.timeout.connect(_on_drop_press_held)
 		get_viewport().set_input_as_handled()
 	elif event.is_action_released("drop_item"):
+		if camera_out:
+			get_viewport().set_input_as_handled()
+			return
 		if _drop_press_timer:
 			_drop_press_timer.timeout.disconnect(_on_drop_press_held)
 			_drop_press_timer = null
 			drop_active_item()
 		get_viewport().set_input_as_handled()
+
+
+## Scrolling to another slot lowers the camera, mounting that slot's item.
+func _lower_camera_if_out() -> void:
+	if camera_out:
+		camera_out = false
 
 
 ## Return's the currently equipped item's idle anim override's name. Empty string == none
@@ -321,16 +355,12 @@ func _set_item(slot_idx: int, item_id: int) -> void:
 
 
 func _equip_item(slot_idx: int) -> void:
+	if camera_out:
+		# Camera is up; slot changes are UI-only until it comes down.
+		return
 	if _equip_root == null:
 		return
-	if is_instance_valid(_equipped_node):
-		# Detach immediately (not just queue_free) so the new equip node gets the
-		# canonical scene-root name. queue_free alone leaves the old node in the tree
-		# until end-of-frame, and Godot renames the freshly added child (e.g. to
-		# "FistsEquip2") - which breaks the RPC node path on peers that re-equip.
-		_equip_root.remove_child(_equipped_node)
-		_equipped_node.queue_free()
-		_equipped_node = null
+	_remove_equipped_node()
 
 	var item_id := get_item_at_idx(slot_idx)
 	if item_id == -1:
@@ -359,9 +389,43 @@ func _equip_item(slot_idx: int) -> void:
 	_equip_root.add_child(equipped_item)
 
 
+## Detaches the current equip immediately (not queue_free alone) so the next mount
+## keeps the canonical scene-root name; otherwise Godot renames the new child (e.g.
+## "FistsEquip2") and breaks the equip-node RPC path on peers.
+func _remove_equipped_node() -> void:
+	if not is_instance_valid(_equipped_node):
+		return
+	_equip_root.remove_child(_equipped_node)
+	_equipped_node.queue_free()
+	_equipped_node = null
+
+
 ## Mounts the bare-hands fists gear when the active slot holds no item.
 func _mount_unarmed() -> void:
 	var fists: ItemEquip = UNARMED_EQUIP_SCENE.instantiate()
 	fists.player = player
 	_equipped_node = fists
 	_equip_root.add_child(fists)
+
+
+## Mounts the camera gear, replacing the current equip. Lowering re-mounts the
+## active slot's item (or fists).
+func _equip_camera() -> void:
+	if _equip_root == null:
+		return
+	# Cancel any in-flight drop long-press started before the toggle; its release is
+	# swallowed while the camera is up.
+	_cancel_drop_press_timer()
+	_remove_equipped_node()
+	var camera: ItemEquip = CAMERA_EQUIP_SCENE.instantiate()
+	camera.player = player
+	camera.interact_ray = %InteractRay
+	_equipped_node = camera
+	_equip_root.add_child(camera)
+
+
+## Cancels an in-flight drop long-press timer.
+func _cancel_drop_press_timer() -> void:
+	if _drop_press_timer:
+		_drop_press_timer.timeout.disconnect(_on_drop_press_held)
+		_drop_press_timer = null

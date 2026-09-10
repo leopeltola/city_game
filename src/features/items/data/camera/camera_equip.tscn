@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cqpfp583ynwn1"]
+
+[ext_resource type="Script" uid="uid://cgkm3jehb82e6" path="res://src/features/items/data/camera/camera_equip.gd" id="1_kyp5c"]
+[ext_resource type="PackedScene" uid="uid://bsnlc0lkgnfjs" path="res://src/features/items/data/camera/camera.glb" id="2_p2ari"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3_hanchor"]
+
+[node name="CameraEquip" type="Node3D" unique_id=869713486]
+script = ExtResource("1_kyp5c")
+idle_animation_override = "camera_idle"
+metadata/_custom_type_script = "uid://cuouyiv4rgvf"
+
+[node name="RightHandAnchor" type="Node3D" parent="." unique_id=2058271563]
+script = ExtResource("3_hanchor")
+
+[node name="camera" parent="RightHandAnchor" unique_id=1576272977 instance=ExtResource("2_p2ari")]
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="RightHandAnchor/camera" unique_id=1178620540]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 5.9604645e-08, 0.046377823, 0.2067305)
+remote_path = NodePath("../../../SubViewport/Camera3D")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=371020928]
+unique_name_in_owner = true
+size = Vector2i(145, 145)
+size_2d_override_stretch = true
+render_target_update_mode = 0
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=777284211]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 5.9604645e-08, 0.046377823, 0.2067305)
