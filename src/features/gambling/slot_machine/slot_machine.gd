@@ -35,6 +35,8 @@ const COMBO_TRIPLES: Dictionary[int, float] = {
 }
 
 @export var sfx_win: AudioStream
+@export var sfx_big_win: AudioStream
+@export var sfx_jackpot: AudioStream
 @export var sfx_lose: AudioStream
 @export var sfx_cash_input: AudioStream
 @export var sfx_wheel_roll: AudioStream
@@ -277,11 +279,20 @@ func _rpc_execute_spin(target_symbols: Array[int], holds: Array[bool], bet: int,
 		_reset_buttons()
 
 		var payout: int = _calculate_payout(current_symbols, current_bet)
+		var multiplier: float =_get_multiplier(current_symbols)
 		_display_prefix = ""
 		_display_suffix = "€"
 
 		if payout > 0:
-			_play_sfx(sfx_win)
+			
+			if multiplier > 30:
+				_play_sfx(sfx_jackpot)
+			elif multiplier > 2.5:
+				_play_sfx(sfx_big_win)
+			else:
+				_play_sfx(sfx_win)
+			
+			
 			_animate_display_value(current_bet, payout, 0.5)
 			await get_tree().create_timer(0.6).timeout
 			if Net.is_server:
@@ -310,6 +321,20 @@ func _calculate_payout(symbols: Array[int], bet: int) -> int:
 			return int(bet * COMBO_PAIRS.get(sym, 0.0))
 
 	return 0
+
+func _get_multiplier(symbols: Array[int]) -> float:
+	var counts: Dictionary = { }
+	for sym in symbols:
+		counts[sym] = counts.get(sym, 0) + 1
+	
+	for sym: int in counts:
+		if counts[sym] == 3:
+			return COMBO_TRIPLES.get(sym, 0.0)
+		if counts[sym] == 2:
+			return COMBO_PAIRS.get(sym, 0.0)
+	
+	return 0
+
 
 
 func _on_cash_input_interacted(player_id: int) -> void:

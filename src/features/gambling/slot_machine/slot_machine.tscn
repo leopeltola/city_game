@@ -4,7 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bq1trkpokbq43" path="res://src/features/gambling/assets/models/slot_machine.glb" id="1_kcej3"]
 [ext_resource type="AudioStream" uid="uid://c8pxkn5yhxsvt" path="res://assets/sfx/slot_machine/win_jingle.ogg" id="2_a3ce5"]
 [ext_resource type="Script" uid="uid://d0vpw5o6sm0q8" path="res://src/features/interaction/interactable.gd" id="3_2rvfj"]
+[ext_resource type="AudioStream" uid="uid://r0nv526eh0bs" path="res://assets/sfx/slot_machine/win_jingle_2.ogg" id="3_basqm"]
 [ext_resource type="AudioStream" uid="uid://bhnckkeo37ige" path="res://assets/sfx/slot_machine/lose.ogg" id="3_pfyov"]
+[ext_resource type="AudioStream" uid="uid://dosfxhlbasslh" path="res://assets/sfx/slot_machine/win_jingle_3.ogg" id="4_shpxc"]
 [ext_resource type="AudioStream" uid="uid://ce4gilnv726fo" path="res://assets/sfx/slot_machine/cash_register.ogg" id="4_tgln3"]
 [ext_resource type="AudioStream" uid="uid://l0iky670b644" path="res://assets/sfx/slot_machine/roll.ogg" id="5_1lmtd"]
 [ext_resource type="Script" uid="uid://creafbuc5v1gr" path="res://src/features/gambling/slot_machine/cash_interactable.gd" id="5_ibs5n"]
@@ -76,6 +78,8 @@ albedo_texture = ExtResource("12_pfyov")
 [node name="SlotMachine" type="Node3D" unique_id=505055977]
 script = ExtResource("1_bl4dq")
 sfx_win = ExtResource("2_a3ce5")
+sfx_big_win = ExtResource("3_basqm")
+sfx_jackpot = ExtResource("4_shpxc")
 sfx_lose = ExtResource("3_pfyov")
 sfx_cash_input = ExtResource("4_tgln3")
 sfx_wheel_roll = ExtResource("5_1lmtd")
@@ -84,19 +88,19 @@ sfx_base_jingle = ExtResource("7_shpxc")
 
 [node name="slot_machine" parent="." unique_id=78761518 instance=ExtResource("1_kcej3")]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="slot_machine/Machine" parent_id_path=PackedInt32Array(78761518, 395707476) index="0" unique_id=83667267]
+[node name="StaticBody3D" type="StaticBody3D" parent="slot_machine/Machine" parent_id_path=PackedInt32Array(78761518, 1159367068) index="0" unique_id=83667267]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="slot_machine/Machine/StaticBody3D" unique_id=1018721108]
 visible = false
 shape = SubResource("ConcavePolygonShape3D_bl4dq")
 
-[node name="Button1" parent="slot_machine" index="5" unique_id=582023121]
+[node name="Button1" parent="slot_machine" index="5" unique_id=1271151859]
 visible = false
 
-[node name="Button2" parent="slot_machine" index="6" unique_id=775793640]
+[node name="Button2" parent="slot_machine" index="6" unique_id=1945772718]
 visible = false
 
-[node name="Button3" parent="slot_machine" index="7" unique_id=81126758]
+[node name="Button3" parent="slot_machine" index="7" unique_id=129406397]
 visible = false
 
 [node name="LevelInteract" type="StaticBody3D" parent="." unique_id=2002168919]

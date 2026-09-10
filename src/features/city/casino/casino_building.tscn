@@ -136,4 +136,8 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5, 
 [node name="roof_cylinder" parent="." unique_id=1868467434 instance=ExtResource("3_dsbww")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=782497479]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.9659258, 0, -0.9659258, 0.258819, 0, 3, 3)
+spot_range = 9.675
+
 [editable path="interior_base"]
