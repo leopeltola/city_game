@@ -169,6 +169,20 @@ func try_add_item_to_inv(item_id: int) -> bool:
 	return true
 
 
+## Takes [item_id] into the active slot (or the first free slot) and equips it,
+## lowering the camera if it is out. Returns false when the inventory is full.
+func take_item_in_hand(item_id: int) -> bool:
+	var slot := _find_free_slot()
+	if slot == -1:
+		return false
+	if slot != active_index:
+		active_index = slot
+	_set_item(slot, item_id)
+	if camera_out:
+		camera_out = false
+	return true
+
+
 ## Attempts to add cash to the inventory, respecting the per-stack cash limit.
 ## Fills existing cash stacks up to the limit, then starts a new stack in a free slot.
 ## If the remainder doesn't fit, it is left as a world item where it is (returning false).

@@ -4,6 +4,7 @@ const _item_types: Dictionary[StringName, ItemType] = {
 	"bat": preload("res://src/features/items/data/bat/bat.tres"),
 	"cash": preload("res://src/features/items/data/cash/cash.tres"),
 	"bottle_crate": preload("res://src/features/items/data/bottle_crate/bottle_crate.tres"),
+	"photo": preload("res://src/features/items/data/photo/photo.tres"),
 }
 
 var _id_count := 0

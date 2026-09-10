@@ -107,8 +107,8 @@ unique_name_in_owner = true
 [node name="guy" parent="Visual" unique_id=119801285 instance=ExtResource("7_1mqja")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1534221600) index="3" unique_id=532527035]
-influence = 0.78
+[node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="3" unique_id=532527035]
+influence = 0.947
 setting_count = 1
 settings/0/amount = 1.0
 settings/0/apply_bone_name = "HandsPivot"
@@ -120,8 +120,8 @@ settings/0/axes = 7
 settings/0/invert = 0
 settings/0/additive = false
 
-[node name="HandSlotRightAttachment" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1534221600) index="4" unique_id=203319285]
-transform = Transform3D(-0.17773041, 0.003977722, 0.9840712, 0.08529668, -0.996166, 0.019431747, 0.9803756, 0.08739143, 0.17670971, -0.43316367, 0.6371971, 0.2358341)
+[node name="HandSlotRightAttachment" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="4" unique_id=203319285]
+transform = Transform3D(-0.17773044, 0.0039778943, 0.9840712, 0.08529665, -0.996166, 0.019431917, 0.9803756, 0.08739143, 0.17670974, -0.43316364, 0.637197, 0.23583409)
 bone_name = "HandSlot.R"
 bone_idx = 24
 
@@ -129,8 +129,8 @@ bone_idx = 24
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 remote_path = NodePath("../../../../../../SightPivot/Camera3D/RightItemSlot")
 
-[node name="LeftSlotRightAttachment" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1534221600) index="5" unique_id=560273133]
-transform = Transform3D(-0.17772992, -0.003976144, -0.9840714, -0.08529714, -0.99616635, 0.019430175, -0.9803757, 0.08739155, 0.17670932, 0.4331641, 0.63719785, 0.23583426)
+[node name="LeftSlotRightAttachment" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="5" unique_id=560273133]
+transform = Transform3D(-0.17772987, -0.0039759735, -0.9840714, -0.08529717, -0.99616635, 0.019430004, -0.9803757, 0.08739155, 0.1767093, 0.43316415, 0.6371979, 0.23583427)
 bone_name = "HandSlot.L"
 bone_idx = 16
 
@@ -138,13 +138,13 @@ bone_idx = 16
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 remote_path = NodePath("../../../../../../SightPivot/Camera3D/LeftItemSlot")
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1534221600) index="6" unique_id=1192021904]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="6" unique_id=1192021904]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.00792313, 1.0593438, 3.2247233)
 target_node = NodePath(".")
 bone_name = "Head_2"
 bone = 1
 
-[node name="AnimationPlayer" parent="Visual/guy" index="1" unique_id=1385450516]
+[node name="AnimationPlayer" parent="Visual/guy" index="1" unique_id=170544550]
 playback_default_blend_time = 0.1
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1818941594]
@@ -169,11 +169,11 @@ player = NodePath("../../..")
 
 [node name="RightItemSlot" type="Node3D" parent="SightPivot/Camera3D" unique_id=1375988061]
 unique_name_in_owner = true
-transform = Transform3D(0.17773032, -0.9840712, 0.0039777723, 0.08529668, 0.01943179, 0.996166, -0.9803756, -0.17670962, 0.087391436, 0.44108707, -0.65696853, -0.172135)
+transform = Transform3D(0.17773035, -0.9840712, 0.0039779446, 0.08529665, 0.01943196, 0.996166, -0.9803756, -0.17670965, 0.087391436, 0.44108704, -0.6569686, -0.17213497)
 
 [node name="LeftItemSlot" type="Node3D" parent="SightPivot/Camera3D" unique_id=17781874]
 unique_name_in_owner = true
-transform = Transform3D(0.17773001, 0.9840714, -0.0039761793, -0.08529714, 0.019430218, 0.99616635, 0.9803757, -0.17670941, 0.087391555, -0.4252407, -0.65696776, -0.17213506)
+transform = Transform3D(0.17772996, 0.9840714, -0.003976009, -0.08529717, 0.019430047, 0.99616635, 0.9803757, -0.17670938, 0.087391555, -0.42524076, -0.6569677, -0.17213506)
 
 [node name="EquipRoot" type="Node3D" parent="SightPivot/Camera3D" unique_id=592813467]
 unique_name_in_owner = true

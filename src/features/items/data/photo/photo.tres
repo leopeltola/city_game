@@ -8,4 +8,10 @@ name = "photo"
 display_name = "Photo"
 world_item_path = "res://src/features/items/data/photo/photo_world.tscn"
 equip_item_path = "res://src/features/items/data/photo/photo_equip.tscn"
+instance_data = Dictionary[StringName, Variant]({
+&"guilt": 0,
+&"identifiability": 0,
+&"photo_id": -1,
+&"subject_player_id": 0
+})
 metadata/_custom_type_script = "uid://1v4ix87tn325"

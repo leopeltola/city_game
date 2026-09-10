@@ -1,9 +1,43 @@
-[gd_scene format=3 ]
+[gd_scene format=3 uid="uid://6geodwytu8hn"]
 
-[ext_resource type="Script" path="res://src/features/items/item_equip.gd" id="1_ux7ua"]
-[ext_resource type="Resource" path="res://src/features/items/data/photo/photo.tres" id="2_k0i8g"]
+[ext_resource type="Script" uid="uid://dh0a3w7r8a1ty" path="res://src/features/items/data/photo/photo_equip.gd" id="1_ux7ua"]
+[ext_resource type="Resource" uid="uid://byjurc6034" path="res://src/features/items/data/photo/photo.tres" id="2_k0i8g"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3_mf1yl"]
+[ext_resource type="PackedScene" uid="uid://c6cbon03xismm" path="res://src/features/items/data/photo/photo.glb" id="4_4dfvu"]
+[ext_resource type="Texture2D" uid="uid://dloffoinqlxxo" path="res://icon.svg" id="5_dqju1"]
 
-[node name="TemplateEquip" type="Node3D" unique_id=1920707759]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4dfvu"]
+albedo_texture = ExtResource("5_dqju1")
+
+[node name="PhotoEquip" type="Node3D" unique_id=1920707759]
 script = ExtResource("1_ux7ua")
 item_type = ExtResource("2_k0i8g")
+idle_animation_override = "camera_idle"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
+
+[node name="HandAnchor" type="Node3D" parent="." unique_id=959324052]
+script = ExtResource("3_mf1yl")
+metadata/_custom_type_script = "uid://bd5u41465v87w"
+
+[node name="photo" parent="HandAnchor" unique_id=1587062654 instance=ExtResource("4_4dfvu")]
+
+[node name="Plane" parent="HandAnchor/photo" index="0" unique_id=503656967]
+surface_material_override/1 = SubResource("StandardMaterial3D_4dfvu")
+
+[node name="PercentageLabel" type="Label3D" parent="HandAnchor" unique_id=1847013301]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.08808864, 0.3116733, -0.0064214617)
+pixel_size = 0.001
+text = "87%"
+font_size = 44
+outline_size = 18
+
+[node name="EuroLabel" type="Label3D" parent="HandAnchor" unique_id=387769028]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.05992388, 0.30922413, -0.0064214617)
+pixel_size = 0.001
+text = "10 000€"
+font_size = 44
+outline_size = 18
+
+[editable path="HandAnchor/photo"]

@@ -1,25 +1,50 @@
-[gd_scene format=3 ]
+[gd_scene format=3 uid="uid://dxbio6vvfp4bc"]
 
-[ext_resource type="Script" path="res://src/features/items/item_world.gd" id="1_rbl3i"]
-[ext_resource type="Resource" path="res://src/features/items/data/photo/photo.tres" id="2_ijgx7"]
+[ext_resource type="Script" uid="uid://duvuvbyd5levr" path="res://src/features/items/data/photo/photo_world.gd" id="1_rbl3i"]
+[ext_resource type="Resource" uid="uid://byjurc6034" path="res://src/features/items/data/photo/photo.tres" id="2_ijgx7"]
+[ext_resource type="PackedScene" uid="uid://c6cbon03xismm" path="res://src/features/items/data/photo/photo.glb" id="3_i1b2c"]
+[ext_resource type="PackedScene" uid="uid://cum3c03ptrqm" path="res://src/features/items/world_item_interactable_area.tscn" id="3_ir4ra"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ijgx7"]
-size = Vector3(0.2, 0.2, 0.2)
+size = Vector3(0.305, 0.35391408, 0.04)
 
-[sub_resource type="BoxMesh" id="BoxMesh_ijgx7"]
-size = Vector3(0.2, 0.2, 0.2)
+[sub_resource type="BoxShape3D" id="BoxShape3D_pickup"]
+size = Vector3(0.316333, 0.38207397, 0.06493164)
 
-[node name="TemplateWorld" type="RigidBody3D" unique_id=1876542542]
+[node name="PhotoWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 12
 collision_mask = 9
 script = ExtResource("1_rbl3i")
 type = ExtResource("2_ijgx7")
+interaction_area = NodePath("WorldItemInteractableArea")
 metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1324848502]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17718115, 0)
 shape = SubResource("BoxShape3D_ijgx7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=684219485]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
-mesh = SubResource("BoxMesh_ijgx7")
+[node name="photo" parent="." unique_id=477185214 instance=ExtResource("3_i1b2c")]
+
+[node name="WorldItemInteractableArea" parent="." unique_id=1650245416 instance=ExtResource("3_ir4ra")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea" unique_id=1763391781]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0005249083, 0.166667, -0.002680664)
+shape = SubResource("BoxShape3D_pickup")
+
+[node name="PercentageLabel" type="Label3D" parent="." unique_id=1175928227]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.08808864, 0.3116733, -0.0064214617)
+pixel_size = 0.001
+text = "87%"
+font_size = 44
+outline_size = 18
+
+[node name="EuroLabel" type="Label3D" parent="." unique_id=444740119]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.05992388, 0.30922413, -0.0064214617)
+pixel_size = 0.001
+text = "10 000€"
+font_size = 44
+outline_size = 18
+
+[editable path="photo"]
