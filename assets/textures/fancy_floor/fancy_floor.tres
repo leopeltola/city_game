@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b5gxsvaoqvgat"]
+
+[ext_resource type="Texture2D" uid="uid://che3ebkvq6vl1" path="res://assets/textures/fancy_floor/CasinoFloor4.png" id="1_wesen"]
+
+[resource]
+albedo_texture = ExtResource("1_wesen")
+uv1_triplanar = true
