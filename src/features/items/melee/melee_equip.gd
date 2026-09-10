@@ -39,6 +39,8 @@ signal attack_hit(target: Node, attack: MeleeAttack)
 @export var guard_look_drag_multiplier := 0.3
 @export var guard_start_blend := 0.1
 @export var guard_end_blend := 0.15
+## Stamina spent to raise the guard.
+@export var guard_stamina_cost := 5.0
 
 var _phase: Phase = Phase.NONE
 var _active_attack: MeleeAttack = null
@@ -148,7 +150,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _request_attack() -> void:
-	if attacks.is_empty():
+	if attacks.is_empty() or player.is_action_locked():
 		return
 	if _phase == Phase.ATTACKING:
 		# A click during a swing: buffer it so it chains the moment the swing finishes.
@@ -160,15 +162,21 @@ func _request_attack() -> void:
 	var index := _pick_attack_index()
 	if index < 0 or index >= attacks.size():
 		return
+	if not player.consume_stamina(attacks[index].stamina_cost):
+		return
 	_rpc_do_attack.rpc(index)
 
 
 ## RMB secondary: legacy feint-cancel while a swing is winding up, or a guard when idle.
 func _request_secondary() -> void:
+	if player.is_action_locked():
+		return
 	if _phase == Phase.ATTACKING:
 		if guard_animation != "" and _phase_started_within(0.5):
 			_rpc_interrupt.rpc(0.2)
 	elif _phase == Phase.NONE and guard_animation != "":
+		if not player.consume_stamina(guard_stamina_cost):
+			return
 		_rpc_do_guard.rpc()
 
 
@@ -227,6 +235,15 @@ func _rpc_interrupt(blend_time: float) -> void:
 	if player.animator != null:
 		player.animator.cancel_action(blend_time)
 	_end_action()
+
+
+## Staggers the attacker (their attack was blocked): plays the stagger clip and locks
+## combat / slot-switch input for its duration.
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_stagger() -> void:
+	_end_action()
+	if is_instance_valid(player):
+		player.enter_stagger()
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -308,7 +325,10 @@ func _resolve_hit(collider: Object) -> void:
 		return
 
 	if target.get("is_blocking") == true:
-		_rpc_interrupt.rpc(attack.block_blend)
+		if attack.stagger_on_block:
+			_rpc_stagger.rpc()
+		else:
+			_rpc_interrupt.rpc(attack.block_blend)
 		if target.has_method("trigger_block_success"):
 			target.trigger_block_success()
 		_rpc_play_sfx.rpc("block")
@@ -317,7 +337,7 @@ func _resolve_hit(collider: Object) -> void:
 	var target3d := target as Node3D
 	var force := (target3d.global_position - player.global_position).normalized() * attack.knockback_force
 	force.y += 2.0
-	target.get_hit(attack.damage, force)
+	target.get_hit(attack.damage, force, attack.interrupts_target)
 	_rpc_play_sfx.rpc("hit")
 	attack_hit.emit(target, attack)
 	if attack.stagger_on_hit:

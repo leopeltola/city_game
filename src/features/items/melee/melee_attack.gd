@@ -21,6 +21,15 @@ extends Resource
 ## Horizontal knockback applied away from the attacker (plus a fixed upward lift).
 @export var knockback_force := 10.0
 
+## Stamina spent to start this attack. Checked and consumed on the requesting peer.
+@export var stamina_cost := 0.0
+## Whether landing this hit cancels/staggers a target's in-progress action. Light
+## attacks (fists) leave the victim's swing intact; heavy attacks interrupt it.
+@export var interrupts_target := true
+## Whether having this attack blocked staggers the attacker (plays the stagger clip
+## and locks their combat/slot input for its duration).
+@export var stagger_on_block := true
+
 ## Player movement / look modifiers applied for the whole swing.
 @export var move_speed_multiplier := 1.0
 @export var look_drag_multiplier := 1.0

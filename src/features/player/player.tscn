@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://baoioe1plauut" path="res://src/features/player/assets/models/simple/guy.glb" id="7_1mqja"]
 [ext_resource type="PackedScene" uid="uid://dgheud6qxg21r" path="res://src/features/player/effects/run_particles.tscn" id="7_njwrn"]
 [ext_resource type="Script" uid="uid://bmbymtoqrgeck" path="res://src/features/player/player_animator.gd" id="9_animtr"]
+[ext_resource type="Script" path="res://src/features/player/player_status.gd" id="10_status"]
+[ext_resource type="Script" path="res://src/features/player/player_camera.gd" id="11_camfx"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1mqja"]
 random_pitch = 1.158962
@@ -179,6 +181,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007923412, 1.1407156, -0.0
 [node name="Camera3D" type="Camera3D" parent="SightPivot" unique_id=2142492323]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15345001, -0.060455322)
+script = ExtResource("11_camfx")
 
 [node name="InteractRay" parent="SightPivot/Camera3D" unique_id=259004837 node_paths=PackedStringArray("player") instance=ExtResource("4_p2vpv")]
 unique_name_in_owner = true
@@ -259,6 +262,10 @@ _equip_root = NodePath("../SightPivot/Camera3D/EquipRoot")
 _right_equip_slot = NodePath("../SightPivot/Camera3D/RightItemSlot")
 _left_equip_slot = NodePath("../SightPivot/Camera3D/LeftItemSlot")
 metadata/_custom_type_script = "uid://byjrh17ptlrd"
+
+[node name="PlayerStatus" type="Node" parent="." unique_id=991100001]
+unique_name_in_owner = true
+script = ExtResource("10_status")
 
 [node name="HittableArea" type="Area3D" parent="." unique_id=655373883]
 unique_name_in_owner = true

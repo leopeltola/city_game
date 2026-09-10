@@ -38,9 +38,28 @@ var is_sprinting := false
 
 var stamina: float = 100.0
 
+@export_group("Hit Reaction")
+## Speed multiplier applied while the on-hit movement debuff is active.
+@export var hit_slow_multiplier: float = 0.5
+## Debuff duration = base + damage * per_damage, clamped to [base, max].
+@export var hit_slow_base_duration: float = 0.5
+@export var hit_slow_per_damage: float = 0.1
+@export var hit_slow_max_duration: float = 3.0
+## Rig clip played when staggered (by a blocked attack or an interrupting hit).
+@export var stagger_animation: String = "stagger"
+## Blend used to enter/leave the stagger clip.
+@export var stagger_blend: float = 0.1
+## Fallback lock duration when the stagger clip is not imported yet.
+@export var stagger_fallback_duration: float = 0.8
+
+const SLOW_EFFECT_ID := &"hit_slow"
+const STAGGER_EFFECT_ID := &"stagger"
+
 @onready var sight_pivot: Node3D = %SightPivot
 @onready var hittable_area: Area3D = %HittableArea
 @onready var animator: PlayerAnimator = %PlayerAnimator
+@onready var status: PlayerStatus = %PlayerStatus
+@onready var camera: PlayerCamera = %Camera3D
 
 ## Authoritative world transform written by the local player and replicated via
 ## MultiplayerSynchronizer. Remote peers interpolate their body toward these.
@@ -138,6 +157,33 @@ func get_equipped_item() -> ItemEquip:
 	return inventory._equipped_node
 
 
+## True while a status effect (e.g. stagger) locks combat and slot-switch input.
+func is_action_locked() -> bool:
+	return status.is_action_locked()
+
+
+## Plays the stagger clip and locks combat / slot switching for its duration.
+func enter_stagger() -> void:
+	var effect := StatusEffect.new()
+	effect.id = STAGGER_EFFECT_ID
+	effect.duration = _stagger_duration()
+	effect.locks_actions = true
+	status.add(effect)
+
+	if is_instance_valid(animator) and is_instance_valid(animator.anim_player) \
+			and animator.anim_player.has_animation(stagger_animation):
+		animator.play_action(stagger_animation, stagger_blend, stagger_blend)
+
+
+## Length of the stagger clip if imported, else the configured fallback.
+func _stagger_duration() -> float:
+	if is_instance_valid(animator) and is_instance_valid(animator.anim_player):
+		var clip := animator.anim_player.get_animation(stagger_animation)
+		if clip != null:
+			return clip.length
+	return stagger_fallback_duration
+
+
 ## Triggers a quick block recovery network call.
 func trigger_block_success() -> void:
 	_rpc_trigger_block_success.rpc()
@@ -161,7 +207,7 @@ func _walking(delta: float) -> void:
 
 	var sprint_held := Input.is_physical_key_pressed(KEY_SHIFT) and Input.is_action_pressed("sprint")
 	var wants_to_sprint := sprint_held and direction != Vector3.ZERO
-	is_sprinting = wants_to_sprint and stamina > 0.0
+	is_sprinting = wants_to_sprint and stamina > 0.0 and status.can_sprint()
 
 	if wants_to_sprint:
 		stamina = maxf(stamina - stamina_drain_rate * delta, 0.0)
@@ -174,7 +220,7 @@ func _walking(delta: float) -> void:
 	%RunParticles.emitting = is_sprinting and is_on_floor()
 	%Camera3D.fov = lerpf(%Camera3D.fov, 105, 0.1) if is_sprinting else lerpf(%Camera3D.fov, 75, 0.1)
 
-	var active_speed := (sprint_speed if is_sprinting else walk_speed) * move_speed_multiplier
+	var active_speed := (sprint_speed if is_sprinting else walk_speed) * move_speed_multiplier * status.move_speed_multiplier()
 	var target_vel := direction * active_speed
 	var accel := 10.0 if direction else 8.0
 	velocity.x = move_toward(velocity.x, target_vel.x, accel * delta * active_speed)
@@ -187,17 +233,40 @@ func _rpc_trigger_block_success() -> void:
 	animator.cancel_action(0.1)
 
 
-## Applies damage and knockback force to the player.
-func get_hit(_damage: float, force: Vector3) -> void:
-	_rpc_get_hit.rpc(_damage, force)
+## Applies damage and knockback to the player and resolves hit reactions.
+## [param interrupt] is the attacking weapon's interrupts_target flag: when true and
+## the player is mid-action, the hit staggers them.
+func get_hit(damage: float, force: Vector3, interrupt: bool = true) -> void:
+	_rpc_get_hit.rpc(damage, force, interrupt)
 
 
-@rpc("any_peer", "reliable")
-func _rpc_get_hit(_damage: float, force: Vector3) -> void:
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_get_hit(damage: float, force: Vector3, interrupt: bool) -> void:
 	velocity += force
+	_apply_hit_slow(damage)
 
 	if is_local:
-		_spawn_knocked_item()
+		if randf() < Combat.item_drop_chance(damage):
+			_spawn_knocked_item()
+		if is_instance_valid(camera):
+			camera.add_damage_impact(damage)
+
+	if interrupt and is_instance_valid(animator) and animator.is_action_playing():
+		enter_stagger()
+
+
+## Applies the temporary on-hit movement debuff; duration scales with damage.
+func _apply_hit_slow(damage: float) -> void:
+	var effect := StatusEffect.new()
+	effect.id = SLOW_EFFECT_ID
+	effect.duration = clampf(
+		hit_slow_base_duration + damage * hit_slow_per_damage,
+		hit_slow_base_duration,
+		hit_slow_max_duration
+	)
+	effect.move_speed_multiplier = hit_slow_multiplier
+	effect.can_sprint = false
+	status.add(effect)
 
 
 @rpc("any_peer", "reliable", "call_local")

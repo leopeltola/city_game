@@ -78,6 +78,12 @@ func _input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority() or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
+	# Stagger (or any action-locking status) prevents switching item slots.
+	if player != null and player.is_action_locked() and (
+		event.is_action_pressed("scroll_down") or event.is_action_pressed("scroll_up")
+	):
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("scroll_down"):
 		active_index = wrapi(active_index - 1, 0, slot_count)
 		get_viewport().set_input_as_handled()

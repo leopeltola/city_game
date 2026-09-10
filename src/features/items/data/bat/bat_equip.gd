@@ -11,10 +11,14 @@ func _configure_attacks() -> void:
 	swing.end_blend = 0.15
 	swing.move_speed_multiplier = 0.75
 	swing.look_drag_multiplier = 0.3
+	swing.stamina_cost = 10.0
 	swing.stagger_on_hit = true
+	swing.interrupts_target = true
+	swing.stagger_on_block = true
 	swing.hit_blend = 0.5
 	swing.block_blend = 0.85
 	attacks.append(swing)
 
 	guard_animation = "bat_block"
 	guard_look_drag_multiplier = 0.3
+	guard_stamina_cost = 5.0
