@@ -163,8 +163,6 @@ func _update_airtime(delta: float, local_accel_y: float, world_vel_y: float) -> 
 		elif y <= 0.0:
 			y = 0.0
 			var impact_speed: float = -vy
-			if impact_speed >= 2 and is_multiplayer_authority():
-				print(impact_speed)
 			if was_airborne:
 				if impact_speed > 0.25:
 					_play_clink()

@@ -21,7 +21,7 @@ var _override_anim := ""
 ## Empty means idle must be (re)started on the next process frame.
 var _idle_anim := ""
 ## Blend to use when restarting idle (set by play_action's end blend / cancel).
-var _idle_blend := 0.0
+var _idle_blend := 0.1
 
 
 func _ready() -> void:
@@ -39,7 +39,7 @@ func _process(_delta: float) -> void:
 	if _idle_anim != idle:
 		_idle_anim = idle
 		anim_player.play(idle, _idle_blend)
-		_idle_blend = 0.0
+		_idle_blend = 0.1
 
 
 func _current_idle_name() -> String:
@@ -59,7 +59,7 @@ func current_override() -> String:
 ## cancelled first (emitting action_cancelled for it) so only one action runs at a time.
 ## [start_blend] eases into the action; [end_blend] eases back to idle when the clip
 ## finishes naturally (cancel uses its own blend instead).
-func play_action(anim_name: String, start_blend: float = 0.0, end_blend: float = 0.0) -> void:
+func play_action(anim_name: String, start_blend: float = 0.1, end_blend: float = 0.1) -> void:
 	if _override_anim != "" and _override_anim != anim_name:
 		var prev := _override_anim
 		_override_anim = ""
@@ -72,7 +72,7 @@ func play_action(anim_name: String, start_blend: float = 0.0, end_blend: float =
 
 
 ## Cancels the current action (if any), blending back to the idle pose.
-func cancel_action(blend_time: float = 0.0) -> void:
+func cancel_action(blend_time: float = 0.1) -> void:
 	if _override_anim == "":
 		return
 	var prev := _override_anim

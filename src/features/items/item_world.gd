@@ -31,7 +31,6 @@ func _ready() -> void:
 
 
 func get_prompt(player_id: int) -> String:
-	print(has_right_to_pick_up(player_id))
 	if has_right_to_pick_up(player_id):
 		return "Pick up %s" % type.display_name
 	else:
