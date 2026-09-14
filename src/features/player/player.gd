@@ -69,7 +69,7 @@ func _physics_process(delta: float) -> void:
 	if not is_local or is_ragdolled:
 		return
 
-	if is_sprinting:
+	if Input.is_action_pressed("sprint"):
 		stamina = maxf(stamina - stamina_drain_rate * delta, 0.0)
 	else:
 		stamina = minf(stamina + stamina_regen_rate * delta, max_stamina)
