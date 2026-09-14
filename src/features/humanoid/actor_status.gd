@@ -1,9 +1,9 @@
-class_name PlayerStatus
+class_name ActorStatus
 extends Node
-## Aggregates the player's active timed status effects (slow, stagger, ...) and
+## Aggregates the actor's active timed status effects (slow, stagger, ...) and
 ## exposes the resulting movement / input gates. Combat code only ever adds or
-## removes effects; the Player reads the computed getters, so multiple sources can
-## affect the player at once without overwriting each other's modifiers.
+## removes effects; the Humanoid reads the computed getters, so multiple sources can
+## affect the actor at once without overwriting each other's modifiers.
 
 signal changed
 

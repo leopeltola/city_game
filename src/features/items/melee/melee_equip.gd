@@ -44,7 +44,7 @@ signal attack_hit(target: Node, attack: MeleeAttack)
 
 var _phase: Phase = Phase.NONE
 var _active_attack: MeleeAttack = null
-var _animator: PlayerAnimator = null
+var _animator: ActorAnimator = null
 
 ## Set when an attack click arrives during a swing; consumed to chain the next punch.
 var _pending_attack := false

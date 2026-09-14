@@ -46,7 +46,8 @@ func has_right_to_pick_up(player_id: int) -> bool:
 func _on_interacted(player_id: int) -> void:
 	# create equip item for it
 	var p: Player = PlayerManager.get_local_player_node_or_null()
-	if not p.inventory.try_add_item_to_inv(item_id):
+	var inv := p.inventory as PlayerInventory
+	if inv == null or not inv.try_add_item_to_inv(item_id):
 		return # no space in inv, abort
 	# Increase Guilt if stealing
 	if not has_right_to_pick_up(player_id):
