@@ -1,12 +1,13 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cyyl8frr1oc0s"]
 
-[ext_resource type="Script" path="res://src/features/humanoid/humanoid.gd" id="1_human"]
 [ext_resource type="PackedScene" uid="uid://baoioe1plauut" path="res://src/features/player/assets/models/simple/guy.glb" id="1_guy"]
-[ext_resource type="Script" path="res://src/features/humanoid/actor_animator.gd" id="2_anim"]
-[ext_resource type="Script" path="res://src/features/humanoid/actor_status.gd" id="3_status"]
-[ext_resource type="Script" path="res://src/features/humanoid/actor_locomotion.gd" id="4_move"]
-[ext_resource type="Script" path="res://src/features/humanoid/actor_ragdoll.gd" id="5_ragdoll"]
-[ext_resource type="Script" path="res://src/features/humanoid/actor_network_sync.gd" id="6_netsync"]
+[ext_resource type="Script" uid="uid://c732vlp3xp8pn" path="res://src/features/humanoid/humanoid.gd" id="1_human"]
+[ext_resource type="Script" uid="uid://8mgom87ni51p" path="res://src/features/humanoid/actor_animator.gd" id="2_anim"]
+[ext_resource type="Script" uid="uid://en0hfh2s3o2e" path="res://src/features/humanoid/actor_status.gd" id="3_status"]
+[ext_resource type="Script" uid="uid://d04336rk6i40b" path="res://src/features/humanoid/actor_locomotion.gd" id="4_move"]
+[ext_resource type="Script" uid="uid://dj3kjhwgigkkj" path="res://src/features/humanoid/actor_ragdoll.gd" id="5_ragdoll"]
+[ext_resource type="Script" uid="uid://dcla33hhlxqa7" path="res://src/features/humanoid/actor_network_sync.gd" id="6_netsync"]
+[ext_resource type="Script" uid="uid://bvc4yyfdhkfig" path="res://src/features/items/props/prop_system.gd" id="7_props"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xe5qy"]
 radius = 0.3
@@ -54,60 +55,71 @@ height = 0.08922394
 radius = 0.009095527
 height = 0.09095527
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_human"]
+properties/0/path = NodePath(".:network_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:network_rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("PropSystem:worn_slots")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rybn4"]
 radius = 0.30810547
 height = 1.5600586
 
-[node name="Humanoid" type="CharacterBody3D"]
+[node name="Humanoid" type="CharacterBody3D" unique_id=2003321540]
 collision_layer = 2
 script = ExtResource("1_human")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=132172821]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79228514, 0)
 visible = false
 shape = SubResource("CapsuleShape3D_xe5qy")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=153374283]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.2, 0.24361032)
 visible = false
 shape = SubResource("SeparationRayShape3D_rybn4")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=1981606644]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.261, 0.2, 0)
 visible = false
 shape = SubResource("SeparationRayShape3D_rybn4")
 
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=1575591000]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.2, -0.28)
 visible = false
 shape = SubResource("SeparationRayShape3D_rybn4")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1501626602]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.24402201, 0.2, 0)
 visible = false
 shape = SubResource("SeparationRayShape3D_rybn4")
 
-[node name="CollisionShape3D6" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="." unique_id=1908665332]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.1868675, 0.2, 0.18149424)
 visible = false
 shape = SubResource("SeparationRayShape3D_rybn4")
 
-[node name="CollisionShape3D7" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="." unique_id=1223556741]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.19634417, 0.2, -0.17150858)
 visible = false
 shape = SubResource("SeparationRayShape3D_rybn4")
 
-[node name="CollisionShape3D8" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="." unique_id=1746566702]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.1969342, 0.2, -0.17150858)
 visible = false
 shape = SubResource("SeparationRayShape3D_rybn4")
 
-[node name="CollisionShape3D9" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="." unique_id=1216377150]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.17561182, 0.2, 0.21466231)
 visible = false
 shape = SubResource("SeparationRayShape3D_rybn4")
 
-[node name="Visual" type="Node3D" parent="."]
+[node name="Visual" type="Node3D" parent="." unique_id=1078870924]
 unique_name_in_owner = true
 
 [node name="guy" parent="Visual" unique_id=119801285 instance=ExtResource("1_guy")]
@@ -150,7 +162,32 @@ target_node = NodePath(".")
 bone_name = "Head_2"
 bone = 1
 
-[node name="PhysicalBoneSimulator3D" type="PhysicalBoneSimulator3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="7" unique_id=1735936736]
+[node name="TorsoSlotBone" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="7" unique_id=457456582]
+bone_name = "Root"
+bone_idx = 0
+
+[node name="TorsoSlot" type="Node3D" parent="Visual/guy/Armature/Skeleton3D/TorsoSlotBone" unique_id=102213647]
+unique_name_in_owner = true
+
+[node name="HeadItemSlotBone" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="8" unique_id=1684288150]
+transform = Transform3D(0.99999696, -0.0024563014, -5.810362e-05, -5.456973e-12, -0.023648312, 0.99972034, -0.0024569882, -0.9997173, -0.02364824, -2.605346e-05, 1.5762098, -0.010603789)
+bone_name = "HeadItemSlot"
+bone_idx = 6
+
+[node name="HeadItemSlot" type="Node3D" parent="Visual/guy/Armature/Skeleton3D/HeadItemSlotBone" unique_id=1148831244]
+unique_name_in_owner = true
+transform = Transform3D(1.0000001, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+
+[node name="HandSlotBone" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="9" unique_id=1432647749]
+transform = Transform3D(0.009308187, 0.015540862, -0.9998359, -0.9897268, 0.14279987, -0.0069944304, 0.14266773, 0.98962957, 0.016710406, -0.4279003, 0.7365031, 0.10989283)
+bone_name = "Hand.R"
+bone_idx = 17
+
+[node name="HandSlot" type="Node3D" parent="Visual/guy/Armature/Skeleton3D/HandSlotBone" unique_id=1619991459]
+unique_name_in_owner = true
+transform = Transform3D(1.0000001, 0, 0, 0, -4.3711392e-08, -1, 0, 1.0000001, -4.371139e-08, 0, 0, 0)
+
+[node name="PhysicalBoneSimulator3D" type="PhysicalBoneSimulator3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 2129445259) index="10" unique_id=1735936736]
 unique_name_in_owner = true
 visible = false
 
@@ -250,10 +287,10 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_2m83w")
 
 [node name="Physical Bone Hand_R" type="PhysicalBone3D" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" unique_id=300513579]
-transform = Transform3D(-0.2914427, 0.82653797, 0.4815559, 0.9474187, 0.3189422, 0.02595827, -0.132133, 0.4638004, -0.8760308, -0.47511166, 0.7339575, 0.195778)
+transform = Transform3D(-0.2914427, 0.82653797, 0.48155594, 0.9474187, 0.3189422, 0.025958285, -0.132133, 0.4638004, -0.8760308, -0.47511166, 0.7339575, 0.195778)
 joint_type = 2
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8859587e-07, 2.6077032e-07, 0.09803903)
-body_offset = Transform3D(-0.95924973, -0.24180281, -0.14619057, -7.301569e-07, 0.51738065, -0.85575545, 0.28256017, -0.8208829, -0.49629733, 0.01433301, 0.08389729, 0.048656553)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8859587e-07, 2.5704503e-07, 0.09803903)
+body_offset = Transform3D(-0.95924973, -0.24180281, -0.14619058, -7.301569e-07, 0.51738065, -0.85575545, 0.28256017, -0.8208829, -0.49629736, 0.01433301, 0.08389729, 0.048656553)
 bone_name = "Hand.R"
 joint_constraints/swing_span = 15.0
 joint_constraints/twist_span = 19.999992
@@ -316,47 +353,56 @@ shape = SubResource("CapsuleShape3D_58hqn")
 [node name="AnimationPlayer" parent="Visual/guy" index="1" unique_id=170544550]
 playback_default_blend_time = 0.1
 
-[node name="HandsLookAtTarget" type="Node3D" parent="."]
+[node name="HandsLookAtTarget" type="Node3D" parent="." unique_id=815635534]
 transform = Transform3D(-1, 8.742278e-08, -3.821371e-15, 0, -4.371139e-08, -1, -8.742278e-08, -1, 4.371139e-08, 0, 0.9786377, 0)
 
-[node name="EquipRoot" type="Node3D" parent="."]
+[node name="EquipRoot" type="Node3D" parent="." unique_id=548810808]
 unique_name_in_owner = true
 
-[node name="RightItemSlot" type="Node3D" parent="."]
+[node name="RightItemSlot" type="Node3D" parent="." unique_id=119476001]
 unique_name_in_owner = true
+transform = Transform3D(0.17773035, -0.9840712, 0.0039779446, 0.08529665, 0.01943196, 0.996166, -0.9803756, -0.17670965, 0.087391436, 0.4331636, 0.637197, -0.23583414)
 
-[node name="LeftItemSlot" type="Node3D" parent="."]
+[node name="LeftItemSlot" type="Node3D" parent="." unique_id=750678496]
 unique_name_in_owner = true
+transform = Transform3D(0.17772996, 0.9840714, -0.003976009, -0.08529717, 0.019430047, 0.99616635, 0.9803757, -0.17670938, 0.087391555, -0.43316418, 0.6371979, -0.23583423)
 
-[node name="PlayerAnimator" type="Node" parent="." node_paths=PackedStringArray("humanoid", "anim_player")]
+[node name="PlayerAnimator" type="Node" parent="." unique_id=922256711 node_paths=PackedStringArray("humanoid", "anim_player")]
 unique_name_in_owner = true
 script = ExtResource("2_anim")
 humanoid = NodePath("..")
 anim_player = NodePath("../Visual/guy/AnimationPlayer")
 
-[node name="ActorStatus" type="Node" parent="."]
+[node name="ActorStatus" type="Node" parent="." unique_id=155187970]
 unique_name_in_owner = true
 script = ExtResource("3_status")
 
-[node name="ActorLocomotion" type="Node" parent="."]
+[node name="ActorLocomotion" type="Node" parent="." unique_id=274812644]
 unique_name_in_owner = true
 script = ExtResource("4_move")
 
-[node name="ActorRagdoll" type="Node" parent="."]
+[node name="ActorRagdoll" type="Node" parent="." unique_id=1126656457]
 unique_name_in_owner = true
 script = ExtResource("5_ragdoll")
 
-[node name="ActorNetworkSync" type="Node" parent="."]
+[node name="ActorNetworkSync" type="Node" parent="." unique_id=670992623]
 unique_name_in_owner = true
 script = ExtResource("6_netsync")
 
-[node name="HittableArea" type="Area3D" parent="."]
+[node name="PropSystem" type="Node" parent="." unique_id=967473894]
+unique_name_in_owner = true
+script = ExtResource("7_props")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=215648110]
+replication_config = SubResource("SceneReplicationConfig_human")
+
+[node name="HittableArea" type="Area3D" parent="." unique_id=1207957130]
 unique_name_in_owner = true
 visible = false
 collision_layer = 16
 collision_mask = 0
 
-[node name="HittableAreaCollisionShape" type="CollisionShape3D" parent="HittableArea"]
+[node name="HittableAreaCollisionShape" type="CollisionShape3D" parent="HittableArea" unique_id=1423419677]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78356934, 0)
 shape = SubResource("CapsuleShape3D_rybn4")

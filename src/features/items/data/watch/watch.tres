@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+name = "watch"
+prop_slot = 5
+world_item_path = "res://src/features/items/data/watch/watch_world.tscn"
+equip_item_path = "res://src/features/items/data/watch/watch_equip.tscn"

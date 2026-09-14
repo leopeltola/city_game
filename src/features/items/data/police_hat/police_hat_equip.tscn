@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bd3541260him1"]
+
+[ext_resource type="Script" uid="uid://dy50ad8raajw1" path="res://src/features/items/props/prop_equip.gd" id="1"]
+[ext_resource type="Resource" uid="uid://1hrurp1qfqws" path="res://src/features/items/data/police_hat/police_hat.tres" id="2_lfabn"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://37cqoaoi8r7m" path="res://src/features/items/data/police_hat/police_hat.glb" id="4_lfabn"]
+
+[node name="PoliceHatEquip" type="Node3D" unique_id=1560613892]
+script = ExtResource("1")
+item_type = ExtResource("2_lfabn")
+
+[node name="HeldAnchor" type="Node3D" parent="." unique_id=1168190189]
+script = ExtResource("3")
+
+[node name="police_hat" parent="HeldAnchor" unique_id=2112798584 instance=ExtResource("4_lfabn")]
+
+[node name="WornVisual" type="Node3D" parent="." unique_id=283663516]
+
+[node name="police_hat" parent="WornVisual" unique_id=1816250283 instance=ExtResource("4_lfabn")]

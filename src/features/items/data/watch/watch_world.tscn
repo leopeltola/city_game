@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://cnb0uxaag6cxg"]
+
+[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1"]
+[ext_resource type="Resource" path="res://src/features/items/data/watch/watch.tres" id="2"]
+[ext_resource type="PackedScene" uid="uid://cum3c03ptrqm" path="res://src/features/items/world_item_interactable_area.tscn" id="3"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wto0m"]
+height = 0.055
+radius = 0.10253906
+
+[sub_resource type="TorusMesh" id="TorusMesh_band"]
+inner_radius = 0.055
+outer_radius = 0.085
+rings = 24
+ring_segments = 24
+
+[sub_resource type="BoxMesh" id="BoxMesh_face"]
+size = Vector3(0.05, 0.04, 0.05)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ju3e2"]
+radius = 0.10949422
+
+[node name="WatchWorld" type="RigidBody3D" unique_id=1557671991 node_paths=PackedStringArray("interaction_area")]
+collision_layer = 12
+collision_mask = 9
+script = ExtResource("1")
+type = ExtResource("2")
+interaction_area = NodePath("WorldItemInteractableArea")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1716526931]
+shape = SubResource("CylinderShape3D_wto0m")
+
+[node name="Band" type="MeshInstance3D" parent="." unique_id=1835083037]
+mesh = SubResource("TorusMesh_band")
+
+[node name="Face" type="MeshInstance3D" parent="." unique_id=659284953]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035, 0)
+mesh = SubResource("BoxMesh_face")
+
+[node name="WorldItemInteractableArea" parent="." unique_id=158344536 instance=ExtResource("3")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea" unique_id=1568765821]
+shape = SubResource("SphereShape3D_ju3e2")

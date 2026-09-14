@@ -47,6 +47,7 @@ const STAGGER_EFFECT_ID := &"stagger"
 @onready var locomotion: ActorLocomotion = %ActorLocomotion
 @onready var ragdoll: ActorRagdoll = %ActorRagdoll
 @onready var network_sync: ActorNetworkSync = %ActorNetworkSync
+@onready var prop_system: PropSystem = %PropSystem
 @onready var hittable_area: Area3D = %HittableArea
 @onready var hittable_area_col_shape: CollisionShape3D = %HittableAreaCollisionShape
 @onready var skeleton: Skeleton3D = $Visual/guy/Armature/Skeleton3D

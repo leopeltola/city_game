@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://crn7kt3x8m6bn"]
+
+[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_cb4ld"]
+[ext_resource type="Resource" uid="uid://dxctft40qvhih" path="res://src/features/items/data/police_body/police_body.tres" id="2_gb6lj"]
+[ext_resource type="PackedScene" uid="uid://bodh81lnv4jes" path="res://src/features/items/data/police_body/police_body.glb" id="4_hgr8u"]
+[ext_resource type="PackedScene" uid="uid://cum3c03ptrqm" path="res://src/features/items/world_item_interactable_area.tscn" id="4_y37mg"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vd1ey"]
+radius = 0.26220703
+height = 1.0107422
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k0dhr"]
+radius = 0.28320313
+height = 1.0437012
+
+[node name="PoliceBodyWorld" type="RigidBody3D" unique_id=262849631 node_paths=PackedStringArray("interaction_area")]
+collision_layer = 12
+collision_mask = 9
+script = ExtResource("1_cb4ld")
+type = ExtResource("2_gb6lj")
+interaction_area = NodePath("WorldItemInteractableArea")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=569352231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5120996, 0)
+shape = SubResource("CapsuleShape3D_vd1ey")
+
+[node name="WorldItemInteractableArea" parent="." unique_id=1518643581 instance=ExtResource("4_y37mg")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea" unique_id=883194893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51441896, 0)
+shape = SubResource("CapsuleShape3D_k0dhr")
+
+[node name="police_body" parent="." unique_id=990203679 instance=ExtResource("4_hgr8u")]
