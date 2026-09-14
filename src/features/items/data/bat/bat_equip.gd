@@ -6,7 +6,7 @@ extends MeleeEquip
 func _configure_attacks() -> void:
 	if not attacks.is_empty():
 		return
-	var swing := _make_attack("bat_attack", 25.0, 10.0)
+	var swing := _make_attack("bat_attack", 25.0, 25.0)
 	swing.start_blend = 0.15
 	swing.end_blend = 0.15
 	swing.move_speed_multiplier = 0.75
@@ -15,6 +15,7 @@ func _configure_attacks() -> void:
 	swing.stagger_on_hit = true
 	swing.interrupts_target = true
 	swing.stagger_on_block = true
+	swing.ragdoll = true
 	swing.hit_blend = 0.5
 	swing.block_blend = 0.85
 	attacks.append(swing)

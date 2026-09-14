@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://cqcoy7720741g" path="res://assets/sfx/whoosh_2.ogg" id="6_v317b"]
 [ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="7_v317b"]
 [ext_resource type="PackedScene" uid="uid://cmh1ulyic8m3m" path="res://src/features/items/data/bat/bat.glb" id="8_22mll"]
-[ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="9_hanchor"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="9_hanchor"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j2mp7"]
 random_pitch = 1.1805152

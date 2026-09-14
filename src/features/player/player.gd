@@ -1,9 +1,11 @@
 class_name Player
-extends CharacterBody3D
+extends Humanoid
+## The locally-controlled player character. Adds identity (player_id / PlayerData),
+## mouse-look, the camera, stamina, HUD wiring and the full slot inventory on top of
+## the shared Humanoid base.
 
 @export var jump_sfx: AudioStream
 
-@export var inventory: PlayerInventory = null
 @export var player_id := 0:
 	set(val):
 		player_id = val
@@ -13,21 +15,8 @@ extends CharacterBody3D
 var player_data: PlayerData:
 	get:
 		return PlayerManager.get_player_by_id(player_id)
-var is_local: bool
 
-## Multiplier applied to mouse look sensitivity. Lower values simulate drag/resistance.
-var look_drag_multiplier := 1.0
-## Multiplier applied to movement speed.
-var move_speed_multiplier := 1.0
-var is_blocking := false
-var is_sprinting := false
-
-@export var walk_speed: float = 3.0
-@export var sprint_speed: float = 5.5
-@export var jump_velocity: float = 6.0
-@export var jump_cut_multiplier: float = 0.5
 @export var mouse_sensitivity: float = 0.003
-@export var gravity: float = 15
 
 @export_group("Stamina")
 @export var max_stamina: float = 100.0
@@ -38,49 +27,18 @@ var is_sprinting := false
 
 var stamina: float = 100.0
 
-@export_group("Hit Reaction")
-## Speed multiplier applied while the on-hit movement debuff is active.
-@export var hit_slow_multiplier: float = 0.5
-## Debuff duration = base + damage * per_damage, clamped to [base, max].
-@export var hit_slow_base_duration: float = 0.5
-@export var hit_slow_per_damage: float = 0.1
-@export var hit_slow_max_duration: float = 3.0
-## Rig clip played when staggered (by a blocked attack or an interrupting hit).
-@export var stagger_animation: String = "stagger"
-## Blend used to enter/leave the stagger clip.
-@export var stagger_blend: float = 0.1
-## Fallback lock duration when the stagger clip is not imported yet.
-@export var stagger_fallback_duration: float = 0.8
-
-const SLOW_EFFECT_ID := &"hit_slow"
-const STAGGER_EFFECT_ID := &"stagger"
-
 @onready var sight_pivot: Node3D = %SightPivot
-@onready var hittable_area: Area3D = %HittableArea
-@onready var animator: PlayerAnimator = %PlayerAnimator
-@onready var status: PlayerStatus = %PlayerStatus
-@onready var camera: PlayerCamera = %Camera3D
-
-## Authoritative world transform written by the local player and replicated via
-## MultiplayerSynchronizer. Remote peers interpolate their body toward these.
-var network_position: Vector3
-var network_rotation: Vector3
-
-## How quickly remote players catch up to the latest synced position.
-@export var network_interp_speed := 12.0
-var _network_interp_ready := false
 
 
 func _ready() -> void:
+	super()
 	assert(player_id)
 	assert(inventory)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	PlayerManager.register_player_node(self)
 
 	stamina = max_stamina
-
-	network_position = global_position
-	network_rotation = global_rotation
+	camera = %Camera3D
 
 	if is_local:
 		%Camera3D.make_current()
@@ -91,7 +49,10 @@ func _ready() -> void:
 		$Visual/guy/Armature/Skeleton3D/Body.hide()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	super(delta)
+	if Input.is_action_just_pressed("show_player_names") and is_local:
+		print("SightPivot.position: %s\nCamera.position: %s" % [sight_pivot.position, camera.position])
 	if Input.is_action_pressed("show_player_names") and Net.is_client:
 		%NameLabel3D.text = player_data.player_name
 		%NameLabel3D.show()
@@ -104,24 +65,24 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not is_local:
-		_interpolate_network_transform(delta)
+	super(delta)
+	if not is_local or is_ragdolled:
 		return
 
-	if not is_on_floor():
-		velocity.y -= gravity * delta
+	if is_sprinting:
+		stamina = maxf(stamina - stamina_drain_rate * delta, 0.0)
+	else:
+		stamina = minf(stamina + stamina_regen_rate * delta, max_stamina)
 
-	_jumping(delta)
-	_walking(delta)
+	if HUD.instance:
+		HUD.instance.set_stamina(stamina / max_stamina)
 
-	move_and_slide()
-
-	network_position = global_position
-	network_rotation = global_rotation
+	%RunParticles.emitting = is_sprinting and is_on_floor()
+	%Camera3D.fov = lerpf(%Camera3D.fov, 105, 0.1) if is_sprinting else lerpf(%Camera3D.fov, 75, 0.1)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_local or (HUD.instance and HUD.instance.is_blocking_input()):
+	if not is_local or is_ragdolled or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var effective_sensitivity := mouse_sensitivity * look_drag_multiplier
@@ -132,6 +93,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif event.is_action_released("free_mouse"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
+func _update_locomotion() -> void:
+	_jumping()
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_down")
+	if HUD.instance and HUD.instance.is_blocking_input():
+		input_dir = Vector2.ZERO
+	locomotion.desired_direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
+	var sprint_held := Input.is_physical_key_pressed(KEY_SHIFT) and Input.is_action_pressed("sprint")
+	locomotion.run_requested = sprint_held and locomotion.desired_direction != Vector3.ZERO
+
+
+func can_sprint() -> bool:
+	return stamina > 0.0 and status.can_sprint()
 
 
 ## Consumes a fixed amount of stamina. Returns true if the cost was met.
@@ -152,125 +128,27 @@ func has_stamina(amount: float) -> bool:
 	return stamina >= amount
 
 
-## Returns equipped item if any exists (including unarmed gear like fists). Null otherwise.
-func get_equipped_item() -> ItemEquip:
-	return inventory._equipped_node
+func _on_hit_received(damage: float) -> void:
+	if not is_local:
+		return
+	if randf() < Combat.item_drop_chance(damage):
+		_spawn_knocked_item()
+	if is_instance_valid(camera):
+		camera.add_damage_impact(damage)
+	# Put the camera away before the knock; camera_out replicates to every peer.
+	var inv := inventory as PlayerInventory
+	if inv != null and inv.camera_out:
+		inv.camera_out = false
 
 
-## True while a status effect (e.g. stagger) locks combat and slot-switch input.
-func is_action_locked() -> bool:
-	return status.is_action_locked()
-
-
-## Plays the stagger clip and locks combat / slot switching for its duration.
-func enter_stagger() -> void:
-	var effect := StatusEffect.new()
-	effect.id = STAGGER_EFFECT_ID
-	effect.duration = _stagger_duration()
-	effect.locks_actions = true
-	status.add(effect)
-
-	if is_instance_valid(animator) and is_instance_valid(animator.anim_player) \
-			and animator.anim_player.has_animation(stagger_animation):
-		animator.play_action(stagger_animation, stagger_blend, stagger_blend)
-
-
-## Length of the stagger clip if imported, else the configured fallback.
-func _stagger_duration() -> float:
-	if is_instance_valid(animator) and is_instance_valid(animator.anim_player):
-		var clip := animator.anim_player.get_animation(stagger_animation)
-		if clip != null:
-			return clip.length
-	return stagger_fallback_duration
-
-
-## Triggers a quick block recovery network call.
-func trigger_block_success() -> void:
-	_rpc_trigger_block_success.rpc()
-
-
-func _jumping(_delta: float) -> void:
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+func _jumping() -> void:
+	if Input.is_action_just_pressed("jump"):
 		if HUD.instance and HUD.instance.is_blocking_input():
 			return
-		velocity.y = jump_velocity
-		_rpc_play_sfx.rpc("jump")
-	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
-		velocity.y *= jump_cut_multiplier
-
-
-func _walking(delta: float) -> void:
-	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_down")
-	if HUD.instance and HUD.instance.is_blocking_input():
-		input_dir = Vector2.ZERO
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-
-	var sprint_held := Input.is_physical_key_pressed(KEY_SHIFT) and Input.is_action_pressed("sprint")
-	var wants_to_sprint := sprint_held and direction != Vector3.ZERO
-	is_sprinting = wants_to_sprint and stamina > 0.0 and status.can_sprint()
-
-	if wants_to_sprint:
-		stamina = maxf(stamina - stamina_drain_rate * delta, 0.0)
-	else:
-		stamina = minf(stamina + stamina_regen_rate * delta, max_stamina)
-
-	if HUD.instance:
-		HUD.instance.set_stamina(stamina / max_stamina)
-
-	%RunParticles.emitting = is_sprinting and is_on_floor()
-	%Camera3D.fov = lerpf(%Camera3D.fov, 105, 0.1) if is_sprinting else lerpf(%Camera3D.fov, 75, 0.1)
-
-	var active_speed := (sprint_speed if is_sprinting else walk_speed) * move_speed_multiplier * status.move_speed_multiplier()
-	var target_vel := direction * active_speed
-	var accel := 10.0 if direction else 8.0
-	velocity.x = move_toward(velocity.x, target_vel.x, accel * delta * active_speed)
-	velocity.z = move_toward(velocity.z, target_vel.z, accel * delta * active_speed)
-
-
-@rpc("any_peer", "call_local", "reliable")
-func _rpc_trigger_block_success() -> void:
-	is_blocking = false
-	animator.cancel_action(0.1)
-
-
-## Applies damage and knockback to the player and resolves hit reactions.
-## [param interrupt] is the attacking weapon's interrupts_target flag: when true and
-## the player is mid-action, the hit staggers them.
-func get_hit(damage: float, force: Vector3, interrupt: bool = true) -> void:
-	_rpc_get_hit.rpc(damage, force, interrupt)
-
-
-@rpc("any_peer", "call_local", "reliable")
-func _rpc_get_hit(damage: float, force: Vector3, interrupt: bool) -> void:
-	velocity += force
-	_apply_hit_slow(damage)
-
-	if is_local:
-		if randf() < Combat.item_drop_chance(damage):
-			_spawn_knocked_item()
-		if is_instance_valid(camera):
-			camera.add_damage_impact(damage)
-		# Put the camera away before the knock; camera_out replicates to every peer.
-		if inventory.camera_out:
-			inventory.camera_out = false
-		_spawn_knocked_item()
-
-	if interrupt and is_instance_valid(animator) and animator.is_action_playing():
-		enter_stagger()
-
-
-## Applies the temporary on-hit movement debuff; duration scales with damage.
-func _apply_hit_slow(damage: float) -> void:
-	var effect := StatusEffect.new()
-	effect.id = SLOW_EFFECT_ID
-	effect.duration = clampf(
-		hit_slow_base_duration + damage * hit_slow_per_damage,
-		hit_slow_base_duration,
-		hit_slow_max_duration
-	)
-	effect.move_speed_multiplier = hit_slow_multiplier
-	effect.can_sprint = false
-	status.add(effect)
+		if locomotion.do_jump():
+			_rpc_play_sfx.rpc("jump")
+	elif Input.is_action_just_released("jump"):
+		locomotion.cut_jump()
 
 
 @rpc("any_peer", "reliable", "call_local")
@@ -289,20 +167,7 @@ func _spawn_knocked_item() -> void:
 	dir = dir.normalized()
 
 	var force := dir * randf_range(3.0, 6.5) + Vector3.UP * randf_range(2.0, 4.0)
-	inventory.drop_random_item(global_position + Vector3.UP, force)
-
-
-## Smoothly moves a remote player's body toward the latest synced transform.
-func _interpolate_network_transform(delta: float) -> void:
-	if not _network_interp_ready:
-		global_position = network_position
-		global_rotation = network_rotation
-		_network_interp_ready = true
-		return
-
-	var k := 1.0 - exp(-network_interp_speed * delta)
-	global_position = global_position.lerp(network_position, k)
-	global_basis = global_basis.slerp(Basis.from_euler(network_rotation), k)
+	(inventory as PlayerInventory).drop_random_item(global_position + Vector3.UP, force)
 
 
 func _to_string() -> String:

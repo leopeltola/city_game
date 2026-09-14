@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://dkbfq6iq1xdtg"]
+
+[ext_resource type="PackedScene" path="res://src/features/humanoid/humanoid.tscn" id="1_bn4tr"]
+[ext_resource type="Script" uid="uid://ng6aia7vckca" path="res://src/features/npc/citizen.gd" id="2_bn4tr"]
+[ext_resource type="Script" uid="uid://dqq1qmojxsaot" path="res://src/features/humanoid/equip_host.gd" id="3_vs6dt"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3v8pm"]
+properties/0/path = NodePath(".:network_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:network_rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Citizen" unique_id=1073360910 node_paths=PackedStringArray("inventory") instance=ExtResource("1_bn4tr")]
+script = ExtResource("2_bn4tr")
+cash = 100
+inventory = NodePath("EquipHost")
+
+[node name="Physical Bone Hand_L" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="2" unique_id=756653337]
+transform = Transform3D(-0.29144964, -0.8265349, -0.4815571, -0.94741654, 0.31894815, 0.025962552, 0.13213278, 0.46380195, -0.87603015, 0.4751182, 0.73395824, 0.19577938)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2619421e-06, 4.608184e-06, 0.09804309)
+body_offset = Transform3D(-0.95924723, 0.24181013, 0.14619556, 1.1771917e-06, 0.5173835, -0.8557538, -0.282569, -0.82087904, -0.49629882, -0.014333367, 0.083898365, 0.04866281)
+
+[node name="Physical Bone Midfinger_L" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="4" unique_id=624866655]
+transform = Transform3D(0.008297521, 0.9999636, -0.00200987, 0.99993247, -0.0083136065, -0.0081316745, -0.008148088, -0.0019422615, -0.9999649, 0.42584026, 0.73407084, 0.34507215)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00010631652, -1.4533652e-05, 0.04461257)
+body_offset = Transform3D(1.0000002, -2.4233705e-06, -8.423813e-06, -8.446164e-06, -3.5488047e-06, -1.0000004, 2.3791235e-06, 1.0000001, -3.555906e-06, 0.000106692314, 0.044612586, 1.4692545e-05)
+
+[node name="Physical Bone Thumb_L" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="5" unique_id=715386643]
+transform = Transform3D(-0.066414505, 0.7783259, 0.624338, 0.98963606, -0.028458146, 0.14075051, 0.12731728, 0.6272152, -0.76836926, 0.30326495, 0.71099955, 0.24237505)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9652363e-08, -2.534479e-07, 0.045477558)
+body_offset = Transform3D(1.0000005, -4.4703484e-08, -4.3213367e-07, -4.6938658e-07, 5.6624413e-06, -1.0000002, 2.2351742e-08, 1.0000004, 5.5730343e-06, 0, 0.04547757, 0)
+
+[node name="Physical Bone Hand_R" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="6" unique_id=300513579]
+transform = Transform3D(-0.2914427, 0.82653797, 0.48155597, 0.9474187, 0.3189422, 0.025958298, -0.132133, 0.4638004, -0.87603086, -0.47511166, 0.7339575, 0.195778)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.904585e-07, 2.5704503e-07, 0.09803903)
+body_offset = Transform3D(-0.95924973, -0.24180281, -0.14619055, -7.301569e-07, 0.51738065, -0.8557554, 0.28256017, -0.8208829, -0.4962973, 0.01433301, 0.08389729, 0.048656553)
+
+[node name="Physical Bone Thumb_R" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="9" unique_id=1553699268]
+transform = Transform3D(-0.06641365, -0.77832943, -0.6243338, -0.98963594, -0.028458914, 0.14075123, -0.12731868, 0.62721086, -0.76837265, -0.30326447, 0.71099734, 0.242375)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4298029e-06, -9.487545e-09, 0.045477897)
+body_offset = Transform3D(1.0000002, 1.3411045e-07, -1.3262033e-06, -1.3634562e-06, 3.5762787e-07, -1.0000004, -8.195639e-08, 1.0000001, 2.0861626e-07, 1.4901161e-06, 0.04547791, 0)
+
+[node name="RightItemSlot" parent="." index="12"]
+transform = Transform3D(0.17773035, -0.9840712, 0.0039779446, 0.08529665, 0.01943196, 0.996166, -0.9803756, -0.17670965, 0.087391436, 0.4331636, 0.637197, -0.23583414)
+
+[node name="LeftItemSlot" parent="." index="13"]
+transform = Transform3D(0.17772996, 0.9840714, -0.003976009, -0.08529717, 0.019430047, 0.99616635, 0.9803757, -0.17670938, 0.087391555, -0.43316418, 0.6371979, -0.23583423)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="20" unique_id=1364463408]
+replication_config = SubResource("SceneReplicationConfig_3v8pm")
+
+[node name="EquipHost" type="Node" parent="." index="21" unique_id=806751750 node_paths=PackedStringArray("player", "_equip_root", "_right_equip_slot", "_left_equip_slot")]
+script = ExtResource("3_vs6dt")
+player = NodePath("..")
+_equip_root = NodePath("../EquipRoot")
+_right_equip_slot = NodePath("../RightItemSlot")
+_left_equip_slot = NodePath("../LeftItemSlot")
+
+[node name="NpcNameLabel" type="Label3D" parent="." index="22" unique_id=1375155778]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7507629, 0)
+billboard = 2
+text = "Npc"
+
+[editable path="Visual/guy"]

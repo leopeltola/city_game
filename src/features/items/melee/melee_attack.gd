@@ -30,6 +30,10 @@ extends Resource
 ## and locks their combat/slot input for its duration).
 @export var stagger_on_block := true
 
+## When true, an unblocked landed hit puts the victim into a physics ragdoll
+## (thrown back by the knockback force) instead of the regular stagger response.
+@export var ragdoll := false
+
 ## Player movement / look modifiers applied for the whole swing.
 @export var move_speed_multiplier := 1.0
 @export var look_drag_multiplier := 1.0

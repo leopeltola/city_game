@@ -25,7 +25,7 @@ const InteractRay := preload("res://src/features/interaction/interact_ray.gd")
 ## ItemManager instance id. -1 means "not backed by an item", valid for unarmed gear.
 var item_id: int = -1
 var interact_ray: InteractRay = null
-var player: Player = null
+var player: Humanoid = null
 
 var _ready_done := false
 

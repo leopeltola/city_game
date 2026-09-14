@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/npc/npc_spawner.gd" id="1_spawner"]
+
+[node name="NpcSpawner" type="Node3D"]
+script = ExtResource("1_spawner")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+unique_name_in_owner = true
+spawn_path = NodePath("..")

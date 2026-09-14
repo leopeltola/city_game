@@ -2,6 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://dtwg4u0tfdpkq" path="res://src/features/city/sky/day_night_sky.gdshader" id="1_8at8h"]
 [ext_resource type="PackedScene" uid="uid://bejfv2je50wk7" path="res://src/features/player/player_spawner.tscn" id="1_bvu6y"]
+[ext_resource type="PackedScene" path="res://src/features/npc/npc_spawner.tscn" id="1_npcsp"]
 [ext_resource type="Texture2D" uid="uid://c5smh658xpm4a" path="res://assets/textures/skies/sky_14_2k_day.png" id="2_3wrof"]
 [ext_resource type="Texture2D" uid="uid://cqtajnkhui4j6" path="res://assets/textures/skies/sky_14_2k_night.jpg" id="3_5cqoa"]
 [ext_resource type="Script" uid="uid://rmxhvlbn4xgi" path="res://src/features/items/item_spawner.gd" id="3_hxguo"]
@@ -101,6 +102,15 @@ transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.965
 
 [node name="PlayerSpawner" parent="." unique_id=1399950565 instance=ExtResource("1_bvu6y")]
 
+[node name="NpcSpawner" parent="." unique_id=179832769 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.06403, 0, 6.1561947)
+
+[node name="NpcSpawner2" parent="." unique_id=308038086 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.992152, 0, 1.3968039)
+
+[node name="NpcSpawner3" parent="." unique_id=2128046748 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.461277, 0, 4.224866)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1983009270]
 
 [node name="HUD" parent="CanvasLayer" unique_id=440749633 instance=ExtResource("17_rur3b")]
@@ -158,17 +168,17 @@ script = ExtResource("4_anh6s")
 [node name="CasinoSkyscraper" parent="City" unique_id=1418599293 instance=ExtResource("17_xdh1b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.46692, 0.13125515, -9.959579)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 592319556) index="0" unique_id=2137893935]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 969999495) index="0" unique_id=2137893935]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper/StaticBody3D" unique_id=1988896395]
 shape = SubResource("ConcavePolygonShape3D_a54ph")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 612543169) index="0" unique_id=1235067300]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 1607977321) index="0" unique_id=1235067300]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper_001/StaticBody3D" unique_id=562831225]
 shape = SubResource("ConcavePolygonShape3D_2h7sf")
 
-[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=982927261]
+[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=1491844758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0038805008, 4.3149405, 0.014133453)
 
 [node name="casino_table" parent="City/CasinoSkyscraper" unique_id=475239430 instance=ExtResource("24_txgtg")]

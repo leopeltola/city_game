@@ -29,7 +29,7 @@ const BODY_SAMPLES: Array[Dictionary] = [
 var _busy := false
 ## True from the shot until the captured photo item is in hand; gates further shots.
 var _capturing := false
-var _animator: PlayerAnimator = null
+var _animator: ActorAnimator = null
 
 @onready var _photo_camera: Camera3D = %SubViewport/Camera3D
 
@@ -190,7 +190,8 @@ func _create_photo_item_local(photo_id: int, subject_player_id: int, identifiabi
 func _give_photo_item(item_id: int) -> void:
 	if not is_instance_valid(player) or not is_instance_valid(player.inventory):
 		return
-	if player.inventory.take_item_in_hand(item_id):
+	var inv := player.inventory as PlayerInventory
+	if inv != null and inv.take_item_in_hand(item_id):
 		return
 	var pos := player.global_position + player.global_basis * Vector3.FORWARD * 1.2
 	ItemManager.create_world_item_for(item_id, pos, player.rotation)

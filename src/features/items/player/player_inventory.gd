@@ -1,5 +1,5 @@
 class_name PlayerInventory
-extends Node
+extends EquipHost
 
 ## Emitted whenever the inventory contents or active slot changes.
 signal inventory_updated()
@@ -10,15 +10,10 @@ const CASH_STACK_LIMIT := 1000
 ## How long the drop item action must be held before the money-split prompt opens.
 const DROP_LONG_PRESS_TIME := 0.5
 
-## Mounted when the active slot is empty so the player can always fight (bare fists).
-## Unlike real items this is unarmed "gear": no ItemType, no ItemManager instance id.
-const UNARMED_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/fists/fists_equip.tscn")
-
 ## Camera gear toggled with the "camera" action. Unarmed gear with no backing slot:
 ## lowering the camera re-mounts the active slot's item.
 const CAMERA_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/camera/camera_equip.tscn")
 
-@export var player: Player = null
 @export var slot_count := 4
 
 ## Replicated slot contents (item ID per slot, -1 == empty). Replaced by the
@@ -49,24 +44,7 @@ const CAMERA_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/c
 			else:
 				_equip_item(active_index)
 
-## Neutral mount that the whole equip scene parents under (stays put). Per-hand
-## content inside the equip is driven to the hand slots via HandAnchors instead.
-@export var _equip_root: Node3D = null
-## Hand bone slots the HandAnchors get their transforms pushed from.
-@export var _right_equip_slot: Node3D = null
-@export var _left_equip_slot: Node3D = null
-
-var _equipped_node: ItemEquip = null
 var _drop_press_timer: SceneTreeTimer = null
-
-
-## Returns the hand slot node for a given hand side (driven by that hand's bone).
-func get_hand_slot(hand: HandAnchor.HandSide) -> Node3D:
-	match hand:
-		HandAnchor.HandSide.LEFT:
-			return _left_equip_slot
-		_:
-			return _right_equip_slot
 
 
 func _ready() -> void:
@@ -135,16 +113,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _lower_camera_if_out() -> void:
 	if camera_out:
 		camera_out = false
-
-
-## Return's the currently equipped item's idle anim override's name. Empty string == none
-func get_idle_animation_override() -> String:
-	return _equipped_node.idle_animation_override if _equipped_node else ""
-
-
-## Returns the currently mounted equip node (item or unarmed gear like fists), or null.
-func get_equipped_node() -> ItemEquip:
-	return _equipped_node
 
 
 ## Returns the item ID at the specified index, or -1 if empty.
@@ -378,7 +346,7 @@ func _equip_item(slot_idx: int) -> void:
 
 	var item_id := get_item_at_idx(slot_idx)
 	if item_id == -1:
-		_mount_unarmed()
+		mount_unarmed()
 		return
 
 	# The item may have been destroyed (e.g. full cash insert into the slot
@@ -389,7 +357,7 @@ func _equip_item(slot_idx: int) -> void:
 		push_error("Tried equipping item but item_id not found: ID: %s\nitem_data: %s" % [item_id, item_data])
 		item_slots[slot_idx] = -1
 		inventory_updated.emit()
-		_mount_unarmed()
+		mount_unarmed()
 		return
 
 	var type: ItemType = ItemManager.get_item_type(item_data["type"])
@@ -401,25 +369,6 @@ func _equip_item(slot_idx: int) -> void:
 	_equipped_node = equipped_item
 
 	_equip_root.add_child(equipped_item)
-
-
-## Detaches the current equip immediately (not queue_free alone) so the next mount
-## keeps the canonical scene-root name; otherwise Godot renames the new child (e.g.
-## "FistsEquip2") and breaks the equip-node RPC path on peers.
-func _remove_equipped_node() -> void:
-	if not is_instance_valid(_equipped_node):
-		return
-	_equip_root.remove_child(_equipped_node)
-	_equipped_node.queue_free()
-	_equipped_node = null
-
-
-## Mounts the bare-hands fists gear when the active slot holds no item.
-func _mount_unarmed() -> void:
-	var fists: ItemEquip = UNARMED_EQUIP_SCENE.instantiate()
-	fists.player = player
-	_equipped_node = fists
-	_equip_root.add_child(fists)
 
 
 ## Mounts the camera gear, replacing the current equip. Lowering re-mounts the

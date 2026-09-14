@@ -44,7 +44,7 @@ signal attack_hit(target: Node, attack: MeleeAttack)
 
 var _phase: Phase = Phase.NONE
 var _active_attack: MeleeAttack = null
-var _animator: PlayerAnimator = null
+var _animator: ActorAnimator = null
 
 ## Set when an attack click arrives during a swing; consumed to chain the next punch.
 var _pending_attack := false
@@ -337,7 +337,7 @@ func _resolve_hit(collider: Object) -> void:
 	var target3d := target as Node3D
 	var force := (target3d.global_position - player.global_position).normalized() * attack.knockback_force
 	force.y += 2.0
-	target.get_hit(attack.damage, force, attack.interrupts_target)
+	target.get_hit(attack.damage, force, attack.interrupts_target, attack.ragdoll)
 	_rpc_play_sfx.rpc("hit")
 	attack_hit.emit(target, attack)
 	if attack.stagger_on_hit:

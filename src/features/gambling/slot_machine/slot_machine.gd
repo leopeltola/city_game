@@ -361,7 +361,7 @@ func _on_cash_input_interacted(player_id: int) -> void:
 
 	var remaining := total_amount - put_in
 	if remaining <= 0:
-		player.inventory.pop_active_item()
+		(player.inventory as PlayerInventory).pop_active_item()
 		ItemManager.destroy_item(item_id)
 	else:
 		ItemManager.set_and_sync_item_data(item_id, "amount", remaining)

@@ -1,9 +1,9 @@
-class_name PlayerAnimator
+class_name ActorAnimator
 extends Node
 ## Owns the rig AnimationPlayer: plays the persistent idle (honoring the equipped
 ## item's idle override) and one-shot "action" clips (attacks, guards, ...).
 ## Equips subscribe to the action_* signals and never poke the AnimationPlayer
-## directly, so animation state stays owned in one place.
+## directly, so animation state stays owned in one place. Shared by players and NPCs.
 ##
 ## Both ends of an action transition are blended: play_action takes a start blend
 ## (idle -> action) and an end blend (action -> idle on natural finish). Cancels
@@ -13,7 +13,7 @@ signal action_started(anim_name: StringName)
 signal action_finished(anim_name: StringName)
 signal action_cancelled(anim_name: StringName)
 
-@export var inventory: PlayerInventory = null
+@export var humanoid: Humanoid = null
 @export var anim_player: AnimationPlayer = null
 
 var _override_anim := ""
@@ -26,7 +26,7 @@ var _idle_blend := 0.1
 
 func _ready() -> void:
 	assert(anim_player)
-	assert(inventory)
+	assert(humanoid)
 	anim_player.animation_finished.connect(_on_animation_finished)
 
 
@@ -43,7 +43,9 @@ func _process(_delta: float) -> void:
 
 
 func _current_idle_name() -> String:
-	var idle := inventory.get_idle_animation_override()
+	var idle := ""
+	if humanoid != null and humanoid.inventory != null:
+		idle = humanoid.inventory.get_idle_animation_override()
 	return idle if not idle.is_empty() else "idle"
 
 
@@ -99,9 +101,9 @@ func on_hit_window_end() -> void:
 
 
 func _equipped_melee() -> MeleeEquip:
-	if inventory == null:
+	if humanoid == null or humanoid.inventory == null:
 		return null
-	return inventory.get_equipped_node() as MeleeEquip
+	return humanoid.inventory.get_equipped_node() as MeleeEquip
 
 
 func _on_animation_finished(anim_name: StringName) -> void:
