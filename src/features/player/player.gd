@@ -52,14 +52,30 @@ var stamina: float = 100.0
 ## Fallback lock duration when the stagger clip is not imported yet.
 @export var stagger_fallback_duration: float = 0.8
 
+@export_group("Ragdoll")
+## How long a ragdolled victim stays flopped before standing back up
+@export var ragdoll_duration := 1.5
+## How long the physics -> idle blend takes while standing back up
+@export var ragdoll_rise_duration := 0.3
+## Multiplier on the incoming knockback force applied to the ragdoll's root bone
+@export var ragdoll_impulse_scale := 1.0
+## Multiplier on the root impulse applied to the head so it snaps back too
+@export var ragdoll_head_impulse_scale := 0.6
+## Multiplier on the root impulse applied to the hands
+@export var ragdoll_limb_impulse_scale := 0.25
+
 const SLOW_EFFECT_ID := &"hit_slow"
 const STAGGER_EFFECT_ID := &"stagger"
 
 @onready var sight_pivot: Node3D = %SightPivot
 @onready var hittable_area: Area3D = %HittableArea
+@onready var hittable_area_col_shape: CollisionShape3D = %HittableAreaCollisionShape
 @onready var animator: PlayerAnimator = %PlayerAnimator
 @onready var status: PlayerStatus = %PlayerStatus
 @onready var camera: PlayerCamera = %Camera3D
+@onready var skeleton: Skeleton3D = $Visual/guy/Armature/Skeleton3D
+@onready var physical_bones: PhysicalBoneSimulator3D = $Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D
+@onready var movement_collision: CollisionShape3D = $CollisionShape3D
 
 ## Authoritative world transform written by the local player and replicated via
 ## MultiplayerSynchronizer. Remote peers interpolate their body toward these.
@@ -70,6 +86,13 @@ var network_rotation: Vector3
 @export var network_interp_speed := 12.0
 var _network_interp_ready := false
 
+## Marks whether is ragdolled, blocks actions etc
+var is_ragdolled := false
+## True during the short rise-back-up phase (physical skeleton influence being blended to 0).
+var _rising := false
+var _rise_time := 0.0 ## rise counter
+var _ragdoll_timer: SceneTreeTimer = null
+
 
 func _ready() -> void:
 	assert(player_id)
@@ -78,6 +101,7 @@ func _ready() -> void:
 	PlayerManager.register_player_node(self)
 
 	stamina = max_stamina
+	_set_ragdoll_bone_collision(false)
 
 	network_position = global_position
 	network_rotation = global_rotation
@@ -91,7 +115,11 @@ func _ready() -> void:
 		$Visual/guy/Armature/Skeleton3D/Body.hide()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	if _rising:
+		_process_rise(delta)
+	if Input.is_action_just_pressed("show_player_names") and is_local:
+		print("SightPivot.position: %s\nCamera.position: %s" % [sight_pivot.position, camera.position])
 	if Input.is_action_pressed("show_player_names") and Net.is_client:
 		%NameLabel3D.text = player_data.player_name
 		%NameLabel3D.show()
@@ -107,6 +135,14 @@ func _physics_process(delta: float) -> void:
 	if not is_local:
 		_interpolate_network_transform(delta)
 		return
+	
+	hittable_area_col_shape.disabled = is_ragdolled # Can't be hit if ragdolled
+	if is_ragdolled:
+		if _rising:
+			_process_rise_physics(delta)
+		else:
+			_process_ragdoll(delta)
+		return
 
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -121,7 +157,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_local or (HUD.instance and HUD.instance.is_blocking_input()):
+	if not is_local or is_ragdolled or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var effective_sensitivity := mouse_sensitivity * look_drag_multiplier
@@ -159,7 +195,7 @@ func get_equipped_item() -> ItemEquip:
 
 ## True while a status effect (e.g. stagger) locks combat and slot-switch input.
 func is_action_locked() -> bool:
-	return status.is_action_locked()
+	return is_ragdolled or status.is_action_locked()
 
 
 ## Plays the stagger clip and locks combat / slot switching for its duration.
@@ -236,12 +272,16 @@ func _rpc_trigger_block_success() -> void:
 ## Applies damage and knockback to the player and resolves hit reactions.
 ## [param interrupt] is the attacking weapon's interrupts_target flag: when true and
 ## the player is mid-action, the hit staggers them.
-func get_hit(damage: float, force: Vector3, interrupt: bool = true) -> void:
-	_rpc_get_hit.rpc(damage, force, interrupt)
+## [param ragdoll] when true, the hit flops the player into a physics ragdoll
+## (thrown by [param force]) instead of the regular stagger response.
+func get_hit(damage: float, force: Vector3 = Vector3.ZERO, interrupt: bool = true, ragdoll: bool = false) -> void:
+	_rpc_get_hit.rpc(damage, force, interrupt, ragdoll)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func _rpc_get_hit(damage: float, force: Vector3, interrupt: bool) -> void:
+func _rpc_get_hit(damage: float, force: Vector3, interrupt: bool, ragdoll: bool) -> void:
+	if is_ragdolled:
+		return
 	velocity += force
 	_apply_hit_slow(damage)
 
@@ -253,9 +293,10 @@ func _rpc_get_hit(damage: float, force: Vector3, interrupt: bool) -> void:
 		# Put the camera away before the knock; camera_out replicates to every peer.
 		if inventory.camera_out:
 			inventory.camera_out = false
-		_spawn_knocked_item()
 
-	if interrupt and is_instance_valid(animator) and animator.is_action_playing():
+	if ragdoll:
+		_start_ragdoll(force)
+	elif interrupt and is_instance_valid(animator) and animator.is_action_playing():
 		enter_stagger()
 
 
@@ -271,6 +312,135 @@ func _apply_hit_slow(damage: float) -> void:
 	effect.move_speed_multiplier = hit_slow_multiplier
 	effect.can_sprint = false
 	status.add(effect)
+
+
+## Freezes the player and starts the physics ragdoll, applying [force] as the throw.
+## Runs on every peer via _rpc_get_hit so all clients see the same flop.
+func _start_ragdoll(force: Vector3) -> void:
+	is_ragdolled = true
+	velocity = Vector3.ZERO
+	%RunParticles.emitting = false
+	if is_instance_valid(animator):
+		animator.cancel_action(0.0)
+	if is_instance_valid(movement_collision):
+		movement_collision.disabled = true
+	if is_instance_valid(physical_bones):
+		_set_ragdoll_bone_collision(true)
+		physical_bones.physical_bones_start_simulation()
+		for bone: Node in physical_bones.get_children():
+			if bone is PhysicalBone3D:
+				bone.apply_central_impulse(force * _ragdoll_impulse_scale_for(bone.bone_name))
+	_ragdoll_timer = get_tree().create_timer(ragdoll_duration)
+	_ragdoll_timer.timeout.connect(_on_ragdoll_timeout)
+
+
+## Per-bone impulse scale: the root takes the full knockback, the head a good chunk
+## so it snaps back, limbs a lighter follow-through.
+func _ragdoll_impulse_scale_for(bone_name: StringName) -> float:
+	match bone_name:
+		"Root":
+			return ragdoll_impulse_scale
+		"Head_2":
+			return ragdoll_impulse_scale * ragdoll_head_impulse_scale
+		_:
+			return ragdoll_impulse_scale * ragdoll_limb_impulse_scale
+
+
+## While ragdolled the origin follows the root bone across the floor (Y stays at the
+## standing height, so the stand-up ends at the right capsule height). Reads are done
+## here in the physics phase, AFTER the deferred modifier pass has written the final
+## physics pose - reading in the idle phase would return the AnimationPlayer's pose.
+func _process_ragdoll(_delta: float) -> void:
+	var root_pos := await _bone_global_position("Root")
+	
+	global_position.x = root_pos.x
+	global_position.z = root_pos.z
+	network_position = global_position
+	network_rotation = global_rotation
+	if is_local and is_instance_valid(camera):
+		camera.global_position = await _bone_global_position("Head_2")
+
+
+## Ends the flop and starts the rise: keeps the simulation running and eases its
+## influence to 0, so the visible pose blends from the fallen body to the standing
+## idle instead of snapping. No bone poses are read here (they are unreliable in the
+## idle phase); the origin is already at the body's resting spot from _process_ragdoll.
+func _on_ragdoll_timeout() -> void:
+	if not is_inside_tree() or not is_ragdolled or _rising:
+		return
+	velocity = Vector3.ZERO
+	_rising = true
+	_rise_time = 0.0
+
+
+## Tweens the physics simulator's influence 1 -> 0 so the engine blends the rig from
+## the fallen physics pose toward the standing idle animation.
+func _process_rise(delta: float) -> void:
+	_rise_time += delta
+	var t := clampf(_rise_time / ragdoll_rise_duration, 0.0, 1.0)
+	t = t * t * (3.0 - 2.0 * t)
+	if is_instance_valid(physical_bones):
+		physical_bones.influence = 1.0 - t
+	if t >= 1.0:
+		_finish_rise()
+
+
+## Physics-phase handler while rising: keeps the origin glued to the (blended) root
+## bone and the camera on the (blended) head as the body straightens up.
+func _process_rise_physics(_delta: float) -> void:
+	var root_pos := await _bone_global_position("Root")
+	global_position.x = root_pos.x
+	global_position.z = root_pos.z
+	network_position = global_position
+	network_rotation = global_rotation
+	if is_local and is_instance_valid(camera):
+		camera.global_position = await _bone_global_position("Head_2")
+
+
+## Stops the simulation once the rise blend has reached the idle pose and hands the
+## player back control.
+func _finish_rise() -> void:
+	if is_instance_valid(physical_bones):
+		physical_bones.influence = 1.0
+		physical_bones.physical_bones_stop_simulation()
+		_set_ragdoll_bone_collision(false)
+	if is_instance_valid(movement_collision):
+		movement_collision.disabled = false
+	velocity = Vector3.ZERO
+	_rising = false
+	is_ragdolled = false
+	if is_instance_valid(animator):
+		animator.cancel_action(0.1)
+	if is_local and is_instance_valid(camera):
+		# Restore the camera's authored local transform under SightPivot.
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var tw := create_tween()
+		tw.set_parallel(true)
+		tw.tween_property(camera, "position", Vector3(0.0, 0.15345, -0.060455), 0.1)
+		tw.tween_property(camera, "rotation", Vector3.ZERO, 0.1)
+
+
+## World-space position of a named rig bone, used to track the ragdoll's head/root.
+func _bone_global_position(bone_name: StringName) -> Vector3:
+	if not is_instance_valid(skeleton):
+		return global_position
+	var bone_idx := skeleton.find_bone(bone_name)
+	if bone_idx == -1:
+		return global_position
+	await %PhysicalBoneSimulator3D.modification_processed
+	return skeleton.to_global(skeleton.get_bone_global_pose(bone_idx).origin)
+
+
+## Toggles the physical bone bodies' collision so the idle kinematic bodies never
+## block the player (or anyone else), while an active ragdoll collides with the world.
+func _set_ragdoll_bone_collision(active: bool) -> void:
+	if not is_instance_valid(physical_bones):
+		return
+	for bone: Node in physical_bones.get_children():
+		if bone is PhysicalBone3D:
+			bone.collision_layer = 2 if active else 0
+			bone.collision_mask = 1 if active else 0
 
 
 @rpc("any_peer", "reliable", "call_local")
