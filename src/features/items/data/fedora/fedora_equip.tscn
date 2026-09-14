@@ -1,43 +1,29 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bqcyrusghy24c"]
 
-[ext_resource type="Script" path="res://src/features/items/props/prop_equip.gd" id="1"]
+[ext_resource type="Script" uid="uid://dy50ad8raajw1" path="res://src/features/items/props/prop_equip.gd" id="1"]
 [ext_resource type="Resource" path="res://src/features/items/data/fedora/fedora.tres" id="2"]
-[ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="3"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3"]
+[ext_resource type="Material" uid="uid://koub2ugueubx" path="res://assets/textures/gradient/gradient1_material.tres" id="4_h11co"]
+[ext_resource type="PackedScene" uid="uid://v72nhi7nropg" path="res://src/features/items/data/fedora/fedora.glb" id="5_16dlm"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_crown"]
-top_radius = 0.14
-bottom_radius = 0.14
-height = 0.13
-radial_segments = 32
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_brim"]
-top_radius = 0.26
-bottom_radius = 0.26
-height = 0.02
-radial_segments = 32
-
-[node name="FedoraEquip" type="Node3D"]
+[node name="FedoraEquip" type="Node3D" unique_id=1311890258]
 script = ExtResource("1")
 item_type = ExtResource("2")
 
-[node name="HeldAnchor" type="Node3D" parent="."]
+[node name="HeldAnchor" type="Node3D" parent="." unique_id=1144297014]
 script = ExtResource("3")
-hand = 0
 
-[node name="Crown" type="MeshInstance3D" parent="HeldAnchor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, 0.08)
-mesh = SubResource("CylinderMesh_crown")
+[node name="fedora" parent="HeldAnchor" unique_id=1004769092 instance=ExtResource("5_16dlm")]
 
-[node name="Brim" type="MeshInstance3D" parent="HeldAnchor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.08)
-mesh = SubResource("CylinderMesh_brim")
+[node name="Fedora" parent="HeldAnchor/fedora" index="0" unique_id=1430231945]
+material_override = ExtResource("4_h11co")
 
-[node name="WornVisual" type="Node3D" parent="."]
+[node name="WornVisual" type="Node3D" parent="." unique_id=1161809367]
 
-[node name="Crown" type="MeshInstance3D" parent="WornVisual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
-mesh = SubResource("CylinderMesh_crown")
+[node name="fedora" parent="WornVisual" unique_id=1006866845 instance=ExtResource("5_16dlm")]
 
-[node name="Brim" type="MeshInstance3D" parent="WornVisual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
-mesh = SubResource("CylinderMesh_brim")
+[node name="Fedora" parent="WornVisual/fedora" index="0" unique_id=1430231945]
+material_override = ExtResource("4_h11co")
+
+[editable path="HeldAnchor/fedora"]
+[editable path="WornVisual/fedora"]
