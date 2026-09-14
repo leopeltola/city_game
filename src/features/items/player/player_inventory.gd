@@ -151,6 +151,37 @@ func take_item_in_hand(item_id: int) -> bool:
 	return true
 
 
+## Wears the prop held in the active slot onto its body slot. Replaces any prop in
+## that slot: the old one returns to the inventory (or is dropped if it doesn't fit).
+func wear_item(item_id: int) -> void:
+	if get_item_at_idx(active_index) != item_id:
+		return
+	var item_data := ItemManager.get_item_data_dict_raw(item_id)
+	if item_data.is_empty():
+		return
+	var type := ItemManager.get_item_type(item_data["type"])
+	if type == null or type.prop_slot == PropSystem.PropSlot.NONE:
+		return
+	var prop_system := player.prop_system
+	if prop_system == null:
+		return
+	_set_item(active_index, -1)
+	var popped := prop_system.wear(item_id, type.prop_slot)
+	if popped != -1 and not try_add_item_to_inv(popped):
+		ItemManager.create_world_item_for(popped, player.global_position + Vector3.UP, player.rotation)
+
+
+## Removes the prop worn in [slot], returning it to the inventory (or dropping it if
+## the inventory is full). Backend for the future unequip menu.
+func unequip_slot(slot: PropSystem.PropSlot) -> void:
+	var prop_system := player.prop_system
+	if prop_system == null:
+		return
+	var item_id := prop_system.unequip(slot)
+	if item_id != -1 and not try_add_item_to_inv(item_id):
+		ItemManager.create_world_item_for(item_id, player.global_position + Vector3.UP, player.rotation)
+
+
 ## Attempts to add cash to the inventory, respecting the per-stack cash limit.
 ## Fills existing cash stacks up to the limit, then starts a new stack in a free slot.
 ## If the remainder doesn't fit, it is left as a world item where it is (returning false).

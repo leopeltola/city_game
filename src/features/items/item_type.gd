@@ -10,6 +10,8 @@ static var _scene_cache: Dictionary[String, PackedScene] = { }
 @export_file("*.tscn") var world_item_path: String = ""
 @export_file("*.tscn") var equip_item_path: String = ""
 @export var instance_data: Dictionary[StringName, Variant] = { }
+## Body slot this item wears on (PropSystem.PropSlot). NONE = not a wearable prop.
+@export var prop_slot: PropSystem.PropSlot = PropSystem.PropSlot.NONE
 
 
 ## Used by ItemManager to get the data dict.

@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b3d273juk5ihr"]
+
+[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_cgdre"]
+[ext_resource type="Resource" uid="uid://1hrurp1qfqws" path="res://src/features/items/data/police_hat/police_hat.tres" id="2_0ugep"]
+[ext_resource type="PackedScene" uid="uid://37cqoaoi8r7m" path="res://src/features/items/data/police_hat/police_hat.glb" id="3_426xk"]
+[ext_resource type="PackedScene" uid="uid://cum3c03ptrqm" path="res://src/features/items/world_item_interactable_area.tscn" id="3_q6gqn"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1"]
+height = 0.26505858
+radius = 0.24
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yie4w"]
+height = 0.2905078
+radius = 0.25
+
+[node name="PoliceHatWorld" type="RigidBody3D" unique_id=262849631 node_paths=PackedStringArray("interaction_area")]
+collision_layer = 12
+collision_mask = 9
+script = ExtResource("1_cgdre")
+type = ExtResource("2_0ugep")
+interaction_area = NodePath("WorldItemInteractableArea")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=569352231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01747071, 0)
+shape = SubResource("CylinderShape3D_1")
+
+[node name="police_hat" parent="." unique_id=1399885142 instance=ExtResource("3_426xk")]
+
+[node name="WorldItemInteractableArea" parent="." unique_id=1518643581 instance=ExtResource("3_q6gqn")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea" unique_id=125878228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012636729, 0)
+shape = SubResource("CylinderShape3D_yie4w")
