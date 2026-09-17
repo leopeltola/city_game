@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://dntxffruu7h41"]
+
+[ext_resource type="PackedScene" uid="uid://c7fr5m1c71jvr" path="res://src/features/city/police_station/assets/models/jail_building.glb" id="1_symtt"]
+[ext_resource type="PackedScene" uid="uid://e35tnfbwa7wj" path="res://src/features/interior/police_station/jail_door.tscn" id="2_wqums"]
+[ext_resource type="PackedScene" uid="uid://dfuyn5jwkycll" path="res://src/features/interior/police_station/jail_bed.glb" id="3_v74a3"]
+[ext_resource type="PackedScene" uid="uid://cr5dwdysnr0g4" path="res://src/features/interior/police_station/toilet.glb" id="4_w2fjy"]
+[ext_resource type="PackedScene" uid="uid://bey8j0jaql73q" path="res://src/features/interior/bank/bank_counter_office.glb" id="5_hm8uj"]
+[ext_resource type="PackedScene" uid="uid://s8xtdcprwb6n" path="res://src/features/interior/bank/bank_counter.glb" id="6_v0tex"]
+[ext_resource type="PackedScene" uid="uid://dbosmwunqa0fq" path="res://src/features/interior/bank/bank_counter_corner.glb" id="7_1wk67"]
+[ext_resource type="PackedScene" uid="uid://jy8p3mhkwvey" path="res://src/features/interior/bank/notice_board.glb" id="8_1wk67"]
+[ext_resource type="PackedScene" uid="uid://blensfktqyb4x" path="res://src/features/interior/bank/bench.glb" id="9_b7o7p"]
+[ext_resource type="PackedScene" uid="uid://bj3prdfge4t0j" path="res://src/features/interior/bank/plant.glb" id="10_nn86t"]
+[ext_resource type="PackedScene" uid="uid://we3n7sklupbq" path="res://src/features/interior/bank/tubelamp.glb" id="11_o5nll"]
+
+[node name="PoliceStation" type="Node3D" unique_id=1111426076]
+
+[node name="jail_building" parent="." unique_id=60940930 instance=ExtResource("1_symtt")]
+
+[node name="JailDoor" parent="." unique_id=570098545 instance=ExtResource("2_wqums")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 2)
+
+[node name="JailDoor2" parent="." unique_id=1942678915 instance=ExtResource("2_wqums")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1, 2)
+
+[node name="jail_bed" parent="." unique_id=421341289 instance=ExtResource("3_v74a3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.25, 0)
+
+[node name="toilet" parent="." unique_id=744911075 instance=ExtResource("4_w2fjy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.2567706)
+
+[node name="jail_bed2" parent="." unique_id=1681510360 instance=ExtResource("3_v74a3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.25, 0)
+
+[node name="toilet2" parent="." unique_id=1962366656 instance=ExtResource("4_w2fjy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -1.2567706)
+
+[node name="bank_counter_office" parent="." unique_id=941676587 instance=ExtResource("5_hm8uj")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3, 1, 8.791141)
+
+[node name="bank_counter" parent="." unique_id=1989729010 instance=ExtResource("6_v0tex")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.5083337, 1, 8.785159)
+
+[node name="bank_counter_corner" parent="." unique_id=836388662 instance=ExtResource("7_1wk67")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 4.74601, 1, 7.0362496)
+
+[node name="notice_board" parent="." unique_id=1400187531 instance=ExtResource("8_1wk67")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.516888, 1, 4.934072)
+
+[node name="bench" parent="." unique_id=139987890 instance=ExtResource("9_b7o7p")]
+transform = Transform3D(-1, 0, 8.742277e-08, 0, 1, 0, -8.742277e-08, 0, -1, -1, 1, 9)
+
+[node name="bench2" parent="." unique_id=1031577891 instance=ExtResource("9_b7o7p")]
+transform = Transform3D(-1, 0, 8.742277e-08, 0, 1, 0, -8.742277e-08, 0, -1, -2, 1, 9)
+
+[node name="plant" parent="." unique_id=121962481 instance=ExtResource("10_nn86t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.386332, 1, 9.290938)
+
+[node name="plant2" parent="." unique_id=99074872 instance=ExtResource("10_nn86t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4903789, 1, 2.3743367)
+
+[node name="tubelamp" parent="." unique_id=877770905 instance=ExtResource("11_o5nll")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2, 1.1243837, 4.501232)
+
+[node name="tubelamp2" parent="." unique_id=487088598 instance=ExtResource("11_o5nll")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 1.1243837, 4.501232)
+
+[node name="tubelamp3" parent="." unique_id=735567391 instance=ExtResource("11_o5nll")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2, 1.1243837, 4.501232)
+
+[node name="tubelamp4" parent="." unique_id=916430989 instance=ExtResource("11_o5nll")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2, 1.1243837, 7.501232)
+
+[node name="tubelamp5" parent="." unique_id=1051404551 instance=ExtResource("11_o5nll")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 1.1243837, 7.501232)
+
+[node name="tubelamp6" parent="." unique_id=345951853 instance=ExtResource("11_o5nll")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2, 1.1243837, 7.501232)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1461515706]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 6)
+light_energy = 1.508
+omni_range = 8.681

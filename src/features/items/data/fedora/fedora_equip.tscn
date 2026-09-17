@@ -15,14 +15,14 @@ script = ExtResource("3")
 
 [node name="fedora" parent="HeldAnchor" unique_id=1004769092 instance=ExtResource("5_16dlm")]
 
-[node name="Fedora" parent="HeldAnchor/fedora" index="0" unique_id=1430231945]
+[node name="Fedora" parent="HeldAnchor/fedora" index="0" unique_id=1805682001]
 material_override = ExtResource("4_h11co")
 
 [node name="WornVisual" type="Node3D" parent="." unique_id=1161809367]
 
 [node name="fedora" parent="WornVisual" unique_id=1006866845 instance=ExtResource("5_16dlm")]
 
-[node name="Fedora" parent="WornVisual/fedora" index="0" unique_id=1430231945]
+[node name="Fedora" parent="WornVisual/fedora" index="0" unique_id=1805682001]
 material_override = ExtResource("4_h11co")
 
 [editable path="HeldAnchor/fedora"]
