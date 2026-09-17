@@ -1,22 +1,79 @@
 [gd_scene format=3 uid="uid://e35tnfbwa7wj"]
 
 [ext_resource type="PackedScene" uid="uid://ppt54t0qk08q" path="res://src/features/interior/police_station/jail_door_base.glb" id="1_sawrm"]
+[ext_resource type="Script" uid="uid://n23tjmo2ekv5" path="res://src/features/interior/police_station/jail_door.gd" id="1_t1w73"]
 [ext_resource type="PackedScene" uid="uid://gcpxh7d205pw" path="res://src/features/interior/police_station/jail_door.glb" id="2_uwj4d"]
+[ext_resource type="Script" uid="uid://b3a5x0wb8dy61" path="res://src/features/interaction/interactable_area.gd" id="4_5dc0h"]
+
+[sub_resource type="Animation" id="Animation_vf2ja"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StaticBody3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_5dc0h"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StaticBody3D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.42959, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vf2ja"]
+_data = {
+&"RESET": SubResource("Animation_vf2ja"),
+&"open": SubResource("Animation_5dc0h")
+}
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uwj4d"]
 size = Vector3(1.365, 2, 0.1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_soem1"]
+size = Vector3(0.38024902, 0.39994812, 0.119628906)
+
 [node name="JailDoor" type="Node3D" unique_id=570098545]
+script = ExtResource("1_t1w73")
 
 [node name="jail_door_base" parent="." unique_id=2126007154 instance=ExtResource("1_sawrm")]
 
-[node name="jail_door" parent="." unique_id=627577755 instance=ExtResource("2_uwj4d")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=258043137]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_vf2ja")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="jail_door" unique_id=1843322861]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="." unique_id=1151987460]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="jail_door/StaticBody3D" unique_id=110811196]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=110811196]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.1)
 shape = SubResource("BoxShape3D_uwj4d")
 
+[node name="jail_door" parent="StaticBody3D" unique_id=627577755 instance=ExtResource("2_uwj4d")]
+
+[node name="DoorHandleInteractableArea" type="Area3D" parent="StaticBody3D/jail_door" unique_id=1520990420]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("4_5dc0h")
+prompt = "Bat"
+
+[node name="DoorHandleCollisionShape" type="CollisionShape3D" parent="StaticBody3D/jail_door/DoorHandleInteractableArea" unique_id=727428086]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3834839, 0.76807404, 0.17067456)
+shape = SubResource("BoxShape3D_soem1")
+
 [editable path="jail_door_base"]
-[editable path="jail_door"]
+[editable path="StaticBody3D/jail_door"]
