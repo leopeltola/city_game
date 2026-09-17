@@ -25,10 +25,10 @@ transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="pizza" parent="RightHandAnchor/Visual/pizza_box_base" unique_id=188042070 instance=ExtResource("5_v3kyv")]
 unique_name_in_owner = true
-transform = Transform3D(0.685, 0, 0, 0, 0.685, 0, 0, 0, 0.685, 0, 0, 0)
 
 [node name="pizza_ingredients" parent="RightHandAnchor/Visual/pizza_box_base/pizza" unique_id=1671171848 instance=ExtResource("6_b4dgv")]
-transform = Transform3D(1.5399998, 0, 0, 0, 1.5399998, 0, 0, 0, 1.5399998, 0, 0.0033772774, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0033772774, 0)
 
 [node name="pizza_box_lid" parent="RightHandAnchor/Visual" unique_id=1941230624 instance=ExtResource("5_xoa5k")]
 transform = Transform3D(1, 0, 0, 0, 0.55075127, 0.83466965, 0, -0.8346696, 0.55075115, 0, 0.35533437, -0.2130962)
+visible = false

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c4iyv2ruvfghx" path="res://src/features/items/data/pizza/pizza_sauce/pizza_sauce.glb" id="4_jol63"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rggux"]
-size = Vector3(0.145, 0.43238282, 0.045)
+size = Vector3(0.3419751, 0.15536621, 0.389668)
 
 [node name="PizzaSauceWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 8
@@ -34,7 +34,7 @@ text = "Debug"
 font_size = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1758231456]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023808584, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0028967299, 0.015007317, -0.027841799)
 shape = SubResource("BoxShape3D_rggux")
 
 [node name="pizza_sauce" parent="." unique_id=544503403 instance=ExtResource("4_jol63")]

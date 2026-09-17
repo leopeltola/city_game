@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://tsru8qetar5n" path="res://src/features/items/data/pizza/pizza/pizza_ingredients.glb" id="6_ftrqp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rggux"]
-size = Vector3(1.12, 0.122, 1.135)
+size = Vector3(0.80148435, 0.122, 0.76788086)
 
 [node name="PizzaBoxWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 8
@@ -26,7 +26,6 @@ script = ExtResource("3_paawa")
 prompt = "Bat"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableArea" unique_id=1471502471]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023808584, 0)
 shape = SubResource("BoxShape3D_rggux")
 
 [node name="Label3D" type="Label3D" parent="." unique_id=225566222]
@@ -37,18 +36,15 @@ text = "Debug"
 font_size = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1758231456]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.042882726, 0)
 shape = SubResource("BoxShape3D_rggux")
 
 [node name="pizza_box_base" parent="." unique_id=578548005 instance=ExtResource("4_e4ah0")]
 
 [node name="pizza" parent="pizza_box_base" unique_id=188042070 instance=ExtResource("5_ftrqp")]
 unique_name_in_owner = true
-transform = Transform3D(0.645, 0, 0, 0, 0.645, 0, 0, 0, 0.645, 0, 0, 0)
-visible = false
 
 [node name="pizza_ingredients" parent="pizza_box_base/pizza" unique_id=1671171848 instance=ExtResource("6_ftrqp")]
-transform = Transform3D(1.5349998, 0, 0, 0, 1.5349998, 0, 0, 0, 1.5349998, 0, 0.008839181, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.008839181, 0)
 
 [node name="pizza_box_lid" parent="." unique_id=1941230624 instance=ExtResource("5_paawa")]
 visible = false
