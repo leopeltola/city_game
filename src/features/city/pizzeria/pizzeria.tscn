@@ -6,55 +6,59 @@
 [ext_resource type="PackedScene" uid="uid://d3g3mrfwtl0rj" path="res://src/features/interior/pizzeria/flour_bag.glb" id="4_bonwk"]
 [ext_resource type="PackedScene" uid="uid://c8y3bh4fyindx" path="res://src/features/interior/pizzeria/pizzeria_table.glb" id="5_smfu6"]
 [ext_resource type="PackedScene" uid="uid://mgl58jvmmt3r" path="res://src/features/interior/pizzeria/pizzeria_chair.glb" id="6_5xi8b"]
+[ext_resource type="PackedScene" uid="uid://ckgeoe73p27cl" path="res://src/features/interior/pizzeria/pizzeria_sofa.glb" id="7_rksk6"]
+[ext_resource type="PackedScene" uid="uid://jy8p3mhkwvey" path="res://src/features/interior/bank/notice_board.glb" id="8_1cmci"]
+[ext_resource type="PackedScene" uid="uid://xhifhfjrup6w" path="res://src/features/interior/pizzeria/counter_straight.glb" id="9_ym81p"]
+[ext_resource type="PackedScene" uid="uid://h38eqf8rsve3" path="res://src/features/interior/pizzeria/counter_corner.glb" id="10_bg1u0"]
 
 [node name="Pizzeria" type="Node3D" unique_id=186132626]
 
 [node name="pizzeria_building" parent="." unique_id=1076208728 instance=ExtResource("1_u7tr4")]
 
 [node name="fridge" parent="." unique_id=279495201 instance=ExtResource("2_qklp7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0522377, 0, -5.6172833)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0522375, 0, -5.6172833)
 
 [node name="kitchen_counter" parent="." unique_id=819469851 instance=ExtResource("3_bonwk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -5.65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -5.65)
 
 [node name="kitchen_counter2" parent="." unique_id=1054533229 instance=ExtResource("3_bonwk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9054257, 0, -5.65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9054258, 0, -5.65)
 
 [node name="flour_bag" parent="." unique_id=641871698 instance=ExtResource("4_bonwk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08557427, 0.0069942116, -5.6753974)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.91442573, 0.0069942116, -5.6753974)
 
 [node name="pizzeria_table" parent="." unique_id=1567358334 instance=ExtResource("5_smfu6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4876447, 0, 4.1408024)
-
-[node name="pizzeria_chair" parent="pizzeria_table" unique_id=201977043 instance=ExtResource("6_5xi8b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.82671785)
-
-[node name="pizzeria_chair4" parent="pizzeria_table" unique_id=230183570 instance=ExtResource("6_5xi8b")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0.8846352)
-
-[node name="pizzeria_chair2" parent="pizzeria_table" unique_id=776740084 instance=ExtResource("6_5xi8b")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.9968238, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2249784, 0, 5.036411)
 
 [node name="pizzeria_chair3" parent="pizzeria_table" unique_id=1404256675 instance=ExtResource("6_5xi8b")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.0310593, 0, 0)
 
-[node name="pizzeria_table2" parent="." unique_id=1561129348 instance=ExtResource("5_smfu6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8877053, 0, -4.104647)
+[node name="pizzeria_table6" parent="." unique_id=66155364 instance=ExtResource("5_smfu6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2249784, 0, 3.0364108)
 
-[node name="pizzeria_chair" parent="pizzeria_table2" unique_id=785892769 instance=ExtResource("6_5xi8b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.82671785)
+[node name="pizzeria_chair3" parent="pizzeria_table6" unique_id=57387568 instance=ExtResource("6_5xi8b")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.0310593, 0, 0)
+
+[node name="pizzeria_table7" parent="." unique_id=1048256828 instance=ExtResource("5_smfu6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2249784, 0, 1.0364108)
+
+[node name="pizzeria_chair3" parent="pizzeria_table7" unique_id=1746219216 instance=ExtResource("6_5xi8b")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.0310593, 0, 0)
+
+[node name="pizzeria_table2" parent="." unique_id=1561129348 instance=ExtResource("5_smfu6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8877053, 0, -4.4376497)
 
 [node name="pizzeria_chair4" parent="pizzeria_table2" unique_id=1286108161 instance=ExtResource("6_5xi8b")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0.8846352)
 
-[node name="pizzeria_chair2" parent="pizzeria_table2" unique_id=1500947747 instance=ExtResource("6_5xi8b")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.9968238, 0, 0)
+[node name="pizzeria_table5" parent="." unique_id=729930967 instance=ExtResource("5_smfu6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9749417, 0, -4.4376497)
 
-[node name="pizzeria_chair3" parent="pizzeria_table2" unique_id=876453831 instance=ExtResource("6_5xi8b")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.0310593, 0, 0)
+[node name="pizzeria_chair4" parent="pizzeria_table5" unique_id=2074531308 instance=ExtResource("6_5xi8b")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0.8846352)
 
 [node name="pizzeria_table3" parent="." unique_id=212330977 instance=ExtResource("5_smfu6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8877053, 0, 0.068523884)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8877053, 0, 0.068523884)
 
 [node name="pizzeria_chair" parent="pizzeria_table3" unique_id=1036255980 instance=ExtResource("6_5xi8b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.82671785)
@@ -69,7 +73,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.9
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.0310593, 0, 0)
 
 [node name="pizzeria_table4" parent="." unique_id=2004933921 instance=ExtResource("5_smfu6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79684496, 0, 4.177225)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20315504, 0, 3.177225)
 
 [node name="pizzeria_chair" parent="pizzeria_table4" unique_id=584868822 instance=ExtResource("6_5xi8b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.82671785)
@@ -88,5 +92,35 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4313993, 0)
 light_color = Color(1, 1, 0.85490197, 1)
 light_energy = 3.051
 omni_range = 27.54
+
+[node name="pizzeria_sofa" parent="." unique_id=1033860234 instance=ExtResource("7_rksk6")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6, 0, 1)
+
+[node name="pizzeria_sofa2" parent="." unique_id=1373127842 instance=ExtResource("7_rksk6")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6, 0, 5)
+
+[node name="pizzeria_sofa3" parent="." unique_id=401102400 instance=ExtResource("7_rksk6")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6, 0, 3)
+
+[node name="pizzeria_sofa4" parent="." unique_id=310805604 instance=ExtResource("7_rksk6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -6)
+
+[node name="pizzeria_sofa5" parent="." unique_id=1306223820 instance=ExtResource("7_rksk6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -6)
+
+[node name="notice_board" parent="." unique_id=1400187531 instance=ExtResource("8_1cmci")]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 5.255801, 0, 2.6284547)
+
+[node name="counter_straight2" parent="." unique_id=313327414 instance=ExtResource("9_ym81p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -3)
+
+[node name="counter_straight3" parent="." unique_id=112662858 instance=ExtResource("9_ym81p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
+
+[node name="counter_corner" parent="." unique_id=306729750 instance=ExtResource("10_bg1u0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="counter_straight4" parent="." unique_id=969069072 instance=ExtResource("9_ym81p")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, -5)
 
 [editable path="pizzeria_building"]
