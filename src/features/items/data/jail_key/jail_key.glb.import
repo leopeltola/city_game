@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://ppt54t0qk08q"
-path="res://.godot/imported/jail_door_base.glb-da7b82d5da0844cf8db5c4ad730c5fff.scn"
+uid="uid://bbgvcch0opt5i"
+path="res://.godot/imported/jail_key.glb-563f2b8c07c1bfc01c473ba77293e2fd.scn"
 
 [deps]
 
-source_file="res://src/features/interior/police_station/jail_door_base.glb"
-dest_files=["res://.godot/imported/jail_door_base.glb-da7b82d5da0844cf8db5c4ad730c5fff.scn"]
+source_file="res://src/features/items/data/jail_key/jail_key.glb"
+dest_files=["res://.godot/imported/jail_key.glb-563f2b8c07c1bfc01c473ba77293e2fd.scn"]
 
 [params]
 

@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://g414q8ein5tj"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 
 [resource]
 script = ExtResource("1")
 name = "fedora"
-prop_slot = 2
 world_item_path = "res://src/features/items/data/fedora/fedora_world.tscn"
 equip_item_path = "res://src/features/items/data/fedora/fedora_equip.tscn"
+prop_slot = 2

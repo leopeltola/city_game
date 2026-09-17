@@ -7,6 +7,7 @@ const _item_types: Dictionary[StringName, ItemType] = {
 	"photo": preload("res://src/features/items/data/photo/photo.tres"),
 	"fedora": preload("res://src/features/items/data/fedora/fedora.tres"),
 	"watch": preload("res://src/features/items/data/watch/watch.tres"),
+	"jail_key": preload("res://src/features/items/data/jail_key/jail_key.tres"),
 	"police_hat": preload("res://src/features/items/data/police_hat/police_hat.tres"),
 	"police_body": preload("res://src/features/items/data/police_body/police_body.tres"),
 }

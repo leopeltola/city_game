@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dntxffruu7h41"]
 
 [ext_resource type="PackedScene" uid="uid://c7fr5m1c71jvr" path="res://src/features/city/police_station/assets/models/jail_building.glb" id="1_symtt"]
-[ext_resource type="PackedScene" uid="uid://e35tnfbwa7wj" path="res://src/features/interior/police_station/jail_door.tscn" id="2_wqums"]
+[ext_resource type="PackedScene" uid="uid://e35tnfbwa7wj" path="res://src/features/interior/police_station/jail_door/jail_door.tscn" id="2_wqums"]
 [ext_resource type="PackedScene" uid="uid://dfuyn5jwkycll" path="res://src/features/interior/police_station/jail_bed.glb" id="3_v74a3"]
 [ext_resource type="PackedScene" uid="uid://cr5dwdysnr0g4" path="res://src/features/interior/police_station/toilet.glb" id="4_w2fjy"]
 [ext_resource type="PackedScene" uid="uid://bey8j0jaql73q" path="res://src/features/interior/bank/bank_counter_office.glb" id="5_hm8uj"]

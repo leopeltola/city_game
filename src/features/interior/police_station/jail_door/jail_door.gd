@@ -8,7 +8,7 @@ var is_open := false
 
 func _ready() -> void:
 	door_handle.interacted.connect(_on_door_handle_used)
-	door_handle.prompt = "Open"
+	door_handle.set_open(false)
 
 
 func _on_door_handle_used(player_id) -> void:
@@ -37,7 +37,8 @@ func _set_door(open: bool) -> void:
 	
 	if open:
 		animation_player.play("open")
-		door_handle.prompt = "Close"
+		#Door handle tracks state to send correct interaction prompt
+		door_handle.set_open(true)
 	else:
 		animation_player.play_backwards("open")
-		door_handle.prompt = "Open"
+		door_handle.set_open(false)

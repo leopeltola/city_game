@@ -10,13 +10,14 @@
 [ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="5_udf63"]
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="6_j2hit"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="7_64k4k"]
-[ext_resource type="Resource" path="res://src/features/items/data/fedora/fedora.tres" id="8_fedora"]
+[ext_resource type="Resource" uid="uid://g414q8ein5tj" path="res://src/features/items/data/fedora/fedora.tres" id="8_fedora"]
 [ext_resource type="Resource" path="res://src/features/items/data/watch/watch.tres" id="9_watch"]
 [ext_resource type="Resource" uid="uid://1hrurp1qfqws" path="res://src/features/items/data/police_hat/police_hat.tres" id="13_2ht0y"]
 [ext_resource type="PackedScene" uid="uid://ctmyo70nflbwe" path="res://src/features/city/ground/road_straight.tscn" id="13_yfk00"]
 [ext_resource type="PackedScene" uid="uid://cfje0kyuwhxbs" path="res://src/features/gambling/slot_machine/slot_machine.tscn" id="14_5bs2i"]
 [ext_resource type="Resource" uid="uid://dxctft40qvhih" path="res://src/features/items/data/police_body/police_body.tres" id="14_k7ulh"]
 [ext_resource type="PackedScene" uid="uid://bh6maorctyn4l" path="res://src/features/city/ground/road_3way.tscn" id="14_udf63"]
+[ext_resource type="Resource" uid="uid://b270yli33aj6e" path="res://src/features/items/data/jail_key/jail_key.tres" id="15_bgufk"]
 [ext_resource type="PackedScene" uid="uid://dn7ak0xe3mbva" path="res://src/features/city/ground/road_turn.tscn" id="15_rur3b"]
 [ext_resource type="PackedScene" uid="uid://dhkrvkv2u5i5u" path="res://src/features/city/buildings/modular1_building/modular1_building.tscn" id="16_nj3ha"]
 [ext_resource type="PackedScene" uid="uid://bn6f3do6iguhn" path="res://src/features/city/assets/models/modular1/base2.glb" id="17_4e13v"]
@@ -173,14 +174,19 @@ script = ExtResource("3_hxguo")
 item_type = ExtResource("9_watch")
 
 [node name="PoliceHatSpawner" type="Node3D" parent="Spawners" unique_id=468127294]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.2, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.2, 23)
 script = ExtResource("3_hxguo")
 item_type = ExtResource("13_2ht0y")
 
-[node name="PoliceHatSpawner2" type="Node3D" parent="Spawners" unique_id=417693321]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3468666, 1.2, 3.1188955)
+[node name="PoliceBodySpawner" type="Node3D" parent="Spawners" unique_id=417693321]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.653133, 2.2, 24.118896)
 script = ExtResource("3_hxguo")
 item_type = ExtResource("14_k7ulh")
+
+[node name="JailKeySpawner" type="Node3D" parent="Spawners" unique_id=528464625]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 2, 23)
+script = ExtResource("3_hxguo")
+item_type = ExtResource("15_bgufk")
 
 [node name="ItemMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1943494257]
 spawn_path = NodePath("../WorldItemContainer")

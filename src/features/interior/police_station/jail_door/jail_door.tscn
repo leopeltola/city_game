@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://e35tnfbwa7wj"]
 
-[ext_resource type="PackedScene" uid="uid://ppt54t0qk08q" path="res://src/features/interior/police_station/jail_door_base.glb" id="1_sawrm"]
-[ext_resource type="Script" uid="uid://n23tjmo2ekv5" path="res://src/features/interior/police_station/jail_door.gd" id="1_t1w73"]
-[ext_resource type="PackedScene" uid="uid://gcpxh7d205pw" path="res://src/features/interior/police_station/jail_door.glb" id="2_uwj4d"]
-[ext_resource type="Script" uid="uid://b3a5x0wb8dy61" path="res://src/features/interaction/interactable_area.gd" id="4_5dc0h"]
+[ext_resource type="PackedScene" uid="uid://ppt54t0qk08q" path="res://src/features/interior/police_station/jail_door/jail_door_base.glb" id="1_sawrm"]
+[ext_resource type="Script" uid="uid://n23tjmo2ekv5" path="res://src/features/interior/police_station/jail_door/jail_door.gd" id="1_t1w73"]
+[ext_resource type="PackedScene" uid="uid://gcpxh7d205pw" path="res://src/features/interior/police_station/jail_door/jail_door.glb" id="2_uwj4d"]
+[ext_resource type="Script" uid="uid://c8qnnghfjcphj" path="res://src/features/interior/police_station/jail_door/door_handle_interactable.gd" id="4_5dc0h"]
 
 [sub_resource type="Animation" id="Animation_vf2ja"]
 length = 0.001
@@ -45,7 +45,7 @@ _data = {
 size = Vector3(1.365, 2, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_soem1"]
-size = Vector3(0.38024902, 0.39994812, 0.119628906)
+size = Vector3(0.5560608, 0.537426, 0.35180664)
 
 [node name="JailDoor" type="Node3D" unique_id=570098545]
 script = ExtResource("1_t1w73")
@@ -69,10 +69,9 @@ unique_name_in_owner = true
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("4_5dc0h")
-prompt = "Bat"
 
 [node name="DoorHandleCollisionShape" type="CollisionShape3D" parent="StaticBody3D/jail_door/DoorHandleInteractableArea" unique_id=727428086]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3834839, 0.76807404, 0.17067456)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.33522034, 0.7951374, 0.054585695)
 shape = SubResource("BoxShape3D_soem1")
 
 [editable path="jail_door_base"]

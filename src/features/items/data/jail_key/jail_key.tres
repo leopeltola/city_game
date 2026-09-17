@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://b270yli33aj6e"]
+
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_sxeyh"]
+
+[resource]
+script = ExtResource("1_sxeyh")
+name = "jail_key"
+display_name = "Jail Key"
+world_item_path = "uid://cgehy4jahi2t7"
+equip_item_path = "uid://bj5mmk2e773bj"
+metadata/_custom_type_script = "uid://1v4ix87tn325"
