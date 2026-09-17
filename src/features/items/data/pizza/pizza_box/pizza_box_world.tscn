@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://lssi5fnlfvsn"]
+
+[ext_resource type="Script" uid="uid://bekex7ky30uus" path="res://src/features/items/data/pizza/pizza_box/pizza_box_world.gd" id="1_e4ah0"]
+[ext_resource type="Resource" uid="uid://tt7ole16uql5" path="res://src/features/items/data/pizza/pizza_box/pizza_box.tres" id="2_e4ah0"]
+[ext_resource type="Script" uid="uid://b3a5x0wb8dy61" path="res://src/features/interaction/interactable_area.gd" id="3_paawa"]
+[ext_resource type="PackedScene" uid="uid://c6qvimd04e1hx" path="res://src/features/items/data/pizza/pizza_box/pizza_box_base.glb" id="4_e4ah0"]
+[ext_resource type="PackedScene" uid="uid://dib21si3rbiff" path="res://src/features/items/data/pizza/pizza/pizza_base.glb" id="5_ftrqp"]
+[ext_resource type="PackedScene" uid="uid://c5wlmdki685ux" path="res://src/features/items/data/pizza/pizza_box/pizza_box_lid.glb" id="5_paawa"]
+[ext_resource type="PackedScene" uid="uid://tsru8qetar5n" path="res://src/features/items/data/pizza/pizza/pizza_ingredients.glb" id="6_ftrqp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rggux"]
+size = Vector3(1.12, 0.122, 1.135)
+
+[node name="PizzaBoxWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("1_e4ah0")
+type = ExtResource("2_e4ah0")
+interaction_area = NodePath("InteractableArea")
+metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
+
+[node name="InteractableArea" type="Area3D" parent="." unique_id=589580953]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_paawa")
+prompt = "Bat"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableArea" unique_id=1471502471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023808584, 0)
+shape = SubResource("BoxShape3D_rggux")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=225566222]
+visible = false
+billboard = 1
+no_depth_test = true
+text = "Debug"
+font_size = 18
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1758231456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.042882726, 0)
+shape = SubResource("BoxShape3D_rggux")
+
+[node name="pizza_box_base" parent="." unique_id=578548005 instance=ExtResource("4_e4ah0")]
+
+[node name="pizza" parent="pizza_box_base" unique_id=188042070 instance=ExtResource("5_ftrqp")]
+unique_name_in_owner = true
+transform = Transform3D(0.645, 0, 0, 0, 0.645, 0, 0, 0, 0.645, 0, 0, 0)
+visible = false
+
+[node name="pizza_ingredients" parent="pizza_box_base/pizza" unique_id=1671171848 instance=ExtResource("6_ftrqp")]
+transform = Transform3D(1.5349998, 0, 0, 0, 1.5349998, 0, 0, 0, 1.5349998, 0, 0.008839181, 0)
+
+[node name="pizza_box_lid" parent="." unique_id=1941230624 instance=ExtResource("5_paawa")]
+visible = false

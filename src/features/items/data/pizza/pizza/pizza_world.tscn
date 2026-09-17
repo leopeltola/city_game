@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://ct3ix26aox77l"]
+
+[ext_resource type="Script" uid="uid://r7v204dvfd1j" path="res://src/features/items/data/pizza/pizza/pizza_world.gd" id="1_jfp5j"]
+[ext_resource type="Resource" uid="uid://decolqh3h5w4h" path="res://src/features/items/data/pizza/pizza/pizza.tres" id="2_jfp5j"]
+[ext_resource type="Script" uid="uid://doh232h30do8l" path="res://src/features/items/data/pizza/pizza/pizza_interactable_area.gd" id="3_jfp5j"]
+[ext_resource type="PackedScene" uid="uid://dib21si3rbiff" path="res://src/features/items/data/pizza/pizza/pizza_base.glb" id="4_fsfyb"]
+[ext_resource type="PackedScene" uid="uid://tsru8qetar5n" path="res://src/features/items/data/pizza/pizza/pizza_ingredients.glb" id="5_jfp5j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rggux"]
+size = Vector3(0.65349853, 0.10101563, 0.49710938)
+
+[node name="PizzaWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("1_jfp5j")
+type = ExtResource("2_jfp5j")
+interaction_area = NodePath("InteractableArea")
+metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
+
+[node name="InteractableArea" type="Area3D" parent="." unique_id=589580953]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_jfp5j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableArea" unique_id=1471502471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023808584, 0)
+shape = SubResource("BoxShape3D_rggux")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=225566222]
+visible = false
+billboard = 1
+no_depth_test = true
+text = "Debug"
+font_size = 18
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1758231456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.013216555, 0.025976554, 0.22605468)
+shape = SubResource("BoxShape3D_rggux")
+
+[node name="pizza_base" parent="." unique_id=188042070 instance=ExtResource("4_fsfyb")]
+unique_name_in_owner = true
+
+[node name="pizza_ingredients" parent="." unique_id=1671171848 instance=ExtResource("5_jfp5j")]
+unique_name_in_owner = true
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0.0010497421, 0)
+visible = false
+
+[editable path="pizza_base"]
+[editable path="pizza_ingredients"]

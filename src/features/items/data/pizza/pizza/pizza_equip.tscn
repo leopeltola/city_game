@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dkdgoi51mxlsp"]
+
+[ext_resource type="Script" uid="uid://br2ux3sg7g4tk" path="res://src/features/items/data/pizza/pizza/pizza_equip.gd" id="1_tt6pa"]
+[ext_resource type="Resource" uid="uid://decolqh3h5w4h" path="res://src/features/items/data/pizza/pizza/pizza.tres" id="2_tt6pa"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3_x5ohs"]
+[ext_resource type="PackedScene" uid="uid://dib21si3rbiff" path="res://src/features/items/data/pizza/pizza/pizza_base.glb" id="4_tt6pa"]
+[ext_resource type="PackedScene" uid="uid://tsru8qetar5n" path="res://src/features/items/data/pizza/pizza/pizza_ingredients.glb" id="5_4nokv"]
+
+[node name="PizzaEquip" type="Node3D" unique_id=1920707759]
+script = ExtResource("1_tt6pa")
+item_type = ExtResource("2_tt6pa")
+idle_animation_override = "fists_up_idle"
+metadata/_custom_type_script = "uid://cuouyiv4rgvf"
+
+[node name="RightHandAnchor" type="Node3D" parent="." unique_id=330184725]
+script = ExtResource("3_x5ohs")
+
+[node name="Visual" type="Node3D" parent="RightHandAnchor" unique_id=1027162091]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="pizza_base" parent="RightHandAnchor/Visual" unique_id=922064549 instance=ExtResource("4_tt6pa")]
+unique_name_in_owner = true
+
+[node name="pizza_ingredients" parent="RightHandAnchor/Visual" unique_id=293864876 instance=ExtResource("5_4nokv")]
+unique_name_in_owner = true
+transform = Transform3D(1.495, 0, 0, 0, 1.495, 0, 0, 0, 1.495, 0, 0.006078244, 0)

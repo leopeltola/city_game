@@ -11,7 +11,11 @@
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="6_j2hit"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="7_64k4k"]
 [ext_resource type="Resource" uid="uid://g414q8ein5tj" path="res://src/features/items/data/fedora/fedora.tres" id="8_fedora"]
+[ext_resource type="Resource" uid="uid://dmuk4qlffpibn" path="res://src/features/items/data/pizza/dough/dough.tres" id="9_hd0q4"]
 [ext_resource type="Resource" path="res://src/features/items/data/watch/watch.tres" id="9_watch"]
+[ext_resource type="Resource" uid="uid://tt7ole16uql5" path="res://src/features/items/data/pizza/pizza_box/pizza_box.tres" id="10_tlnud"]
+[ext_resource type="Resource" uid="uid://csqm17e5047db" path="res://src/features/items/data/pizza/pizza_sauce/pizza_sauce.tres" id="11_tugk2"]
+[ext_resource type="Resource" uid="uid://decolqh3h5w4h" path="res://src/features/items/data/pizza/pizza/pizza.tres" id="12_lfh3v"]
 [ext_resource type="Resource" uid="uid://1hrurp1qfqws" path="res://src/features/items/data/police_hat/police_hat.tres" id="13_2ht0y"]
 [ext_resource type="PackedScene" uid="uid://ctmyo70nflbwe" path="res://src/features/city/ground/road_straight.tscn" id="13_yfk00"]
 [ext_resource type="PackedScene" uid="uid://cfje0kyuwhxbs" path="res://src/features/gambling/slot_machine/slot_machine.tscn" id="14_5bs2i"]
@@ -128,6 +132,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.461277, 0, 4.224866)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7838888, 1.2120125, 0.50883484)
 script = ExtResource("3_hxguo")
 item_type = ExtResource("5_udf63")
+
+[node name="DoughSpawner" type="Node3D" parent="Spawners" unique_id=1282275605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.783889, 1.2120125, 36.508835)
+script = ExtResource("3_hxguo")
+item_type = ExtResource("9_hd0q4")
+
+[node name="PizzaBoxSpawner" type="Node3D" parent="Spawners" unique_id=375942952]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.783889, 1.2120125, 37.508835)
+script = ExtResource("3_hxguo")
+item_type = ExtResource("10_tlnud")
+
+[node name="PizzaSauceSpawner" type="Node3D" parent="Spawners" unique_id=431975139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.614324, 1.2120125, 37.508835)
+script = ExtResource("3_hxguo")
+item_type = ExtResource("11_tugk2")
+
+[node name="PizzaSpawner" type="Node3D" parent="Spawners" unique_id=1360115304]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.614324, 1.2120125, 36.508835)
+script = ExtResource("3_hxguo")
+item_type = ExtResource("12_lfh3v")
 
 [node name="BatSpawner2" type="Node3D" parent="Spawners" unique_id=1849916319]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4561865, 1.2120125, -1.2108054)

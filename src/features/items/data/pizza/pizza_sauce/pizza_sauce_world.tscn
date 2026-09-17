@@ -1,26 +1,26 @@
-[gd_scene format=3 uid="uid://cgehy4jahi2t7"]
+[gd_scene format=3 uid="uid://1nup4qdg8vba"]
 
-[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_mavaf"]
-[ext_resource type="Resource" uid="uid://b270yli33aj6e" path="res://src/features/items/data/jail_key/jail_key.tres" id="2_7y7x2"]
-[ext_resource type="Script" uid="uid://b3a5x0wb8dy61" path="res://src/features/interaction/interactable_area.gd" id="3_1qi0y"]
-[ext_resource type="PackedScene" uid="uid://bbgvcch0opt5i" path="res://src/features/items/data/jail_key/jail_key.glb" id="4_7y7x2"]
+[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_paxsi"]
+[ext_resource type="Resource" uid="uid://csqm17e5047db" path="res://src/features/items/data/pizza/pizza_sauce/pizza_sauce.tres" id="2_jol63"]
+[ext_resource type="Script" uid="uid://b3a5x0wb8dy61" path="res://src/features/interaction/interactable_area.gd" id="3_jtcwk"]
+[ext_resource type="PackedScene" uid="uid://c4iyv2ruvfghx" path="res://src/features/items/data/pizza/pizza_sauce/pizza_sauce.glb" id="4_jol63"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rggux"]
 size = Vector3(0.145, 0.43238282, 0.045)
 
-[node name="JailKeyWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
+[node name="PizzaSauceWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 8
 collision_mask = 9
-script = ExtResource("1_mavaf")
-type = ExtResource("2_7y7x2")
+script = ExtResource("1_paxsi")
+type = ExtResource("2_jol63")
 interaction_area = NodePath("InteractableArea")
 metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
 
 [node name="InteractableArea" type="Area3D" parent="." unique_id=589580953]
 collision_layer = 4
 collision_mask = 0
-script = ExtResource("3_1qi0y")
-prompt = "Bat"
+script = ExtResource("3_jtcwk")
+prompt = ""
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableArea" unique_id=1471502471]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023808584, 0)
@@ -33,8 +33,8 @@ no_depth_test = true
 text = "Debug"
 font_size = 18
 
-[node name="jail_key" parent="." unique_id=1617800934 instance=ExtResource("4_7y7x2")]
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1758231456]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023808584, 0)
 shape = SubResource("BoxShape3D_rggux")
+
+[node name="pizza_sauce" parent="." unique_id=544503403 instance=ExtResource("4_jol63")]

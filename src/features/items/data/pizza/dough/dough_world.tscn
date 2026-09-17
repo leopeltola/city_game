@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bu4c2af800l6d"]
+
+[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_a7gkk"]
+[ext_resource type="Resource" uid="uid://dmuk4qlffpibn" path="res://src/features/items/data/pizza/dough/dough.tres" id="2_a7gkk"]
+[ext_resource type="Script" uid="uid://b3a5x0wb8dy61" path="res://src/features/interaction/interactable_area.gd" id="3_v743n"]
+[ext_resource type="PackedScene" uid="uid://b1aggq36dpqmg" path="res://src/features/items/data/pizza/dough/dough.glb" id="4_a7gkk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rggux"]
+size = Vector3(0.25658202, 0.30353028, 0.43581057)
+
+[node name="DoughWorld" type="RigidBody3D" unique_id=1876542542 node_paths=PackedStringArray("interaction_area")]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("1_a7gkk")
+type = ExtResource("2_a7gkk")
+interaction_area = NodePath("InteractableArea")
+metadata/_custom_type_script = "uid://dhyfcgqpgydqa"
+
+[node name="InteractableArea" type="Area3D" parent="." unique_id=589580953]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_v743n")
+prompt = "Bat"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableArea" unique_id=1471502471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023808584, 0)
+shape = SubResource("BoxShape3D_rggux")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=225566222]
+visible = false
+billboard = 1
+no_depth_test = true
+text = "Debug"
+font_size = 18
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1758231456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0008190833, 0.01492919, 0.013051756)
+shape = SubResource("BoxShape3D_rggux")
+
+[node name="dough" parent="." unique_id=590108653 instance=ExtResource("4_a7gkk")]

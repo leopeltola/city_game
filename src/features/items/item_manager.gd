@@ -10,6 +10,10 @@ const _item_types: Dictionary[StringName, ItemType] = {
 	"jail_key": preload("res://src/features/items/data/jail_key/jail_key.tres"),
 	"police_hat": preload("res://src/features/items/data/police_hat/police_hat.tres"),
 	"police_body": preload("res://src/features/items/data/police_body/police_body.tres"),
+	"dough": preload("res://src/features/items/data/pizza/dough/dough.tres"),
+	"pizza": preload("res://src/features/items/data/pizza/pizza/pizza.tres"),
+	"pizza_box": preload("res://src/features/items/data/pizza/pizza_box/pizza_box.tres"),
+	"pizza_sauce": preload("res://src/features/items/data/pizza/pizza_sauce/pizza_sauce.tres"),
 }
 
 var _id_count := 0

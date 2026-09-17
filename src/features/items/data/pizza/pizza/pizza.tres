@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://decolqh3h5w4h"]
+
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_57lxm"]
+
+[resource]
+script = ExtResource("1_57lxm")
+name = "pizza"
+display_name = "Pizza"
+world_item_path = "uid://ct3ix26aox77l"
+equip_item_path = "uid://dkdgoi51mxlsp"
+instance_data = Dictionary[StringName, Variant]({
+&"state": "empty"
+})
+metadata/_custom_type_script = "uid://1v4ix87tn325"
