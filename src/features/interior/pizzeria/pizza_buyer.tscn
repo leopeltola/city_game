@@ -17,8 +17,8 @@ script = ExtResource("1_7dxbt")
 [node name="guy" parent="." unique_id=1749959602 instance=ExtResource("1_gdq5l")]
 
 [node name="Skeleton3D" parent="guy/Armature" parent_id_path=PackedInt32Array(1749959602, 1061346090) index="0" unique_id=243816220]
-bones/9/position = Vector3(0.42790043, -0.070862144, 0.18840545)
-bones/9/rotation = Quaternion(0.70015454, 0.092688546, -0.03555735, 0.70705605)
+bones/9/position = Vector3(0.42790043, -0.07559839, 0.11830885)
+bones/9/rotation = Quaternion(0.7009956, 0.06608985, -0.009257644, 0.7100364)
 bones/10/position = Vector3(-0.028666165, 0.16779462, 0.09731317)
 bones/10/rotation = Quaternion(0.17434476, 0.0112274205, 0.06492302, 0.98247796)
 bones/11/rotation = Quaternion(0.02148915, -0.0024255016, 0.13306816, 0.99087095)
@@ -29,8 +29,8 @@ bones/14/position = Vector3(-0.03371842, 0.09529466, -0.09446326)
 bones/14/rotation = Quaternion(-0.3247295, -0.010479428, 0.13980924, 0.93535787)
 bones/15/rotation = Quaternion(0.10409289, -0.004293228, 0.046501357, 0.9934706)
 bones/16/rotation = Quaternion(0.72294396, -0.6840311, -0.072144404, -0.06518302)
-bones/17/position = Vector3(-0.42790046, -0.07086215, 0.18840535)
-bones/17/rotation = Quaternion(0.7001546, -0.09268853, 0.03555741, 0.707056)
+bones/17/position = Vector3(-0.42790046, -0.075598404, 0.11830875)
+bones/17/rotation = Quaternion(0.7009956, -0.06608987, 0.009257763, 0.71003634)
 bones/18/position = Vector3(0.02866616, 0.16779456, 0.09731311)
 bones/18/rotation = Quaternion(0.17434476, -0.011227449, -0.06492301, 0.98247796)
 bones/19/rotation = Quaternion(0.021489138, 0.0024254986, -0.13306814, 0.99087095)
@@ -59,6 +59,7 @@ shape = SubResource("CapsuleShape3D_1qpbe")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74983895, 0.098899364)
 script = ExtResource("4_g3nl6")
+prompt = "Sell Pizza"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BuyerInteractableArea" unique_id=890232143]
 shape = SubResource("SphereShape3D_7dxbt")
