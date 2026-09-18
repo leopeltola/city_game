@@ -20,9 +20,6 @@ func _on_interacted(player_id: int) -> void:
 		if ItemManager.get_item_data(item.item_id,&"state") == "cooked":
 			is_cooked_pizza = true
 	
-	print("Pizza box is empty: " + str(is_empty))
-	print("Is carrying pizza: ", is_carrying_pizza)
-	print("Pizza is cooked: " , is_cooked_pizza)
 	if is_carrying_pizza and is_empty and is_cooked_pizza:
 		ItemManager.set_and_sync_item_data(item_id, &"is_empty", false)
 		_rpc_update_visual.rpc(false)

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://diiuyflctrnog"]
+
+[ext_resource type="PackedScene" uid="uid://bbx040glcr7bd" path="res://src/features/interior/pizzeria/fridge.glb" id="1_4jald"]
+[ext_resource type="Script" uid="uid://bqjdxttq4xdvm" path="res://src/features/interior/pizzeria/fridge.gd" id="1_esgd6"]
+[ext_resource type="Script" uid="uid://b4mpq44mmjbiq" path="res://src/features/interior/pizzeria/fridge_interactable_area.gd" id="3_hsy6q"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sp43i"]
+radius = 0.34780326
+
+[node name="Fridge" type="Node3D" unique_id=204029213]
+script = ExtResource("1_esgd6")
+
+[node name="fridge" parent="." unique_id=302686318 instance=ExtResource("1_4jald")]
+
+[node name="FridgeInteractableArea" type="Area3D" parent="." unique_id=2679151]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8457571, 0.5680772)
+script = ExtResource("3_hsy6q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeInteractableArea" unique_id=296428569]
+shape = SubResource("SphereShape3D_sp43i")
+
+[node name="SauceSpawnPos" type="Node3D" parent="." unique_id=1592141155]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79432034, 0.6676117)
