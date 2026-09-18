@@ -32,7 +32,7 @@ func _on_interacted(player_id: int) -> void:
 	print("Pizza state is empty: " + str(is_empty))
 	print("Is carrying sauce: ", is_carrying_pizza_sauce)
 	if is_carrying_pizza_sauce and is_empty:
-		ItemManager.set_and_sync_item_data(item_id, &"state", "cooked")
+		ItemManager.set_and_sync_item_data(item_id, &"state", "filled")
 		_rpc_update_visual.rpc("filled")
 		var destroyed_item_id := inv.pop_active_item()
 		ItemManager.destroy_item(destroyed_item_id)

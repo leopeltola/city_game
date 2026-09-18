@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://b6kkixsxsrsmq"]
+
+[ext_resource type="PackedScene" uid="uid://cqfxbc7hpyv52" path="res://src/features/interior/pizzeria/kitchen_counter.glb" id="1_6bl4n"]
+[ext_resource type="Script" uid="uid://bxlynw8111bv5" path="res://src/features/interior/pizzeria/kitchen_counter.gd" id="1_f1x67"]
+[ext_resource type="Script" uid="uid://bwdco7s0pohe2" path="res://src/features/interior/pizzeria/table_interactable_area.gd" id="2_kx7uy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f1x67"]
+size = Vector3(0.829834, 0.26342773, 0.54354095)
+
+[node name="KitchenCounter" type="Node3D" unique_id=1008200826]
+script = ExtResource("1_f1x67")
+
+[node name="kitchen_counter" parent="." unique_id=1054533229 instance=ExtResource("1_6bl4n")]
+
+[node name="TableInteractableArea" type="Area3D" parent="." unique_id=1990316075]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7616445, 0)
+script = ExtResource("2_kx7uy")
+prompt = "Bake Pizza"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TableInteractableArea" unique_id=1550456803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.044555664, -0.11544484, -0.01240921)
+shape = SubResource("BoxShape3D_f1x67")
+
+[node name="PizzaSpawnPos" type="Node3D" parent="." unique_id=157360861]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81333613, 0)

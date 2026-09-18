@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://v72nhi7nropg"
-path="res://.godot/imported/fedora.glb-0b142fe5354b1e61fa9aa601897fdac6.scn"
+uid="uid://c617lxrucd1id"
+path="res://.godot/imported/box.glb-c42db41932915c493bb399f5fd439f2b.scn"
 
 [deps]
 
-source_file="res://src/features/items/data/fedora/fedora.glb"
-dest_files=["res://.godot/imported/fedora.glb-0b142fe5354b1e61fa9aa601897fdac6.scn"]
+source_file="res://src/features/interior/pizzeria/box.glb"
+dest_files=["res://.godot/imported/box.glb-c42db41932915c493bb399f5fd439f2b.scn"]
 
 [params]
 

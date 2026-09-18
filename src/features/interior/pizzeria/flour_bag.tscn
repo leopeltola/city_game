@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://khgeii8wvcka"]
+
+[ext_resource type="Script" uid="uid://pca1ybugndil" path="res://src/features/interior/pizzeria/flour_bag.gd" id="1_r6b1c"]
+[ext_resource type="PackedScene" uid="uid://d3g3mrfwtl0rj" path="res://src/features/interior/pizzeria/flour_bag.glb" id="2_i6asu"]
+[ext_resource type="Script" uid="uid://dltovsgg3tgdn" path="res://src/features/interior/pizzeria/flour_bag_interactable_area.gd" id="3_2p75k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2p75k"]
+size = Vector3(0.5, 0.549, 0.5)
+
+[node name="FlourBag" type="Node3D" unique_id=1005869113]
+script = ExtResource("1_r6b1c")
+
+[node name="flour_bag" parent="." unique_id=1771194948 instance=ExtResource("2_i6asu")]
+
+[node name="FlourBagInteractableArea" type="Area3D" parent="." unique_id=1731718176]
+unique_name_in_owner = true
+script = ExtResource("3_2p75k")
+prompt = "Take Dough"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FlourBagInteractableArea" unique_id=257645129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2746582, 0)
+shape = SubResource("BoxShape3D_2p75k")
+
+[node name="DoughSpawnPos" type="Node3D" parent="." unique_id=483707052]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7289251, 0)

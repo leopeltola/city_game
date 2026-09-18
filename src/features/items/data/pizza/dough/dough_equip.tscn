@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://b83ukeb7tg7bo"]
 
 [ext_resource type="Script" uid="uid://cuouyiv4rgvf" path="res://src/features/items/item_equip.gd" id="1_l67no"]
-[ext_resource type="Resource" uid="uid://b270yli33aj6e" path="res://src/features/items/data/jail_key/jail_key.tres" id="2_uwjak"]
+[ext_resource type="Resource" uid="uid://dmuk4qlffpibn" path="res://src/features/items/data/pizza/dough/dough.tres" id="2_uqp7l"]
 [ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3_7d667"]
 [ext_resource type="PackedScene" uid="uid://b1aggq36dpqmg" path="res://src/features/items/data/pizza/dough/dough.glb" id="4_uqp7l"]
 
 [node name="DoughEquip" type="Node3D" unique_id=1920707759]
 script = ExtResource("1_l67no")
-item_type = ExtResource("2_uwjak")
+item_type = ExtResource("2_uqp7l")
 idle_animation_override = "fists_up_idle"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 

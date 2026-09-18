@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://bpjh3k5aeegox"]
+
+[ext_resource type="Script" uid="uid://dgr5y834k5xg6" path="res://src/features/interior/pizzeria/pizza_buyer.gd" id="1_7dxbt"]
+[ext_resource type="PackedScene" uid="uid://baoioe1plauut" path="res://src/features/player/assets/models/simple/guy.glb" id="1_gdq5l"]
+[ext_resource type="PackedScene" uid="uid://dbajs1o78saqr" path="res://src/features/items/data/cap/cap.glb" id="3_1qpbe"]
+[ext_resource type="Script" uid="uid://c7kjh7qyrrwg" path="res://src/features/interior/pizzeria/buyer_interactable_area.gd" id="4_g3nl6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1qpbe"]
+radius = 0.30859375
+height = 1.6577148
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7dxbt"]
+
+[node name="PizzaBuyer" type="Node3D" unique_id=1909990563]
+script = ExtResource("1_7dxbt")
+
+[node name="guy" parent="." unique_id=1749959602 instance=ExtResource("1_gdq5l")]
+
+[node name="Skeleton3D" parent="guy/Armature" parent_id_path=PackedInt32Array(1749959602, 1061346090) index="0" unique_id=243816220]
+bones/9/position = Vector3(0.42790043, -0.07559839, 0.11830885)
+bones/9/rotation = Quaternion(0.7009956, 0.06608985, -0.009257644, 0.7100364)
+bones/10/position = Vector3(-0.028666165, 0.16779462, 0.09731317)
+bones/10/rotation = Quaternion(0.17434476, 0.0112274205, 0.06492302, 0.98247796)
+bones/11/rotation = Quaternion(0.02148915, -0.0024255016, 0.13306816, 0.99087095)
+bones/12/position = Vector3(-0.030080408, 0.18821211, 0.0010397341)
+bones/12/rotation = Quaternion(0.009348137, 4.7856247e-05, 0.06745918, 0.99767834)
+bones/13/rotation = Quaternion(-0.019803744, 0.00025723095, 0.14366363, 0.98942846)
+bones/14/position = Vector3(-0.03371842, 0.09529466, -0.09446326)
+bones/14/rotation = Quaternion(-0.3247295, -0.010479428, 0.13980924, 0.93535787)
+bones/15/rotation = Quaternion(0.10409289, -0.004293228, 0.046501357, 0.9934706)
+bones/16/rotation = Quaternion(0.72294396, -0.6840311, -0.072144404, -0.06518302)
+bones/17/position = Vector3(-0.42790046, -0.075598404, 0.11830875)
+bones/17/rotation = Quaternion(0.7009956, -0.06608987, 0.009257763, 0.71003634)
+bones/18/position = Vector3(0.02866616, 0.16779456, 0.09731311)
+bones/18/rotation = Quaternion(0.17434476, -0.011227449, -0.06492301, 0.98247796)
+bones/19/rotation = Quaternion(0.021489138, 0.0024254986, -0.13306814, 0.99087095)
+bones/20/position = Vector3(0.030080356, 0.18821208, 0.0010397367)
+bones/20/rotation = Quaternion(0.009348119, -4.788489e-05, -0.0674592, 0.99767834)
+bones/21/rotation = Quaternion(-0.01980374, -0.0002572234, -0.14366361, 0.9894284)
+bones/22/position = Vector3(0.0337184, 0.09529465, -0.09446325)
+bones/22/rotation = Quaternion(-0.3247295, 0.010479389, -0.13980924, 0.93535787)
+bones/23/rotation = Quaternion(0.10409286, 0.0042932364, -0.04650136, 0.9934706)
+bones/24/position = Vector3(0.11620464, 0.11037255, 0.008061598)
+bones/24/rotation = Quaternion(0.72294396, 0.684031, 0.07214443, -0.065183006)
+
+[node name="AnimationPlayer" parent="guy" index="1" unique_id=154821039]
+autoplay = &"idle"
+
+[node name="cap" parent="." unique_id=333777971 instance=ExtResource("3_1qpbe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5532103, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2000194196]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1178567835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8288574, 0)
+shape = SubResource("CapsuleShape3D_1qpbe")
+
+[node name="BuyerInteractableArea" type="Area3D" parent="." unique_id=419618098]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74983895, 0.098899364)
+script = ExtResource("4_g3nl6")
+prompt = "Sell Pizza"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BuyerInteractableArea" unique_id=890232143]
+shape = SubResource("SphereShape3D_7dxbt")
+
+[node name="CashSpawnPos" type="Node3D" parent="." unique_id=521382214]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78696555, 0.6357223)
+
+[editable path="guy"]

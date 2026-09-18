@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cq73t706uqu05"]
+
+[ext_resource type="Script" uid="uid://dhd7fkilkx2fi" path="res://src/features/interior/pizzeria/box.gd" id="1_658ir"]
+[ext_resource type="PackedScene" uid="uid://c617lxrucd1id" path="res://src/features/interior/pizzeria/box.glb" id="1_m63ey"]
+[ext_resource type="Script" uid="uid://cj1bngrvx1117" path="res://src/features/interior/pizzeria/box_interactable_area.gd" id="3_pt1dw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pt1dw"]
+radius = 0.21581255
+
+[node name="Box" type="Node3D" unique_id=1720812435]
+script = ExtResource("1_658ir")
+
+[node name="box" parent="." unique_id=395342921 instance=ExtResource("1_m63ey")]
+
+[node name="BoxInteractableArea" type="Area3D" parent="." unique_id=982974067]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38433787, 0.269604)
+script = ExtResource("3_pt1dw")
+prompt = "Take Pizza Box"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxInteractableArea" unique_id=1639268967]
+shape = SubResource("SphereShape3D_pt1dw")
+
+[node name="BoxSpawnPos" type="Node3D" parent="." unique_id=892451890]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.648183, 0)
