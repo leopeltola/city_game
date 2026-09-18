@@ -1,4 +1,13 @@
 extends Node
+## Manages global item lifecycles, instance state, and network synchronization
+## across peers.
+## 
+## State mutations, deletions, and world spawning are server-authoritative.
+## Calls executed on the server take effect immediately; calls originating
+## from clients are deferred until validated and synchronized by the server.
+## [br][br]
+## Uses peer-partitioned 64-bit identifiers to allow immediate, collision-free
+## local allocation without server round-trips.
 
 const _item_types: Dictionary[StringName, ItemType] = {
 	"bat": preload("res://src/features/items/data/bat/bat.tres"),
@@ -32,34 +41,50 @@ var _id_count := 0
 var _items: Dictionary[int, Dictionary] = { }
 
 
-## Creates an item of given type in the ItemManager and propagates it to everyone.
-## [instance_data] is merged over the type's schema defaults for this specific item.
-## Returns the just-made item's ID when called on server. Returns nothing on clients.
-func create_item_of_type(type_name: StringName, instance_data: Dictionary = { }) -> Variant:
-	if Net.is_server:
-		return _rpc_request_create_item(type_name, instance_data)
-	elif Net.is_client:
-		_rpc_request_create_item.rpc_id(1, type_name, instance_data)
-	return null
-
-
-@rpc("any_peer", "call_remote", "reliable")
-func _rpc_request_create_item(type_name: StringName, instance_data: Dictionary = { }) -> int:
-	assert(Net.is_server)
+## Creates an item of [param type_name] and replicates it across all peers.
+## [br][br]
+## Merges [param instance_data] over the type's schema defaults. Generates a globally 
+## unique item ID partitioned by peer, registered locally before this function returns.
+## [br][br]
+## Can be called on both server and client. Returned item ID can be used locally immediately. 
+func create_item_of_type(type_name: StringName, instance_data: Dictionary = { }) -> int:
 	var new_id := generate_id()
-	var type := get_item_type(type_name)
-	var data := type.get_data_dict(new_id, instance_data)
-	_rpc_create_item.rpc(data)
+	var data := get_item_type(type_name).get_data_dict(new_id, instance_data)
+	_items[new_id] = data
+
+	if Net.is_server:
+		_rpc_create_item.rpc(data)
+	elif Net.is_client:
+		_rpc_request_create_item.rpc_id(1, new_id, type_name, instance_data)
+
 	return new_id
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("any_peer", "call_remote", "reliable")
+func _rpc_request_create_item(item_id: int, type_name: StringName, instance_data: Dictionary = { }) -> void:
+	assert(Net.is_server)
+	if not _item_types.has(type_name):
+		return
+	_execute_create_item(item_id, type_name, instance_data)
+
+
+# Server-side application of a create request: stores the item and syncs it to all peers.
+func _execute_create_item(item_id: int, type_name: StringName, instance_data: Dictionary) -> void:
+	var data := get_item_type(type_name).get_data_dict(item_id, instance_data)
+	_items[item_id] = data
+	_rpc_create_item.rpc(data)
+
+
+@rpc("authority", "call_remote", "reliable")
 func _rpc_create_item(data: Dictionary) -> void:
 	_items[data["id"]] = data
 
 
 ## Creates and returns a WorldItem for given item_id. 
-## [force] is an optional initial impulse (Vector3) applied once on spawn to fly the item.
+## [br][br]
+## [param force] can be used to send the item flying immediately. 
+## [br][br]
+## Can be called on both server and client. When called on client, execution is delayed. 
 func create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO, owner_player_id: int = 0) -> void:
 	assert(ItemMultiplayerSpawner.instance, "ItemMultiplayerSpawner not present")
 	assert(_items.has(item_id))
@@ -82,7 +107,9 @@ func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vecto
 	ItemMultiplayerSpawner.instance.spawn(data)
 
 
-## Destroys the given item's data. Call from client or server; the server applies it to all peers.
+## Destroys the given item's data. 
+## [br][br]
+## Can be called on both server and client. When called on client, execution is delayed. 
 func destroy_item(item_id: int) -> void:
 	if Net.is_server:
 		_rpc_request_destroy_item(item_id)
@@ -110,13 +137,16 @@ func get_item_data_dict_raw(item_id: int) -> Dictionary:
 	return _items.get(item_id, { })
 
 
-## Safe single-key read of an item's instance data. Returns [default] if the item or key is missing.
+## Returns item's instance data value for [param key].
+## [br][br]
+## Returns [param default] if the item or key is missing.
 func get_item_data(item_id: int, key: StringName, default: Variant = null) -> Variant:
 	return get_item_data_dict_raw(item_id).get(key, default)
 
 
-## Called by client or server to request an update of the given item's value by key.
-## Applied only on the server (authority) after schema validation, then synced to all peers.
+## Requests an update to an item's data.
+##[br][br]
+## Can be called on both server and client. When called on client, execution does not happen immediately. 
 func set_and_sync_item_data(item_id: int, key: StringName, value: Variant) -> void:
 	if Net.is_server:
 		_rpc_request_modify_item_data(item_id, key, value)
@@ -153,6 +183,8 @@ func get_item_type(item_type_name: StringName) -> ItemType:
 	return _item_types.get(item_type_name)
 
 
+## Generates a globally unique 64-bit ID instantly. The high 32 bits hold the
+## creating peer's ID, the low 32 bits a per-peer sequence, so peers never collide.
 func generate_id() -> int:
 	_id_count += 1
-	return _id_count
+	return (multiplayer.get_unique_id() << 32) | _id_count
