@@ -9,7 +9,10 @@ extends Node
 ## Uses peer-partitioned 64-bit identifiers to allow immediate, collision-free
 ## local allocation without server round-trips.
 
+
 const _item_types: Dictionary[StringName, ItemType] = {
+	"aviator_glasses": preload("res://src/features/items/data/aviator_glasses/aviator_glasses.tres"),
+	"cap": preload("res://src/features/items/data/cap/cap.tres"),
 	"bat": preload("res://src/features/items/data/bat/bat.tres"),
 	"cash": preload("res://src/features/items/data/cash/cash.tres"),
 	"bottle_crate": preload("res://src/features/items/data/bottle_crate/bottle_crate.tres"),

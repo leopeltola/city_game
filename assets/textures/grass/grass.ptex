@@ -1,0 +1,284 @@
+{
+	"connections": [
+		{
+			"from": "graph",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
+		},
+		{
+			"from": "colorize",
+			"from_port": 0,
+			"to": "Material",
+			"to_port": 0
+		}
+	],
+	"label": "Graph",
+	"longdesc": "",
+	"name": "_Node_607",
+	"node_position": {
+		"x": 0.0,
+		"y": 0.0
+	},
+	"nodes": [
+		{
+			"export_last_target": "Godot/Godot 4 Standard",
+			"export_paths": {
+				"Godot/Godot 4 Standard": "C:/Users/leope/Documents/dev/godot/projects/2026/city_game/assets/textures/grass/grass"
+			},
+			"name": "Material",
+			"node_position": {
+				"x": 0.0,
+				"y": 0.0
+			},
+			"parameters": {
+				"albedo_color": {
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
+					"type": "Color"
+				},
+				"ao": 1.0,
+				"depth_scale": 0.5,
+				"emission_energy": 1.0,
+				"flags_transparent": true,
+				"metallic": 0.0,
+				"normal": 1.0,
+				"roughness": 1.0,
+				"size": 11.0,
+				"sss": 1.0
+			},
+			"seed_int": 0,
+			"type": "material"
+		},
+		{
+			"connections": [
+				{
+					"from": "perlin",
+					"from_port": 0,
+					"to": "transform",
+					"to_port": 1
+				},
+				{
+					"from": "perlin",
+					"from_port": 0,
+					"to": "transform",
+					"to_port": 2
+				},
+				{
+					"from": "perlin",
+					"from_port": 0,
+					"to": "transform",
+					"to_port": 0
+				},
+				{
+					"from": "transform",
+					"from_port": 0,
+					"to": "gen_outputs",
+					"to_port": 0
+				}
+			],
+			"label": "Warp 1",
+			"longdesc": "",
+			"name": "graph",
+			"node_position": {
+				"x": -762.012023925781,
+				"y": -3.97898721694946
+			},
+			"nodes": [
+				{
+					"name": "transform",
+					"node_position": {
+						"x": -259.25,
+						"y": -658.0
+					},
+					"parameters": {
+						"repeat": true,
+						"rotate": 0.0,
+						"scale_x": 1.0,
+						"scale_y": 1.0,
+						"translate_x": 0.265,
+						"translate_y": 0.02
+					},
+					"seed": 32461.0,
+					"type": "transform"
+				},
+				{
+					"name": "perlin",
+					"node_position": {
+						"x": -502.25,
+						"y": -653.0
+					},
+					"parameters": {
+						"iterations": 2.0,
+						"persistence": 0.5,
+						"scale_x": 4.0,
+						"scale_y": 4.0
+					},
+					"seed": 1093.0,
+					"type": "perlin"
+				},
+				{
+					"name": "gen_inputs",
+					"node_position": {
+						"x": -670.25,
+						"y": -647.5
+					},
+					"parameters": {},
+					"ports": [],
+					"seed": 29095.0,
+					"type": "ios"
+				},
+				{
+					"name": "gen_outputs",
+					"node_position": {
+						"x": 18.75,
+						"y": -657.5
+					},
+					"parameters": {},
+					"ports": [
+						{
+							"name": "port0",
+							"type": "rgba"
+						}
+					],
+					"seed": -12991.0,
+					"type": "ios"
+				},
+				{
+					"name": "gen_parameters",
+					"node_position": {
+						"x": -315.75,
+						"y": -893.0
+					},
+					"parameters": {
+						"param0": 4.0,
+						"param1": 4.0,
+						"param2": 2.0,
+						"param3": 0.5,
+						"param4": 0.265,
+						"param5": 0.02
+					},
+					"seed": 18520.0,
+					"type": "remote",
+					"widgets": [
+						{
+							"label": "Scale X",
+							"linked_widgets": [
+								{
+									"node": "perlin",
+									"widget": "scale_x"
+								}
+							],
+							"name": "param0",
+							"type": "linked_control"
+						},
+						{
+							"label": "Scale Y",
+							"linked_widgets": [
+								{
+									"node": "perlin",
+									"widget": "scale_y"
+								}
+							],
+							"name": "param1",
+							"type": "linked_control"
+						},
+						{
+							"label": "Iterations",
+							"linked_widgets": [
+								{
+									"node": "perlin",
+									"widget": "iterations"
+								}
+							],
+							"name": "param2",
+							"type": "linked_control"
+						},
+						{
+							"label": "Persistance",
+							"linked_widgets": [
+								{
+									"node": "perlin",
+									"widget": "persistence"
+								}
+							],
+							"name": "param3",
+							"type": "linked_control"
+						},
+						{
+							"label": "Warp X",
+							"linked_widgets": [
+								{
+									"node": "transform",
+									"widget": "translate_x"
+								}
+							],
+							"name": "param4",
+							"type": "linked_control"
+						},
+						{
+							"label": "Warp Y",
+							"linked_widgets": [
+								{
+									"node": "transform",
+									"widget": "translate_y"
+								}
+							],
+							"name": "param5",
+							"type": "linked_control"
+						}
+					]
+				}
+			],
+			"parameters": {
+				"param0": 4.0,
+				"param1": 4.0,
+				"param2": 2.0,
+				"param3": 0.5,
+				"param4": 0.265,
+				"param5": 0.02
+			},
+			"seed_int": 0,
+			"shortdesc": "",
+			"type": "graph"
+		},
+		{
+			"name": "colorize",
+			"node_position": {
+				"x": -466.883911132813,
+				"y": -26.7671146392822
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1.0,
+							"b": 0.10784912109375,
+							"g": 0.4453125,
+							"pos": 0.0,
+							"r": 0.308218002319336
+						},
+						{
+							"a": 1.0,
+							"b": 0.30975341796875,
+							"g": 0.68359375,
+							"pos": 0.99475566127844,
+							"r": 0.558006763458252
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		}
+	],
+	"parameters": {},
+	"project_thumbnail": "UklGRr4FAABXRUJQVlA4WAoAAAAQAAAALwAALwAAQUxQSJQCAAANoCNteyJJevXrV9HAMpNX7Q9UrMd4gGEea5ksZmYGi3n3AG12ZIzVFT0X4BmrrOXdqqiUUlooyNIJImICmFOsBzh//bn89tcvAK6K1C9SVmbLdb1uM1Y0ZXysX6yVaIx1aRmvObyDqe3OZd3edRt/+PQkGmqR5K945gZIFWIwJFLELu3cv/LMWWPifFry8D0QxFomGoxAjK2Dj374ZtIwjxtd9BN4dcwrksL6lzZvGzg/mxtu+gavDeo0msLNn+xZdX4WN7z2PXyHuo36S5fvP+L8NB1teo/QZoEuNIv7VzVMkvKibwgtFqqhubxnIHFC4id8mwWrv/STbYn/q38Y32Hhzt+8+U0NIOUV96BkqLz04VmJSHwa38jB+PWPPCtRymtuQMlSObhyUmx1GN/Iw/jOvk+tNzuwZGrZ+UPJFlI2kpY2rnEdVTZU9rqCHln3+nSRfITusfObmHwMl43XR7LuyLkVJh9Du0n2vzXbyWSTzGj8l3TIeRh/GV+WTDbJDOBYN0o2UY5Bv0fOfSius/lYCljbuBQlk2iP/YErf9hZ2Uwq+z2u4tN9nWSySA3/FVXUkysHg2YR9HO0JPLsI+uTySA1xq8QIerZD18KmkHQx9ASCObNzTd7tzDfKY4az/9N2vbJpUEXFNo/34lJE6IO9iw3gy4ktKo70JLJwa3eXzS9W4BvV9fhRkz37sj9y5d6NTWl0Pn5DtyQWb1b3fPJzXg1NaTQ0OJO3JDZvQ62bX5pPUFkjhidjh87io6YN0h688NHD7ZIFWIwJFLEWgmfv4wxJfNH9OwzK/t3LlkmGozAse+/BPWJWoPIyU9/2Hhdr3tZp81oODjWL/4AjSV1xyi2XCv6x8bSZBz5v6tKZgdWUDggBAMAABARAJ0BKjAAMAA+kUSaSiWjoiGnOApIsBIJagCxHxe/B/K7+HO24/PXaZnvJ3+fnvGuca5XTyztJZNQ8kP1b/0/cH6M37K+xeVaKNqGr3G2lwd0ioXV5KPXo1t8ipaBK+rhRhLTNqQFyXb+pL0VEBGJluNQPmMYHh6feo16vq4WRnYv6lNiYCqkB01t0Cm7XsAA/v5uGB7RgmMUr4PTXXgrx87qw1j9zk1cSjqZ+aZcPpOPK1TyOd3Da14P1ybWRi9mHkbnFqL0rMpBXSMlff1khQRZTm7U35wZ3P5sGvDRBG0GR1SAeOei9Gp34CuWl/f9pAzNbPb1cz/WDLMu/DAmg60lZo5xjiF/WnUdZX1sUs15JdiJOPB8IlVmbKH6r+n3mCMDOOA+m6I0maqLSC926iW7x9OwV554tfNPpTWQ4Zrfesp8AeJBKONdJwDSWS56Jp0dUBS+1zI9zdPz1nmrXBjX2C3u857MmH1n+HE8E4rvC8jffeRK9ij+jRXjZhKc2Jcat6+Vx9e/qeTvCjtWHt3EZ6CpQBHIizFV5jZ6GVT9cycRUu1SFCvJi8TcAV69+IElMv7B9NU5jhxGGuemXgktrvl+0NokD/VQiy0PV2J8odc+WIeCdQge/yxvx5qqmOw8iHvuAF2+76UxlRgR/zz/8Yhox0iYDc8GLU+xVtd03li47lZvpvcets5TP85ZvBiaUt8OVaU7fdtcnej//f/Pj+IwW6L3+RHCkF1v5+rnqCa6hpmEeuvWlEo7WyXKqsLHjJc/ob5Q9NBBsRDN7DUAdo5onwGbupi1ZpKCrJzXDaW1htq9BzSbONu6sOtvyOCuzILvlw9HqjtavDxpfdJHZxJLTa15hu7gdQwTtzoD9bFYr13TVqNKoThTSHAxzJU3L5fRlg5aih0bCUUEwGOEz6QkrzaYpusWgV4d1pEcJnc+B6HX4xHdwLdWleoPwSLsKHsSAUIkHPXvvFFmzQZeSw72lK12QxFYccTXbbyLpD9kG+Pu0i5oxEJCnhlZyAA=",
+	"seed_int": 0,
+	"shortdesc": "",
+	"type": "graph"
+}

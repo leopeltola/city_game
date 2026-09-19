@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ocya2q3325lb"]
+
+[ext_resource type="Texture2D" uid="uid://c67c1ch5a2ltd" path="res://assets/textures/leaves/leaf_alpha.png" id="1_bojhy"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_bojhy")
+backlight_enabled = true
+backlight = Color(0.4509804, 0.57254905, 0.21568628, 1)

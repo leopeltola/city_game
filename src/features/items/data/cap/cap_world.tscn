@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/items/item_world.gd" id="1"]
+[ext_resource type="Resource" path="res://src/features/items/data/cap/cap.tres" id="2"]
+[ext_resource type="PackedScene" uid="uid://dbajs1o78saqr" path="res://src/features/items/data/cap/cap.glb" id="3"]
+[ext_resource type="PackedScene" uid="uid://cum3c03ptrqm" path="res://src/features/items/world_item_interactable_area.tscn" id="4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_physics"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(0.24, 0.24, 0.24)
+
+[node name="CapWorld" type="RigidBody3D" node_paths=PackedStringArray("interaction_area")]
+collision_layer = 12
+collision_mask = 9
+script = ExtResource("1")
+type = ExtResource("2")
+interaction_area = NodePath("WorldItemInteractableArea")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_physics")
+
+[node name="cap" parent="." instance=ExtResource("3")]
+
+[node name="WorldItemInteractableArea" parent="." instance=ExtResource("4")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea"]
+shape = SubResource("BoxShape3D_interact")

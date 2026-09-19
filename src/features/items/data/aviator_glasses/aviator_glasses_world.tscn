@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bxsarxt407gkc"]
+
+[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1"]
+[ext_resource type="Resource" path="res://src/features/items/data/aviator_glasses/aviator_glasses.tres" id="2"]
+[ext_resource type="PackedScene" uid="uid://chbh7op45kd2a" path="res://src/features/items/data/aviator_glasses/aviator_glasses.glb" id="3"]
+[ext_resource type="PackedScene" uid="uid://cum3c03ptrqm" path="res://src/features/items/world_item_interactable_area.tscn" id="4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_physics"]
+size = Vector3(0.5, 0.135, 0.305)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(0.55, 0.18517505, 0.361)
+
+[node name="AviatorGlassesWorld" type="RigidBody3D" unique_id=663614715 node_paths=PackedStringArray("interaction_area")]
+collision_layer = 12
+collision_mask = 9
+script = ExtResource("1")
+type = ExtResource("2")
+interaction_area = NodePath("WorldItemInteractableArea")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=331633624]
+shape = SubResource("BoxShape3D_physics")
+
+[node name="aviator_glasses" parent="." unique_id=1579983668 instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30014372, -0.13249373)
+
+[node name="WorldItemInteractableArea" parent="." unique_id=784699103 instance=ExtResource("4")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea" unique_id=1478806733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012197524, 0)
+shape = SubResource("BoxShape3D_interact")

@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dbv7m37fyy8f7"]
+
+[sub_resource type="Shader" id="Shader_u846c"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back;
+
+instance uniform vec3 albedo : source_color = vec3(1.0);
+instance uniform float stripes : hint_range(0.0, 10.0, 0.1) = 0.0;
+
+void fragment() {
+	float stripe_mask = step(0.5, fract(UV.x * stripes));
+	ROUGHNESS = 1.0;
+	ALBEDO = albedo.rgb;
+	ALPHA = (1.0 - stripe_mask);
+	ALPHA_SCISSOR_THRESHOLD = 0.5;
+}"
+
+[resource]
+render_priority = 0
+shader = SubResource("Shader_u846c")

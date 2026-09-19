@@ -26,7 +26,7 @@ void fragment() {
 [resource]
 render_priority = 0
 shader = SubResource("Shader_a3f8w")
-shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/albedo = Color(0.90826654, 0.90826666, 0.9082666, 1)
 shader_parameter/texture_albedo = ExtResource("1_qh84x")
-shader_parameter/uv_scale = Vector2(0.5, 0.5)
+shader_parameter/uv_scale = Vector2(0.25, 0.305)
 shader_parameter/uv_offset = Vector2(0, 0)

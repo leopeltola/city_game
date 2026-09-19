@@ -1,0 +1,490 @@
+{
+	"connections": [
+		{
+			"from": "sdboolean",
+			"from_port": 0,
+			"to": "sdshow2",
+			"to_port": 0
+		},
+		{
+			"from": "sdvesica",
+			"from_port": 0,
+			"to": "sdboolean",
+			"to_port": 1
+		},
+		{
+			"from": "splatter",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
+		},
+		{
+			"from": "fbm4",
+			"from_port": 0,
+			"to": "splatter",
+			"to_port": 1
+		},
+		{
+			"from": "sdshow2",
+			"from_port": 0,
+			"to": "warp",
+			"to_port": 0
+		},
+		{
+			"from": "fbm4_2",
+			"from_port": 0,
+			"to": "warp",
+			"to_port": 1
+		},
+		{
+			"from": "warp",
+			"from_port": 0,
+			"to": "splatter",
+			"to_port": 0
+		},
+		{
+			"from": "colorize",
+			"from_port": 0,
+			"to": "slope_blur2",
+			"to_port": 0
+		},
+		{
+			"from": "math",
+			"from_port": 0,
+			"to": "slope_blur2",
+			"to_port": 1
+		},
+		{
+			"from": "fbm4_3",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 0
+		},
+		{
+			"from": "slope_blur2",
+			"from_port": 0,
+			"to": "Material",
+			"to_port": 0
+		},
+		{
+			"from": "radial_gradient",
+			"from_port": 0,
+			"to": "splatter_2",
+			"to_port": 1
+		},
+		{
+			"from": "sdshow2",
+			"from_port": 0,
+			"to": "splatter_2",
+			"to_port": 0
+		},
+		{
+			"from": "splatter_2",
+			"from_port": 0,
+			"to": "colorize_2",
+			"to_port": 0
+		},
+		{
+			"from": "sdshow2",
+			"from_port": 0,
+			"to": "splatter_3",
+			"to_port": 0
+		},
+		{
+			"from": "radial_gradient",
+			"from_port": 0,
+			"to": "splatter_3",
+			"to_port": 1
+		},
+		{
+			"from": "splatter_3",
+			"from_port": 0,
+			"to": "colorize_4",
+			"to_port": 0
+		}
+	],
+	"label": "Graph",
+	"longdesc": "",
+	"name": "@Node@912",
+	"node_position": {
+		"x": 0.0,
+		"y": 0.0
+	},
+	"nodes": [
+		{
+			"export_last_target": "Godot/Godot 4 Standard",
+			"export_paths": {
+				"Godot/Godot 4 Standard": "C:/Users/leope/Documents/dev/godot/projects/2026/city_game/assets/textures/leaves/leaves"
+			},
+			"name": "Material",
+			"node_position": {
+				"x": 485.230773925781,
+				"y": 95.487174987793
+			},
+			"parameters": {
+				"albedo_color": {
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
+					"type": "Color"
+				},
+				"ao": 1.0,
+				"depth_scale": 0.5,
+				"emission_energy": 1.0,
+				"flags_transparent": true,
+				"metallic": 0.0,
+				"normal": 1.0,
+				"roughness": 1.0,
+				"size": 11,
+				"sss": 1.0
+			},
+			"seed_int": 0,
+			"type": "material"
+		},
+		{
+			"name": "sdvesica",
+			"node_position": {
+				"x": -1227.43713378906,
+				"y": 140.312469482422
+			},
+			"parameters": {
+				"cx": 0.0,
+				"cy": 0.0179723501205444,
+				"d": 0.3,
+				"r": 0.5
+			},
+			"seed_int": 0,
+			"type": "sdvesica"
+		},
+		{
+			"name": "sdshow2",
+			"node_position": {
+				"x": -843.321044921875,
+				"y": 92.6992721557617
+			},
+			"parameters": {
+				"base": 0.0,
+				"bevel": 0.0
+			},
+			"seed_int": 0,
+			"type": "sdshow2"
+		},
+		{
+			"name": "splatter",
+			"node_position": {
+				"x": -405.091674804688,
+				"y": 89.0407638549805
+			},
+			"parameters": {
+				"count": 87.0,
+				"inputs": 0.0,
+				"rotate": 180.0,
+				"scale": 0.22,
+				"scale_x": 0.3,
+				"scale_y": 0.3,
+				"value": 1.0,
+				"variations": false
+			},
+			"seed_int": 321069792,
+			"type": "splatter"
+		},
+		{
+			"generic_size": 1,
+			"name": "sdboolean",
+			"node_position": {
+				"x": -1030.65771484375,
+				"y": 138.133697509766
+			},
+			"parameters": {
+				"op1": 0.0
+			},
+			"seed_int": 0,
+			"type": "sdboolean_v"
+		},
+		{
+			"name": "colorize",
+			"node_position": {
+				"x": -161.865371704102,
+				"y": 89.5507583618164
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1.0,
+							"b": 0.0596177577972412,
+							"g": 0.25390625,
+							"pos": 0.0,
+							"r": 0.0565338134765625
+						},
+						{
+							"a": 1.0,
+							"b": 0.161972045898438,
+							"g": 0.75390625,
+							"pos": 1.0,
+							"r": 0.610547184944153
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		},
+		{
+			"name": "fbm4",
+			"node_position": {
+				"x": -652.725341796875,
+				"y": 231.924362182617
+			},
+			"parameters": {
+				"folds": 0.0,
+				"iterations": 6.0,
+				"lacunarity": 2.0,
+				"noise": 1,
+				"offset": 0.0,
+				"persistence": 0.26,
+				"scale_x": 6.0,
+				"scale_y": 3.0
+			},
+			"seed_int": 0,
+			"type": "fbm4"
+		},
+		{
+			"generic_size": 1,
+			"name": "warp",
+			"node_position": {
+				"x": -639.661987304688,
+				"y": 82.9792022705078
+			},
+			"parameters": {
+				"amount": 0.34,
+				"eps": 0.1,
+				"mode": 0.0
+			},
+			"seed_int": 0,
+			"type": "warp"
+		},
+		{
+			"name": "fbm4_2",
+			"node_position": {
+				"x": -954.720764160156,
+				"y": 318.451751708984
+			},
+			"parameters": {
+				"folds": 0.0,
+				"iterations": 6.0,
+				"lacunarity": 2.0,
+				"noise": 1,
+				"offset": 0.0,
+				"persistence": 0.26,
+				"scale_x": 1.0,
+				"scale_y": 1.0
+			},
+			"seed_int": 0,
+			"type": "fbm4"
+		},
+		{
+			"name": "fbm4_3",
+			"node_position": {
+				"x": -256.292449951172,
+				"y": 442.908813476563
+			},
+			"parameters": {
+				"folds": 0.0,
+				"iterations": 6.0,
+				"lacunarity": 2.0,
+				"noise": 1,
+				"offset": 0.0,
+				"persistence": 0.26,
+				"scale_x": 2.0,
+				"scale_y": 2.0
+			},
+			"seed_int": 1698343936,
+			"type": "fbm4"
+		},
+		{
+			"name": "slope_blur2",
+			"node_position": {
+				"x": 223.4375,
+				"y": 88.0651245117188
+			},
+			"parameters": {
+				"param0": 9.0,
+				"param1": 11.6,
+				"param2": 0
+			},
+			"seed_int": 0,
+			"type": "slope_blur2"
+		},
+		{
+			"name": "math",
+			"node_position": {
+				"x": 2.50280141830444,
+				"y": 418.798309326172
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0.0,
+				"default_in2": 0.2,
+				"op": 2
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "radial_gradient",
+			"node_position": {
+				"x": -938.948364257813,
+				"y": 802.966979980469
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 0,
+					"points": [
+						{
+							"a": 1.0,
+							"b": 1.0,
+							"g": 1.0,
+							"pos": 0,
+							"r": 1.0
+						},
+						{
+							"a": 1.0,
+							"b": 1.0,
+							"g": 1.0,
+							"pos": 0.51439150137166,
+							"r": 1.0
+						},
+						{
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
+							"pos": 0.51441150137166,
+							"r": 0.0
+						}
+					],
+					"type": "Gradient"
+				},
+				"mirror": false,
+				"repeat": 1.0
+			},
+			"seed_int": 0,
+			"type": "radial_gradient"
+		},
+		{
+			"name": "splatter_2",
+			"node_position": {
+				"x": -689.224975585938,
+				"y": 776.214294433594
+			},
+			"parameters": {
+				"count": 87.0,
+				"inputs": 0.0,
+				"rotate": 180.0,
+				"scale": 0.22,
+				"scale_x": 0.23,
+				"scale_y": 0.21,
+				"value": 0.0,
+				"variations": false
+			},
+			"seed_int": 3543133440,
+			"type": "splatter"
+		},
+		{
+			"name": "colorize_2",
+			"node_position": {
+				"x": -430.35546875,
+				"y": 729.030151367188
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 0.0,
+							"b": 0.0,
+							"g": 0.0,
+							"pos": 0.0,
+							"r": 0.0
+						},
+						{
+							"a": 1.0,
+							"b": 1.0,
+							"g": 1.0,
+							"pos": 1.0,
+							"r": 1.0
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		},
+		{
+			"name": "splatter_3",
+			"node_position": {
+				"x": -653.035583496094,
+				"y": 528.200073242188
+			},
+			"parameters": {
+				"count": 87.0,
+				"inputs": 0.0,
+				"rotate": 180.0,
+				"scale": 0.22,
+				"scale_x": 0.23,
+				"scale_y": 0.21,
+				"value": 0.77,
+				"variations": false
+			},
+			"seed_int": 3543133440,
+			"type": "splatter"
+		},
+		{
+			"name": "colorize_4",
+			"node_position": {
+				"x": -409.415466308594,
+				"y": 592.10009765625
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 0.0,
+							"b": 0.0588235296308994,
+							"g": 0.254901975393295,
+							"pos": 0.0204088050900525,
+							"r": 0.0549019612371922
+						},
+						{
+							"a": 1.0,
+							"b": 0.0596177577972412,
+							"g": 0.25390625,
+							"pos": 0.0242255989831823,
+							"r": 0.0565338134765625
+						},
+						{
+							"a": 1.0,
+							"b": 0.161972045898438,
+							"g": 0.75390625,
+							"pos": 1.0,
+							"r": 0.610547184944153
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		}
+	],
+	"parameters": {},
+	"project_thumbnail": "UklGRr4FAABXRUJQVlA4WAoAAAAQAAAALwAALwAAQUxQSJQCAAANoCNteyJJevXrV9HAMpNX7Q9UrMd4gGEea5ksZmYGi3n3AG12ZIzVFT0X4BmrrOXdqqiUUlooyNIJImICmFOsBzh//bn89tcvAK6K1C9SVmbLdb1uM1Y0ZXysX6yVaIx1aRmvObyDqe3OZd3edRt/+PQkGmqR5K945gZIFWIwJFLELu3cv/LMWWPifFry8D0QxFomGoxAjK2Dj374ZtIwjxtd9BN4dcwrksL6lzZvGzg/mxtu+gavDeo0msLNn+xZdX4WN7z2PXyHuo36S5fvP+L8NB1teo/QZoEuNIv7VzVMkvKibwgtFqqhubxnIHFC4id8mwWrv/STbYn/q38Y32Hhzt+8+U0NIOUV96BkqLz04VmJSHwa38jB+PWPPCtRymtuQMlSObhyUmx1GN/Iw/jOvk+tNzuwZGrZ+UPJFlI2kpY2rnEdVTZU9rqCHln3+nSRfITusfObmHwMl43XR7LuyLkVJh9Du0n2vzXbyWSTzGj8l3TIeRh/GV+WTDbJDOBYN0o2UY5Bv0fOfSius/lYCljbuBQlk2iP/YErf9hZ2Uwq+z2u4tN9nWSySA3/FVXUkysHg2YR9HO0JPLsI+uTySA1xq8QIerZD18KmkHQx9ASCObNzTd7tzDfKY4az/9N2vbJpUEXFNo/34lJE6IO9iw3gy4ktKo70JLJwa3eXzS9W4BvV9fhRkz37sj9y5d6NTWl0Pn5DtyQWb1b3fPJzXg1NaTQ0OJO3JDZvQ62bX5pPUFkjhidjh87io6YN0h688NHD7ZIFWIwJFLEWgmfv4wxJfNH9OwzK/t3LlkmGozAse+/BPWJWoPIyU9/2Hhdr3tZp81oODjWL/4AjSV1xyi2XCv6x8bSZBz5v6tKZgdWUDggBAMAABARAJ0BKjAAMAA+kUSaSiWjoiGnOApIsBIJagCxHxe/B/K7+HO24/PXaZnvJ3+fnvGuca5XTyztJZNQ8kP1b/0/cH6M37K+xeVaKNqGr3G2lwd0ioXV5KPXo1t8ipaBK+rhRhLTNqQFyXb+pL0VEBGJluNQPmMYHh6feo16vq4WRnYv6lNiYCqkB01t0Cm7XsAA/v5uGB7RgmMUr4PTXXgrx87qw1j9zk1cSjqZ+aZcPpOPK1TyOd3Da14P1ybWRi9mHkbnFqL0rMpBXSMlff1khQRZTm7U35wZ3P5sGvDRBG0GR1SAeOei9Gp34CuWl/f9pAzNbPb1cz/WDLMu/DAmg60lZo5xjiF/WnUdZX1sUs15JdiJOPB8IlVmbKH6r+n3mCMDOOA+m6I0maqLSC926iW7x9OwV554tfNPpTWQ4Zrfesp8AeJBKONdJwDSWS56Jp0dUBS+1zI9zdPz1nmrXBjX2C3u857MmH1n+HE8E4rvC8jffeRK9ij+jRXjZhKc2Jcat6+Vx9e/qeTvCjtWHt3EZ6CpQBHIizFV5jZ6GVT9cycRUu1SFCvJi8TcAV69+IElMv7B9NU5jhxGGuemXgktrvl+0NokD/VQiy0PV2J8odc+WIeCdQge/yxvx5qqmOw8iHvuAF2+76UxlRgR/zz/8Yhox0iYDc8GLU+xVtd03li47lZvpvcets5TP85ZvBiaUt8OVaU7fdtcnej//f/Pj+IwW6L3+RHCkF1v5+rnqCa6hpmEeuvWlEo7WyXKqsLHjJc/ob5Q9NBBsRDN7DUAdo5onwGbupi1ZpKCrJzXDaW1htq9BzSbONu6sOtvyOCuzILvlw9HqjtavDxpfdJHZxJLTa15hu7gdQwTtzoD9bFYr13TVqNKoThTSHAxzJU3L5fRlg5aih0bCUUEwGOEz6QkrzaYpusWgV4d1pEcJnc+B6HX4xHdwLdWleoPwSLsKHsSAUIkHPXvvFFmzQZeSw72lK12QxFYccTXbbyLpD9kG+Pu0i5oxEJCnhlZyAA=",
+	"seed_int": 0,
+	"shortdesc": "",
+	"type": "graph"
+}
