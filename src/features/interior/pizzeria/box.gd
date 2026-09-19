@@ -5,17 +5,11 @@ func _ready():
 	%BoxInteractableArea.interacted.connect(_on_interacted)
 
 func _on_interacted(player_id: int) -> void:
-	spawn_box()
+	add_pizza_box_to_inventory(player_id)
 
-func spawn_box() -> void:
-	if Net.is_client:
-		_rpc_spawn_box.rpc_id(1)
-	elif Net.is_server:
-		_rpc_spawn_box()
-
-
-@rpc("any_peer", "reliable", "call_remote")
-func _rpc_spawn_box() -> void:
-	assert(Net.is_server)
+func add_pizza_box_to_inventory(player_id) -> void:
 	var id: int = ItemManager.create_item_of_type("pizza_box")
-	ItemManager.create_world_item_for(id, %BoxSpawnPos.global_position, %BoxSpawnPos.global_rotation, Vector3.ZERO)
+	var player: Player = PlayerManager.get_player_node_by_id(player_id)
+	var inv := player.inventory as PlayerInventory
+	if inv == null or not inv.try_add_item(id):
+		return # no space in inv, abort
