@@ -9,7 +9,7 @@
 transform = Transform3D(0.7798699, 0.62594163, 0, -0.62594163, 0.7798699, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_l3dq4")
 item_type = ExtResource("2_gcnfs")
-idle_animation_override = "fists_up_idle"
+idle_animation_override = "jail_key_hold"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
 [node name="RightHandAnchor" type="Node3D" parent="." unique_id=330184725]

@@ -8,7 +8,7 @@
 [node name="DoughEquip" type="Node3D" unique_id=1920707759]
 script = ExtResource("1_l67no")
 item_type = ExtResource("2_uqp7l")
-idle_animation_override = "fists_up_idle"
+idle_animation_override = "dough_hold"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
 [node name="RightHandAnchor" type="Node3D" parent="." unique_id=330184725]

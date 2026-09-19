@@ -11,7 +11,7 @@
 [node name="PizzaBoxEquip" type="Node3D" unique_id=1920707759]
 script = ExtResource("1_b4dgv")
 item_type = ExtResource("2_xoa5k")
-idle_animation_override = "fists_up_idle"
+idle_animation_override = "pizza_box_idle"
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
 [node name="RightHandAnchor" type="Node3D" parent="." unique_id=330184725]
