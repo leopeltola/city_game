@@ -26,7 +26,7 @@ func _on_interacted(player_id: int) -> void:
 		var destroyed_item_id := inv.pop_active_item()
 		ItemManager.destroy_item(destroyed_item_id)
 		return
-	elif inv == null or not inv.try_add_item_to_inv(item_id):
+	elif inv == null or not inv.try_add_item(item_id):
 		return # no space in inv, abort
 	# Increase Guilt if stealing
 	if not has_right_to_pick_up(player_id):

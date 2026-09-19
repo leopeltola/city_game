@@ -191,7 +191,7 @@ func _give_photo_item(item_id: int) -> void:
 	if not is_instance_valid(player) or not is_instance_valid(player.inventory):
 		return
 	var inv := player.inventory as PlayerInventory
-	if inv != null and inv.take_item_in_hand(item_id):
+	if inv != null and inv.take_item(item_id):
 		return
 	var pos := player.global_position + player.global_basis * Vector3.FORWARD * 1.2
 	ItemManager.create_world_item_for(item_id, pos, player.rotation)

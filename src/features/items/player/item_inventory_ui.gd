@@ -25,7 +25,7 @@ func _update() -> void:
 	for i in slots.size():
 		var slot := slots[i]
 		var is_active := (i == inv.active_index)
-		var is_occupied := (inv.get_item_at_idx(i) != -1)
+		var is_occupied := (inv.get_slot_item_id(i) != -1)
 
 		if is_occupied:
 			slot.color = COLOR_ACTIVE_FILLED if is_active else COLOR_FILLED
