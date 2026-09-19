@@ -47,13 +47,23 @@ project/assembly_name="Peltodev Multiplayer Template"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gdscript_formatter/plugin.cfg", "res://addons/simple-webrtc/plugin.cfg", "res://addons/template_directories/plugin.cfg")
+enabled=PackedStringArray("res://addons/game_editor_plugin/plugin.cfg", "res://addons/gdscript_formatter/plugin.cfg", "res://addons/simple-webrtc/plugin.cfg", "res://addons/template_directories/plugin.cfg")
 
 [file_customization]
 
 folder_colors={
+"res://assets/": "gray",
 "res://src/core/": "red",
-"res://src/features/ui/": "blue"
+"res://src/features/city/assets/": "gray",
+"res://src/features/city/kela/assets/": "gray",
+"res://src/features/city/pizzeria/assets/": "gray",
+"res://src/features/city/police_station/assets/": "gray",
+"res://src/features/gambling/assets/": "gray",
+"res://src/features/interior/casino/assets/": "gray",
+"res://src/features/player/assets/": "gray",
+"res://src/features/ui/": "blue",
+"res://src/features/ui/assets/": "gray",
+"res://src/features/ui/theme/assets/": "gray"
 }
 
 [filesystem]
