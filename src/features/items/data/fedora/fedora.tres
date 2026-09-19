@@ -1,10 +1,12 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://g414q8ein5tj"]
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://v72nhi7nropg" path="res://src/features/items/data/fedora/fedora.glb" id="1_s510r"]
 
 [resource]
 script = ExtResource("1")
 name = "fedora"
 world_item_path = "res://src/features/items/data/fedora/fedora_world.tscn"
 equip_item_path = "res://src/features/items/data/fedora/fedora_equip.tscn"
+display_scene = ExtResource("1_s510r")
 prop_slot = 2

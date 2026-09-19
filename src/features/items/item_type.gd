@@ -9,6 +9,8 @@ static var _scene_cache: Dictionary[String, PackedScene] = { }
 		return name if display_name.is_empty() else display_name
 @export_file("*.tscn") var world_item_path: String = ""
 @export_file("*.tscn") var equip_item_path: String = ""
+## Item's visual-only scene. Used by clothing store mannequins
+@export var display_scene: PackedScene = null
 @export var instance_data: Dictionary[StringName, Variant] = { }
 ## Body slot this item wears on (PropSystem.PropSlot). NONE = not a wearable prop.
 @export var prop_slot: PropSystem.PropSlot = PropSystem.PropSlot.NONE
@@ -16,7 +18,7 @@ static var _scene_cache: Dictionary[String, PackedScene] = { }
 
 ## Used by ItemManager to get the data dict.
 ## [instance_overrides] are merged over the schema defaults; invalid keys are skipped.
-func get_data_dict(id: int = -1, instance_overrides: Dictionary = {}) -> Dictionary:
+func get_data_dict(id: int = -1, instance_overrides: Dictionary = { }) -> Dictionary:
 	var ret: Dictionary = {
 		"type": name,
 		"id": id,
@@ -59,3 +61,7 @@ func get_equip_item_scene() -> PackedScene:
 	var scene: PackedScene = load(equip_item_path)
 	_scene_cache[equip_item_path] = scene
 	return scene
+
+
+func get_display_item_scene() -> PackedScene:
+	return display_scene

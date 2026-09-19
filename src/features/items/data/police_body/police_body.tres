@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://dxctft40qvhih"]
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_mbdkr"]
+[ext_resource type="PackedScene" uid="uid://bodh81lnv4jes" path="res://src/features/items/data/police_body/police_body.glb" id="1_yyvbx"]
 
 [resource]
 script = ExtResource("1_mbdkr")
@@ -8,4 +9,5 @@ name = "police_body"
 display_name = "Police Body"
 world_item_path = "uid://crn7kt3x8m6bn"
 equip_item_path = "uid://6fu1gtxps5if"
+display_scene = ExtResource("1_yyvbx")
 prop_slot = 1

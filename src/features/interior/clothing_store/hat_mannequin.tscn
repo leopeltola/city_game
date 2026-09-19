@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://b2cwq4etywraq"]
+
+[ext_resource type="Script" uid="uid://k0fjh3g0nqyy" path="res://src/features/interior/clothing_store/hat_mannequin.gd" id="1_yypb8"]
+[ext_resource type="Resource" uid="uid://g414q8ein5tj" path="res://src/features/items/data/fedora/fedora.tres" id="2_icvkw"]
+[ext_resource type="PackedScene" uid="uid://drjduu1k4tcvo" path="res://src/features/interior/clothing_store/assets/hat_mannequin.glb" id="3_p6w3m"]
+
+[node name="HatMannequin" type="Node3D" unique_id=1077598897]
+script = ExtResource("1_yypb8")
+shown_item = ExtResource("2_icvkw")
+
+[node name="hat_mannequin" parent="." unique_id=2010867523 instance=ExtResource("3_p6w3m")]
+
+[node name="HatContainer" type="Node3D" parent="." unique_id=416631210]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7330841, 0)

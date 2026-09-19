@@ -52,6 +52,7 @@
 [ext_resource type="PackedScene" uid="uid://c8xqutmxfag3h" path="res://src/features/city/casino/casino_building.tscn" id="35_64k4k"]
 [ext_resource type="Script" uid="uid://bq336tdab1r16" path="res://src/features/city/sky/day_night_cycle.gd" id="37_d3xh7"]
 [ext_resource type="PackedScene" uid="uid://cu524h6xwkue7" path="res://src/features/city/pizzeria/pizzeria.tscn" id="42_acbas"]
+[ext_resource type="PackedScene" uid="uid://c4fh8jrnxg5k1" path="res://src/features/city/clothing_store/clothing_store.tscn" id="53_pfh3i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1j2v"]
 shader = ExtResource("1_8at8h")
@@ -326,6 +327,12 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23,
 [node name="StraightRoad6" parent="City/Roads" unique_id=1726362486 instance=ExtResource("13_yfk00")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 41)
 
+[node name="StraightRoad7" parent="City/Roads" unique_id=1681081994 instance=ExtResource("13_yfk00")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 51)
+
+[node name="StraightRoad8" parent="City/Roads" unique_id=1922961948 instance=ExtResource("13_yfk00")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 61)
+
 [node name="3Way2" parent="City/Roads" unique_id=1052351979 instance=ExtResource("14_udf63")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 1)
 
@@ -355,6 +362,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 31)
 
 [node name="Plaza32" parent="City/Roads" unique_id=1849916219 instance=ExtResource("22_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 41)
+
+[node name="Plaza34" parent="City/Roads" unique_id=1974953553 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 51)
+
+[node name="Plaza35" parent="City/Roads" unique_id=38238064 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 61)
+
+[node name="Plaza36" parent="City/Roads" unique_id=451098662 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 61)
+
+[node name="Plaza37" parent="City/Roads" unique_id=78789623 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 51)
 
 [node name="Plaza33" parent="City/Roads" unique_id=86089173 instance=ExtResource("22_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 41)
@@ -857,5 +876,8 @@ time_of_day = 10.25
 sun_light = NodePath("../DayLight")
 moon_light = NodePath("../NightLight")
 metadata/_custom_type_script = "uid://bq336tdab1r16"
+
+[node name="ClothingStore" parent="." unique_id=500594451 instance=ExtResource("53_pfh3i")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -12, 0.11, 55)
 
 [editable path="City/CasinoSkyscraper"]
