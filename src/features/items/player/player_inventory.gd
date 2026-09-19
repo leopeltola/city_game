@@ -145,7 +145,9 @@ func get_slot_item_id(slot_index: int) -> int:
 ## Regular items fill the active slot first, then the first free slot. Cash fills
 ## existing cash stacks first and starts new stacks up to [constant CASH_STACK_LIMIT].
 ## [br][br]
-## Authority-only. Returns true if the item was added.
+## Returns true if the item was added.
+## [br][br]
+## Authority-only. 
 func try_add_item(item_id: int) -> bool:
 	assert(is_multiplayer_authority(), "try_add_item is authority-only")
 	assert(
@@ -164,19 +166,20 @@ func try_add_item(item_id: int) -> bool:
 	return true
 
 
-## Places [param item_id] into the active slot (or the first free slot) and equips it,
-## lowering the camera if it is out, so the item ends up in hand.
+## Puts [param item_id] in the inventory (priority: active slot, then first free slot).
+## If camera (special case) is out, it's unequipped.
 ## [br][br]
-## Authority-only. Returns false when the inventory is full.
-func take_item(item_id: int) -> bool:
-	assert(is_multiplayer_authority(), "take_item is authority-only")
+## Returns false if there is no space for the item.
+## [br][br]
+## Authority-only. 
+func pickup_item(item_id: int) -> bool:
+	assert(is_multiplayer_authority(), "Must be called on the authority")
 
 	var slot := _find_free_slot()
 	if slot == -1:
 		return false
 
-	# Store first, then select, then lower the camera: exactly one equip runs in
-	# every case, instead of the transient double-mount of selecting first.
+	# Store first, then select, then lower the camera
 	_set_item(slot, item_id)
 	if slot != active_index:
 		active_index = slot
@@ -192,7 +195,7 @@ func take_item(item_id: int) -> bool:
 func wear_item(item_id: int) -> void:
 	assert(is_multiplayer_authority(), "wear_item is authority-only")
 
-	if get_slot_item_id(active_index) != item_id:
+	if get_active_item_id() != item_id:
 		return
 	var item_data := ItemManager.get_item_data_dict_raw(item_id)
 	if item_data.is_empty():
@@ -209,12 +212,12 @@ func wear_item(item_id: int) -> void:
 		ItemManager.create_world_item_for(popped, player.global_position + Vector3.UP, player.rotation)
 
 
-## Removes the prop worn in [param slot], returning it to the inventory (or dropping it if
-## the inventory is full). Backend for the future unequip menu.
+## Removes the prop worn in [param slot] if there is one, returning it to the inventory (or dropping it if
+## the inventory is full).
 ## [br][br]
 ## Authority-only.
-func unequip_slot(slot: PropSystem.PropSlot) -> void:
-	assert(is_multiplayer_authority(), "unequip_slot is authority-only")
+func unwear_prop_slot(slot: PropSystem.PropSlot) -> void:
+	assert(is_multiplayer_authority(), "Must be called on the network authority")
 
 	var prop_system := player.prop_system
 	if prop_system == null:
