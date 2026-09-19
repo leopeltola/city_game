@@ -3,15 +3,32 @@
 [ext_resource type="Script" uid="uid://dnng36tb4y3l2" path="res://src/features/interior/clothing_store/mannequin.gd" id="1_c31q4"]
 [ext_resource type="PackedScene" uid="uid://b0qihg30l1gw2" path="res://src/features/interior/clothing_store/assets/mannequin.glb" id="1_xm5yf"]
 [ext_resource type="Resource" uid="uid://dxctft40qvhih" path="res://src/features/items/data/police_body/police_body.tres" id="2_0cwsa"]
+[ext_resource type="Script" uid="uid://i7x3a2qiskq" path="res://src/features/interior/clothing_store/mannequin_interactable_area.gd" id="4_0cwsa"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_c31q4"]
+radius = 0.3
 
 [node name="Mannequin" type="Node3D" unique_id=1848767476]
 script = ExtResource("1_c31q4")
 shown_item = ExtResource("2_0cwsa")
+price = 1000
 
 [node name="mannequin" parent="." unique_id=1234096653 instance=ExtResource("1_xm5yf")]
 
 [node name="ClothingContainer" type="Node3D" parent="." unique_id=888907597]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.60090166, 0)
+
+[node name="MannequinInteractableArea" type="Area3D" parent="." unique_id=1000550261]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3932173, 0.33202362)
+script = ExtResource("4_0cwsa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MannequinInteractableArea" unique_id=1374867039]
+shape = SubResource("SphereShape3D_c31q4")
+
+[node name="ItemSpawnPos" type="Node3D" parent="." unique_id=2096777473]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.158106, 0.652223)
 
 [editable path="mannequin"]
