@@ -11,7 +11,6 @@ func can_interact(player_id: int) -> bool:
 		return false
 	var item := player.get_equipped_item()
 	if item and item.item_type and item.item_type.name == "pizza":
-		print(ItemManager.get_item_data(item.item_id,&"state","empty"))
 		if ItemManager.get_item_data(item.item_id,&"state","empty") == "filled":
 			return true
 		else:

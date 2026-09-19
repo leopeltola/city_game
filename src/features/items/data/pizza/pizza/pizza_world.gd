@@ -29,8 +29,7 @@ func _on_interacted(player_id: int) -> void:
 	var item := p.get_equipped_item()
 	var is_empty: bool = ItemManager.get_item_data(item_id, &"state") == "empty"
 	var is_carrying_pizza_sauce: bool = item and item.item_type and item.item_type.name == "pizza_sauce"
-	print("Pizza state is empty: " + str(is_empty))
-	print("Is carrying sauce: ", is_carrying_pizza_sauce)
+	
 	if is_carrying_pizza_sauce and is_empty:
 		ItemManager.set_and_sync_item_data(item_id, &"state", "filled")
 		_rpc_update_visual.rpc("filled")

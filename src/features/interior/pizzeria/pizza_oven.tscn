@@ -44,7 +44,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eo8rd"]
-size = Vector3(0.62939453, 0.37023926, 0.7265625)
+size = Vector3(0.62939453, 0.010528564, 0.7265625)
 
 [node name="PizzaOven" type="Node3D" unique_id=499076693]
 script = ExtResource("1_eo8rd")
@@ -61,7 +61,7 @@ script = ExtResource("3_u2uel")
 prompt = "Cook Pizza"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="OvenInteractableArea" unique_id=633702964]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.024169922, 0.4433787, 0.13671875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.024169922, 0.26352334, 0.13671875)
 shape = SubResource("BoxShape3D_eo8rd")
 
 [node name="PizzaTimer" type="Timer" parent="." unique_id=1625412778]

@@ -7,9 +7,9 @@ func _ready():
 
 func _on_interacted(player_id: int) -> void:
 	
-	#add_dough_to_inventory(player_id)
+	_rpc_add_dough_to_inventory(player_id)
 	
-	spawn_dough()
+	#spawn_dough()
 
 func spawn_dough() -> void:
 	if Net.is_client:
@@ -38,7 +38,6 @@ func add_dough_to_inventory(player_id : int) -> void:
 
 @rpc("any_peer", "reliable", "call_remote")
 func _rpc_add_dough_to_inventory(player_id) -> void:
-	assert(Net.is_server)
 	var id: int = ItemManager.create_item_of_type("dough")
 	var player: Player = PlayerManager.get_player_node_by_id(player_id)
 	var inv := player.inventory as PlayerInventory

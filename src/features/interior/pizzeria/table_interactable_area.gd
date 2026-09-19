@@ -14,6 +14,5 @@ func can_interact(player_id: int) -> bool:
 	
 	
 	if item and item.item_type and item.item_type.name == "dough":
-		print("Returning true")
 		return true
 	return false
