@@ -1,0 +1,26 @@
+[gd_resource type="Shader" format=3 uid="uid://diha5ifdmlo5a"]
+
+[resource]
+code = "shader_type spatial;
+
+const float gradient_max_height = 20.0;
+
+// Gradient multipliers
+const float BOTTOM_DARKEN = 0.85;
+const float TOP_LIGHTEN   = 1.55;
+
+instance uniform vec3 main_color : source_color = vec3(0.85, 0.5, 0.5);
+
+varying float v_world_y;
+
+void vertex() {
+	v_world_y = (MODEL_MATRIX * vec4(VERTEX, 1.0)).y;
+}
+
+void fragment() {
+	float t = clamp(v_world_y / gradient_max_height, 0.0, 1.0);
+	t = smoothstep(0.0, 1.0, t);
+	
+	float shading_factor = mix(BOTTOM_DARKEN, TOP_LIGHTEN, t);
+	ALBEDO = main_color * shading_factor;
+}"
