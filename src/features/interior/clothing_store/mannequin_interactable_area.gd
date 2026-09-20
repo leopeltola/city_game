@@ -15,7 +15,7 @@ func can_interact(player_id: int) -> bool:
 	var item := player.get_equipped_item()
 	if item and item.item_type and item.item_type.name == "cash":
 		var item_id = item.item_id
-		var cash_amount = ItemManager.get_item_data(item_id, "amount", 0)
+		var cash_amount = ItemManager.get_item_data(item_id, "money", 0)
 		var price = get_parent().get_price()
 
 		if cash_amount >= price:

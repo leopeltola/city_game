@@ -67,7 +67,7 @@ func _rpc_spawn_cash(amount: int) -> void:
 	var remaining: int = amount
 	while remaining > 0:
 		var bill: int = mini(1000, remaining)
-		var id: int = ItemManager.create_item_of_type("cash", { "amount": bill })
+		var id: int = ItemManager.create_item_of_type("cash", { "money": bill })
 		ItemManager.create_world_item_for(id, cash_spawn_pos.global_position, cash_spawn_pos.global_rotation)
 		remaining -= bill
 		if remaining > 0:

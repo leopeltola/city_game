@@ -231,7 +231,7 @@ func unwear_prop_slot(slot: PropSystem.PropSlot) -> void:
 # Fills existing cash stacks up to the limit, then starts a new stack in a free slot.
 # If the remainder doesn't fit, it is left as a world item where it is (returning false).
 func _try_add_cash(item_id: int) -> bool:
-	var remaining: int = ItemManager.get_item_data(item_id, "amount", 0)
+	var remaining: int = ItemManager.get_item_data(item_id, "money", 0)
 
 	# 1. Fill existing cash stacks up to the stack limit.
 	for i in item_slots.size():
@@ -242,12 +242,12 @@ func _try_add_cash(item_id: int) -> bool:
 			continue
 		if ItemManager.get_item_data(held_id, "type") != "cash":
 			continue
-		var current: int = ItemManager.get_item_data(held_id, "amount", 0)
+		var current: int = ItemManager.get_item_data(held_id, "money", 0)
 		var space := CASH_STACK_LIMIT - current
 		if space <= 0:
 			continue
 		var added := mini(space, remaining)
-		ItemManager.set_and_sync_item_data(held_id, "amount", current + added)
+		ItemManager.set_and_sync_item_data(held_id, "money", current + added)
 		remaining -= added
 
 	if remaining <= 0:
@@ -257,13 +257,13 @@ func _try_add_cash(item_id: int) -> bool:
 	# 2. If a free slot exists and the remainder fits in a single stack, start a new stack there.
 	var slot := _find_free_slot()
 	if slot != -1 and remaining <= CASH_STACK_LIMIT:
-		ItemManager.set_and_sync_item_data(item_id, "amount", remaining)
+		ItemManager.set_and_sync_item_data(item_id, "money", remaining)
 		_set_item(slot, item_id)
 		return true
 
 	# 3. No room for the remainder: leave the money as a world item where it is,
 	#    updated to the leftover amount so the visual reflects the partial pick-up.
-	ItemManager.set_and_sync_item_data(item_id, "amount", remaining)
+	ItemManager.set_and_sync_item_data(item_id, "money", remaining)
 	return false
 
 
@@ -377,7 +377,7 @@ func _on_drop_press_held() -> void:
 func _prompt_drop_cash(item_id: int) -> void:
 	if not HUD.instance:
 		return
-	var total: int = ItemManager.get_item_data(item_id, "amount", 0)
+	var total: int = ItemManager.get_item_data(item_id, "money", 0)
 	if total <= 0:
 		return
 
@@ -397,7 +397,7 @@ func _prompt_drop_cash(item_id: int) -> void:
 func drop_cash_amount(item_id: int, amount: int) -> void:
 	assert(is_multiplayer_authority(), "drop_cash_amount is authority-only")
 
-	var total: int = ItemManager.get_item_data(item_id, "amount", 0)
+	var total: int = ItemManager.get_item_data(item_id, "money", 0)
 	if total <= 0 or amount <= 0:
 		return
 	if amount >= total:
@@ -415,12 +415,12 @@ func drop_cash_amount(item_id: int, amount: int) -> void:
 @rpc("any_peer", "call_remote", "reliable")
 func _server_split_cash_drop(item_id: int, amount: int, position: Vector3) -> void:
 	assert(Net.is_server)
-	var total: int = ItemManager.get_item_data(item_id, "amount", 0)
+	var total: int = ItemManager.get_item_data(item_id, "money", 0)
 	if total <= 0 or amount <= 0 or amount >= total:
 		return
 
-	ItemManager.set_and_sync_item_data(item_id, "amount", total - amount)
-	var dropped_id: int = ItemManager.create_item_of_type("cash", { "amount": amount })
+	ItemManager.set_and_sync_item_data(item_id, "money", total - amount)
+	var dropped_id: int = ItemManager.create_item_of_type("cash", { "money": amount })
 	ItemManager.create_world_item_for(dropped_id, position)
 
 

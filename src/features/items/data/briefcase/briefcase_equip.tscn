@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bxvv4j16g16vw"]
+
+[ext_resource type="Script" uid="uid://dy50ad8raajw1" path="res://src/features/items/props/prop_equip.gd" id="1"]
+[ext_resource type="Resource" uid="uid://8nbmgp43nxsk" path="res://src/features/items/data/briefcase/briefcase.tres" id="2"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://csa3w7v7ekwtf" path="res://src/features/items/data/briefcase/briefcase.glb" id="4"]
+
+[node name="BriefcaseEquip" type="Node3D" unique_id=1491209269]
+script = ExtResource("1")
+item_type = ExtResource("2")
+idle_animation_override = "briefcase_hold"
+
+[node name="HeldAnchor" type="Node3D" parent="." unique_id=632097467]
+script = ExtResource("3")
+
+[node name="briefcase" parent="HeldAnchor" unique_id=1933171143 instance=ExtResource("4")]
+
+[node name="WornVisual" type="Node3D" parent="." unique_id=625851953]
+
+[node name="briefcase" parent="WornVisual" unique_id=1819728615 instance=ExtResource("4")]

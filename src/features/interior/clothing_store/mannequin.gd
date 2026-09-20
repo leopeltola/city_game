@@ -25,13 +25,13 @@ func _on_interacted(player_id : int) -> void:
 	var item := player.get_equipped_item()
 	if item and item.item_type and item.item_type.name == "cash":
 		var item_id = item.item_id
-		var total_amount : int = ItemManager.get_item_data(item_id, "amount", 0)
+		var total_amount : int = ItemManager.get_item_data(item_id, "money", 0)
 		var remaining := total_amount - price
 		if remaining <= 0:
 			(player.inventory as PlayerInventory).pop_active_item()
 			ItemManager.destroy_item(item_id)
 		else:
-			ItemManager.set_and_sync_item_data(item_id, "amount", remaining)
+			ItemManager.set_and_sync_item_data(item_id, "money", remaining)
 		
 		spawn_item()
 

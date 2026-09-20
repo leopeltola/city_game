@@ -32,7 +32,7 @@ func _drop_cash(amount: int) -> void:
 		return
 	amount = mini(amount, cash)
 	cash -= amount
-	var item_id: int = ItemManager.create_item_of_type("cash", { "amount": amount })
+	var item_id: int = ItemManager.create_item_of_type("cash", { "money": amount })
 	
 	var dir := Vector3(randf_range(-1.0, 1.0), 0.0, randf_range(-1.0, 1.0))
 	if dir.length_squared() < 0.01:

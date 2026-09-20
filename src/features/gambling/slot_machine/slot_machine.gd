@@ -107,7 +107,7 @@ func _rpc_spawn_cash(amount: int) -> void:
 	var remaining: int = amount
 	while remaining > 0:
 		var bill: int = mini(MAX_BILL_AMOUNT, remaining)
-		var id: int = ItemManager.create_item_of_type("cash", { "amount": bill })
+		var id: int = ItemManager.create_item_of_type("cash", { "money": bill })
 		ItemManager.create_world_item_for(id, %CashSpawnPos.global_position, %CashSpawnPos.global_rotation, Vector3.ZERO, _round_owner_player_id)
 		remaining -= bill
 		_rpc_on_cash_bill_spawned.rpc(remaining)
@@ -342,10 +342,10 @@ func _on_cash_input_interacted(player_id: int) -> void:
 		return
 	var player := PlayerManager.get_player_node_by_id(player_id)
 	var item := player.get_equipped_item()
-	if not item or not item.item_type or item.item_type.name != "cash":
+	if not item or not item.item_type or not item.item_type.instance_data.has("money"):
 		return
 	var item_id: int = item.item_id
-	var total_amount: int = ItemManager.get_item_data(item_id, "amount", 0)
+	var total_amount: int = ItemManager.get_item_data(item_id, "money", 0)
 
 	if not HUD.instance:
 		return
@@ -364,7 +364,7 @@ func _on_cash_input_interacted(player_id: int) -> void:
 		(player.inventory as PlayerInventory).pop_active_item()
 		ItemManager.destroy_item(item_id)
 	else:
-		ItemManager.set_and_sync_item_data(item_id, "amount", remaining)
+		ItemManager.set_and_sync_item_data(item_id, "money", remaining)
 	
 	if _round_owner_player_id == 0:
 		_rpc_set_round_owning_player.rpc(player_id)

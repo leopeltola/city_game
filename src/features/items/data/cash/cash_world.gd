@@ -24,7 +24,7 @@ func _process(_delta: float) -> void:
 
 
 func _update_bill_amount() -> void:
-	var amount: int = ItemManager.get_item_data(item_id, "amount", 0)
+	var amount: int = ItemManager.get_item_data(item_id, "money", 0)
 	if amount == _last_bill_amount:
 		return
 	_last_bill_amount = amount
@@ -33,7 +33,7 @@ func _update_bill_amount() -> void:
 
 func _update() -> void:
 	var index: int = 6
-	var amount: int = ItemManager.get_item_data(item_id, "amount", 100)
+	var amount: int = ItemManager.get_item_data(item_id, "money", 100)
 	if amount < 10:
 		index = 0 # 5
 	elif amount < 20:
