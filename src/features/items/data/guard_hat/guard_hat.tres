@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://3tm7o8moneru" path="res://src/features/items/data/guard_hat/guard_hat.glb" id="2"]
+
+[resource]
+script = ExtResource("1")
+name = "guard_hat"
+display_name = "Guard Hat"
+world_item_path = "res://src/features/items/data/guard_hat/guard_hat_world.tscn"
+equip_item_path = "res://src/features/items/data/guard_hat/guard_hat_equip.tscn"
+display_scene = ExtResource("2")
+prop_slot = 2

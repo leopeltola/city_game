@@ -11,6 +11,15 @@ extends Node
 
 
 const _item_types: Dictionary[StringName, ItemType] = {
+	"rect_shades": preload("res://src/features/items/data/rect_shades/rect_shades.tres"),
+	"wilzu_hair": preload("res://src/features/items/data/wilzu_hair/wilzu_hair.tres"),
+	"tank_top": preload("res://src/features/items/data/tank_top/tank_top.tres"),
+	"open_shirt": preload("res://src/features/items/data/open_shirt/open_shirt.tres"),
+	"guard_hat": preload("res://src/features/items/data/guard_hat/guard_hat.tres"),
+	"guard_body": preload("res://src/features/items/data/guard_body/guard_body.tres"),
+	"moustache": preload("res://src/features/items/data/moustache/moustache.tres"),
+	"rect_glasses": preload("res://src/features/items/data/rect_glasses/rect_glasses.tres"),
+	"suit": preload("res://src/features/items/data/suit/suit.tres"),
 	"aviator_glasses": preload("res://src/features/items/data/aviator_glasses/aviator_glasses.tres"),
 	"cap": preload("res://src/features/items/data/cap/cap.tres"),
 	"bat": preload("res://src/features/items/data/bat/bat.tres"),

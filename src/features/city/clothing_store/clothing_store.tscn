@@ -3,8 +3,19 @@
 [ext_resource type="PackedScene" uid="uid://dudrywjudlhkc" path="res://src/features/city/clothing_store/assets/clothing_store.glb" id="1_ge0uf"]
 [ext_resource type="PackedScene" uid="uid://bafp75owqo2qn" path="res://src/features/interior/clothing_store/assets/counter.glb" id="2_vqm5g"]
 [ext_resource type="PackedScene" uid="uid://dgtt1q8mdv66e" path="res://src/features/interior/clothing_store/mannequin.tscn" id="3_4u2s3"]
+[ext_resource type="Resource" path="res://src/features/items/data/tank_top/tank_top.tres" id="4_bbjr6"]
+[ext_resource type="Resource" path="res://src/features/items/data/suit/suit.tres" id="4_gsknr"]
 [ext_resource type="PackedScene" uid="uid://7inrtbtrivs8" path="res://src/features/interior/clothing_store/assets/clothing_store_table.glb" id="4_p548x"]
 [ext_resource type="PackedScene" uid="uid://b2cwq4etywraq" path="res://src/features/interior/clothing_store/hat_mannequin.tscn" id="5_cvfxr"]
+[ext_resource type="Resource" path="res://src/features/items/data/open_shirt/open_shirt.tres" id="5_fdcms"]
+[ext_resource type="Resource" path="res://src/features/items/data/guard_body/guard_body.tres" id="5_n36ob"]
+[ext_resource type="Resource" path="res://src/features/items/data/aviator_glasses/aviator_glasses.tres" id="6_qwahv"]
+[ext_resource type="Resource" path="res://src/features/items/data/rect_glasses/rect_glasses.tres" id="8_sccqk"]
+[ext_resource type="Resource" path="res://src/features/items/data/guard_hat/guard_hat.tres" id="9_j1yny"]
+[ext_resource type="Resource" path="res://src/features/items/data/moustache/moustache.tres" id="11_doq4a"]
+[ext_resource type="Resource" path="res://src/features/items/data/rect_shades/rect_shades.tres" id="12_t12rw"]
+[ext_resource type="Resource" path="res://src/features/items/data/wilzu_hair/wilzu_hair.tres" id="14_cih34"]
+[ext_resource type="Resource" path="res://src/features/items/data/cap/cap.tres" id="14_t2q2w"]
 
 [node name="ClothingStore" type="Node3D" unique_id=500594451]
 
@@ -71,10 +82,12 @@ omni_range = 10.548
 
 [node name="Mannequin" parent="." unique_id=1848767476 instance=ExtResource("3_4u2s3")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3, 0, 0)
+shown_item = ExtResource("4_bbjr6")
 price = 200
 
 [node name="Mannequin2" parent="." unique_id=1212746064 instance=ExtResource("3_4u2s3")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3, 0, -2)
+shown_item = ExtResource("4_gsknr")
 price = 200
 
 [node name="Mannequin3" parent="." unique_id=1035308989 instance=ExtResource("3_4u2s3")]
@@ -83,6 +96,7 @@ price = 200
 
 [node name="Mannequin4" parent="." unique_id=1591511852 instance=ExtResource("3_4u2s3")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2, 0, 0)
+shown_item = ExtResource("5_fdcms")
 price = 200
 
 [node name="Mannequin5" parent="." unique_id=454984832 instance=ExtResource("3_4u2s3")]
@@ -91,6 +105,7 @@ price = 200
 
 [node name="Mannequin6" parent="." unique_id=1972117337 instance=ExtResource("3_4u2s3")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2, 0, -4)
+shown_item = ExtResource("5_n36ob")
 price = 200
 
 [node name="clothing_store_table" parent="." unique_id=1199934566 instance=ExtResource("4_p548x")]
@@ -128,12 +143,18 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.3
 
 [node name="HatMannequin2" parent="." unique_id=1013178077 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.3576717, 0.7020798, -2)
+shown_item = ExtResource("6_qwahv")
+price = 500
 
 [node name="HatMannequin3" parent="." unique_id=1343543003 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.3576717, 0.7020798, -4)
+shown_item = ExtResource("8_sccqk")
+price = 50
 
 [node name="HatMannequin4" parent="." unique_id=2056108120 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.3576717, 0.7020798, -6)
+shown_item = ExtResource("12_t12rw")
+price = 50
 
 [node name="HatMannequin5" parent="." unique_id=374583674 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.358, 0.702, -8)
@@ -143,12 +164,20 @@ transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 7.29
 
 [node name="HatMannequin8" parent="." unique_id=1216115004 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 7.2957363, 0.7020798, -6.666667)
+shown_item = ExtResource("9_j1yny")
+price = 200
 
 [node name="HatMannequin9" parent="." unique_id=438946527 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 7.2957363, 0.7020798, -4.666667)
+shown_item = ExtResource("11_doq4a")
+price = 10
 
 [node name="HatMannequin10" parent="." unique_id=2139620653 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 7.2957363, 0.7020798, -2.666667)
+shown_item = ExtResource("14_t2q2w")
+price = 50
 
 [node name="HatMannequin12" parent="." unique_id=999419125 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 7.2957373, 0.7020798, -0.666667)
+shown_item = ExtResource("14_cih34")
+price = 20

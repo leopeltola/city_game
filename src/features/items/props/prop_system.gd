@@ -7,7 +7,6 @@ extends Node
 ## Actors with a full inventory route a popped prop back into it; actors without one
 ## (e.g. citizens) drop it as a world item instead - see wear()'s return value.
 
-
 ## Body slots a prop (clothing/accessory) can be worn on. NONE = not a wearable prop.
 enum PropSlot { NONE, TORSO, HAT, BEARD, GLASSES, HAND, COUNT }
 
@@ -41,6 +40,11 @@ func _ready() -> void:
 	if worn_slots.is_empty():
 		worn_slots.resize(PropSystem.PropSlot.COUNT)
 		worn_slots.fill(-1)
+
+	## Placeholder code to hide clothing from the local player
+	if not get_parent().is_local:
+		%HeadItemSlot.show()
+		%TorsoSlot.show()
 
 
 ## Wears [item_id] in [slot], returning the previously worn item id (or -1).
@@ -95,6 +99,7 @@ func _mount_slot(slot: PropSystem.PropSlot, item_id: int) -> void:
 	equip.item_id = item_id
 	equip.player = owner as Humanoid
 	slot_node.add_child(equip)
+	
 
 
 func _unmount_slot(slot: PropSystem.PropSlot) -> void:
@@ -102,4 +107,5 @@ func _unmount_slot(slot: PropSystem.PropSlot) -> void:
 	if slot_node == null:
 		return
 	for child in slot_node.get_children():
-		child.queue_free()
+		if child is ItemEquip and child.item_type and child.item_type.prop_slot == slot:
+			child.queue_free()

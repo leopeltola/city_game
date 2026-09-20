@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://qbomr7yhbnjm"
-path="res://.godot/imported/moustache.glb-4a88f7607d382014754b623e222f7950.scn"
+uid="uid://b1tdblmi6l08e"
+path="res://.godot/imported/wilzu_hair.glb-ad89022d2336ca556c3c98ebf4c629ee.scn"
 
 [deps]
 
-source_file="res://src/features/items/data/moustache/moustache.glb"
-dest_files=["res://.godot/imported/moustache.glb-4a88f7607d382014754b623e222f7950.scn"]
+source_file="res://src/features/items/data/wilzu_hair/wilzu_hair.glb"
+dest_files=["res://.godot/imported/wilzu_hair.glb-ad89022d2336ca556c3c98ebf4c629ee.scn"]
 
 [params]
 

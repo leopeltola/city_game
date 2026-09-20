@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://qbomr7yhbnjm" path="res://src/features/items/data/moustache/moustache.glb" id="2"]
+
+[resource]
+script = ExtResource("1")
+name = "moustache"
+display_name = "Moustache"
+world_item_path = "res://src/features/items/data/moustache/moustache_world.tscn"
+equip_item_path = "res://src/features/items/data/moustache/moustache_equip.tscn"
+display_scene = ExtResource("2")
+prop_slot = 3

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://qbomr7yhbnjm"
-path="res://.godot/imported/moustache.glb-4a88f7607d382014754b623e222f7950.scn"
+uid="uid://c6gt0iu5rmm03"
+path="res://.godot/imported/open_shirt.glb-82826520c133ac2b56ca742753a880bd.scn"
 
 [deps]
 
-source_file="res://src/features/items/data/moustache/moustache.glb"
-dest_files=["res://.godot/imported/moustache.glb-4a88f7607d382014754b623e222f7950.scn"]
+source_file="res://src/features/items/data/open_shirt/open_shirt.glb"
+dest_files=["res://.godot/imported/open_shirt.glb-82826520c133ac2b56ca742753a880bd.scn"]
 
 [params]
 

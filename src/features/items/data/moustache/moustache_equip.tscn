@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/items/props/prop_equip.gd" id="1"]
+[ext_resource type="Resource" path="res://src/features/items/data/moustache/moustache.tres" id="2"]
+[ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://qbomr7yhbnjm" path="res://src/features/items/data/moustache/moustache.glb" id="4"]
+
+[node name="MoustacheEquip" type="Node3D"]
+script = ExtResource("1")
+item_type = ExtResource("2")
+
+[node name="HeldAnchor" type="Node3D" parent="."]
+script = ExtResource("3")
+
+[node name="moustache" parent="HeldAnchor" instance=ExtResource("4")]
+
+[node name="WornVisual" type="Node3D" parent="."]
+
+[node name="moustache" parent="WornVisual" instance=ExtResource("4")]

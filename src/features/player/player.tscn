@@ -50,11 +50,16 @@ stamina_drain_rate = 22.0
 stamina_regen_rate = 40.0
 inventory = NodePath("PlayerInventory")
 
-[node name="RightItemSlot" parent="." index="12"]
-transform = Transform3D(0.17773035, -0.9840712, 0.0039779446, 0.08529665, 0.01943196, 0.996166, -0.9803756, -0.17670965, 0.087391436, 0.4331636, 0.637197, -0.23583414)
+[node name="TorsoSlot" parent="Visual/guy/Armature/Skeleton3D/TorsoSlotBone" parent_id_path=PackedInt32Array(457456582) index="0" unique_id=102213647]
+visible = false
 
-[node name="LeftItemSlot" parent="." index="13"]
-transform = Transform3D(0.17772996, 0.9840714, -0.003976009, -0.08529717, 0.019430047, 0.99616635, 0.9803757, -0.17670938, 0.087391555, -0.43316418, 0.6371979, -0.23583423)
+[node name="HeadItemSlot" parent="Visual/guy/Armature/Skeleton3D/HeadItemSlotBone" parent_id_path=PackedInt32Array(1684288150) index="0" unique_id=1148831244]
+visible = false
+
+[node name="Physical Bone Hand_R" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="6" unique_id=300513579]
+transform = Transform3D(-0.2914427, 0.82653797, 0.4815559, 0.9474187, 0.3189422, 0.02595827, -0.132133, 0.4638004, -0.8760308, -0.47511166, 0.7339575, 0.195778)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8859587e-07, 2.6077032e-07, 0.09803903)
+body_offset = Transform3D(-0.95924973, -0.24180281, -0.14619057, -7.301569e-07, 0.51738065, -0.85575545, 0.28256017, -0.8208829, -0.49629733, 0.01433301, 0.08389729, 0.048656553)
 
 [node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="20" unique_id=1903866197]
 replication_config = SubResource("SceneReplicationConfig_3v8pm")

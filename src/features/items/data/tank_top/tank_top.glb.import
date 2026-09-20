@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://qbomr7yhbnjm"
-path="res://.godot/imported/moustache.glb-4a88f7607d382014754b623e222f7950.scn"
+uid="uid://geoxcck83yfg"
+path="res://.godot/imported/tank_top.glb-837d8b9877081b9ff3b4f63e0d3a0e77.scn"
 
 [deps]
 
-source_file="res://src/features/items/data/moustache/moustache.glb"
-dest_files=["res://.godot/imported/moustache.glb-4a88f7607d382014754b623e222f7950.scn"]
+source_file="res://src/features/items/data/tank_top/tank_top.glb"
+dest_files=["res://.godot/imported/tank_top.glb-837d8b9877081b9ff3b4f63e0d3a0e77.scn"]
 
 [params]
 
