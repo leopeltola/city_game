@@ -14,6 +14,6 @@ func can_interact(player_id: int) -> bool:
 	if not player or not active:
 		return false
 	var item := player.get_equipped_item()
-	if item and item.item_type and item.item_type.name == "cash":
+	if item and item.item_type and item.item_type.instance_data.has("money"):
 		return true
 	return false

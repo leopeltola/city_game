@@ -1,29 +1,34 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b2fftekhtvucp"]
 
-[ext_resource type="Script" path="res://src/features/items/item_world.gd" id="1"]
-[ext_resource type="Resource" path="res://src/features/items/data/briefcase/briefcase.tres" id="2"]
+[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1"]
+[ext_resource type="Resource" uid="uid://8nbmgp43nxsk" path="res://src/features/items/data/briefcase/briefcase.tres" id="2"]
 [ext_resource type="PackedScene" uid="uid://csa3w7v7ekwtf" path="res://src/features/items/data/briefcase/briefcase.glb" id="3"]
 [ext_resource type="PackedScene" uid="uid://cum3c03ptrqm" path="res://src/features/items/world_item_interactable_area.tscn" id="4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_physics"]
-size = Vector3(0.2, 0.2, 0.2)
+size = Vector3(0.7608398, 0.48792726, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
-size = Vector3(0.24, 0.24, 0.24)
+size = Vector3(0.8397241, 0.5412012, 0.25573975)
 
-[node name="BriefcaseWorld" type="RigidBody3D" node_paths=PackedStringArray("interaction_area")]
+[node name="BriefcaseWorld" type="RigidBody3D" unique_id=964625398 node_paths=PackedStringArray("interaction_area")]
 collision_layer = 12
 collision_mask = 9
 script = ExtResource("1")
 type = ExtResource("2")
 interaction_area = NodePath("WorldItemInteractableArea")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1328505156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.010107413, 0.0068908706, 0)
 shape = SubResource("BoxShape3D_physics")
 
-[node name="briefcase" parent="." instance=ExtResource("3")]
+[node name="briefcase" parent="." unique_id=1880405622 instance=ExtResource("3")]
+transform = Transform3D(-0.08334748, -0.9963617, 0.017789317, 0.9909853, -0.08099234, 0.10671774, -0.10488868, 0.026523609, 0.9941304, 0, 0.47919673, 0)
 
-[node name="WorldItemInteractableArea" parent="." instance=ExtResource("4")]
+[node name="WorldItemInteractableArea" parent="." unique_id=1245514951 instance=ExtResource("4")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea" unique_id=1448909653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.020445555, -0.0035107434, 0.007869877)
 shape = SubResource("BoxShape3D_interact")
+
+[editable path="briefcase"]

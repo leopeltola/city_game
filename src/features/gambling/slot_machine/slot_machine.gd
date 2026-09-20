@@ -360,7 +360,7 @@ func _on_cash_input_interacted(player_id: int) -> void:
 	var put_in := mini(result.amount, total_amount)
 
 	var remaining := total_amount - put_in
-	if remaining <= 0:
+	if remaining <= 0 and equipped and equipped.item_type and equipped.item_type.name == "cash":
 		(player.inventory as PlayerInventory).pop_active_item()
 		ItemManager.destroy_item(item_id)
 	else:

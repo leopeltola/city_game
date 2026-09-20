@@ -11,6 +11,6 @@ world_item_path = "res://src/features/items/data/briefcase/briefcase_world.tscn"
 equip_item_path = "res://src/features/items/data/briefcase/briefcase_equip.tscn"
 display_scene = ExtResource("2")
 instance_data = Dictionary[StringName, Variant]({
-&"money": 1000
+&"money": 500
 })
 prop_slot = 5

@@ -23,7 +23,7 @@ func _on_interacted(player_id : int) -> void:
 	if not player:
 		return
 	var item := player.get_equipped_item()
-	if item and item.item_type and item.item_type.name == "cash":
+	if item and item.item_type and item.item_type.instance_data.has("money"):
 		var item_id = item.item_id
 		var total_amount : int = ItemManager.get_item_data(item_id, "money", 0)
 		var remaining := total_amount - price
