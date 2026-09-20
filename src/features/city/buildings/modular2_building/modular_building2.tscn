@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://dwugyb7e3e8qc"]
+
+[ext_resource type="Script" uid="uid://n12r4yc3wpj3" path="res://src/features/city/buildings/modular2_building/modular_building_2.gd" id="1_j0uyl"]
+[ext_resource type="Script" uid="uid://dheva72pividh" path="res://src/features/city/buildings/building_part.gd" id="2_f0sk6"]
+[ext_resource type="PackedScene" uid="uid://dmkwa6tkvsm6d" path="res://src/features/city/buildings/modular2_building/modular2_building_baselayer.glb" id="3_75mmd"]
+[ext_resource type="PackedScene" uid="uid://dc2n0lqer30in" path="res://src/features/city/buildings/modular2_building/modular2_building_midlayer.glb" id="4_he07j"]
+[ext_resource type="PackedScene" uid="uid://d387pf1f1vxhc" path="res://src/features/city/buildings/modular2_building/modular2_building_rooflayer.glb" id="5_ychjb"]
+
+[sub_resource type="Resource" id="Resource_j0uyl"]
+script = ExtResource("2_f0sk6")
+scene = ExtResource("3_75mmd")
+metadata/_custom_type_script = "uid://dheva72pividh"
+
+[sub_resource type="Resource" id="Resource_fdkks"]
+script = ExtResource("2_f0sk6")
+scene = ExtResource("4_he07j")
+metadata/_custom_type_script = "uid://dheva72pividh"
+
+[sub_resource type="Resource" id="Resource_ct112"]
+script = ExtResource("2_f0sk6")
+scene = ExtResource("5_ychjb")
+metadata/_custom_type_script = "uid://dheva72pividh"
+
+[node name="ModularBuilding2" type="Node3D" unique_id=1693065470]
+script = ExtResource("1_j0uyl")
+bases = Array[ExtResource("2_f0sk6")]([SubResource("Resource_j0uyl")])
+stories = Array[ExtResource("2_f0sk6")]([SubResource("Resource_fdkks")])
+roofs = Array[ExtResource("2_f0sk6")]([SubResource("Resource_ct112")])
+max_stories = 5
+main_color = Color(0.8535616, 0.5771508, 0.57742745, 1)
+secondary_color = Color(0.4503343, 0.3923931, 0.34857777, 1)
+
+[node name="modular2_building_baselayer" type="Node3D" parent="." unique_id=501823765 instance=ExtResource("3_75mmd")]
+
+[node name="modular2_building_midlayer" type="Node3D" parent="." unique_id=1661126772 instance=ExtResource("4_he07j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="@Node3D@21971" type="Node3D" parent="." unique_id=1558343016 instance=ExtResource("4_he07j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+
+[node name="@Node3D@21972" type="Node3D" parent="." unique_id=406103690 instance=ExtResource("4_he07j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+
+[node name="@Node3D@21973" type="Node3D" parent="." unique_id=2021991656 instance=ExtResource("4_he07j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+
+[node name="@Node3D@21974" type="Node3D" parent="." unique_id=1689584880 instance=ExtResource("4_he07j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+
+[node name="@Node3D@21975" type="Node3D" parent="." unique_id=1779758216 instance=ExtResource("5_ychjb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, 0)
