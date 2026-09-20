@@ -50,6 +50,9 @@ stamina_drain_rate = 22.0
 stamina_regen_rate = 40.0
 inventory = NodePath("PlayerInventory")
 
+[node name="Body" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1884816898) index="0" unique_id=1893531196]
+visible = false
+
 [node name="TorsoSlot" parent="Visual/guy/Armature/Skeleton3D/TorsoSlotBone" parent_id_path=PackedInt32Array(457456582) index="0" unique_id=102213647]
 visible = false
 

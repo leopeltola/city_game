@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://t8iul0q1pm51" path="res://src/features/items/data/ski_mask/ski_mask.glb" id="2"]
+
+[resource]
+script = ExtResource("1")
+name = "ski_mask"
+display_name = "Ski Mask"
+world_item_path = "res://src/features/items/data/ski_mask/ski_mask_world.tscn"
+equip_item_path = "res://src/features/items/data/ski_mask/ski_mask_equip.tscn"
+display_scene = ExtResource("2")
+prop_slot = 3
