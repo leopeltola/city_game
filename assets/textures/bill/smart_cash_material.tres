@@ -17,7 +17,7 @@ uniform float texture_aspect = 2.0;
 uniform vec2 atlas_size = vec2(708.0, 128.0);
 
 instance uniform int bill_amount = 100;
-instance uniform int texture_index : hint_range(0, 4) = 0;
+instance uniform int texture_index : hint_range(0, 6) = 0;
 instance uniform vec4 text_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 
 void fragment() {
