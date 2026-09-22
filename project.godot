@@ -178,3 +178,4 @@ camera={
 [rendering]
 
 anti_aliasing/quality/use_taa=true
+occlusion_culling/use_occlusion_culling=true

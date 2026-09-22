@@ -19,7 +19,12 @@ metadata/_custom_type_script = "uid://dheva72pividh"
 [sub_resource type="Resource" id="Resource_ct112"]
 script = ExtResource("2_f0sk6")
 scene = ExtResource("5_ychjb")
+height = 3.2
 metadata/_custom_type_script = "uid://dheva72pividh"
+
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_g318b"]
+resource_local_to_scene = true
+size = Vector3(14.437531, 10.881987, 12.310984)
 
 [node name="ModularBuilding2" type="Node3D" unique_id=1693065470]
 script = ExtResource("1_j0uyl")
@@ -30,22 +35,7 @@ max_stories = 5
 main_color = Color(0.8535616, 0.5771508, 0.57742745, 1)
 secondary_color = Color(0.4503343, 0.3923931, 0.34857777, 1)
 
-[node name="modular2_building_baselayer" type="Node3D" parent="." unique_id=501823765 instance=ExtResource("3_75mmd")]
-
-[node name="modular2_building_midlayer" type="Node3D" parent="." unique_id=1661126772 instance=ExtResource("4_he07j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-
-[node name="@Node3D@21971" type="Node3D" parent="." unique_id=1558343016 instance=ExtResource("4_he07j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
-
-[node name="@Node3D@21972" type="Node3D" parent="." unique_id=406103690 instance=ExtResource("4_he07j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
-
-[node name="@Node3D@21973" type="Node3D" parent="." unique_id=2021991656 instance=ExtResource("4_he07j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
-
-[node name="@Node3D@21974" type="Node3D" parent="." unique_id=1689584880 instance=ExtResource("4_he07j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
-
-[node name="@Node3D@21975" type="Node3D" parent="." unique_id=1779758216 instance=ExtResource("5_ychjb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, 0)
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="." unique_id=1431447966]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2419424, 0)
+occluder = SubResource("BoxOccluder3D_g318b")

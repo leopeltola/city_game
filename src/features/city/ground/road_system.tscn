@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dyuhpi43nbc5g"]
+
+[ext_resource type="PackedScene" uid="uid://ctmyo70nflbwe" path="res://src/features/city/ground/road_straight.tscn" id="1_dkxnv"]
+[ext_resource type="Script" uid="uid://d1057n7o36iac" path="res://src/features/city/ground/road_system.gd" id="1_qyjlm"]
+[ext_resource type="PackedScene" uid="uid://b7a4hne55eqps" path="res://src/features/city/ground/road_4way.tscn" id="2_iarft"]
+[ext_resource type="PackedScene" uid="uid://bh6maorctyn4l" path="res://src/features/city/ground/road_3way.tscn" id="2_qyjlm"]
+[ext_resource type="PackedScene" uid="uid://dn7ak0xe3mbva" path="res://src/features/city/ground/road_turn.tscn" id="3_iarft"]
+[ext_resource type="PackedScene" uid="uid://bi0yohs048ee5" path="res://src/features/city/ground/plaza.tscn" id="4_7ru5d"]
+[ext_resource type="Texture2D" uid="uid://c1gcyj1p1duhp" path="res://src/features/city/ground/road_network.png" id="7_7ru5d"]
+
+[node name="RoadSystem" type="Node3D" unique_id=1713881708]
+script = ExtResource("1_qyjlm")
+road_4_way = ExtResource("2_iarft")
+road_3_way = ExtResource("2_qyjlm")
+road_straight = ExtResource("1_dkxnv")
+road_turn = ExtResource("3_iarft")
+plaza = ExtResource("4_7ru5d")
+layout_texture = ExtResource("7_7ru5d")
