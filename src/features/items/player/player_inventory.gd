@@ -222,7 +222,7 @@ func unwear_prop_slot(slot: PropSystem.PropSlot) -> void:
 	var prop_system := player.prop_system
 	if prop_system == null:
 		return
-	var item_id := prop_system.unequip(slot)
+	var item_id := prop_system.unwear(slot)
 	if item_id != -1 and not try_add_item(item_id):
 		ItemManager.create_world_item_for(item_id, player.global_position + Vector3.UP, player.rotation)
 

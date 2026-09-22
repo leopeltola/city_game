@@ -47,8 +47,9 @@ func _ready() -> void:
 		%TorsoSlot.show()
 
 
-## Wears [item_id] in [slot], returning the previously worn item id (or -1).
+## Wears [param item_id] in [param slot], returning the previously worn item id (or -1).
 func wear(item_id: int, slot: PropSystem.PropSlot) -> int:
+	assert(is_multiplayer_authority(), "Can only be called on the multiplayer authority (owning client)")
 	if slot <= PropSystem.PropSlot.NONE or slot >= PropSystem.PropSlot.COUNT:
 		return -1
 	var previous := get_worn_item_id(slot)
@@ -58,8 +59,9 @@ func wear(item_id: int, slot: PropSystem.PropSlot) -> int:
 	return previous
 
 
-## Removes and returns the item worn in [slot] (or -1). Backend for the unequip menu.
-func unequip(slot: PropSystem.PropSlot) -> int:
+## Removes and returns the item worn in [param slot] (or -1). Backend for the unequip menu.
+func unwear(slot: PropSystem.PropSlot) -> int:
+	assert(is_multiplayer_authority(), "Can only be called on the multiplayer authority (owning client)")
 	var item_id := get_worn_item_id(slot)
 	if item_id == -1:
 		return -1
@@ -68,7 +70,7 @@ func unequip(slot: PropSystem.PropSlot) -> int:
 	return item_id
 
 
-## Returns the item id worn in [slot], or -1 if empty.
+## Returns the item id worn in [param slot], or -1 if empty.
 func get_worn_item_id(slot: PropSystem.PropSlot) -> int:
 	if slot < 0 or slot >= worn_slots.size():
 		return -1
@@ -79,7 +81,7 @@ func is_slot_occupied(slot: PropSystem.PropSlot) -> bool:
 	return get_worn_item_id(slot) != -1
 
 
-## Returns the node props in [slot] mount under (null for NONE).
+## Returns the node props in [param slot] mount under (null for NONE).
 func get_slot_node(slot: PropSystem.PropSlot) -> Node3D:
 	return _slot_nodes.get(slot) as Node3D
 
@@ -99,7 +101,6 @@ func _mount_slot(slot: PropSystem.PropSlot, item_id: int) -> void:
 	equip.item_id = item_id
 	equip.player = owner as Humanoid
 	slot_node.add_child(equip)
-	
 
 
 func _unmount_slot(slot: PropSystem.PropSlot) -> void:
