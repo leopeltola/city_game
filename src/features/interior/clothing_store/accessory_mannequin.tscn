@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dg8c8hq31il1e"]
+
+[ext_resource type="Script" uid="uid://byhbaphgo44pn" path="res://src/features/interior/clothing_store/shop_mannequin.gd" id="1_rs3kd"]
+[ext_resource type="Resource" uid="uid://8nbmgp43nxsk" path="res://src/features/items/data/briefcase/briefcase.tres" id="2_bds0n"]
+[ext_resource type="PackedScene" uid="uid://csa3w7v7ekwtf" path="res://src/features/items/data/briefcase/briefcase.glb" id="3_dveog"]
+[ext_resource type="Script" uid="uid://i7x3a2qiskq" path="res://src/features/interior/clothing_store/mannequin_interactable_area.gd" id="4_bcu7r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcu7r"]
+albedo_color = Color(0.9137255, 0.56078434, 0.44313726, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bds0n"]
+top_radius = 0.4
+bottom_radius = 0.4
+height = 0.13085938
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2ey54"]
+radius = 0.3
+
+[node name="AccessoryMannequin" type="Node3D" unique_id=1691759729 node_paths=PackedStringArray("item_container")]
+script = ExtResource("1_rs3kd")
+shown_item = ExtResource("2_bds0n")
+price = 1000
+item_container = NodePath("ItemContainer")
+
+[node name="ItemContainer" type="Node3D" parent="." unique_id=405467485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.37071875, 0)
+
+[node name="briefcase" parent="ItemContainer" unique_id=877886230 instance=ExtResource("3_dveog")]
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1118108720]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=26664430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06542969, 0)
+material_override = SubResource("StandardMaterial3D_bcu7r")
+mesh = SubResource("CylinderMesh_bds0n")
+
+[node name="ItemSpawnPos" type="Node3D" parent="." unique_id=897163699]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25029942, 0.68363345)
+
+[node name="MannequinInteractableArea" type="Area3D" parent="." unique_id=250630931]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19975168, 0.3620577)
+script = ExtResource("4_bcu7r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MannequinInteractableArea" unique_id=1771057359]
+shape = SubResource("SphereShape3D_2ey54")

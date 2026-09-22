@@ -247,4 +247,6 @@ text = "50 000€"
 font_size = 23
 outline_size = 10
 
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+
 [editable path="HeldAnchor/briefcase"]
