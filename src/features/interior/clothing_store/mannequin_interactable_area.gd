@@ -23,10 +23,3 @@ func can_interact(player_id: int) -> bool:
 		else:
 			return false
 	return false
-
-
-func set_open(is_open: bool) -> void:
-	if is_open:
-		prompt = "Close"
-	else:
-		prompt = "Open"
