@@ -107,7 +107,7 @@ price = 200
 
 [node name="Mannequin5" parent="." unique_id=454984832 instance=ExtResource("3_4u2s3")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2, 0, -2)
-price = 200
+price = 5000
 
 [node name="Mannequin6" parent="." unique_id=1972117337 instance=ExtResource("3_4u2s3")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2, 0, -4)
@@ -174,6 +174,7 @@ shown_item = ExtResource("16_r8cmv")
 
 [node name="HatMannequin7" parent="." unique_id=585550756 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 7.2957363, 0.7020798, -8.666667)
+price = 2000
 
 [node name="HatMannequin8" parent="." unique_id=1216115004 instance=ExtResource("5_cvfxr")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 7.2957363, 0.7020798, -6.666667)
