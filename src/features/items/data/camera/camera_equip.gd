@@ -1,7 +1,7 @@
 class_name CameraEquip
 extends ItemEquip
 ## Camera gear toggled with the "camera" action (C). Not backed by a real item
-## (is_unarmed()), so it is always available. PlayerInventory mounts/lowers it and
+## (is_unarmed()), so it is always available. The equip host mounts/lowers it and
 ## restores the held slot item; getting hit lowers it too.
 ##
 ## While mounted, the rig idle comes from idle_animation_override ("camera_idle",
@@ -191,7 +191,7 @@ func _give_photo_item(item_id: int) -> void:
 	if not is_instance_valid(player) or not is_instance_valid(player.inventory):
 		return
 	var inv := player.inventory as PlayerInventory
-	if inv != null and inv.take_item(item_id):
+	if inv != null and inv.pickup_item(item_id):
 		return
 	var pos := player.global_position + player.global_basis * Vector3.FORWARD * 1.2
 	ItemManager.create_world_item_for(item_id, pos, player.rotation)

@@ -38,9 +38,10 @@ var camera: Camera3D = null
 const SLOW_EFFECT_ID := &"hit_slow"
 const STAGGER_EFFECT_ID := &"stagger"
 
-## The equip host (mounts items / unarmed gear). Players use PlayerInventory (with
-## slot management and cash); NPCs use a bare EquipHost.
-@export var inventory: EquipHost = null
+## Mounts the hand equip (item, camera or unarmed fists). Present on every actor.
+@export var equipment: EquipHost = null
+## The actor's item inventory. Players have one (slots, cash, drops); NPCs don't.
+@export var inventory: PlayerInventory = null
 
 @onready var animator: ActorAnimator = %PlayerAnimator
 @onready var status: ActorStatus = %ActorStatus
@@ -103,7 +104,7 @@ func _update_locomotion() -> void:
 
 ## Returns equipped item if any exists (including unarmed gear like fists). Null otherwise.
 func get_equipped_item() -> ItemEquip:
-	return inventory.get_equipped_node() if inventory else null
+	return equipment.get_equipped_node() if equipment else null
 
 
 ## True while a status effect (e.g. stagger) locks combat and slot-switch input.

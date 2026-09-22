@@ -1,7 +1,7 @@
 class_name PropEquip
 extends ItemEquip
 ## A wearable "prop" item (clothing/accessory). One equip scene serves two states:
-##  - held: PlayerInventory mounts it like any item; its HeldAnchor follows the right
+##  - held: the equip host mounts it like any item; its HeldAnchor follows the right
 ##    hand and LMB wears it onto its body slot.
 ##  - worn: PropSystem mounts it under the matching bone slot; the WornVisual child is
 ##    shown and the hand anchor is skipped.

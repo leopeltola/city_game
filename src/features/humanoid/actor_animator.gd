@@ -44,8 +44,8 @@ func _process(_delta: float) -> void:
 
 func _current_idle_name() -> String:
 	var idle := ""
-	if humanoid != null and humanoid.inventory != null:
-		idle = humanoid.inventory.get_idle_animation_override()
+	if humanoid != null and humanoid.equipment != null:
+		idle = humanoid.equipment.get_idle_animation_override()
 	return idle if not idle.is_empty() else "idle"
 
 
@@ -101,9 +101,9 @@ func on_hit_window_end() -> void:
 
 
 func _equipped_melee() -> MeleeEquip:
-	if humanoid == null or humanoid.inventory == null:
+	if humanoid == null or humanoid.equipment == null:
 		return null
-	return humanoid.inventory.get_equipped_node() as MeleeEquip
+	return humanoid.equipment.get_equipped_node() as MeleeEquip
 
 
 func _on_animation_finished(anim_name: StringName) -> void:

@@ -136,9 +136,8 @@ func _on_hit_received(damage: float) -> void:
 	if is_instance_valid(camera):
 		camera.add_damage_impact(damage)
 	# Put the camera away before the knock; camera_out replicates to every peer.
-	var inv := inventory as PlayerInventory
-	if inv != null and inv.camera_out:
-		inv.camera_out = false
+	if equipment != null and equipment.camera_out:
+		equipment.camera_out = false
 
 
 func _jumping() -> void:

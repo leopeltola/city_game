@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://dgheud6qxg21r" path="res://src/features/player/effects/run_particles.tscn" id="7_njwrn"]
 [ext_resource type="PackedScene" uid="uid://cyyl8frr1oc0s" path="res://src/features/humanoid/humanoid.tscn" id="8_hmd"]
 [ext_resource type="Script" uid="uid://dkttiovyg70ex" path="res://src/features/player/player_camera.gd" id="11_camfx"]
+[ext_resource type="Script" uid="uid://dqq1qmojxsaot" path="res://src/features/humanoid/equip_host.gd" id="12_equip"]
+[ext_resource type="Script" uid="uid://cwy8dp63xtqmg" path="res://src/features/items/player/item_dropper.gd" id="13_dropper"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1mqja"]
 random_pitch = 1.158962
@@ -31,7 +33,7 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath("RunParticles:emitting")
 properties/4/spawn = true
 properties/4/replication_mode = 2
-properties/5/path = NodePath("PlayerInventory:camera_out")
+properties/5/path = NodePath("EquipHost:camera_out")
 properties/5/spawn = true
 properties/5/replication_mode = 2
 
@@ -40,7 +42,7 @@ font = ExtResource("5_rybn4")
 outline_size = 7
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Player" unique_id=882128478 node_paths=PackedStringArray("inventory") instance=ExtResource("8_hmd")]
+[node name="Player" unique_id=882128478 node_paths=PackedStringArray("equipment", "inventory") instance=ExtResource("8_hmd")]
 script = ExtResource("1_3v8pm")
 jump_sfx = SubResource("AudioStreamRandomizer_1mqja")
 player_id = 0
@@ -48,6 +50,7 @@ mouse_sensitivity = 0.003
 max_stamina = 100.0
 stamina_drain_rate = 22.0
 stamina_regen_rate = 40.0
+equipment = NodePath("EquipHost")
 inventory = NodePath("PlayerInventory")
 
 [node name="Body" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 710079992) index="0" unique_id=1259868698]
@@ -151,17 +154,25 @@ grow_horizontal = 2
 text = "Player Name"
 label_settings = SubResource("LabelSettings_q1gf2")
 
-[node name="PlayerInventory" type="Node" parent="." index="23" unique_id=827769654 node_paths=PackedStringArray("player", "_equip_root", "_right_equip_slot", "_left_equip_slot")]
+[node name="PlayerInventory" type="Node" parent="." index="23" unique_id=827769654 node_paths=PackedStringArray("player")]
 script = ExtResource("6_rybn4")
 slot_count = null
 item_slots = null
 active_index = null
-camera_out = null
+player = NodePath("..")
+metadata/_custom_type_script = "uid://byjrh17ptlrd"
+
+[node name="ItemDropper" type="Node" parent="PlayerInventory" node_paths=PackedStringArray("player", "inventory")]
+script = ExtResource("13_dropper")
+player = NodePath("../..")
+inventory = NodePath("..")
+
+[node name="EquipHost" type="Node" parent="." node_paths=PackedStringArray("player", "_equip_root", "_right_equip_slot", "_left_equip_slot")]
+script = ExtResource("12_equip")
 player = NodePath("..")
 _equip_root = NodePath("../EquipRoot")
 _right_equip_slot = NodePath("../RightItemSlot")
 _left_equip_slot = NodePath("../LeftItemSlot")
-metadata/_custom_type_script = "uid://byjrh17ptlrd"
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="24" unique_id=1172710643]
 volume_db = -15.605

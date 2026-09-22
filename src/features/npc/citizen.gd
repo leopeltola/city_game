@@ -13,8 +13,8 @@ extends Humanoid
 func _ready() -> void:
 	is_local = Net.is_server
 	super()
-	if inventory:
-		inventory.mount_unarmed()
+	if equipment:
+		equipment.mount_unarmed()
 
 
 ## Virtual hook from Humanoid: runs on every peer, but only the server acts.

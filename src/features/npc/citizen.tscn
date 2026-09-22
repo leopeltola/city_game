@@ -4,10 +4,10 @@
 [ext_resource type="Script" uid="uid://ng6aia7vckca" path="res://src/features/npc/citizen.gd" id="2_bn4tr"]
 [ext_resource type="Script" uid="uid://dqq1qmojxsaot" path="res://src/features/humanoid/equip_host.gd" id="3_vs6dt"]
 
-[node name="Citizen" unique_id=1073360910 node_paths=PackedStringArray("inventory") instance=ExtResource("1_bn4tr")]
+[node name="Citizen" unique_id=1073360910 node_paths=PackedStringArray("equipment") instance=ExtResource("1_bn4tr")]
 script = ExtResource("2_bn4tr")
 cash = 100
-inventory = NodePath("EquipHost")
+equipment = NodePath("EquipHost")
 
 [node name="Physical Bone Hand_L" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="2" unique_id=756653337]
 transform = Transform3D(-0.29144964, -0.8265349, -0.4815571, -0.94741654, 0.31894815, 0.025962552, 0.13213278, 0.46380195, -0.87603015, 0.4751182, 0.73395824, 0.19577938)

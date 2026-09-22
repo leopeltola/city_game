@@ -68,7 +68,7 @@ func _on_unequipped() -> void:
 ## Creates a RemoteTransform3D under each HandAnchor's hand slot that pushes the slot
 ## (hand bone) transform onto the anchor every frame.
 func _attach_hand_anchors() -> void:
-	if player == null or player.inventory == null:
+	if player == null or player.equipment == null:
 		return
 	for child in get_children():
 		if child is HandAnchor:
@@ -78,7 +78,7 @@ func _attach_hand_anchors() -> void:
 func _drive_anchor(anchor: HandAnchor) -> void:
 	if _anchor_drivers.has(anchor):
 		return
-	var slot: Node3D = player.inventory.get_hand_slot(anchor.hand)
+	var slot: Node3D = player.equipment.get_hand_slot(anchor.hand)
 	if slot == null:
 		return
 	var rt := RemoteTransform3D.new()
