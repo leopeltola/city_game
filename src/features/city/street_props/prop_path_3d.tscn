@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cips3w1fegymw"]
+
+[ext_resource type="Script" uid="uid://ywaywto2oa3m" path="res://src/features/city/street_props/prop_path_3d.gd" id="1_tu7m5"]
+
+[node name="PropPath3D" type="Path3D" unique_id=1857625460]
+script = ExtResource("1_tu7m5")

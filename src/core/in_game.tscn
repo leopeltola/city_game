@@ -80,9 +80,14 @@ tonemap_mode = 4
 ssr_enabled = true
 ssao_enabled = true
 glow_enabled = true
+fog_light_color = Color(0.5601168, 0.5463715, 0.53689015, 1)
+fog_sun_scatter = 0.35
+fog_density = 0.0095
+fog_aerial_perspective = 1.0
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0025
 volumetric_fog_albedo = Color(0.81, 0.9113333, 1, 1)
+volumetric_fog_emission = Color(0.5255756, 0.71479553, 0.8275363, 1)
 volumetric_fog_ambient_inject = 1.55
 volumetric_fog_sky_affect = 0.76
 
@@ -291,17 +296,17 @@ script = ExtResource("4_anh6s")
 [node name="CasinoSkyscraper" parent="City" unique_id=1418599293 instance=ExtResource("17_xdh1b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.46692, 0.13125515, -9.959579)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 592319556) index="0" unique_id=2137893935]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 969999495) index="0" unique_id=2137893935]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper/StaticBody3D" unique_id=1988896395]
 shape = SubResource("ConcavePolygonShape3D_a54ph")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 612543169) index="0" unique_id=1235067300]
+[node name="StaticBody3D" type="StaticBody3D" parent="City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 1607977321) index="0" unique_id=1235067300]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="City/CasinoSkyscraper/Skyscraper_001/StaticBody3D" unique_id=562831225]
 shape = SubResource("ConcavePolygonShape3D_2h7sf")
 
-[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=982927261]
+[node name="Skyscraper_003" parent="City/CasinoSkyscraper" index="5" unique_id=1491844758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0038805008, 4.3149405, 0.014133453)
 
 [node name="casino_table" parent="City/CasinoSkyscraper" unique_id=475239430 instance=ExtResource("24_txgtg")]
@@ -372,43 +377,43 @@ transform = Transform3D(-0.056715995, 0, -0.9983904, 0, 1, 0, 0.9983904, 0, -0.0
 [node name="Roads" type="Node3D" parent="City" unique_id=548307977]
 
 [node name="StraightRoad" parent="City/Roads" unique_id=929372850 instance=ExtResource("13_yfk00")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3, 0, 1)
 
 [node name="StraightRoad2" parent="City/Roads" unique_id=142086682 instance=ExtResource("13_yfk00")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 1)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -13, 0, 1)
 
 [node name="StraightRoad3" parent="City/Roads" unique_id=83323499 instance=ExtResource("13_yfk00")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 11)
 
 [node name="StraightRoad4" parent="City/Roads" unique_id=889108342 instance=ExtResource("13_yfk00")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 21)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 21)
 
 [node name="StraightRoad5" parent="City/Roads" unique_id=1046802374 instance=ExtResource("13_yfk00")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 31)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 31)
 
 [node name="StraightRoad6" parent="City/Roads" unique_id=1726362486 instance=ExtResource("13_yfk00")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 41)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 41)
 
 [node name="StraightRoad7" parent="City/Roads" unique_id=1681081994 instance=ExtResource("13_yfk00")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 51)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 51)
 
 [node name="StraightRoad8" parent="City/Roads" unique_id=1922961948 instance=ExtResource("13_yfk00")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 61)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 61)
 
 [node name="3Way2" parent="City/Roads" unique_id=1052351979 instance=ExtResource("14_udf63")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 1)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 7, 0, 1)
 
 [node name="TurnRoad" parent="City/Roads" unique_id=649108810 instance=ExtResource("15_rur3b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 1)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17, 0, 1)
 
 [node name="TurnRoad2" parent="City/Roads" unique_id=71023638 instance=ExtResource("15_rur3b")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 17, 0, 11)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 17, 0, 11)
 
 [node name="TurnRoad3" parent="City/Roads" unique_id=2109334949 instance=ExtResource("15_rur3b")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 7, 0, 11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 11)
 
 [node name="TurnRoad4" parent="City/Roads" unique_id=1621659301 instance=ExtResource("15_rur3b")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 1)
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -23, 0, 1)
 
 [node name="Plaza" parent="City/Roads" unique_id=609859498 instance=ExtResource("22_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 11)

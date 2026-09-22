@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b8gnmpny42n0i"]
+
+[ext_resource type="PackedScene" uid="uid://dln1ucilt6pj2" path="res://src/features/city/street_props/lamp.glb" id="1_biyxx"]
+
+[node name="lamp" unique_id=535170162 instance=ExtResource("1_biyxx")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." index="1" unique_id=332823665]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 6, 1.755173)
+light_color = Color(1, 0.90133333, 0.84000003, 1)
+light_energy = 1.888
+distance_fade_enabled = true
+spot_range = 11.0
+spot_angle = 46.406246
