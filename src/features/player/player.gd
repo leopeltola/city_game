@@ -61,7 +61,7 @@ func _ready() -> void:
 		if HUD.instance:
 			HUD.instance.set_stamina(1.0)
 		$Visual/guy/Armature/Skeleton3D/Head.hide()
-		$Visual/guy/Armature/Skeleton3D/Body.hide()
+		prop_system.refresh_base_body()
 
 
 func _process(delta: float) -> void:

@@ -41,10 +41,32 @@ func _ready() -> void:
 		worn_slots.resize(PropSystem.PropSlot.COUNT)
 		worn_slots.fill(-1)
 
-	## Placeholder code to hide clothing from the local player
 	if not get_parent().is_local:
 		%HeadItemSlot.show()
 		%TorsoSlot.show()
+
+	refresh_base_body()
+
+
+## Shows/hides the owner's base body mesh so a worn torso prop replaces it. The locally
+## simulated actor (first-person player) keeps its own body hidden.
+func refresh_base_body() -> void:
+	var humanoid := owner as Humanoid
+	if humanoid == null or humanoid.body_mesh == null:
+		return
+	humanoid.body_mesh.visible = not humanoid.is_local and not _is_torso_worn()
+
+
+## True while a prop is mounted in the TORSO slot, whether worn via [method wear] or a
+## visual-only [method mount_visual] loadout (NPC clothing).
+func _is_torso_worn() -> bool:
+	var slot_node := _slot_nodes.get(PropSystem.PropSlot.TORSO) as Node3D
+	if slot_node == null:
+		return false
+	for child in slot_node.get_children():
+		if child is ItemEquip and not child.is_queued_for_deletion():
+			return true
+	return false
 
 
 ## Wears [param item_id] in [param slot], returning the previously worn item id (or -1).
@@ -117,6 +139,8 @@ func _instantiate_worn(slot: PropSystem.PropSlot, type: ItemType, item_id: int) 
 	equip.item_id = item_id
 	equip.player = owner as Humanoid
 	slot_node.add_child(equip)
+	if slot == PropSystem.PropSlot.TORSO:
+		refresh_base_body()
 
 
 func _unmount_slot(slot: PropSystem.PropSlot) -> void:
@@ -126,3 +150,5 @@ func _unmount_slot(slot: PropSystem.PropSlot) -> void:
 	for child in slot_node.get_children():
 		if child is ItemEquip and child.item_type and child.item_type.prop_slot == slot:
 			child.queue_free()
+	if slot == PropSystem.PropSlot.TORSO:
+		refresh_base_body()

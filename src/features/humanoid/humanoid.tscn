@@ -70,9 +70,10 @@ properties/2/replication_mode = 2
 radius = 0.30810547
 height = 1.5600586
 
-[node name="Humanoid" type="CharacterBody3D" unique_id=2003321540]
+[node name="Humanoid" type="CharacterBody3D" unique_id=2003321540 node_paths=PackedStringArray("body_mesh")]
 collision_layer = 2
 script = ExtResource("1_human")
+body_mesh = NodePath("Visual/guy/Armature/Skeleton3D/Body")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=132172821]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79228514, 0)

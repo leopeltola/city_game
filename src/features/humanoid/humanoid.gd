@@ -42,6 +42,9 @@ const STAGGER_EFFECT_ID := &"stagger"
 @export var equipment: EquipHost = null
 ## The actor's item inventory. Players have one (slots, cash, drops); NPCs don't.
 @export var inventory: PlayerInventory = null
+## The base body mesh (torso/limbs) a worn torso prop replaces. Assigned in the scene;
+## hidden by [PropSystem] while the TORSO slot is filled.
+@export var body_mesh: MeshInstance3D = null
 
 @onready var animator: ActorAnimator = %PlayerAnimator
 @onready var status: ActorStatus = %ActorStatus
