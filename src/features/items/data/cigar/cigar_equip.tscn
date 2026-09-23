@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://mtq8bwees8bm"]
+
+[ext_resource type="Script" uid="uid://dy50ad8raajw1" path="res://src/features/items/props/prop_equip.gd" id="1"]
+[ext_resource type="Resource" uid="uid://cql6pmcl1bx6m" path="res://src/features/items/data/cigar/cigar.tres" id="2"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://dsi4muucofyp0" path="res://src/features/items/data/cigar/cigar.glb" id="4"]
+
+[sub_resource type="Curve" id="Curve_00dyr"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.15015471, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.8455606, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_40xnh"]
+curve = SubResource("Curve_00dyr")
+
+[sub_resource type="Curve" id="Curve_eiboe"]
+_data = [Vector2(1e-05, 0), 0.0, 0.0, 0, 0, Vector2(0.18885441, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_8d87t"]
+curve = SubResource("Curve_eiboe")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_166k3"]
+direction = Vector3(0, 1, 0)
+spread = 8.745
+initial_velocity_min = 0.19999999
+initial_velocity_max = 0.19999999
+gravity = Vector3(0, 0, 0)
+damping_min = 0.1
+damping_max = 0.1
+scale_min = 0.59999996
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_8d87t")
+color = Color(0.4670474, 0.46704745, 0.4670474, 1)
+alpha_curve = SubResource("CurveTexture_40xnh")
+
+[sub_resource type="Gradient" id="Gradient_q6dca"]
+offsets = PackedFloat32Array(0.37333325, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pip8p"]
+gradient = SubResource("Gradient_q6dca")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6dca"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_pip8p")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_eiboe"]
+material = SubResource("StandardMaterial3D_q6dca")
+size = Vector2(0.1, 0.1)
+
+[node name="CigarEquip" type="Node3D" unique_id=195231527]
+script = ExtResource("1")
+item_type = ExtResource("2")
+
+[node name="HeldAnchor" type="Node3D" parent="." unique_id=1967774294]
+script = ExtResource("3")
+
+[node name="cigar" parent="HeldAnchor" unique_id=1473601092 instance=ExtResource("4")]
+
+[node name="WornVisual" type="Node3D" parent="." unique_id=30104025]
+
+[node name="cigar" parent="WornVisual" unique_id=717593385 instance=ExtResource("4")]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="WornVisual/cigar" unique_id=1147994472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10467571, -0.5594585, 0.40627298)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_166k3")
+draw_pass_1 = SubResource("QuadMesh_eiboe")
