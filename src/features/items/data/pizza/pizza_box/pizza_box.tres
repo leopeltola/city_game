@@ -12,3 +12,4 @@ instance_data = Dictionary[StringName, Variant]({
 &"is_empty": true
 })
 metadata/_custom_type_script = "uid://1v4ix87tn325"
+base_value = 2

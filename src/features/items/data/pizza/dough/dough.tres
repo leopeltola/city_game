@@ -9,3 +9,4 @@ display_name = "Pizza Dough"
 world_item_path = "uid://bu4c2af800l6d"
 equip_item_path = "uid://b83ukeb7tg7bo"
 metadata/_custom_type_script = "uid://1v4ix87tn325"
+base_value = 5

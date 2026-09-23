@@ -14,3 +14,4 @@ instance_data = Dictionary[StringName, Variant]({
 &"money": 500
 })
 prop_slot = 5
+base_value = 200

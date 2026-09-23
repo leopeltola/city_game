@@ -11,3 +11,4 @@ world_item_path = "res://src/features/items/data/rect_glasses/rect_glasses_world
 equip_item_path = "res://src/features/items/data/rect_glasses/rect_glasses_equip.tscn"
 display_scene = ExtResource("2")
 prop_slot = 4
+base_value = 25

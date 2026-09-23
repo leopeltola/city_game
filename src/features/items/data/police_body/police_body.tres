@@ -11,3 +11,4 @@ world_item_path = "uid://crn7kt3x8m6bn"
 equip_item_path = "uid://6fu1gtxps5if"
 display_scene = ExtResource("1_yyvbx")
 prop_slot = 1
+base_value = 60

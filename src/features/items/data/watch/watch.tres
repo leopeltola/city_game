@@ -8,3 +8,4 @@ name = "watch"
 prop_slot = 5
 world_item_path = "res://src/features/items/data/watch/watch_world.tscn"
 equip_item_path = "res://src/features/items/data/watch/watch_equip.tscn"
+base_value = 300

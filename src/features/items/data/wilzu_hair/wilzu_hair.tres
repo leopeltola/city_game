@@ -11,3 +11,4 @@ world_item_path = "res://src/features/items/data/wilzu_hair/wilzu_hair_world.tsc
 equip_item_path = "res://src/features/items/data/wilzu_hair/wilzu_hair_equip.tscn"
 display_scene = ExtResource("2")
 prop_slot = 2
+base_value = 15

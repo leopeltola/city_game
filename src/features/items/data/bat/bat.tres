@@ -9,3 +9,4 @@ display_name = "Bat"
 world_item_path = "uid://bdx5ismm5bh76"
 equip_item_path = "uid://b1m0cxbm5lkgg"
 metadata/_custom_type_script = "uid://1v4ix87tn325"
+base_value = 50

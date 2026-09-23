@@ -12,6 +12,10 @@ static var _scene_cache: Dictionary[String, PackedScene] = { }
 ## Item's visual-only scene. Used by clothing store mannequins
 @export var display_scene: PackedScene = null
 @export var instance_data: Dictionary[StringName, Variant] = { }
+## Base monetary value (€) of one of these items. Used to pay off a wanted status
+## when police confiscate belongings, and by future systems (shops, fines, ...).
+## Cash stacks are worth their instance `money` amount instead.
+@export var base_value: int = 0
 ## Body slot this item wears on (PropSystem.PropSlot). NONE = not a wearable prop.
 @export var prop_slot: PropSystem.PropSlot = PropSystem.PropSlot.NONE
 

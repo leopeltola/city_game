@@ -11,3 +11,4 @@ world_item_path = "res://src/features/items/data/open_shirt/open_shirt_world.tsc
 equip_item_path = "res://src/features/items/data/open_shirt/open_shirt_equip.tscn"
 display_scene = ExtResource("2")
 prop_slot = 1
+base_value = 30

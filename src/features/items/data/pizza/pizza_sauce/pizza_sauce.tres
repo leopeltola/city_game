@@ -9,3 +9,4 @@ display_name = "Pizza Sauce"
 world_item_path = "uid://1nup4qdg8vba"
 equip_item_path = "uid://dhoc77vikl1yt"
 metadata/_custom_type_script = "uid://1v4ix87tn325"
+base_value = 5

@@ -9,3 +9,4 @@ display_name = "Police Hat"
 world_item_path = "uid://b3d273juk5ihr"
 equip_item_path = "res://src/features/items/data/police_hat/police_hat_equip.tscn"
 prop_slot = 2
+base_value = 35

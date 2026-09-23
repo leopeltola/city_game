@@ -11,3 +11,4 @@ world_item_path = "res://src/features/items/data/bandana/bandana_world.tscn"
 equip_item_path = "res://src/features/items/data/bandana/bandana_equip.tscn"
 display_scene = ExtResource("2")
 prop_slot = 3
+base_value = 20

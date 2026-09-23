@@ -11,3 +11,4 @@ world_item_path = "res://src/features/items/data/guard_body/guard_body_world.tsc
 equip_item_path = "res://src/features/items/data/guard_body/guard_body_equip.tscn"
 display_scene = ExtResource("2")
 prop_slot = 1
+base_value = 60
