@@ -286,7 +286,8 @@ func _navigate_to(position: Vector3) -> void:
 		direction = position - global_position
 		direction.y = 0.0
 	locomotion.desired_direction = direction.normalized()
-	_face(direction)
+	if not locomotion.desired_direction.is_zero_approx():
+		_face(direction)
 
 
 ## Rotates the officer to face a world-space direction.

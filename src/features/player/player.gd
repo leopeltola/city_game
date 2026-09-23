@@ -32,10 +32,11 @@ var stamina: float = 100.0
 var arrested := false
 ## Global position the client auto-walks to while arrested.
 var escort_target := Vector3.ZERO
-## Local pathfinding helper used only while being escorted.
-var nav_agent: NavigationAgent3D = null
 ## True once the client has told the server it reached the cell.
 var _arrival_sent := false
+
+## Local pathfinding helper used only while being escorted.
+@onready var nav_agent: NavigationAgent3D = %NavigationAgent3D
 
 @onready var sight_pivot: Node3D = %SightPivot
 
@@ -49,11 +50,6 @@ func _ready() -> void:
 
 	stamina = max_stamina
 	camera = %Camera3D
-
-	nav_agent = NavigationAgent3D.new()
-	nav_agent.path_desired_distance = 0.5
-	nav_agent.target_desired_distance = 1.0
-	add_child(nav_agent)
 
 	if is_local:
 		%Camera3D.make_current()
