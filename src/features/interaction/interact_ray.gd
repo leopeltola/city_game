@@ -49,4 +49,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		var i: Interactable = col as Interactable
 		if not i.can_interact(player.player_id):
 			return
+		# An interactable that can be used must show a prompt, otherwise the player
+		# would trigger an action with no on-screen indication. Fails fast in dev.
+		assert(
+			not i.get_prompt(player.player_id).is_empty(),
+			"Interactable '%s' is interactable but shows no prompt" % i.name,
+		)
 		i.interact(player.player_id)

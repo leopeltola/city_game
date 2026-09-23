@@ -238,7 +238,7 @@ func _do_escort() -> void:
 		return
 
 	var distance := global_position.distance_to(_target.global_position)
-	if distance > 2.5:
+	if distance > 0.7:
 		move_speed_multiplier = chase_speed_multiplier
 		locomotion.run_requested = true
 		_navigate_to(_target.global_position)
