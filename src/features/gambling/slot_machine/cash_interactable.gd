@@ -1,11 +1,10 @@
 extends Interactable
 
 func get_prompt(player_id: int) -> String:
-	return prompt if can_interact(player_id) else "Need Cash"
+	return "Insert Cash" if can_interact(player_id) else "Need Cash"
 
 
 func interact(player_id: int) -> void:
-	print("Player put money in!")
 	interacted.emit(player_id)
 
 
