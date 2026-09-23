@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://r1u1a08ch40l"]
+
+[ext_resource type="PackedScene" uid="uid://chj8xyyscvr37" path="res://src/features/items/data/diamond/diamond.glb" id="1_gvv3i"]
+[ext_resource type="Texture2D" uid="uid://dyvfpq13fyjo3" path="res://src/features/items/data/diamond/sparkle_texture.png" id="2_d6vyd"]
+
+[sub_resource type="Curve" id="Curve_dqjhl"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.23142408, 0.689815), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_45db7"]
+curve = SubResource("Curve_dqjhl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_b3iag"]
+emission_shape = 2
+emission_sphere_radius = 0.1
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_45db7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_al0e3"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("2_d6vyd")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 4.67
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_g318b"]
+material = SubResource("StandardMaterial3D_al0e3")
+size = Vector2(0.1, 0.1)
+
+[node name="DiamondVisual" type="Node3D" unique_id=205762074]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="diamond" parent="." unique_id=1990818195 instance=ExtResource("1_gvv3i")]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="diamond" unique_id=1490753152]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023409545, 0)
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_b3iag")
+draw_pass_1 = SubResource("QuadMesh_g318b")
