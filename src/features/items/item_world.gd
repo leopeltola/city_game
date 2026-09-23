@@ -5,6 +5,10 @@ extends RigidBody3D
 @export var interaction_area: Interactable = null
 @export var debug_label: Label3D = null
 
+## Owner id for items dropped by an NPC (which has no player id). Any player who loots
+## one within the ownership grace window counts as stealing.
+const NPC_OWNER_ID := -1
+
 var item_id: int = -1 # -1 is invalid
 var launch_force: Vector3 = Vector3.ZERO
 var data: Dictionary:

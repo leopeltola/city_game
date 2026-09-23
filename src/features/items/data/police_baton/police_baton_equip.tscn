@@ -1,0 +1,55 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/items/data/police_baton/police_baton_equip.gd" id="1_baton"]
+[ext_resource type="AudioStream" path="res://assets/sfx/punch_1.ogg" id="2_hit"]
+[ext_resource type="AudioStream" path="res://assets/sfx/wood_hit_1.ogg" id="3_blocka"]
+[ext_resource type="AudioStream" path="res://assets/sfx/wood_hit_2.ogg" id="4_blockb"]
+[ext_resource type="AudioStream" path="res://assets/sfx/whoosh_1.ogg" id="5_swoosha"]
+[ext_resource type="AudioStream" path="res://assets/sfx/whoosh_2.ogg" id="6_swooshb"]
+[ext_resource type="PackedScene" path="res://src/features/items/data/bat/bat.glb" id="7_batmesh"]
+[ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="8_hanchor"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hit"]
+random_pitch = 1.1805152
+streams_count = 1
+stream_0/stream = ExtResource("2_hit")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_block"]
+random_pitch = 1.1805152
+streams_count = 2
+stream_0/stream = ExtResource("3_blocka")
+stream_1/stream = ExtResource("4_blockb")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_swoosh"]
+random_pitch = 1.1805152
+streams_count = 2
+stream_0/stream = ExtResource("5_swoosha")
+stream_1/stream = ExtResource("6_swooshb")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_baton"]
+height = 0.92
+radius = 0.067
+
+[node name="PoliceBatonEquip" type="Node3D"]
+script = ExtResource("1_baton")
+hit_sound = SubResource("AudioStreamRandomizer_hit")
+block_sound = SubResource("AudioStreamRandomizer_block")
+swoosh_sound = SubResource("AudioStreamRandomizer_swoosh")
+idle_animation_override = "bat_hold"
+
+[node name="RightHandAnchor" type="Node3D" parent="."]
+script = ExtResource("8_hanchor")
+
+[node name="Visual" type="Node3D" parent="RightHandAnchor"]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="bat" parent="RightHandAnchor/Visual" instance=ExtResource("7_batmesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025257472, 0)
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="RightHandAnchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64925706, 0)
+shape = SubResource("CylinderShape3D_baton")
+target_position = Vector3(0, 0, 0)
+collision_mask = 16
+collide_with_areas = true
+collide_with_bodies = false

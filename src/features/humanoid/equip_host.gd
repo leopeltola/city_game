@@ -146,9 +146,17 @@ func _remove_equipped_node() -> void:
 
 ## Mounts the bare-hands fists gear (unarmed, no backing item).
 func mount_unarmed() -> void:
-	if _equip_root == null or not is_instance_valid(player):
+	mount_scene(UNARMED_EQUIP_SCENE)
+
+
+## Mounts an arbitrary equip scene as the current equip, replacing any existing one.
+## Used by actors with fixed gear that isn't backed by an inventory slot (e.g. the
+## police baton). The scene's root must be an [ItemEquip].
+func mount_scene(scene: PackedScene) -> void:
+	if _equip_root == null or not is_instance_valid(player) or scene == null:
 		return
-	var fists: ItemEquip = UNARMED_EQUIP_SCENE.instantiate()
-	fists.player = player
-	_equipped_node = fists
-	_equip_root.add_child(fists)
+	_remove_equipped_node()
+	var equip: ItemEquip = scene.instantiate()
+	equip.player = player
+	_equipped_node = equip
+	_equip_root.add_child(equip)

@@ -11,15 +11,16 @@
 [ext_resource type="PackedScene" uid="uid://blensfktqyb4x" path="res://src/features/interior/bank/bench.glb" id="9_b7o7p"]
 [ext_resource type="PackedScene" uid="uid://bj3prdfge4t0j" path="res://src/features/interior/bank/plant.glb" id="10_nn86t"]
 [ext_resource type="PackedScene" uid="uid://we3n7sklupbq" path="res://src/features/interior/bank/tubelamp.glb" id="11_o5nll"]
+[ext_resource type="PackedScene" uid="uid://coeog7y3ngvkn" path="res://src/features/interior/police_station/report_desk/report_desk.tscn" id="12_report"]
 
 [node name="PoliceStation" type="Node3D" unique_id=1111426076]
 
 [node name="jail_building" parent="." unique_id=60940930 instance=ExtResource("1_symtt")]
 
-[node name="JailDoor" parent="." unique_id=570098545 instance=ExtResource("2_wqums")]
+[node name="JailDoor" parent="." unique_id=570098545 groups=["jail_door"] instance=ExtResource("2_wqums")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 2)
 
-[node name="JailDoor2" parent="." unique_id=1942678915 instance=ExtResource("2_wqums")]
+[node name="JailDoor2" parent="." unique_id=1942678915 groups=["jail_door"] instance=ExtResource("2_wqums")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1, 2)
 
 [node name="jail_bed" parent="." unique_id=421341289 instance=ExtResource("3_v74a3")]
@@ -80,3 +81,14 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2, 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 6)
 light_energy = 1.508
 omni_range = 8.681
+
+[node name="JailLocation" type="Node3D" parent="." unique_id=1820582805 groups=["jail_location"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="JailLocation2" type="Node3D" parent="." unique_id=839498505 groups=["jail_location"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
+
+[node name="ReportDesk" parent="." unique_id=105589566 instance=ExtResource("12_report")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6560173, 2.0977252, 8.800853)
+
+[editable path="ReportDesk"]

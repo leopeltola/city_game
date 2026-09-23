@@ -167,6 +167,22 @@ func _request_attack() -> void:
 	_rpc_do_attack.rpc(index)
 
 
+## Triggers an attack without input handling. Used by AI-driven actors (e.g. the
+## police baton). Returns true if a swing was started.
+func try_attack() -> bool:
+	if attacks.is_empty() or player == null or player.is_action_locked():
+		return false
+	if _phase != Phase.NONE:
+		return false
+	var index := _pick_attack_index()
+	if index < 0 or index >= attacks.size():
+		return false
+	if not player.consume_stamina(attacks[index].stamina_cost):
+		return false
+	_rpc_do_attack.rpc(index)
+	return true
+
+
 ## RMB secondary: legacy feint-cancel while a swing is winding up, or a guard when idle.
 func _request_secondary() -> void:
 	if player.is_action_locked():
@@ -340,8 +356,24 @@ func _resolve_hit(collider: Object) -> void:
 	target.get_hit(attack.damage, force, attack.interrupts_target, attack.ragdoll)
 	_rpc_play_sfx.rpc("hit")
 	attack_hit.emit(target, attack)
+	_register_assault_guilt(target, attack)
 	if attack.stagger_on_hit:
 		_rpc_interrupt.rpc(attack.hit_blend)
+
+
+## Adds assault guilt to a player attacker when they land a hit on another actor.
+## Runs on the local client, where hit detection happens. Duck-typed so this file
+## doesn't reference Player/Npc (avoids a class cycle through the weapon scenes).
+func _register_assault_guilt(target: Node, attack: MeleeAttack) -> void:
+	var attacker_id: Variant = player.get("player_id")
+	if attacker_id == null or int(attacker_id) == 0:
+		return
+	if not target.has_method("get_crime_label"):
+		return
+
+	var label := "Assaulted %s" % target.call("get_crime_label")
+	var amount := maxi(25, roundi(attack.damage * 4.0))
+	CrimeManager.add_guilt(int(attacker_id), label, 90, amount)
 
 # --- Action lifecycle ---
 

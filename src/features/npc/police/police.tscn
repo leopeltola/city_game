@@ -1,15 +1,15 @@
 [gd_scene format=3 uid="uid://wqgpumbu260x"]
 
 [ext_resource type="PackedScene" uid="uid://cyyl8frr1oc0s" path="res://src/features/humanoid/humanoid.tscn" id="1_gmhdh"]
-[ext_resource type="Script" uid="uid://ng6aia7vckca" path="res://src/features/npc/npc.gd" id="2_72reo"]
+[ext_resource type="Script" uid="uid://ctdlmmggdcfj8" path="res://src/features/npc/police/police.gd" id="2_pat86"]
 [ext_resource type="Script" uid="uid://dqq1qmojxsaot" path="res://src/features/humanoid/equip_host.gd" id="3_rfqp4"]
 [ext_resource type="Script" uid="uid://b0m6wthlkb05q" path="res://src/features/npc/npc_loadout.gd" id="4_5o338"]
 [ext_resource type="Resource" uid="uid://dxctft40qvhih" path="res://src/features/items/data/police_body/police_body.tres" id="5_ykoec"]
 [ext_resource type="Resource" uid="uid://1hrurp1qfqws" path="res://src/features/items/data/police_hat/police_hat.tres" id="6_uc7po"]
 [ext_resource type="Resource" path="res://src/features/items/data/aviator_glasses/aviator_glasses.tres" id="7_0p2p5"]
 
-[node name="Citizen" unique_id=1073360910 node_paths=PackedStringArray("equipment") instance=ExtResource("1_gmhdh")]
-script = ExtResource("2_72reo")
+[node name="Police" unique_id=1073360910 node_paths=PackedStringArray("equipment") instance=ExtResource("1_gmhdh")]
+script = ExtResource("2_pat86")
 cash = 100
 equipment = NodePath("EquipHost")
 

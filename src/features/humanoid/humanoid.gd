@@ -136,6 +136,12 @@ func _on_hit_received(_damage: float) -> void:
 	pass
 
 
+## Virtual: human-readable noun for this actor, used in crime labels
+## (e.g. "Assaulted a civilian"). Subclasses override.
+func get_crime_label() -> String:
+	return "a person"
+
+
 ## Plays the stagger clip and locks combat / slot switching for its duration.
 func enter_stagger() -> void:
 	var effect := StatusEffect.new()

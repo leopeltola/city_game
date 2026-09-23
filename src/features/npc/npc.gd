@@ -13,6 +13,12 @@ extends Humanoid
 func _ready() -> void:
 	is_local = Net.is_server
 	super()
+	_mount_default_equipment()
+
+
+## Virtual: mounts this NPC's fixed gear. Base NPCs get bare fists; subclasses can
+## override to mount a dedicated weapon (e.g. the police baton).
+func _mount_default_equipment() -> void:
 	if equipment:
 		equipment.mount_unarmed()
 
@@ -23,6 +29,11 @@ func _on_hit_received(damage: float) -> void:
 		return
 	else:
 		_drop_cash(roundi(damage * randf_range(1, 8)))
+
+
+## Crime label used when a player assaults this NPC.
+func get_crime_label() -> String:
+	return "a civilian"
 
 
 ## Spawns [amount] of the NPC's cash as a world item above it. Server only.
@@ -39,4 +50,7 @@ func _drop_cash(amount: int) -> void:
 		dir = Vector3.FORWARD
 	dir = dir.normalized()
 	var force := dir * randf_range(3.0, 6.5) + Vector3.UP * randf_range(2.0, 4.0)
-	ItemManager.create_world_item_for(item_id, global_position + Vector3(0.0, 1.0, 0.0), Vector3.ZERO, force)
+	# Owned by the NPC: looting its cash within the grace window counts as stealing.
+	ItemManager.create_world_item_for(
+		item_id, global_position + Vector3(0.0, 1.0, 0.0), Vector3.ZERO, force, ItemWorld.NPC_OWNER_ID
+	)

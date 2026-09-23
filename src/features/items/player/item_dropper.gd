@@ -34,25 +34,33 @@ func drop_active_item() -> void:
 
 
 ## Spawns [param item_id] as a world item at [param position]. Central spawn point for
-## every drop path (inventory overflow, active drop, random drop).
+## every drop path (inventory overflow, active drop, random drop). [param owner_player_id]
+## marks the item as owned (player id, 0 = nobody) so stealing it within the grace window
+## counts as a crime.
 func spawn_item(
-	item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO
+	item_id: int,
+	position: Vector3,
+	rotation: Vector3 = Vector3.ZERO,
+	force: Vector3 = Vector3.ZERO,
+	owner_player_id: int = 0
 ) -> void:
-	ItemManager.create_world_item_for(item_id, position, rotation, force)
+	ItemManager.create_world_item_for(item_id, position, rotation, force, owner_player_id)
 
 
 ## Removes a random non-empty item from the inventory and spawns it as a world item at
-## [param position] with the given launch [param force].
+## [param position] with the given launch [param force]. [param owner_player_id] marks
+## the dropped item as owned so looting it counts as theft (used when the item is
+## knocked out of a player rather than deliberately dropped).
 ## [br][br]
 ## Authority-only. Returns the item ID, or -1 if the inventory is empty.
-func drop_random_item(position: Vector3, force: Vector3) -> int:
+func drop_random_item(position: Vector3, force: Vector3, owner_player_id: int = 0) -> int:
 	assert(is_multiplayer_authority(), "drop_random_item is authority-only")
 
 	var item_id: int = inventory.pop_random_item()
 	if item_id == -1:
 		return -1
 
-	spawn_item(item_id, position, Vector3.ZERO, force)
+	spawn_item(item_id, position, Vector3.ZERO, force, owner_player_id)
 	return item_id
 
 

@@ -75,6 +75,9 @@ func _input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority() or (HUD.instance and HUD.instance.is_blocking_input()):
 		return
+	# Cuffed players can't switch, use or drop items.
+	if player != null and player.get("arrested") == true:
+		return
 	# Stagger (or any action-locking status) prevents switching item slots.
 	if player != null and player.is_action_locked() and (
 			event.is_action_pressed("scroll_down") or event.is_action_pressed("scroll_up")
@@ -318,9 +321,42 @@ func _find_free_slot() -> int:
 func find_item_id_by_type(item_type_name: StringName) -> int:
 	for i in item_slots.size():
 		var item_id := item_slots[i]
-		if item_id != -1 and ItemManager.get_item_data(item_id, "type") == item_type_name:
+		if item_id != -1 and StringName(ItemManager.get_item_data(item_id, "type")) == item_type_name:
 			return item_id
 	return -1
+
+
+## Removes [param item_id] from the inventory if present. Returns true if it was held.
+## [br][br]
+## Authority-only.
+func remove_item(item_id: int) -> bool:
+	assert(is_multiplayer_authority(), "remove_item is authority-only")
+
+	for i in item_slots.size():
+		if item_slots[i] == item_id:
+			_set_item(i, -1)
+			return true
+	return false
+
+
+## Removes and destroys every inventory item and every worn prop. Used when the police
+## confiscate a player's belongings. [br][br]
+## Authority-only.
+func confiscate_all() -> void:
+	assert(is_multiplayer_authority(), "confiscate_all is authority-only")
+
+	if player != null and player.prop_system != null:
+		for slot in range(PropSystem.PropSlot.NONE + 1, PropSystem.PropSlot.COUNT):
+			var worn_id: int = player.prop_system.unwear(slot)
+			if worn_id != -1:
+				ItemManager.destroy_item(worn_id)
+
+	for i in item_slots.size():
+		var item_id := item_slots[i]
+		if item_id == -1:
+			continue
+		_set_item(i, -1)
+		ItemManager.destroy_item(item_id)
 
 
 ## Removes and returns the item ID currently held in the active slot, or -1 if empty.
@@ -368,11 +404,12 @@ func drop_active_item() -> void:
 
 
 ## Removes a random non-empty item from the inventory and spawns it as a world item at
-## [param position] with the given launch [param force].
+## [param position] with the given launch [param force]. [param owner_player_id] marks
+## the dropped item as owned so looting it counts as theft.
 ## [br][br]
 ## Authority-only. Returns the item ID, or -1 if the inventory is empty.
-func drop_random_item(position: Vector3, force: Vector3) -> int:
-	return _dropper.drop_random_item(position, force)
+func drop_random_item(position: Vector3, force: Vector3, owner_player_id: int = 0) -> int:
+	return _dropper.drop_random_item(position, force, owner_player_id)
 
 
 ## Drops a specific [param amount] from the cash stack held as [param item_id].

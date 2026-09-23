@@ -27,6 +27,18 @@ var player_data: PlayerData:
 
 var stamina: float = 100.0
 
+## True while cuffed by the police: input is disabled and the client auto-walks the
+## player to the cell. Replicated through _rpc_set_arrested.
+var arrested := false
+## True while locked in a cell; movement is frozen until released.
+var jailed := false
+## Global position the client auto-walks to while arrested.
+var escort_target := Vector3.ZERO
+## Local pathfinding helper used only while being escorted.
+var nav_agent: NavigationAgent3D = null
+## True once the client has told the server it reached the cell.
+var _arrival_sent := false
+
 @onready var sight_pivot: Node3D = %SightPivot
 
 
@@ -39,6 +51,11 @@ func _ready() -> void:
 
 	stamina = max_stamina
 	camera = %Camera3D
+
+	nav_agent = NavigationAgent3D.new()
+	nav_agent.path_desired_distance = 0.5
+	nav_agent.target_desired_distance = 1.0
+	add_child(nav_agent)
 
 	if is_local:
 		%Camera3D.make_current()
@@ -96,6 +113,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _update_locomotion() -> void:
+	if arrested:
+		_update_escort_locomotion()
+		return
 	_jumping()
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_down")
 	if HUD.instance and HUD.instance.is_blocking_input():
@@ -104,6 +124,29 @@ func _update_locomotion() -> void:
 
 	var sprint_held := Input.is_physical_key_pressed(KEY_SHIFT) and Input.is_action_pressed("sprint")
 	locomotion.run_requested = sprint_held and locomotion.desired_direction != Vector3.ZERO
+
+
+## Auto-walks the cuffed player toward the cell (or freezes them once jailed).
+func _update_escort_locomotion() -> void:
+	locomotion.run_requested = false
+	if jailed:
+		locomotion.desired_direction = Vector3.ZERO
+		return
+
+	if is_instance_valid(nav_agent):
+		nav_agent.target_position = escort_target
+		var next := nav_agent.get_next_path_position()
+		var dir := next - global_position
+		dir.y = 0.0
+		locomotion.desired_direction = dir.normalized()
+
+	if global_position.distance_to(escort_target) < 1.6 and not _arrival_sent:
+		_arrival_sent = true
+		CrimeManager.notify_arrived_at_jail(player_id)
+
+
+func is_action_locked() -> bool:
+	return super() or arrested
 
 
 func can_sprint() -> bool:
@@ -140,6 +183,13 @@ func _on_hit_received(damage: float) -> void:
 		equipment.camera_out = false
 
 
+## Crime label used when another player assaults this player.
+func get_crime_label() -> String:
+	if player_data != null:
+		return player_data.player_name
+	return "a player"
+
+
 func _jumping() -> void:
 	if Input.is_action_just_pressed("jump"):
 		if HUD.instance and HUD.instance.is_blocking_input():
@@ -157,6 +207,37 @@ func _rpc_play_sfx(id: StringName) -> void:
 			Audio.play_sfx_3d(jump_sfx, global_position)
 
 
+## Sets the cuffed state and (on the target client) the cell to auto-walk to.
+@rpc("any_peer", "reliable", "call_local")
+func _rpc_set_arrested(value: bool, target: Vector3) -> void:
+	arrested = value
+	escort_target = target
+	if value:
+		_arrival_sent = false
+	if value and is_instance_valid(nav_agent):
+		nav_agent.target_position = target
+
+
+## Freezes/unfreezes the player inside their cell.
+@rpc("any_peer", "reliable", "call_local")
+func _rpc_set_jailed(value: bool) -> void:
+	jailed = value
+
+
+## Teleports the player (server fallback when the escort never arrives).
+@rpc("any_peer", "reliable", "call_local")
+func _rpc_force_position(pos: Vector3) -> void:
+	global_position = pos
+	network_position = pos
+
+
+## Clears and destroys the player's inventory and worn props. Runs on the owning client.
+@rpc("any_peer", "call_remote", "reliable")
+func _rpc_confiscate() -> void:
+	if is_instance_valid(inventory):
+		(inventory as PlayerInventory).confiscate_all()
+
+
 ## Knocks a random inventory item out of the player: spawned 1m above them with a
 ## random upward/sideways launch force.
 func _spawn_knocked_item() -> void:
@@ -166,7 +247,8 @@ func _spawn_knocked_item() -> void:
 	dir = dir.normalized()
 
 	var force := dir * randf_range(3.0, 6.5) + Vector3.UP * randf_range(2.0, 4.0)
-	(inventory as PlayerInventory).drop_random_item(global_position + Vector3.UP, force)
+	# Owned by the victim: looting a knocked-out item counts as theft.
+	(inventory as PlayerInventory).drop_random_item(global_position + Vector3.UP, force, player_id)
 
 
 func _to_string() -> String:

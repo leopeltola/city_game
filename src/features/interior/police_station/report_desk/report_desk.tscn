@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://coeog7y3ngvkn"]
+
+[ext_resource type="Script" uid="uid://dlsblyd5m5q7o" path="res://src/features/interior/police_station/report_desk/report_desk.gd" id="1_desk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_desk"]
+size = Vector3(1.4, 1.2, 0.8)
+
+[node name="ReportDesk" type="Area3D" unique_id=874816037]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_desk")
+prompt = "Submit photo"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=868466055]
+shape = SubResource("BoxShape3D_desk")
