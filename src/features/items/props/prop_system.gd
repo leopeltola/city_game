@@ -86,18 +86,34 @@ func get_slot_node(slot: PropSystem.PropSlot) -> Node3D:
 	return _slot_nodes.get(slot) as Node3D
 
 
-func _mount_slot(slot: PropSystem.PropSlot, item_id: int) -> void:
-	var slot_node := _slot_nodes.get(slot) as Node3D
-	if slot_node == null:
+## Mounts a worn visual from an [param type] alone (no backing item id). Used by static
+## loadouts (e.g. NPC clothing): does not touch worn_slots and is not replicated.
+func mount_visual(type: ItemType, slot: PropSystem.PropSlot) -> void:
+	if type == null or slot <= PropSystem.PropSlot.NONE or slot >= PropSystem.PropSlot.COUNT:
 		return
+	_unmount_slot(slot)
+	_instantiate_worn(slot, type, -1)
+
+
+func _mount_slot(slot: PropSystem.PropSlot, item_id: int) -> void:
 	var type := ItemManager.get_item_type(ItemManager.get_item_data(item_id, "type"))
 	if type == null:
+		return
+	_instantiate_worn(slot, type, item_id)
+
+
+# Adds a worn equip visual for [param type] under [param slot]'s mount node. A
+# [param item_id] of -1 marks a visual-only prop with no ItemManager backing.
+func _instantiate_worn(slot: PropSystem.PropSlot, type: ItemType, item_id: int) -> void:
+	var slot_node := _slot_nodes.get(slot) as Node3D
+	if slot_node == null:
 		return
 	var scene := type.get_equip_item_scene()
 	if scene == null:
 		return
 	var equip: PropEquip = scene.instantiate()
 	equip.worn = true
+	equip.item_type = type
 	equip.item_id = item_id
 	equip.player = owner as Humanoid
 	slot_node.add_child(equip)

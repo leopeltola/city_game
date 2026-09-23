@@ -14,6 +14,15 @@ extends ItemEquip
 var worn := false
 
 
+## Worn props may be visual-only (mounted from an ItemType with no item id); held props
+## still require a valid ItemManager item id.
+func _validate() -> void:
+	assert(player, "ItemEquip requires player to be set before it is added to the tree")
+	assert(item_type, "Prop equips require item_type")
+	if not worn:
+		assert(item_id != -1, "Held prop equips require a valid item_id")
+
+
 func _on_equipped() -> void:
 	_apply_presentation()
 	if not worn:

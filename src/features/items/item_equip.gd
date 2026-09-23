@@ -39,12 +39,18 @@ func is_unarmed() -> bool:
 
 
 func _ready() -> void:
+	_validate()
+	_ready_done = true
+	_on_equipped()
+
+
+## Validates the state this equip requires before it is mounted. Subclasses override to
+## relax requirements (e.g. visual-only worn props carry no ItemManager item id).
+func _validate() -> void:
 	assert(player, "ItemEquip requires player to be set before it is added to the tree")
 	if not is_unarmed():
 		assert(item_type, "Item equips require item_type")
 		assert(item_id != -1, "Item equips require a valid item_id")
-	_ready_done = true
-	_on_equipped()
 
 
 func _exit_tree() -> void:
