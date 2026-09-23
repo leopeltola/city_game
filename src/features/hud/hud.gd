@@ -34,7 +34,7 @@ func clear_menus() -> void:
 
 
 func queue_msg_toast(from: String, title: String, msg: String) -> void:
-	$MessagesToast.queue_msg_toast(from, title, msg)
+	%MessagesToast.queue_msg_toast(from, title, msg)
 
 
 ## Sets stamina bar value in the 0-1 range with juice for chunk costs and exhaustion.

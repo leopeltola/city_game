@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://b16a0us6x7ocl"]
+
+[ext_resource type="Script" uid="uid://dpkcywmit7hd7" path="res://src/utilities/character_image/character_portrait.gd" id="1_portrait"]
+[ext_resource type="PackedScene" uid="uid://cyyl8frr1oc0s" path="res://src/features/humanoid/humanoid.tscn" id="2_humanoid"]
+
+[sub_resource type="Environment" id="Environment_portrait"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(0.8, 0.83, 0.88, 1)
+ambient_light_energy = 0.7
+
+[node name="CharacterPortrait" type="Node3D" unique_id=651417170]
+script = ExtResource("1_portrait")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1326166750]
+environment = SubResource("Environment_portrait")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="." unique_id=1695696545]
+transform = Transform3D(0.8660254, 0, -0.5, -0.3535534, 0.7071068, -0.6123724, 0.3535534, 0.7071068, 0.6123724, 0, 3, 0)
+light_energy = 1.2
+
+[node name="PortraitRoot" type="Node3D" parent="." unique_id=1951138404]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Humanoid" parent="PortraitRoot" unique_id=392032452 instance=ExtResource("2_humanoid")]
+unique_name_in_owner = true
+
+[node name="Skeleton3D" parent="PortraitRoot/Humanoid/Visual/guy/Armature" parent_id_path=PackedInt32Array(392032452, 119801285, 1579551578) index="0" unique_id=710079992]
+bones/9/position = Vector3(-0.15388101, 0.2075868, -0.05807007)
+bones/9/rotation = Quaternion(0.09100439, 0.36922756, -0.108184904, 0.91852343)
+bones/10/position = Vector3(-0.05880459, 0.16228352, 0.08914064)
+bones/10/rotation = Quaternion(-0.15110734, -0.11844006, 0.4846303, 0.85338855)
+bones/11/rotation = Quaternion(0.09520527, -0.13634655, 0.41635513, 0.8938647)
+bones/12/position = Vector3(-0.016491761, 0.18960504, 0.00290599)
+bones/12/rotation = Quaternion(-0.13090193, -0.05546598, 0.5210634, 0.8415945)
+bones/13/rotation = Quaternion(-0.066274986, 0.014626719, 0.5432677, 0.83681184)
+bones/14/position = Vector3(-0.0659741, 0.05664499, -0.079014964)
+bones/14/rotation = Quaternion(-0.20172244, 0.13407531, 0.42793122, 0.8707507)
+bones/15/rotation = Quaternion(0.61763304, -0.05163761, 0.3373042, 0.70858234)
+bones/16/position = Vector3(-0.11620465, 0.11037251, 0.008061607)
+bones/16/rotation = Quaternion(0.72294396, -0.6840311, -0.07214441, -0.06518301)
+bones/17/position = Vector3(-0.25737208, 0.21267197, 0.19753209)
+bones/17/rotation = Quaternion(0.082967356, 0.20220295, -0.072139606, 0.9731528)
+bones/18/position = Vector3(0.04224467, 0.16214928, 0.07831633)
+bones/18/rotation = Quaternion(-0.115757115, -0.055450328, -0.54850626, 0.82623637)
+bones/19/rotation = Quaternion(-0.10620184, 0.13651165, -0.5025289, 0.84708345)
+bones/20/position = Vector3(0.037159745, 0.17279692, -0.0023789539)
+bones/20/rotation = Quaternion(-0.021936113, 0.040045865, -0.4856768, 0.87294513)
+bones/21/rotation = Quaternion(0.030132294, 0.019945253, -0.5307147, 0.8467799)
+bones/22/position = Vector3(0.056612585, 0.028398782, -0.0796109)
+bones/22/rotation = Quaternion(-0.21256122, -0.20293294, -0.6337374, 0.71555084)
+bones/23/rotation = Quaternion(0.55837584, -0.3091055, -0.25279006, 0.72716403)
+bones/24/position = Vector3(0.11620465, 0.11037255, 0.008061466)
+bones/24/rotation = Quaternion(0.72294396, 0.684031, 0.07214443, -0.06518304)
+
+[node name="HandSlotRightAttachment" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D" index="4" unique_id=203319285]
+transform = Transform3D(0.29307953, 0.8984083, -0.32705736, -0.28279757, 0.4082311, 0.86797047, 0.9133069, -0.16189344, 0.37371194, -0.1296026, 0.5672318, 0.40956402)
+
+[node name="LeftSlotRightAttachment" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D" index="5" unique_id=560273133]
+transform = Transform3D(-0.3500886, -0.71471655, -0.6054901, 0.260584, -0.69519, 0.66993034, -0.89974093, 0.076754086, 0.4296217, -0.20101905, 0.70113206, 0.42998266)
+
+[node name="HandSlotBone" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D" index="9" unique_id=1432647749]
+transform = Transform3D(0.90781915, 0.17395817, 0.38157928, 0.40552014, -0.13230595, -0.9044604, -0.10685306, 0.9758246, -0.19065343, -0.2573717, 0.5420027, 0.31581354)
+
+[node name="Physical Bone Head_2" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="1" unique_id=1912784888]
+transform = Transform3D(0.99999696, -4.520759e-05, 0.0024565724, -1.8196059e-12, 0.9998307, 0.018399596, -0.0024569882, -0.01839954, 0.9998277, 0, 1, 0)
+body_offset = Transform3D(1.0000001, -3.637979e-12, 0, 3.637979e-12, 1, -1.8626451e-09, 0, 0, 1.0000001, 0, 0, 0)
+
+[node name="Physical Bone Hand_L" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="2" unique_id=756653337]
+transform = Transform3D(-0.86134046, -0.23282391, -0.45153716, -0.46870047, 0.70707494, 0.529495, 0.19599149, 0.66771114, -0.7181568, -0.10961024, 0.7456901, 0.38113612)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2782555e-07, 2.9094517e-06, 0.098042294)
+body_offset = Transform3D(-0.9592499, 0.24180211, 0.14618966, 2.2351742e-06, 0.5173837, -0.8557537, -0.28255904, -0.82088125, -0.4963006, -0.014333159, 0.08389856, 0.048660934)
+
+[node name="Physical Bone Pinkie_L" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="3" unique_id=1367734709]
+transform = Transform3D(0.6196927, 0.4026875, 0.6736645, 0.23562235, -0.9142012, 0.32972482, 0.74864095, -0.045597635, -0.6614059, -0.12346237, 0.664326, 0.48174292)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4706856e-07, -1.9012936e-07, 0.044611648)
+body_offset = Transform3D(1.0000004, -1.0505319e-06, 4.2021275e-06, 4.261732e-06, 2.1861866e-05, -1.0000004, 9.49949e-07, 1.0000002, 2.1630898e-05, 5.9604645e-08, 0.044611663, -7.748604e-07)
+
+[node name="Physical Bone Midfinger_L" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="4" unique_id=624866655]
+transform = Transform3D(0.5261132, 0.5134538, 0.6779161, 0.26745334, -0.85661066, 0.44123346, 0.80726314, -0.050827805, -0.5879991, -0.14333206, 0.7478093, 0.5205232)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00010631606, -1.46668835e-05, 0.04461257)
+body_offset = Transform3D(1.0000002, -2.3506582e-06, -8.434057e-06, -8.46386e-06, -3.7327409e-06, -1.0000004, 2.3506582e-06, 1.0000001, -3.909692e-06, 0.000106692314, 0.044612586, 1.4841557e-05)
+
+[node name="Physical Bone Thumb_L" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="5" unique_id=715386643]
+transform = Transform3D(0.33713523, 0.74809206, 0.57157516, 0.64559484, -0.6255926, 0.43799686, 0.68523514, 0.22134179, -0.69387364, -0.26329058, 0.78285503, 0.42486554)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.445437e-07, -2.2972941e-07, 0.045477632)
+body_offset = Transform3D(1.0000002, -1.013279e-06, -1.1324883e-06, -1.1920929e-06, 5.096197e-06, -1.0000002, 9.834766e-07, 1.0000001, 5.0514936e-06, 5.9604645e-07, 0.045477644, 0)
+
+[node name="Physical Bone Hand_R" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="6" unique_id=300513579]
+transform = Transform3D(-0.7630063, -0.4427424, -0.4709571, -0.64455944, 0.5759475, 0.5028197, 0.048626993, 0.68721443, -0.7248254, -0.21119882, 0.49270654, 0.3868743)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.3585896e-07, 7.4505806e-07, 0.09803911)
+body_offset = Transform3D(-0.95924973, -0.24180272, -0.14619058, -7.301569e-07, 0.51738083, -0.8557553, 0.28256014, -0.8208828, -0.49629748, 0.014332995, 0.083897114, 0.04865706)
+
+[node name="Physical Bone Pinkie_R" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="7" unique_id=1293221652]
+transform = Transform3D(0.2839644, 0.44496214, -0.84933674, 0.07951025, -0.8936777, -0.44160882, -0.95553255, 0.057870198, -0.28915167, -0.12301452, 0.4865591, 0.4674341)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.827656e-05, 2.940675e-06, 0.044620115)
+body_offset = Transform3D(1.0000002, 4.5076013e-07, 6.556511e-07, 6.854534e-07, 2.7008355e-07, -1.0000002, -4.4330955e-07, 1.0000002, 2.1792948e-07, 6.824732e-05, 0.044620126, -2.95043e-06)
+
+[node name="Physical Bone Midfinger_R" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="8" unique_id=353309338]
+transform = Transform3D(0.31027582, 0.46269658, -0.8304462, 0.36929354, -0.8636176, -0.34320113, -0.8759859, -0.20019138, -0.43883052, -0.15739997, 0.55171424, 0.50041956)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.169313e-05, 4.049835e-06, 0.04462558)
+body_offset = Transform3D(1.0000004, -1.4305115e-06, 3.8146973e-06, 3.8444996e-06, -1.2740493e-06, -1.0000004, 1.4603138e-06, 1.0000001, -1.2591481e-06, 9.152293e-05, 0.044625595, -3.993511e-06)
+
+[node name="Physical Bone Thumb_R" parent="PortraitRoot/Humanoid/Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(392032452, 1735936736) index="9" unique_id=1553699268]
+transform = Transform3D(0.17470308, 0.3942669, -0.9022375, -0.35138053, -0.83102846, -0.43118834, -0.9197883, 0.3923586, -0.0066455053, -0.19038329, 0.6528166, 0.35295516)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8486664e-06, -2.6508015e-08, 0.045477778)
+body_offset = Transform3D(1, 0, -1.2903474e-06, -1.2479722e-06, 1.2961682e-06, -1.0000004, -2.9802322e-08, 1, 1.2381934e-06, 1.9073486e-06, 0.045477793, -2.9802322e-08)
+
+[node name="RightItemSlot" parent="PortraitRoot/Humanoid" index="12" unique_id=119476001]
+transform = Transform3D(-0.29307958, 0.32705736, 0.8984083, -0.28279757, 0.86797047, -0.40823114, -0.91330683, -0.37371197, -0.16189352, 0.12960255, 0.5672318, -0.40956405)
+
+[node name="LeftItemSlot" parent="PortraitRoot/Humanoid" index="13" unique_id=750678496]
+transform = Transform3D(0.35008866, 0.60549, -0.71471655, 0.260584, 0.6699304, 0.69519, 0.89974093, -0.42962176, 0.076754175, 0.20101902, 0.70113206, -0.42998266)
+
+[node name="FullBodyCamera" type="Camera3D" parent="." unique_id=1497965451]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.9981254, 0.061202444, 0, -0.061202444, 0.9981254, 0, 1.0023214, 3.9)
+fov = 30.0
+
+[node name="BustCamera" type="Camera3D" parent="." unique_id=603690502]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2252376, 1.68)
+fov = 30.0
+
+[editable path="PortraitRoot/Humanoid"]
+[editable path="PortraitRoot/Humanoid/Visual/guy"]

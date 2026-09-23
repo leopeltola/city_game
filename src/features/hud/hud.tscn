@@ -81,6 +81,7 @@ visible = false
 layout_mode = 1
 
 [node name="MessagesToast" parent="." unique_id=868931879 instance=ExtResource("7_0r6hx")]
+unique_name_in_owner = true
 layout_mode = 1
 
 [node name="StaminaBar" type="ProgressBar" parent="." unique_id=1516839013]

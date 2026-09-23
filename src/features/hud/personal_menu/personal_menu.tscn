@@ -31,6 +31,7 @@ theme_override_constants/tab_separation = 1
 current_tab = 0
 
 [node name="Information" parent="CenterContainer/TabContainer" unique_id=1217193896 instance=ExtResource("2_id41w")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Messages" parent="CenterContainer/TabContainer" unique_id=1117558386 instance=ExtResource("2_u4wdq")]
@@ -38,6 +39,7 @@ visible = false
 layout_mode = 2
 
 [node name="CloseButton" type="Button" parent="." unique_id=780930085]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 261.0
 offset_top = 166.0
