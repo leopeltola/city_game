@@ -126,12 +126,9 @@ func _update_locomotion() -> void:
 	locomotion.run_requested = sprint_held and locomotion.desired_direction != Vector3.ZERO
 
 
-## Auto-walks the cuffed player toward the cell (or freezes them once jailed).
+## Auto-walks the cuffed player toward the cell.
 func _update_escort_locomotion() -> void:
 	locomotion.run_requested = false
-	if jailed:
-		locomotion.desired_direction = Vector3.ZERO
-		return
 
 	if is_instance_valid(nav_agent):
 		nav_agent.target_position = escort_target
@@ -222,6 +219,12 @@ func _rpc_set_arrested(value: bool, target: Vector3) -> void:
 @rpc("any_peer", "reliable", "call_local")
 func _rpc_set_jailed(value: bool) -> void:
 	jailed = value
+	if value:
+		# Cuffs come off in the cell: the closed, locked door does the containing,
+		# so the player regains normal movement, looking and item use.
+		arrested = false
+		escort_target = Vector3.ZERO
+		locomotion.desired_direction = Vector3.ZERO
 
 
 ## Teleports the player (server fallback when the escort never arrives).

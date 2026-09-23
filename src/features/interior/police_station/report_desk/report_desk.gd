@@ -13,7 +13,19 @@ func can_interact(player_id: int) -> bool:
 	var player: Player = PlayerManager.get_player_node_by_id(player_id)
 	if player == null or player.inventory == null:
 		return false
-	return player.inventory.find_item_id_by_type(&"photo") != -1
+	return _held_photo_id(player) != -1
+
+
+## Returns the item id of the photo currently held in the active slot, or -1 if not a photo.
+func _held_photo_id(player: Player) -> int:
+	if player.equipment != null and player.equipment.is_camera_out():
+		return -1
+	var item_id: int = player.inventory.get_active_item_id()
+	if item_id == -1:
+		return -1
+	if StringName(ItemManager.get_item_data(item_id, "type")) != &"photo":
+		return -1
+	return item_id
 
 
 func interact(player_id: int) -> void:
@@ -35,7 +47,7 @@ func _submit(player_id: int) -> void:
 	if player == null or player.inventory == null:
 		return
 
-	var photo_id: int = player.inventory.find_item_id_by_type(&"photo")
+	var photo_id: int = _held_photo_id(player)
 	if photo_id == -1:
 		return
 
@@ -48,7 +60,8 @@ func _submit(player_id: int) -> void:
 		accepted = randf() * 100.0 <= float(identifiability)
 	if accepted:
 		CrimeManager.set_bounty(
-			subject_id, CrimeManager.get_player_bounty(subject_id) + guilt
+			subject_id,
+			CrimeManager.get_player_bounty(subject_id) + guilt,
 		)
 
 	var pd: PlayerData = PlayerManager.get_player_by_id(player_id)
@@ -62,8 +75,7 @@ func _submit(player_id: int) -> void:
 			player_id,
 			"Police Department",
 			"Evidence Accepted",
-			"The photo was clear enough to identify the suspect. %s€ has been added to their bounty."
-			% guilt,
+			"The photo was clear enough to identify the suspect. %s€ has been added to their bounty." % guilt,
 		)
 	else:
 		MessageManager.send_message_to(
