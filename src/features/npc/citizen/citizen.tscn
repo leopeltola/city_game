@@ -43,12 +43,7 @@ _equip_root = NodePath("../EquipRoot")
 _right_equip_slot = NodePath("../RightItemSlot")
 _left_equip_slot = NodePath("../LeftItemSlot")
 
-[node name="NpcNameLabel" type="Label3D" parent="." index="21" unique_id=1375155778]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7507629, 0)
-billboard = 2
-text = "Npc"
-
-[node name="NpcLoadout" type="Node" parent="." index="24" unique_id=1691654732]
+[node name="NpcLoadout" type="Node" parent="." index="23" unique_id=1691654732]
 script = ExtResource("4_7rmej")
 torso = ExtResource("5_x637d")
 beard = ExtResource("6_lp3cp")

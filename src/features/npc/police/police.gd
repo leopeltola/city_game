@@ -42,12 +42,12 @@ var _target: Player = null
 var _attack_timer := 0.0
 var _lost_sight_timer := 0.0
 var _spawn_position := Vector3.ZERO
-var _nav_agent: NavigationAgent3D = null
 var _baton: MeleeEquip = null
 ## Whether the officer is currently carrying a jail key (shown on the belt).
 var has_key := true
 var _key_renew_timer := 0.0
 
+@onready var _nav_agent: NavigationAgent3D = %NavigationAgent3D
 @onready var _belt_key: Node3D = %BeltJailkey
 
 
@@ -60,12 +60,6 @@ func _ready() -> void:
 		_baton.set_process_unhandled_input(false)
 	if _belt_key != null:
 		_belt_key.visible = has_key
-
-	_nav_agent = NavigationAgent3D.new()
-	_nav_agent.path_desired_distance = 0.5
-	_nav_agent.target_desired_distance = 1.0
-	_nav_agent.radius = 0.4
-	add_child(_nav_agent)
 
 
 func _mount_default_equipment() -> void:

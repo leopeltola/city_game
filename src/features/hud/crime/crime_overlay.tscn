@@ -22,6 +22,13 @@ font_size = 27
 outline_size = 7
 outline_color = Color(0.07649998, 0.2788, 0.51, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_bounty"]
+font = SubResource("FontVariation_ioa1u")
+font_size = 38
+font_color = Color(1, 0.42, 0.26, 1)
+outline_size = 8
+outline_color = Color(0.29, 0.0588235, 0.0392157, 1)
+
 [node name="CrimeOverlay" type="Control" unique_id=68613745]
 layout_mode = 3
 anchors_preset = 15
@@ -44,6 +51,13 @@ theme_override_constants/separation = -6
 layout_mode = 2
 text = "Crime"
 label_settings = SubResource("LabelSettings_ofddy")
+
+[node name="BountyLabel" type="Label" parent="VBoxContainer" unique_id=177873391]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "10 000€"
+label_settings = SubResource("LabelSettings_bounty")
 
 [node name="GuiltLabel" type="Label" parent="VBoxContainer" unique_id=1459327602]
 unique_name_in_owner = true
