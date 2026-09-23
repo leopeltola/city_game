@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dkbfq6iq1xdtg"]
+
+[ext_resource type="PackedScene" uid="uid://cyyl8frr1oc0s" path="res://src/features/humanoid/humanoid.tscn" id="1_lp3cp"]
+[ext_resource type="Script" uid="uid://bcwv3t8wj1j6c" path="res://src/features/npc/citizen/citizen.gd" id="2_xvnny"]
+[ext_resource type="Script" uid="uid://dqq1qmojxsaot" path="res://src/features/humanoid/equip_host.gd" id="3_o3pex"]
+[ext_resource type="Script" uid="uid://b0m6wthlkb05q" path="res://src/features/npc/npc_loadout.gd" id="4_7rmej"]
+[ext_resource type="Resource" uid="uid://dxctft40qvhih" path="res://src/features/items/data/police_body/police_body.tres" id="5_axa8p"]
+[ext_resource type="Resource" uid="uid://1hrurp1qfqws" path="res://src/features/items/data/police_hat/police_hat.tres" id="6_k6s5y"]
+[ext_resource type="Resource" path="res://src/features/items/data/aviator_glasses/aviator_glasses.tres" id="7_tqmh0"]
+
+[node name="Citizen" unique_id=1073360910 instance=ExtResource("1_lp3cp")]
+script = ExtResource("2_xvnny")
+cash = 100
+
+[node name="Physical Bone Hand_R" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="6" unique_id=300513579]
+transform = Transform3D(-0.2914427, 0.82653797, 0.4815559, 0.9474187, 0.3189422, 0.02595827, -0.132133, 0.4638004, -0.8760308, -0.47511166, 0.7339575, 0.195778)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8859587e-07, 2.6077032e-07, 0.09803903)
+body_offset = Transform3D(-0.95924973, -0.24180281, -0.14619057, -7.301569e-07, 0.51738065, -0.85575545, 0.28256017, -0.8208829, -0.49629733, 0.01433301, 0.08389729, 0.048656553)
+
+[node name="EquipHost" type="Node" parent="." index="20" unique_id=806751750 node_paths=PackedStringArray("player", "_equip_root", "_right_equip_slot", "_left_equip_slot")]
+script = ExtResource("3_o3pex")
+player = NodePath("..")
+_equip_root = NodePath("../EquipRoot")
+_right_equip_slot = NodePath("../RightItemSlot")
+_left_equip_slot = NodePath("../LeftItemSlot")
+
+[node name="NpcNameLabel" type="Label3D" parent="." index="21" unique_id=1375155778]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7507629, 0)
+billboard = 2
+text = "Npc"
+
+[node name="NpcLoadout" type="Node" parent="." index="24" unique_id=1691654732]
+script = ExtResource("4_7rmej")
+torso = ExtResource("5_axa8p")
+hat = ExtResource("6_k6s5y")
+glasses = ExtResource("7_tqmh0")
+
+[editable path="Visual/guy"]
