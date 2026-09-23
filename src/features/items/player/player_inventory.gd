@@ -143,17 +143,19 @@ func _cancel_drop_press_timer() -> void:
 		_drop_press_timer = null
 
 
-# Fired when the drop action has been held long enough. For cash, opens a prompt
-# asking how much to drop instead of dropping the whole stack.
+# Fired when the drop action has been held long enough. For money containers (cash
+# stacks and briefcases), opens a prompt asking how much to drop instead of dropping
+# the whole item.
 func _on_drop_press_held() -> void:
 	var item_id := get_active_item_id()
 	if item_id == -1:
 		return
-	if ItemManager.get_item_data(item_id, "type") != "cash":
+	var type := String(ItemManager.get_item_data(item_id, "type"))
+	if type != "cash" and type != "briefcase":
 		return
 
 	_drop_press_timer = null
-	_dropper.prompt_drop_cash(item_id)
+	_dropper.prompt_drop_money(item_id)
 
 
 ## Returns the item ID held in [param slot_index], or -1 if the slot is empty.
@@ -412,11 +414,11 @@ func drop_random_item(position: Vector3, force: Vector3, owner_player_id: int = 
 	return _dropper.drop_random_item(position, force, owner_player_id)
 
 
-## Drops a specific [param amount] from the cash stack held as [param item_id].
+## Drops a specific [param amount] of the money held by [param item_id].
 ## [br][br]
 ## Authority-only.
-func drop_cash_amount(item_id: int, amount: int) -> void:
-	_dropper.drop_cash_amount(item_id, amount)
+func drop_money_amount(item_id: int, amount: int) -> void:
+	_dropper.drop_money_amount(item_id, amount)
 
 
 ## Clears the active slot when the item it referenced no longer exists. Runs on every

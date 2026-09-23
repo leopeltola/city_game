@@ -1,8 +1,8 @@
 class_name ItemDropper
 extends Node
-## Spawns items from a PlayerInventory into the world, and splits cash stacks when only
-## part of a stack is dropped. Owns the drop-position ray nodes and the money-split
-## prompt (long-press on the drop key).
+## Spawns items from a PlayerInventory into the world, and splits money containers (cash
+## stacks, briefcases) when only part is dropped. Owns the drop-position ray nodes and
+## the money-split prompt (long-press on the drop key).
 ##
 ## [b]Authority:[/b] spawning and splitting happen server-side through [ItemManager], so
 ## the split path is an RPC. The inventory itself stays client-authoritative.
@@ -64,9 +64,10 @@ func drop_random_item(position: Vector3, force: Vector3, owner_player_id: int = 
 	return item_id
 
 
-## Opens the money prompt to ask how much cash to drop from the held stack, then drops
-## that portion. Cancels if the stack changed hands while the prompt was open.
-func prompt_drop_cash(item_id: int) -> void:
+## Opens the money prompt to ask how much to drop from the money held by [param item_id]
+## (a cash stack or a briefcase), then drops that portion. Cancels if the item changed
+## hands while the prompt was open.
+func prompt_drop_money(item_id: int) -> void:
 	if not HUD.instance:
 		return
 	var total: int = ItemManager.get_item_data(item_id, "money", 0)
@@ -79,36 +80,38 @@ func prompt_drop_cash(item_id: int) -> void:
 	if inventory.get_active_item_id() != item_id:
 		return
 
-	drop_cash_amount(item_id, mini(result.amount, total))
+	drop_money_amount(item_id, mini(result.amount, total))
 
 
-## Drops a specific [param amount] from the cash stack held as [param item_id].
-## If [param amount] covers the whole stack, the entire stack is dropped as-is.
+## Drops a specific [param amount] of the money held by [param item_id]. Dropping a cash
+## stack's whole amount drops the stack as-is; other containers (e.g. a briefcase) stay
+## equipped and are simply emptied.
 ## [br][br]
 ## Authority-only.
-func drop_cash_amount(item_id: int, amount: int) -> void:
-	assert(is_multiplayer_authority(), "drop_cash_amount is authority-only")
+func drop_money_amount(item_id: int, amount: int) -> void:
+	assert(is_multiplayer_authority(), "drop_money_amount is authority-only")
 
 	var total: int = ItemManager.get_item_data(item_id, "money", 0)
 	if total <= 0 or amount <= 0:
 		return
-	if amount >= total:
+	if amount >= total and ItemManager.get_item_data(item_id, "type") == "cash":
 		drop_active_item()
 		return
+	amount = mini(amount, total)
 
 	if Net.is_server:
-		_server_split_cash_drop(item_id, amount, get_drop_position())
+		_server_split_money_drop(item_id, amount, get_drop_position())
 	elif Net.is_client:
-		_server_split_cash_drop.rpc_id(1, item_id, amount, get_drop_position())
+		_server_split_money_drop.rpc_id(1, item_id, amount, get_drop_position())
 
 
-# Splits a cash stack server-side: shrinks the held stack to the remainder and
-# spawns the dropped portion as a new cash world item at [param position].
+# Splits a money-holding item server-side: shrinks it to the remainder and spawns the
+# dropped portion as a new cash world item at [param position].
 @rpc("any_peer", "call_remote", "reliable")
-func _server_split_cash_drop(item_id: int, amount: int, position: Vector3) -> void:
+func _server_split_money_drop(item_id: int, amount: int, position: Vector3) -> void:
 	assert(Net.is_server)
 	var total: int = ItemManager.get_item_data(item_id, "money", 0)
-	if total <= 0 or amount <= 0 or amount >= total:
+	if total <= 0 or amount <= 0 or amount > total:
 		return
 
 	ItemManager.set_and_sync_item_data(item_id, "money", total - amount)
