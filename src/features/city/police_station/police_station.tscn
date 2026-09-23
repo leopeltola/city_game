@@ -87,10 +87,10 @@ light_energy = 1.508
 omni_range = 8.681
 
 [node name="JailLocation" type="Node3D" parent="." unique_id=1820582805 groups=["jail_location"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6846463, 1, -0.93630856)
 
 [node name="JailLocation2" type="Node3D" parent="." unique_id=839498505 groups=["jail_location"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.3462737, 1, -0.6462425)
 
 [node name="JailCell" type="Area3D" parent="." unique_id=154035299 node_paths=PackedStringArray("door", "stand_point") groups=["jail_cell"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.25, 0.5)

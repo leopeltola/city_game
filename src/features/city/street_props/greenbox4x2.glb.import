@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bm8vbqdnwn7xi"
-path="res://.godot/imported/bush.glb-c05b477c1bf952e5b7ae1ac41efd5ac8.scn"
+uid="uid://d1o1s5y30hgko"
+path="res://.godot/imported/greenbox4x2.glb-b32a2c41a297b93505b05497745e8665.scn"
 
 [deps]
 
-source_file="res://src/features/city/street_props/bush.glb"
-dest_files=["res://.godot/imported/bush.glb-c05b477c1bf952e5b7ae1ac41efd5ac8.scn"]
+source_file="res://src/features/city/street_props/greenbox4x2.glb"
+dest_files=["res://.godot/imported/greenbox4x2.glb-b32a2c41a297b93505b05497745e8665.scn"]
 
 [params]
 
@@ -41,15 +41,15 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"leaves": {
+"Gradient": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/leaves/leaves_alpha_animated.tres",
-"use_external/path": "uid://m7s2tja6ov58"
+"use_external/fallback_path": "res://assets/textures/gradient/gradient1_material.tres",
+"use_external/path": "uid://koub2ugueubx"
 },
-"leaves_base": {
+"Grass": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/leaves/leaves_animated.tres",
-"use_external/path": "uid://cbyx7sg2uxe4r"
+"use_external/fallback_path": "res://assets/textures/grass/grass.tres",
+"use_external/path": "uid://duonotyv5brj5"
 }
 }
 }
