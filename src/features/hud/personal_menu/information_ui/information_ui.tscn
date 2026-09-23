@@ -1,27 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://dc2k0k5uhehuy"]
+[gd_scene format=3 uid="uid://dc2k0k5uhehuy"]
 
-[ext_resource type="Script" path="res://src/features/hud/personal_menu/information_ui/information_ui.gd" id="1_info"]
+[ext_resource type="Script" uid="uid://bsseh6h2pke2v" path="res://src/features/hud/personal_menu/information_ui/information_ui.gd" id="1_info"]
+[ext_resource type="Texture2D" uid="uid://dloffoinqlxxo" path="res://icon.svg" id="2_mkj7k"]
 
 [node name="InformationUI" type="MarginContainer" unique_id=1217193896]
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
-metadata/_tab_index = 0
 script = ExtResource("1_info")
+metadata/_tab_index = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=295298460]
 layout_mode = 2
 
-[node name="Portrait" type="TextureRect" parent="VBoxContainer" unique_id=1988179976]
+[node name="VBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=1220984612]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="VBoxContainer/VBoxContainer2" unique_id=1988179976]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 size_flags_horizontal = 4
+texture = ExtResource("2_mkj7k")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PlayerNameLabel" type="Label" parent="VBoxContainer" unique_id=813362772]
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2" unique_id=783110673]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer" unique_id=813362772]
 unique_name_in_owner = true
 layout_mode = 2
 text = "PlayerName"
