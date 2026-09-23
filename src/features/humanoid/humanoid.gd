@@ -107,6 +107,12 @@ func get_equipped_item() -> ItemEquip:
 	return equipment.get_equipped_node() if equipment else null
 
 
+## Returns true if player is currently holding an item of [param item_type_name] in hand.
+func has_item_of_type_equipped(item_type_name: StringName) -> bool:
+	var item := get_equipped_item()
+	return item and item.item_type.name == item_type_name
+
+
 ## True while a status effect (e.g. stagger) locks combat and slot-switch input.
 func is_action_locked() -> bool:
 	return is_ragdolled or status.is_action_locked()

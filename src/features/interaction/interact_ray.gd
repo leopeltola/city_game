@@ -16,10 +16,12 @@ func _process(_delta: float) -> void:
 			hide_label()
 			return
 		var i: Interactable = col as Interactable
-		if i.active:
-			show_label(i.get_prompt(player.player_id))
-		else:
+		# An empty prompt (e.g. a jail door that is already open) means no action.
+		var prompt := i.get_prompt(player.player_id) if i.active else ""
+		if prompt.is_empty():
 			hide_label()
+		else:
+			show_label(prompt)
 
 	else:
 		hide_label()

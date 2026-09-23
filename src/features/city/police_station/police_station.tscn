@@ -12,6 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://bj3prdfge4t0j" path="res://src/features/interior/bank/plant.glb" id="10_nn86t"]
 [ext_resource type="PackedScene" uid="uid://we3n7sklupbq" path="res://src/features/interior/bank/tubelamp.glb" id="11_o5nll"]
 [ext_resource type="PackedScene" uid="uid://coeog7y3ngvkn" path="res://src/features/interior/police_station/report_desk/report_desk.tscn" id="12_report"]
+[ext_resource type="Script" uid="uid://fqhq352j5ek8" path="res://src/features/interior/police_station/jail_cell.gd" id="13_jailcell"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jailcell"]
+size = Vector3(2.4266357, 2.613037, 3.2062683)
 
 [node name="PoliceStation" type="Node3D" unique_id=1111426076]
 
@@ -87,6 +91,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="JailLocation2" type="Node3D" parent="." unique_id=839498505 groups=["jail_location"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
+
+[node name="JailCell" type="Area3D" parent="." unique_id=154035299 node_paths=PackedStringArray("door", "stand_point") groups=["jail_cell"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.25, 0.5)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("13_jailcell")
+door = NodePath("../JailDoor")
+stand_point = NodePath("../JailLocation")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="JailCell" unique_id=1100816010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4946655, 1.1734619, -0.30941772)
+shape = SubResource("BoxShape3D_jailcell")
+
+[node name="JailCell2" type="Area3D" parent="." unique_id=53423486 node_paths=PackedStringArray("door", "stand_point") groups=["jail_cell"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.25, 0.5)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("13_jailcell")
+door = NodePath("../JailDoor2")
+stand_point = NodePath("../JailLocation2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="JailCell2" unique_id=1148204466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.49466562, 1.1734619, -0.3875885)
+shape = SubResource("BoxShape3D_jailcell")
 
 [node name="ReportDesk" parent="." unique_id=105589566 instance=ExtResource("12_report")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6560173, 2.0977252, 8.800853)

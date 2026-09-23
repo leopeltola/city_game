@@ -30,8 +30,6 @@ var stamina: float = 100.0
 ## True while cuffed by the police: input is disabled and the client auto-walks the
 ## player to the cell. Replicated through _rpc_set_arrested.
 var arrested := false
-## True while locked in a cell; movement is frozen until released.
-var jailed := false
 ## Global position the client auto-walks to while arrested.
 var escort_target := Vector3.ZERO
 ## Local pathfinding helper used only while being escorted.
@@ -135,6 +133,9 @@ func _update_escort_locomotion() -> void:
 		var next := nav_agent.get_next_path_position()
 		var dir := next - global_position
 		dir.y = 0.0
+		if dir.length_squared() < 0.001:
+			dir = escort_target - global_position
+			dir.y = 0.0
 		locomotion.desired_direction = dir.normalized()
 
 	if global_position.distance_to(escort_target) < 1.6 and not _arrival_sent:
@@ -213,18 +214,6 @@ func _rpc_set_arrested(value: bool, target: Vector3) -> void:
 		_arrival_sent = false
 	if value and is_instance_valid(nav_agent):
 		nav_agent.target_position = target
-
-
-## Freezes/unfreezes the player inside their cell.
-@rpc("any_peer", "reliable", "call_local")
-func _rpc_set_jailed(value: bool) -> void:
-	jailed = value
-	if value:
-		# Cuffs come off in the cell: the closed, locked door does the containing,
-		# so the player regains normal movement, looking and item use.
-		arrested = false
-		escort_target = Vector3.ZERO
-		locomotion.desired_direction = Vector3.ZERO
 
 
 ## Teleports the player (server fallback when the escort never arrives).

@@ -12,17 +12,7 @@ signal bounty_changed(player_id: int, new_bounty: int)
 ## Emitted when a player is put under arrest (cuffed and escorted).
 signal player_arrested(player_id: int)
 
-## Emitted when a player is locked in a cell for [param duration] seconds.
-signal player_jailed(player_id: int, duration: float)
-
-## Emitted when a player is released from jail.
-signal player_released(player_id: int)
-
-## Jail sentence length in seconds.
-const JAIL_DURATION_S := 60
-const JAIL_DURATION_MS := JAIL_DURATION_S * 1000
-
-## How long the escort may take before the server force-jails the suspect.
+## How long the escort may take before the server force-detains the suspect.
 const ARREST_ESCORT_TIMEOUT_MS := 20000
 
 ## Guilt over committed crimes, which can be pictured.
@@ -32,14 +22,15 @@ var _guilt_data: Dictionary[int, Array] = {}
 ## Bounty (€) per player. If non-zero, player is wanted.
 var _bounty_data: Dictionary[int, int] = {}
 
-## player_id -> jail release time (Time.get_ticks_msec). Presence means jailed. Server only.
-var _jail_data: Dictionary[int, int] = {}
-
-## player_id -> reserved jail_location node while under arrest / jailed. Server only.
-var _jail_reservations: Dictionary[int, Node3D] = {}
+## player_id -> reserved JailCell while being escorted / detained. Server only.
+var _jail_reservations: Dictionary[int, JailCell] = {}
 
 ## player_id -> deadline (msec) after which the escort is force-completed. Server only.
 var _arrest_deadlines: Dictionary[int, int] = {}
+
+## player_ids currently locked in a closed cell. Server-only bookkeeping (not a player
+## state); police stop targeting them and it is cleared when they leave.
+var _detained: Dictionary[int, bool] = {}
 
 
 func _physics_process(_delta: float) -> void:
@@ -58,18 +49,15 @@ func _physics_process(_delta: float) -> void:
 		if expired:
 			_sync_guilt_to_player(player_id)
 
-	_process_jail(now)
+	_process_arrests(now)
 
 
-## Releases players whose sentence ended and force-jails escorts that timed out.
-func _process_jail(now: int) -> void:
-	for player_id: int in _jail_data.keys():
-		if now >= _jail_data[player_id]:
-			release_player(player_id)
+## Force-completes escorts that timed out.
+func _process_arrests(now: int) -> void:
 	for player_id: int in _arrest_deadlines.keys():
 		if now >= _arrest_deadlines[player_id]:
 			_arrest_deadlines.erase(player_id)
-			_force_jail(player_id)
+			_force_detain(player_id)
 
 
 ## Adds a guilt entry to a player with a duration in seconds.
@@ -135,132 +123,117 @@ func get_player_bounty(player_id: int) -> int:
 	return _bounty_data.get(player_id, 0)
 
 
-## Returns whether the player is currently serving a jail sentence.
-func is_player_jailed(player_id: int) -> bool:
-	return _jail_data.has(player_id)
+## Returns whether the player is currently locked in a closed cell.
+func is_player_detained(player_id: int) -> bool:
+	return _detained.has(player_id)
 
 
-## Puts a player under arrest: confiscates their belongings, opens the jail doors and
-## sends the target client to a free cell. Server-authoritative.
-func arrest_player(player_id: int) -> void:
+## Server-only bookkeeping: marks [param player_id] as locked in a cell. Clearing it
+## frees their cell reservation. Not a player state.
+func set_detained(player_id: int, value: bool) -> void:
+	if not Net.is_server:
+		return
+	if value:
+		_detained[player_id] = true
+	else:
+		_detained.erase(player_id)
+		_jail_reservations.erase(player_id)
+		_arrest_deadlines.erase(player_id)
+
+
+## Puts a player under arrest: confiscates their belongings, opens their cell door and
+## sends the target client to it. Returns true if a cell was available.
+## Server-authoritative.
+func arrest_player(player_id: int) -> bool:
 	if Net.is_server:
-		_do_arrest(player_id)
+		return _do_arrest(player_id)
 	elif Net.is_client:
 		_rpc_request_arrest.rpc_id(1, player_id)
-
-
-## Locks a player in their reserved cell for [constant JAIL_DURATION_S] seconds.
-## Server-authoritative.
-func jail_player(player_id: int) -> void:
-	if Net.is_server:
-		_server_jail(player_id)
-	elif Net.is_client:
-		_rpc_notify_arrived.rpc_id(1, player_id)
-
-
-## Ends a player's sentence early, clears their bounty and frees their cell.
-## Server-authoritative.
-func release_player(player_id: int) -> void:
-	if Net.is_server:
-		_do_release(player_id)
-	elif Net.is_client:
-		_rpc_request_release.rpc_id(1, player_id)
+	return false
 
 
 ## Called by the target client when the escorted player reaches their cell.
 func notify_arrived_at_jail(player_id: int) -> void:
-	jail_player(player_id)
+	if Net.is_server:
+		_detain(player_id)
+	elif Net.is_client:
+		_rpc_notify_arrived.rpc_id(1, player_id)
 
 
 ## Server-side arrest sequence.
-func _do_arrest(player_id: int) -> void:
+func _do_arrest(player_id: int) -> bool:
 	assert(Net.is_server)
 	var player: Player = PlayerManager.get_player_node_by_id(player_id)
 	if player == null:
-		return
+		return false
 
-	var location := _reserve_jail_location(player_id)
+	var cell := _reserve_jail_cell(player_id)
+	if cell == null:
+		return false
+
 	_confiscate(player_id)
-	_set_jail_doors(true, false)
+	assert(cell.door != null, "JailCell '%s' is missing its door export" % cell.name)
+	cell.door.set_open(true)
 
-	var target: Vector3 = location.global_position if location != null else player.global_position
-	player._rpc_set_arrested.rpc(true, target)
+	player._rpc_set_arrested.rpc(true, cell.get_stand_position())
 	_arrest_deadlines[player_id] = Time.get_ticks_msec() + ARREST_ESCORT_TIMEOUT_MS
 	player_arrested.emit(player_id)
+	return true
 
 
-## Locks the reserved cell and starts the sentence timer.
-func _server_jail(player_id: int) -> void:
+## Closes the reserved cell on the suspect and takes the cuffs off (the closed door now
+## does the containing). The cell area drains their bounty from here.
+func _detain(player_id: int) -> void:
 	assert(Net.is_server)
-	if _jail_data.has(player_id) or not _jail_reservations.has(player_id):
+	if not _jail_reservations.has(player_id):
 		return
 	_arrest_deadlines.erase(player_id)
-	_set_jail_doors(false, true)
-	_jail_data[player_id] = Time.get_ticks_msec() + JAIL_DURATION_MS
+
+	var cell: JailCell = _jail_reservations.get(player_id)
+	assert(cell != null, "No jail cell reserved for player %s" % player_id)
+	cell.door.set_open(false)
+	set_detained(player_id, true)
 
 	var player: Player = PlayerManager.get_player_node_by_id(player_id)
 	if player != null:
-		player._rpc_set_jailed.rpc(true)
-	player_jailed.emit(player_id, float(JAIL_DURATION_S))
-
-
-## Teleports a suspect that never reached their cell, then jails them.
-func _force_jail(player_id: int) -> void:
-	if _jail_data.has(player_id) or not _jail_reservations.has(player_id):
-		return
-	var location := _jail_reservations.get(player_id) as Node3D
-	var player: Player = PlayerManager.get_player_node_by_id(player_id)
-	if player != null and location != null:
-		player._rpc_force_position.rpc(location.global_position)
-	_server_jail(player_id)
-
-
-## Releases the player, clears their bounty and unlocks the cells.
-func _do_release(player_id: int) -> void:
-	assert(Net.is_server)
-	_jail_data.erase(player_id)
-	_arrest_deadlines.erase(player_id)
-	_jail_reservations.erase(player_id)
-	_set_jail_doors(false, false)
-
-	var player: Player = PlayerManager.get_player_node_by_id(player_id)
-	if player != null:
-		player._rpc_set_jailed.rpc(false)
 		player._rpc_set_arrested.rpc(false, Vector3.ZERO)
 
-	set_bounty(player_id, 0)
-	player_released.emit(player_id)
+
+## Teleports a suspect that never reached their cell, then detains them.
+func _force_detain(player_id: int) -> void:
+	if not _jail_reservations.has(player_id):
+		return
+	var cell: JailCell = _jail_reservations.get(player_id)
+	assert(cell != null, "No jail cell reserved for player %s" % player_id)
+	var player: Player = PlayerManager.get_player_node_by_id(player_id)
+	if player != null:
+		player._rpc_force_position.rpc(cell.get_stand_position())
+	_detain(player_id)
 
 
-## Picks a free jail_location node (random tie-break) and reserves it for the player.
-func _reserve_jail_location(player_id: int) -> Node3D:
+## Picks a free JailCell (random tie-break) and reserves it for the player.
+func _reserve_jail_cell(player_id: int) -> JailCell:
 	if _jail_reservations.has(player_id):
 		return _jail_reservations[player_id]
 
-	var all_locations: Array[Node3D] = []
-	var free_locations: Array[Node3D] = []
+	var all_cells: Array[JailCell] = []
+	var free_cells: Array[JailCell] = []
 	var reserved: Array = _jail_reservations.values()
-	for node: Node in get_tree().get_nodes_in_group("jail_location"):
-		var location := node as Node3D
-		if location == null:
+	for node: Node in get_tree().get_nodes_in_group("jail_cell"):
+		var cell := node as JailCell
+		if cell == null:
 			continue
-		all_locations.append(location)
-		if not reserved.has(location):
-			free_locations.append(location)
+		all_cells.append(cell)
+		if not reserved.has(cell):
+			free_cells.append(cell)
 
-	var pool: Array[Node3D] = free_locations if not free_locations.is_empty() else all_locations
+	var pool: Array[JailCell] = free_cells if not free_cells.is_empty() else all_cells
+	assert(not pool.is_empty(), "No JailCell nodes found in group 'jail_cell'")
 	if pool.is_empty():
 		return null
-	var chosen: Node3D = pool[randi() % pool.size()]
+	var chosen: JailCell = pool[randi() % pool.size()]
 	_jail_reservations[player_id] = chosen
 	return chosen
-
-
-## Opens/locks every jail door. The doors are found through the "jail_door" group.
-func _set_jail_doors(open: bool, lock: bool) -> void:
-	for door: Node in get_tree().get_nodes_in_group("jail_door"):
-		if door.has_method("force_set_open"):
-			door.force_set_open(open, lock)
 
 
 ## Confiscates the player's items and worn props, paying their value off the bounty.
@@ -321,13 +294,7 @@ func _rpc_request_arrest(player_id: int) -> void:
 @rpc("any_peer", "call_remote", "reliable")
 func _rpc_notify_arrived(player_id: int) -> void:
 	assert(Net.is_server)
-	_server_jail(player_id)
-
-
-@rpc("any_peer", "call_remote", "reliable")
-func _rpc_request_release(player_id: int) -> void:
-	assert(Net.is_server)
-	_do_release(player_id)
+	_detain(player_id)
 
 
 @rpc("any_peer", "call_remote", "reliable")

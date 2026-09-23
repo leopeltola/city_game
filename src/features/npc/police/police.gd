@@ -31,6 +31,12 @@ const BATON_SCENE := preload("res://src/features/items/data/police_baton/police_
 ## How close to the post counts as arrived.
 @export var return_arrive_distance := 1.5
 
+@export_group("Jail Key")
+## Chance the officer drops its belt key each time it is hit.
+@export_range(0.0, 1.0) var key_drop_chance := 0.35
+## Seconds after losing a key before the officer is issued a new one.
+@export var key_renew_seconds := 60.0
+
 var _state: State = State.IDLE
 var _target: Player = null
 var _attack_timer := 0.0
@@ -38,6 +44,11 @@ var _lost_sight_timer := 0.0
 var _spawn_position := Vector3.ZERO
 var _nav_agent: NavigationAgent3D = null
 var _baton: MeleeEquip = null
+## Whether the officer is currently carrying a jail key (shown on the belt).
+var has_key := true
+var _key_renew_timer := 0.0
+
+@onready var _belt_key: Node3D = %BeltJailkey
 
 
 func _ready() -> void:
@@ -47,6 +58,8 @@ func _ready() -> void:
 	if _baton != null:
 		# The NPC is server-local; make sure the host's input never swings its baton.
 		_baton.set_process_unhandled_input(false)
+	if _belt_key != null:
+		_belt_key.visible = has_key
 
 	_nav_agent = NavigationAgent3D.new()
 	_nav_agent.path_desired_distance = 0.5
@@ -65,12 +78,56 @@ func get_crime_label() -> String:
 	return "an officer"
 
 
+## Officers drop their belt key when beaten; it is reissued after a while.
+func _on_hit_received(damage: float) -> void:
+	super(damage)
+	if not Net.is_server:
+		return
+	_try_drop_key()
+
+
+func _try_drop_key() -> void:
+	if not has_key or randf() > key_drop_chance:
+		return
+	_set_has_key(false)
+
+	var item_id: int = ItemManager.create_item_of_type("jail_key")
+	var dir := Vector3(randf_range(-1.0, 1.0), 0.0, randf_range(-1.0, 1.0))
+	if dir.length_squared() < 0.01:
+		dir = Vector3.FORWARD
+	dir = dir.normalized()
+	var force := dir * randf_range(2.0, 4.0) + Vector3.UP * randf_range(2.0, 3.5)
+	ItemManager.create_world_item_for(item_id, global_position + Vector3.UP, Vector3.ZERO, force)
+
+
+func _set_has_key(value: bool) -> void:
+	if not value:
+		_key_renew_timer = key_renew_seconds
+	_rpc_set_has_key.rpc(value)
+
+
+@rpc("authority", "call_local", "reliable")
+func _rpc_set_has_key(value: bool) -> void:
+	has_key = value
+	if _belt_key != null:
+		_belt_key.visible = value
+
+
+func _update_key_renewal(delta: float) -> void:
+	if has_key:
+		return
+	_key_renew_timer -= delta
+	if _key_renew_timer <= 0.0:
+		_set_has_key(true)
+
+
 func _update_locomotion() -> void:
 	if not is_local:
 		return
 
 	var delta := get_physics_process_delta_time()
 	_attack_timer = maxf(_attack_timer - delta, 0.0)
+	_update_key_renewal(delta)
 	_update_target(delta)
 
 	match _state:
@@ -91,7 +148,9 @@ func _update_target(delta: float) -> void:
 	if _state == State.ESCORT:
 		return
 	if _target != null and (
-			not is_instance_valid(_target) or CrimeManager.is_player_jailed(_target.player_id)
+			not is_instance_valid(_target)
+			or CrimeManager.is_player_detained(_target.player_id)
+			or not CrimeManager.is_player_wanted(_target.player_id)
 	):
 		_target = null
 		_state = State.RETURN
@@ -103,7 +162,7 @@ func _update_target(delta: float) -> void:
 			continue
 		if not CrimeManager.is_player_wanted(candidate.player_id):
 			continue
-		if CrimeManager.is_player_jailed(candidate.player_id) or candidate.arrested:
+		if CrimeManager.is_player_detained(candidate.player_id) or candidate.arrested:
 			continue
 		var distance := global_position.distance_to(candidate.global_position)
 		if distance > vision_range or not _can_see(candidate):
@@ -171,7 +230,9 @@ func _do_chase() -> void:
 
 ## Follows the arrested suspect to the station.
 func _do_escort() -> void:
-	if _target == null or not is_instance_valid(_target) or CrimeManager.is_player_jailed(_target.player_id):
+	if _target == null or not is_instance_valid(_target) \
+			or CrimeManager.is_player_detained(_target.player_id) \
+			or not CrimeManager.is_player_wanted(_target.player_id):
 		_target = null
 		_state = State.RETURN
 		return
@@ -202,11 +263,12 @@ func _do_return() -> void:
 func _arrest() -> void:
 	if _target == null:
 		return
+	if not CrimeManager.arrest_player(_target.player_id):
+		return # no cell available; keep chasing
 	_state = State.ESCORT
 	move_speed_multiplier = 1.0
 	locomotion.desired_direction = Vector3.ZERO
 	locomotion.run_requested = false
-	CrimeManager.arrest_player(_target.player_id)
 
 
 func _try_attack() -> void:

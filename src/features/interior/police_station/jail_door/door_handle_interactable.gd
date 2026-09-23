@@ -1,28 +1,25 @@
 extends Interactable
+## Handle for a jail cell door. A jail key can only OPEN the door, never close it, so
+## the handle is only usable while the door is closed.
 
-## While locked the handle can't be used (set by the jail door during a sentence).
-var locked := false
+## Tracks the door state so the prompt can reflect it.
+var door_open := true
 
 
 func get_prompt(player_id: int) -> String:
-	if locked:
-		return "Locked"
-	return prompt if can_interact(player_id) else "Need Key"
+	if door_open:
+		return ""
+	return "Open" if can_interact(player_id) else "Needs key"
 
 
 func can_interact(player_id: int) -> bool:
-	if locked:
+	if door_open or not active:
 		return false
 	var player: Player = PlayerManager.get_player_node_by_id(player_id)
-	if not player or not active:
+	if not player:
 		return false
-	var item := player.get_equipped_item()
-	if item and item.item_type and item.item_type.name == "jail_key":
-		return true
-	return false
+	return player.has_item_of_type_equipped("jail_key")
 
-func set_open(is_open : bool) -> void:
-	if is_open:
-		prompt = "Close"
-	else:
-		prompt = "Open"
+
+func set_open(is_open: bool) -> void:
+	door_open = is_open
