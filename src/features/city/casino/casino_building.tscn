@@ -6,7 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://cx14icmlyq8yv" path="res://src/features/interior/casino/plant.glb" id="7_g3y4y"]
 [ext_resource type="PackedScene" uid="uid://bad5ssnf7rex2" path="res://src/features/city/casino/casino_outerior.glb" id="9_5bj6a"]
 [ext_resource type="PackedScene" uid="uid://ln5uarworkc6" path="res://src/features/interior/casino/casino_table.glb" id="10_0axky"]
+[ext_resource type="PackedScene" uid="uid://cjmv1oa266i3k" path="res://src/features/interior/club/assets/piano.glb" id="11_0axky"]
 [ext_resource type="PackedScene" uid="uid://daewxbpt0g5sd" path="res://src/features/interior/casino/bench.glb" id="11_t4bbe"]
+[ext_resource type="PackedScene" uid="uid://dns8brflshwvh" path="res://src/features/interior/club/assets/timbales.glb" id="12_0orc8"]
+[ext_resource type="PackedScene" uid="uid://cgoouuvmqg7wh" path="res://src/features/interior/club/congas.tscn" id="12_qed1y"]
 [ext_resource type="PackedScene" uid="uid://cfje0kyuwhxbs" path="res://src/features/gambling/slot_machine/slot_machine.tscn" id="12_t4bbe"]
 [ext_resource type="PackedScene" uid="uid://b7r6p65mc2wu5" path="res://src/features/interior/bank/atm.glb" id="13_0orc8"]
 
@@ -101,27 +104,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -1)
 [node name="plant2" parent="." unique_id=956010260 instance=ExtResource("7_g3y4y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -1)
 
-[node name="casino_table" parent="." unique_id=2048276435 instance=ExtResource("10_0axky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -12)
-
-[node name="bench" parent="casino_table" unique_id=856891797 instance=ExtResource("11_t4bbe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.4515791)
-
-[node name="bench2" parent="casino_table" unique_id=1063971742 instance=ExtResource("11_t4bbe")]
-transform = Transform3D(0.99188256, 0, -0.12715717, 0, 1, 0, 0.12715717, 0, 0.99188256, 0.85011196, 0, -1.4515791)
-
-[node name="bench3" parent="casino_table" unique_id=1137541808 instance=ExtResource("11_t4bbe")]
-transform = Transform3D(0.9957761, 0, 0.091814704, 0, 1, 0, -0.091814704, 0, 0.9957761, -0.89389277, 0, -1.4515791)
-
-[node name="bench4" parent="casino_table" unique_id=263209206 instance=ExtResource("11_t4bbe")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.029187202, 0, 1.3935041)
-
-[node name="bench5" parent="casino_table" unique_id=718764130 instance=ExtResource("11_t4bbe")]
-transform = Transform3D(-0.99188256, 0, 0.12715708, 0, 1, 0, -0.12715708, 0, -0.99188256, -0.87929916, 0, 1.3935041)
-
-[node name="bench6" parent="casino_table" unique_id=1800691454 instance=ExtResource("11_t4bbe")]
-transform = Transform3D(-0.9957761, 0, -0.09181479, 0, 1, 0, 0.09181479, 0, -0.9957761, 0.86470556, 0, 1.3935041)
-
 [node name="casino_table2" parent="." unique_id=1773672983 instance=ExtResource("10_0axky")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -7)
 
@@ -190,5 +172,14 @@ transform = Transform3D(1, 0, 0, 0, 0.258819, 0.9659258, 0, -0.9659258, 0.258819
 spot_range = 9.675
 
 [node name="casino_outerior" parent="." unique_id=1883175722 instance=ExtResource("9_5bj6a")]
+
+[node name="piano" parent="." unique_id=1847945801 instance=ExtResource("11_0axky")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.594271, 0, -12.414858)
+
+[node name="timbales" parent="." unique_id=277235764 instance=ExtResource("12_0orc8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5860825, 0, -14.376562)
+
+[node name="Congas" parent="." unique_id=1221876010 instance=ExtResource("12_qed1y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2970386, 0, -14.157007)
 
 [editable path="interior_base"]
