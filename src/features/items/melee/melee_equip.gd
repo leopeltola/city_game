@@ -353,10 +353,12 @@ func _resolve_hit(collider: Object) -> void:
 	var target3d := target as Node3D
 	var force := (target3d.global_position - player.global_position).normalized() * attack.knockback_force
 	force.y += 2.0
-	target.get_hit(attack.damage, force, attack.interrupts_target, attack.ragdoll)
+	var player_id = player.get("player_id")
+	var attacker_id: int = player_id if player_id != null else 0
+	target.get_hit(attack.damage, force, attack.interrupts_target, attack.ragdoll, attacker_id)
 	_rpc_play_sfx.rpc("hit")
 	attack_hit.emit(target, attack)
-	_register_assault_guilt(target, attack)
+	_register_assault_guilt(target, attack, attacker_id)
 	if attack.stagger_on_hit:
 		_rpc_interrupt.rpc(attack.hit_blend)
 
@@ -364,16 +366,18 @@ func _resolve_hit(collider: Object) -> void:
 ## Adds assault guilt to a player attacker when they land a hit on another actor.
 ## Runs on the local client, where hit detection happens. Duck-typed so this file
 ## doesn't reference Player/Npc (avoids a class cycle through the weapon scenes).
-func _register_assault_guilt(target: Node, attack: MeleeAttack) -> void:
-	var attacker_id: Variant = player.get("player_id")
-	if attacker_id == null or int(attacker_id) == 0:
+## Police handle their own bounty when hit instead of accruing guilt.
+func _register_assault_guilt(target: Node, attack: MeleeAttack, attacker_id: int) -> void:
+	if attacker_id <= 0:
 		return
 	if not target.has_method("get_crime_label"):
+		return
+	if target.is_in_group("police"):
 		return
 
 	var label := "Assaulted %s" % target.call("get_crime_label")
 	var amount := maxi(25, roundi(attack.damage * 4.0))
-	CrimeManager.add_guilt(int(attacker_id), label, 90, amount)
+	CrimeManager.add_guilt(attacker_id, label, 90, amount)
 
 # --- Action lifecycle ---
 

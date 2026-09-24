@@ -175,7 +175,7 @@ func has_stamina(amount: float) -> bool:
 	return stamina >= amount
 
 
-func _on_hit_received(damage: float) -> void:
+func _on_hit_received(damage: float, _attacker_id: int = 0) -> void:
 	if not is_local:
 		return
 	if randf() < Combat.item_drop_chance(damage):

@@ -84,6 +84,18 @@ func set_bounty(player_id: int, amount: int) -> void:
 		_rpc_set_bounty.rpc_id(1, player_id, amount)
 
 
+## Adds [param amount] (€) straight onto a player's bounty, making them wanted at that
+## moment. Unlike guilt, no photo is needed: used for crimes committed directly against
+## the police.
+func add_bounty(player_id: int, amount: int) -> void:
+	if amount <= 0:
+		return
+	if Net.is_server:
+		_rpc_add_bounty(player_id, amount)
+	elif Net.is_client:
+		_rpc_add_bounty.rpc_id(1, player_id, amount)
+
+
 ## Returns the total guilt of a given player in euros.
 func get_guilt(player_id: int) -> int:
 	if not _guilt_data.has(player_id):
@@ -328,6 +340,12 @@ func _rpc_submit_guilt_to_bounty(player_id: int) -> void:
 func _rpc_set_bounty(player_id: int, amount: int) -> void:
 	assert(Net.is_server)
 	_set_server_bounty(player_id, amount)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _rpc_add_bounty(player_id: int, amount: int) -> void:
+	assert(Net.is_server)
+	_set_server_bounty(player_id, get_player_bounty(player_id) + amount)
 
 
 func _set_server_bounty(player_id: int, amount: int) -> void:

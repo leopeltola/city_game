@@ -68,6 +68,7 @@ var _patrol_length := 0.0
 
 func _ready() -> void:
 	super()
+	add_to_group("police")
 	_spawn_position = global_position
 	_baton = equipment.get_equipped_node() as MeleeEquip
 	if _baton != null:
@@ -87,12 +88,22 @@ func get_crime_label() -> String:
 	return "an officer"
 
 
-## Officers drop their belt key when beaten; it is reissued after a while.
-func _on_hit_received(damage: float) -> void:
-	super(damage)
+## Officers drop their belt key when beaten and, when a player lands the hit, turn on
+## them and put the assault straight onto their bounty. Server only: the officer's AI
+## lives on the server, and facing them there puts them in the vision cone so the normal
+## chase logic takes over.
+func _on_hit_received(damage: float, attacker_id: int = 0) -> void:
+	super(damage, attacker_id)
 	if not Net.is_server:
 		return
 	_try_drop_key()
+	if attacker_id <= 0:
+		return
+	var attacker: Player = PlayerManager.get_player_node_by_id(attacker_id)
+	if attacker == null or not is_instance_valid(attacker):
+		return
+	_face(attacker.global_position - global_position)
+	CrimeManager.add_bounty(attacker_id, maxi(25, roundi(damage * 4.0)))
 
 
 func _try_drop_key() -> void:

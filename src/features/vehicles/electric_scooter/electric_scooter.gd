@@ -82,8 +82,15 @@ func interact(player_id: int) -> void:
 
 
 ## A hit of any kind throws the rider off and ragdolls them, whatever the incoming
-## [param ragdoll] flag asked for. The scooter itself is unharmed.
-func get_hit(damage: float, force: Vector3 = Vector3.ZERO, interrupt: bool = true, ragdoll: bool = false) -> void:
+## [param ragdoll] flag asked for. The scooter itself is unharmed. [param _attacker_id]
+## is accepted so melee hits can pass the attacking player's id (unused here).
+func get_hit(
+	damage: float,
+	force: Vector3 = Vector3.ZERO,
+	interrupt: bool = true,
+	ragdoll: bool = false,
+	_attacker_id: int = 0,
+) -> void:
 	_rpc_get_hit.rpc(damage, force, interrupt)
 
 

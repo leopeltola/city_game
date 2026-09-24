@@ -24,7 +24,7 @@ func _mount_default_equipment() -> void:
 
 
 ## Virtual hook from Humanoid: runs on every peer, but only the server acts.
-func _on_hit_received(damage: float) -> void:
+func _on_hit_received(damage: float, _attacker_id: int = 0) -> void:
 	if not Net.is_server:
 		return
 	else:

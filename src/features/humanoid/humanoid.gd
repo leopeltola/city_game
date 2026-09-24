@@ -140,8 +140,9 @@ func has_stamina(_amount: float) -> bool:
 
 
 ## Virtual hook called after a hit is applied (on every peer). Players kick the
-## camera and may drop an item; NPCs lose health and drop cash.
-func _on_hit_received(_damage: float) -> void:
+## camera and may drop an item; NPCs lose health and drop cash. [param attacker_id] is
+## the attacking player, or 0 for non-player sources.
+func _on_hit_received(_damage: float, _attacker_id: int = 0) -> void:
 	pass
 
 
@@ -182,17 +183,30 @@ func trigger_block_success() -> void:
 ## [param interrupt] when true and the actor is mid-action, the hit staggers them.
 ## [param ragdoll] when true, the hit flops the actor into a physics ragdoll
 ## (thrown by [param force]) instead of the regular stagger response.
-func get_hit(damage: float, force: Vector3 = Vector3.ZERO, interrupt: bool = true, ragdoll: bool = false) -> void:
-	_rpc_get_hit.rpc(damage, force, interrupt, ragdoll)
+## [param attacker_id] is the attacking player, or 0 for non-player sources.
+func get_hit(
+	damage: float,
+	force: Vector3 = Vector3.ZERO,
+	interrupt: bool = true,
+	ragdoll: bool = false,
+	attacker_id: int = 0,
+) -> void:
+	_rpc_get_hit.rpc(damage, force, interrupt, ragdoll, attacker_id)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func _rpc_get_hit(damage: float, force: Vector3, interrupt: bool, ragdoll: bool) -> void:
+func _rpc_get_hit(
+	damage: float,
+	force: Vector3,
+	interrupt: bool,
+	ragdoll: bool,
+	attacker_id: int,
+) -> void:
 	if is_ragdolled:
 		return
 	velocity += force
 	_apply_hit_slow(damage)
-	_on_hit_received(damage)
+	_on_hit_received(damage, attacker_id)
 
 	if ragdoll:
 		self.ragdoll.start(force)
