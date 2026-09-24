@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bot8mf1qu4vnf"]
+
+[ext_resource type="Script" uid="uid://d314wi35i8tal" path="res://src/features/vehicles/electric_scooter/electric_scooter.gd" id="1_8e34p"]
+[ext_resource type="PackedScene" uid="uid://cdr6iro6dn1hu" path="res://src/features/vehicles/electric_scooter/electric_scooter.glb" id="2_f8p5m"]
+[ext_resource type="Script" uid="uid://crw5lmnuab72h" path="res://src/features/vehicles/interectable_delegator.gd" id="3_s5arb"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_aco40"]
+friction = 0.5
+bounce = 0.2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s5arb"]
+radius = 0.19726563
+height = 1.3891602
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_f8p5m"]
+height = 0.88464355
+radius = 0.096191406
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_33vke"]
+size = Vector3(1.0396118, 0.7332001, 0.62298584)
+
+[node name="ElectricScooter" type="RigidBody3D" unique_id=39877560]
+physics_material_override = SubResource("PhysicsMaterial_aco40")
+script = ExtResource("1_8e34p")
+engine_force = 20.0
+max_speed = 13.08
+lateral_grip = 3.0
+steer_strength = 30.0
+balance_strength = 2.5
+
+[node name="electric_scooter" parent="." unique_id=377879878 instance=ExtResource("2_f8p5m")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="SteeringWheel" parent="electric_scooter" index="0" unique_id=602296368]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0.20000002, 0.6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1218134385]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.19902056, -0.08337402)
+shape = SubResource("CapsuleShape3D_s5arb")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1400925441]
+transform = Transform3D(1, 0, 0, 0, -0.9772022, 0.21231095, 0, -0.21231095, -0.9772022, 0, 0.69250596, -0.54456174)
+shape = SubResource("CylinderShape3D_f8p5m")
+
+[node name="InterectableDelegator" type="Area3D" parent="." unique_id=1337069201 node_paths=PackedStringArray("handler")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.083368905, 0, 0.08566251)
+script = ExtResource("3_s5arb")
+handler = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InterectableDelegator" unique_id=1678359504]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, 0.34957123, -0.007904053)
+visible = false
+shape = SubResource("BoxShape3D_33vke")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=1497090241]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.083368905, 0.29331028, 0.027895356)
+
+[editable path="electric_scooter"]

@@ -27,6 +27,13 @@ var player_data: PlayerData:
 
 var stamina: float = 100.0
 
+## Set by vehicles when boarding/leaving. Locks all normal player movement etc stuff
+var in_vehicle: bool = false:
+	set(val):
+		in_vehicle = val
+		locomotion.disabled = in_vehicle
+		network_sync.disabled = in_vehicle
+
 ## True while cuffed by the police: input is disabled and the client auto-walks the
 ## player to the cell. Replicated through _rpc_set_arrested.
 var arrested := false
@@ -64,8 +71,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	super(delta)
-	if Input.is_action_just_pressed("show_player_names") and is_local:
-		print("SightPivot.position: %s\nCamera.position: %s" % [sight_pivot.position, camera.position])
 	if Input.is_action_pressed("show_player_names") and Net.is_client:
 		%NameLabel3D.text = player_data.player_name
 		%NameLabel3D.show()
@@ -99,7 +104,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var effective_sensitivity := mouse_sensitivity * look_drag_multiplier
-		rotate_y(-event.relative.x * effective_sensitivity)
+		if not in_vehicle:
+			rotate_y(-event.relative.x * effective_sensitivity)
 		sight_pivot.rotate_x(-event.relative.y * effective_sensitivity)
 		sight_pivot.rotation.x = clamp(sight_pivot.rotation.x, deg_to_rad(-85), deg_to_rad(85))
 	if event.is_action_pressed("free_mouse"):
@@ -109,6 +115,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _update_locomotion() -> void:
+	if in_vehicle:
+		return
 	if arrested:
 		_update_escort_locomotion()
 		return
@@ -142,7 +150,7 @@ func _update_escort_locomotion() -> void:
 
 
 func is_action_locked() -> bool:
-	return super() or arrested
+	return super() or arrested or in_vehicle
 
 
 func can_sprint() -> bool:

@@ -16,6 +16,8 @@ extends Node
 var desired_direction := Vector3.ZERO
 ## Whether the owner is trying to run this frame.
 var run_requested := false
+## Whether the system is enabled
+var disabled := false
 
 
 var _owner: Humanoid:
@@ -26,6 +28,9 @@ var _owner: Humanoid:
 ## Applies gravity, horizontal acceleration and move_and_slide for the current
 ## desired direction. Called from the owner's physics process while on foot.
 func step(delta: float) -> void:
+	if disabled:
+		return
+	
 	var h := _owner
 	if not h.is_on_floor():
 		h.velocity.y -= gravity * delta

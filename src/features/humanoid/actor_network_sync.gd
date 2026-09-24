@@ -7,9 +7,11 @@ extends Node
 ## How quickly remote actors catch up to the latest synced position.
 @export var interp_speed := 12.0
 var _interp_ready := false
-
+var disabled := false
 
 func interpolate(delta: float) -> void:
+	if disabled:
+		return
 	var h := owner as Humanoid
 	if not _interp_ready:
 		h.global_position = h.network_position

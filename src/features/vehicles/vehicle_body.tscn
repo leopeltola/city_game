@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://dfkdbnf75d7gp"]
+
+[ext_resource type="Script" uid="uid://cm226svwp2cr8" path="res://src/features/vehicles/vehicle_body.gd" id="1_vwnhj"]
+[ext_resource type="Script" uid="uid://crw5lmnuab72h" path="res://src/features/vehicles/interectable_delegator.gd" id="2_b1ity"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b1ity"]
+friction = 0.09
+bounce = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_q1gf2"]
+size = Vector3(1, 0.24176025, 0.602417)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q1gf2"]
+size = Vector3(1, 0.21820068, 0.5873413)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g318b"]
+size = Vector3(0.095, 0.525, 0.335)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b3iag"]
+size = Vector3(1.0396118, 0.7332001, 0.62298584)
+
+[node name="VehicleBody" type="RigidBody3D" unique_id=116140045]
+collision_layer = 32
+physics_material_override = SubResource("PhysicsMaterial_b1ity")
+gravity_scale = 0.67
+linear_damp = 2.968
+angular_damp = 6.194
+script = ExtResource("1_vwnhj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=940823144]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.081478305, 0.1354065, 0.08566251)
+mesh = SubResource("BoxMesh_q1gf2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2037317939]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.09328712, 0.14270985, 0.08566251)
+shape = SubResource("BoxShape3D_q1gf2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=703892854]
+transform = Transform3D(-4.2474845e-08, -1.0323425e-08, -1, -0.23617242, 0.97171116, 0, 0.97171116, 0.23617242, -4.371139e-08, -0.08336892, 0.4248016, 0.34070086)
+mesh = SubResource("BoxMesh_g318b")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1468084720]
+transform = Transform3D(-1.4972332e-10, -4.371113e-08, -1, -0.9999941, 0.0034252703, 0, 0.0034252703, 0.9999941, -4.371139e-08, -0.083368905, 0.26621825, 0.0384626)
+mesh = SubResource("BoxMesh_g318b")
+
+[node name="InterectableDelegator" type="Area3D" parent="." unique_id=1417271177 node_paths=PackedStringArray("handler")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.083368905, 0, 0.08566251)
+script = ExtResource("2_b1ity")
+handler = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InterectableDelegator" unique_id=354624124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, 0.34957123, -0.007904053)
+shape = SubResource("BoxShape3D_b3iag")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=625140829]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.083368905, 0.29331028, 0.027895356)

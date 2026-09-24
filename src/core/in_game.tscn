@@ -14,12 +14,12 @@
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="7_64k4k"]
 [ext_resource type="Resource" uid="uid://g414q8ein5tj" path="res://src/features/items/data/fedora/fedora.tres" id="8_fedora"]
 [ext_resource type="Resource" uid="uid://dmuk4qlffpibn" path="res://src/features/items/data/pizza/dough/dough.tres" id="9_hd0q4"]
-[ext_resource type="Resource" path="res://src/features/items/data/watch/watch.tres" id="9_watch"]
+[ext_resource type="Resource" uid="uid://ccwiykwmxhs6w" path="res://src/features/items/data/watch/watch.tres" id="9_watch"]
 [ext_resource type="Resource" uid="uid://tt7ole16uql5" path="res://src/features/items/data/pizza/pizza_box/pizza_box.tres" id="10_tlnud"]
 [ext_resource type="Resource" uid="uid://csqm17e5047db" path="res://src/features/items/data/pizza/pizza_sauce/pizza_sauce.tres" id="11_tugk2"]
 [ext_resource type="Resource" uid="uid://decolqh3h5w4h" path="res://src/features/items/data/pizza/pizza/pizza.tres" id="12_lfh3v"]
 [ext_resource type="Resource" uid="uid://1hrurp1qfqws" path="res://src/features/items/data/police_hat/police_hat.tres" id="13_2ht0y"]
-[ext_resource type="Resource" path="res://src/features/items/data/aviator_glasses/aviator_glasses.tres" id="13_irx08"]
+[ext_resource type="Resource" uid="uid://dwxvpuppmklyu" path="res://src/features/items/data/aviator_glasses/aviator_glasses.tres" id="13_irx08"]
 [ext_resource type="PackedScene" uid="uid://ctmyo70nflbwe" path="res://src/features/city/ground/road_straight.tscn" id="13_yfk00"]
 [ext_resource type="PackedScene" uid="uid://cfje0kyuwhxbs" path="res://src/features/gambling/slot_machine/slot_machine.tscn" id="14_5bs2i"]
 [ext_resource type="Resource" uid="uid://dxctft40qvhih" path="res://src/features/items/data/police_body/police_body.tres" id="14_k7ulh"]
@@ -58,6 +58,7 @@
 [ext_resource type="PackedScene" uid="uid://cu524h6xwkue7" path="res://src/features/city/pizzeria/pizzeria.tscn" id="42_acbas"]
 [ext_resource type="PackedScene" uid="uid://c4fh8jrnxg5k1" path="res://src/features/city/clothing_store/clothing_store.tscn" id="53_pfh3i"]
 [ext_resource type="PackedScene" uid="uid://c3im7y4y2ygdc" path="res://src/features/city/street_props/greenbox_4x2.tscn" id="58_676n0"]
+[ext_resource type="PackedScene" uid="uid://bot8mf1qu4vnf" path="res://src/features/vehicles/electric_scooter/electric_scooter.tscn" id="60_g5ewm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1j2v"]
 shader = ExtResource("1_8at8h")
@@ -1005,5 +1006,8 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -27.
 
 [node name="greenbox4x9" parent="." unique_id=1131654421 instance=ExtResource("58_676n0")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -27.562601, 0.1, 48)
+
+[node name="ElectricScooter" parent="." unique_id=39877560 instance=ExtResource("60_g5ewm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.53332, 1.5831704, 22)
 
 [editable path="NavigationRegion3D/City/CasinoSkyscraper"]
