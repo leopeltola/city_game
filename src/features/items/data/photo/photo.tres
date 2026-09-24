@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://byjurc6034"]
 
+[ext_resource type="Texture2D" uid="uid://ckdn3ngm2vauy" path="res://src/features/items/data/photo/photo_icon.png" id="1_38sq2"]
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_h8nvy"]
 
 [resource]
@@ -8,6 +9,7 @@ name = "photo"
 display_name = "Photo"
 world_item_path = "res://src/features/items/data/photo/photo_world.tscn"
 equip_item_path = "res://src/features/items/data/photo/photo_equip.tscn"
+icon = ExtResource("1_38sq2")
 instance_data = Dictionary[StringName, Variant]({
 &"guilt": 0,
 &"identifiability": 0,

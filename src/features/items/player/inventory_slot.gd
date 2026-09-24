@@ -1,10 +1,6 @@
-class_name InventorySlot
 extends Panel
 ## A single hotbar slot: item icon, optional count/money label, slot-number hint,
 ## a selection highlight and small juice animations played by [ItemInventoryUI].
-##
-## Styles are derived from the active theme's panel style so the slot matches the
-## rest of the UI, with a blue accent border when selected.
 
 ## Accent border of the selected slot
 const COLOR_SELECTED_BORDER := Color(0.38, 0.643, 0.957, 1.0)

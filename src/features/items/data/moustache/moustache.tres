@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://8jvbbxot1mvm"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://qbomr7yhbnjm" path="res://src/features/items/data/moustache/moustache.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://b6c2n25v3fard" path="res://src/features/items/data/moustache/moustache_icon.png" id="2_x3wre"]
 
 [resource]
 script = ExtResource("1")
@@ -10,5 +11,6 @@ display_name = "Moustache"
 world_item_path = "res://src/features/items/data/moustache/moustache_world.tscn"
 equip_item_path = "res://src/features/items/data/moustache/moustache_equip.tscn"
 display_scene = ExtResource("2")
-prop_slot = 3
+icon = ExtResource("2_x3wre")
 base_value = 5
+prop_slot = 3

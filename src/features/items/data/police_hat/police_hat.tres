@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://1hrurp1qfqws"]
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://nfag1clqj810" path="res://src/features/items/data/police_hat/police_hat_icon.png" id="1_xvf4b"]
 
 [resource]
 script = ExtResource("1")
@@ -8,5 +9,6 @@ name = "police_hat"
 display_name = "Police Hat"
 world_item_path = "uid://b3d273juk5ihr"
 equip_item_path = "res://src/features/items/data/police_hat/police_hat_equip.tscn"
-prop_slot = 2
+icon = ExtResource("1_xvf4b")
 base_value = 35
+prop_slot = 2

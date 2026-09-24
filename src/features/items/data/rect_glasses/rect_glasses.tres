@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://c1meaoaa7btum"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dby7ctwd7rk7s" path="res://src/features/items/data/rect_glasses/rect_glasses.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://cuv1julf0tane" path="res://src/features/items/data/rect_glasses/rect_glasses_icon.png" id="2_6d8k5"]
 
 [resource]
 script = ExtResource("1")
@@ -10,5 +11,6 @@ display_name = "Rect Glasses"
 world_item_path = "res://src/features/items/data/rect_glasses/rect_glasses_world.tscn"
 equip_item_path = "res://src/features/items/data/rect_glasses/rect_glasses_equip.tscn"
 display_scene = ExtResource("2")
-prop_slot = 4
+icon = ExtResource("2_6d8k5")
 base_value = 25
+prop_slot = 4

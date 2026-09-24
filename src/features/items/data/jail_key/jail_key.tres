@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bbgvcch0opt5i" path="res://src/features/items/data/jail_key/jail_key.glb" id="1_i1i2j"]
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_sxeyh"]
+[ext_resource type="Texture2D" uid="uid://ck2oeo3okqtfd" path="res://src/features/items/data/jail_key/jail_key_icon.png" id="2_3g7hq"]
 
 [resource]
 script = ExtResource("1_sxeyh")
@@ -10,4 +11,5 @@ display_name = "Jail Key"
 world_item_path = "uid://cgehy4jahi2t7"
 equip_item_path = "uid://bj5mmk2e773bj"
 display_scene = ExtResource("1_i1i2j")
+icon = ExtResource("2_3g7hq")
 metadata/_custom_type_script = "uid://1v4ix87tn325"

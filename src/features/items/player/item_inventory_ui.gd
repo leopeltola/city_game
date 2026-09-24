@@ -1,10 +1,10 @@
 extends MarginContainer
-## Hotbar showing the local player's item slots with themed panels, item icons,
-## money labels, a clear selected-slot highlight and toast-style juice.
+## Hotbar showing the local player's item slots
 
+const InventorySlot := preload("res://src/features/items/player/inventory_slot.gd")
 const SLOT_SCENE: PackedScene = preload("res://src/features/items/player/inventory_slot.tscn")
 
-const SFX_VOLUME_DB := -8.5
+const SFX_VOLUME_DB := -10
 
 @export var inv: PlayerInventory = null
 @export var pickup_sfx: AudioStream = null

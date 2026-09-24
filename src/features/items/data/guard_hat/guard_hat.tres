@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://dyy84nocthlrb"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://3tm7o8moneru" path="res://src/features/items/data/guard_hat/guard_hat.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://cvehrh43uh2a2" path="res://src/features/items/data/guard_hat/guard_hat_icon.png" id="2_5pl0c"]
 
 [resource]
 script = ExtResource("1")
@@ -10,5 +11,6 @@ display_name = "Guard Hat"
 world_item_path = "res://src/features/items/data/guard_hat/guard_hat_world.tscn"
 equip_item_path = "res://src/features/items/data/guard_hat/guard_hat_equip.tscn"
 display_scene = ExtResource("2")
-prop_slot = 2
+icon = ExtResource("2_5pl0c")
 base_value = 35
+prop_slot = 2

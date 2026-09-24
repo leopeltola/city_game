@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://tt7ole16uql5"]
 
+[ext_resource type="Texture2D" uid="uid://ca13t4j01sgpw" path="res://src/features/items/data/pizza/pizza_box/pizza_box_icon.png" id="1_7rueo"]
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_ojwug"]
 
 [resource]
@@ -8,8 +9,9 @@ name = "pizza_box"
 display_name = "Pizza Box"
 world_item_path = "uid://lssi5fnlfvsn"
 equip_item_path = "uid://cq85g2w5xaxl5"
+icon = ExtResource("1_7rueo")
 instance_data = Dictionary[StringName, Variant]({
 &"is_empty": true
 })
-metadata/_custom_type_script = "uid://1v4ix87tn325"
 base_value = 2
+metadata/_custom_type_script = "uid://1v4ix87tn325"

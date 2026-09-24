@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dsi4muucofyp0" path="res://src/features/items/data/cigar/cigar.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://dwrfs42kxjjdm" path="res://src/features/items/data/cigar/cigar_icon.png" id="2_51rw5"]
 
 [resource]
 script = ExtResource("1")
@@ -10,5 +11,6 @@ display_name = "Cigar"
 world_item_path = "res://src/features/items/data/cigar/cigar_world.tscn"
 equip_item_path = "res://src/features/items/data/cigar/cigar_equip.tscn"
 display_scene = ExtResource("2")
+icon = ExtResource("2_51rw5")
 base_value = 100
 prop_slot = 3

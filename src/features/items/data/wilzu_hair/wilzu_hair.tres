@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://brxjckod12ioi"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://b1tdblmi6l08e" path="res://src/features/items/data/wilzu_hair/wilzu_hair.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://b0r8q24jj828u" path="res://src/features/items/data/wilzu_hair/wilzu_hair_icon.png" id="2_mqfye"]
 
 [resource]
 script = ExtResource("1")
@@ -10,5 +11,6 @@ display_name = "Wilzu Hair"
 world_item_path = "res://src/features/items/data/wilzu_hair/wilzu_hair_world.tscn"
 equip_item_path = "res://src/features/items/data/wilzu_hair/wilzu_hair_equip.tscn"
 display_scene = ExtResource("2")
-prop_slot = 2
+icon = ExtResource("2_mqfye")
 base_value = 15
+prop_slot = 2

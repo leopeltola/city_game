@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://dmuk4qlffpibn"]
 
+[ext_resource type="Texture2D" uid="uid://bnv0fu4hwwlmk" path="res://src/features/items/data/pizza/dough/dough_icon.png" id="1_dnbd6"]
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_f3krg"]
 
 [resource]
@@ -8,5 +9,6 @@ name = "dough"
 display_name = "Pizza Dough"
 world_item_path = "uid://bu4c2af800l6d"
 equip_item_path = "uid://b83ukeb7tg7bo"
-metadata/_custom_type_script = "uid://1v4ix87tn325"
+icon = ExtResource("1_dnbd6")
 base_value = 5
+metadata/_custom_type_script = "uid://1v4ix87tn325"
