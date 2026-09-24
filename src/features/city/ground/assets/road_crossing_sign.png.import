@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://0rxjdtway42a"
-path="res://.godot/imported/road_crossing_sign.png-49ba98880b52636d234135579c44998c.ctex"
+path="res://.godot/imported/road_crossing_sign.png-d9a309d6e3a8fd309ac9f0ff1d7ab642.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/features/city/ground/assets/road_crossing_sign.png"
-dest_files=["res://.godot/imported/road_crossing_sign.png-49ba98880b52636d234135579c44998c.ctex"]
+source_file="res://src/features/city/ground/Assets/road_crossing_sign.png"
+dest_files=["res://.godot/imported/road_crossing_sign.png-d9a309d6e3a8fd309ac9f0ff1d7ab642.ctex"]
 
 [params]
 
