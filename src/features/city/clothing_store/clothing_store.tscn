@@ -6,7 +6,7 @@
 [ext_resource type="Resource" path="res://src/features/items/data/tank_top/tank_top.tres" id="4_bbjr6"]
 [ext_resource type="PackedScene" uid="uid://7inrtbtrivs8" path="res://src/features/interior/clothing_store/assets/clothing_store_table.glb" id="4_p548x"]
 [ext_resource type="PackedScene" uid="uid://b2cwq4etywraq" path="res://src/features/interior/clothing_store/hat_mannequin.tscn" id="5_cvfxr"]
-[ext_resource type="Resource" path="res://src/features/items/data/open_shirt/open_shirt.tres" id="5_fdcms"]
+[ext_resource type="Resource" uid="uid://bqcn1fdfekj48" path="res://src/features/items/data/open_shirt/open_shirt.tres" id="5_fdcms"]
 [ext_resource type="Resource" path="res://src/features/items/data/guard_body/guard_body.tres" id="5_n36ob"]
 [ext_resource type="Resource" uid="uid://dxctft40qvhih" path="res://src/features/items/data/police_body/police_body.tres" id="5_pbdmw"]
 [ext_resource type="Resource" path="res://src/features/items/data/hoodie/hoodie.tres" id="6_21ruk"]

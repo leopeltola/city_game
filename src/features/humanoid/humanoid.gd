@@ -113,7 +113,7 @@ func get_equipped_item() -> ItemEquip:
 ## Returns true if player is currently holding an item of [param item_type_name] in hand.
 func has_item_of_type_equipped(item_type_name: StringName) -> bool:
 	var item := get_equipped_item()
-	return item and item.item_type.name == item_type_name
+	return item and item.item_type and item.item_type.name == item_type_name
 
 
 ## True while a status effect (e.g. stagger) locks combat and slot-switch input.

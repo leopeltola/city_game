@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://bqcn1fdfekj48"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://c6gt0iu5rmm03" path="res://src/features/items/data/open_shirt/open_shirt.glb" id="2"]
 
 [resource]
