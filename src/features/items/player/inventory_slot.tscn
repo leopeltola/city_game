@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bymcalvxx6ehv"]
+
+[ext_resource type="Script" uid="uid://d1ui33xyryie8" path="res://src/features/items/player/inventory_slot.gd" id="1_slot"]
+
+[node name="InventorySlot" type="Panel" unique_id=1099003789]
+custom_minimum_size = Vector2(48, 48)
+offset_right = 48.0
+offset_bottom = 48.0
+mouse_filter = 2
+script = ExtResource("1_slot")
+
+[node name="Icon" type="TextureRect" parent="." unique_id=69927899]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Index" type="Label" parent="." unique_id=1465815331]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 26.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 0.45)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.6)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+
+[node name="Count" type="Label" parent="." unique_id=2029535775]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -19.0
+offset_right = -4.0
+offset_bottom = -3.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 2
+vertical_alignment = 2

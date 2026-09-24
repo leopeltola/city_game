@@ -58,6 +58,8 @@ func _ready() -> void:
 			HUD.instance.set_stamina(1.0)
 		$Visual/guy/Armature/Skeleton3D/Head.hide()
 		prop_system.refresh_base_body()
+	else:
+		%ItemInventoryUI.queue_free()
 
 
 func _process(delta: float) -> void:

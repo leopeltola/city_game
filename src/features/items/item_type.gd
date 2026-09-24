@@ -11,6 +11,9 @@ static var _scene_cache: Dictionary[String, PackedScene] = { }
 @export_file("*.tscn") var equip_item_path: String = ""
 ## Item's visual-only scene. Used by clothing store mannequins
 @export var display_scene: PackedScene = null
+## Icon shown for this item in slot-based UIs (e.g. the player hotbar).
+## Defaults to the engine icon so items missing an icon are easy to spot.
+@export var icon: Texture2D = preload("res://icon.svg")
 @export var instance_data: Dictionary[StringName, Variant] = { }
 ## Base monetary value (€) of one of these items. Used to pay off a wanted status
 ## when police confiscate belongings, and by future systems (shops, fines, ...).
