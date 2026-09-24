@@ -84,6 +84,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	):
 		get_viewport().set_input_as_handled()
 		return
+	# A lock_slot equip (heavy item, handcuffs) pins the active slot: switching slots and
+	# the camera toggle are blocked until it is dropped or removed. Silent on purpose.
+	if _active_slot_locked() and (
+			event.is_action_pressed("scroll_down")
+			or event.is_action_pressed("scroll_up")
+			or event.is_action_pressed("camera")
+	):
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("scroll_down"):
 		active_index = wrapi(active_index - 1, 0, slot_count)
 		_lower_camera_if_out()
@@ -100,6 +109,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			player.equipment.toggle_camera()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("drop_item"):
+		if not _active_can_drop():
+			get_viewport().set_input_as_handled()
+			return
 		if _is_camera_out():
 			# No held item while the camera is up; swallow press and release.
 			get_viewport().set_input_as_handled()
@@ -109,6 +121,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			_drop_press_timer.timeout.connect(_on_drop_press_held)
 		get_viewport().set_input_as_handled()
 	elif event.is_action_released("drop_item"):
+		if not _active_can_drop():
+			# can_drop can flip mid-press; make sure the pending timer can't fire.
+			_cancel_drop_press_timer()
+			get_viewport().set_input_as_handled()
+			return
 		if _is_camera_out():
 			get_viewport().set_input_as_handled()
 			return
@@ -136,6 +153,23 @@ func _is_camera_out() -> bool:
 	return is_instance_valid(player) and player.equipment != null and player.equipment.is_camera_out()
 
 
+# True while the active equip pins the slot (heavy item / handcuffs).
+func _active_slot_locked() -> bool:
+	return (
+		is_instance_valid(player)
+		and player.equipment != null
+		and player.equipment.is_active_slot_locked()
+	)
+
+
+# False while the active equip forbids dropping the held item (e.g. handcuffs).
+func _active_can_drop() -> bool:
+	return (
+		not (is_instance_valid(player) and player.equipment != null)
+		or player.equipment.can_drop_active()
+	)
+
+
 # Cancels an in-flight drop long-press timer.
 func _cancel_drop_press_timer() -> void:
 	if _drop_press_timer:
@@ -147,6 +181,9 @@ func _cancel_drop_press_timer() -> void:
 # stacks and briefcases), opens a prompt asking how much to drop instead of dropping
 # the whole item.
 func _on_drop_press_held() -> void:
+	if not _active_can_drop():
+		_cancel_drop_press_timer()
+		return
 	var item_id := get_active_item_id()
 	if item_id == -1:
 		return
@@ -211,8 +248,11 @@ func pickup_item(item_id: int) -> bool:
 
 	# Store first, then select, then lower the camera
 	_set_item(slot, item_id)
-	if slot != active_index:
+	# A lock_slot equip pins the active slot: store the pickup but don't switch to it.
+	if slot != active_index and not _active_slot_locked():
 		active_index = slot
+	# The camera must never stay up while an item is taken out: a lock_slot item has to
+	# be physically held the moment it is picked up, which disengages the pin otherwise.
 	if _is_camera_out():
 		player.equipment.lower_camera()
 	return true
@@ -400,8 +440,12 @@ func get_active_item_id() -> int:
 
 ## Drops the item currently held in the active slot as a world item in front of the player.
 ## [br][br]
+## No-op while the active equip forbids dropping (see [member ItemEquip.can_drop]).
+## [br][br]
 ## Authority-only.
 func drop_active_item() -> void:
+	if not _active_can_drop():
+		return
 	_dropper.drop_active_item()
 
 

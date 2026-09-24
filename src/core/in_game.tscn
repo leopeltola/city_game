@@ -56,12 +56,8 @@
 [ext_resource type="PackedScene" uid="uid://c8xqutmxfag3h" path="res://src/features/city/casino/casino_building.tscn" id="35_64k4k"]
 [ext_resource type="Script" uid="uid://bq336tdab1r16" path="res://src/features/city/sky/day_night_cycle.gd" id="37_d3xh7"]
 [ext_resource type="PackedScene" uid="uid://cu524h6xwkue7" path="res://src/features/city/pizzeria/pizzeria.tscn" id="42_acbas"]
-[ext_resource type="Material" uid="uid://dbj6ddd1bxwoj" path="res://assets/textures/leaves/leaves.tres" id="50_an80b"]
-[ext_resource type="Material" uid="uid://duonotyv5brj5" path="res://assets/textures/grass/grass.tres" id="50_g5ewm"]
-[ext_resource type="Texture2D" uid="uid://c67c1ch5a2ltd" path="res://assets/textures/leaves/leaf_alpha.png" id="51_676n0"]
-[ext_resource type="Material" uid="uid://ocya2q3325lb" path="res://assets/textures/leaves/leaves_alpha.tres" id="52_hcu5p"]
-[ext_resource type="PackedScene" uid="uid://bm8vbqdnwn7xi" path="res://src/features/city/street_props/bush.glb" id="53_g5ewm"]
 [ext_resource type="PackedScene" uid="uid://c4fh8jrnxg5k1" path="res://src/features/city/clothing_store/clothing_store.tscn" id="53_pfh3i"]
+[ext_resource type="PackedScene" uid="uid://c3im7y4y2ygdc" path="res://src/features/city/street_props/greenbox_4x2.tscn" id="58_676n0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1j2v"]
 shader = ExtResource("1_8at8h")
@@ -136,24 +132,6 @@ albedo_color = Color(0.65, 0.08449999, 0.08449999, 1)
 [sub_resource type="PlaneMesh" id="PlaneMesh_g318b"]
 size = Vector2(4.24, 2.48)
 
-[sub_resource type="BoxMesh" id="BoxMesh_q1gf2"]
-size = Vector3(6.263, 0.115, 1.915)
-
-[sub_resource type="SphereMesh" id="SphereMesh_q1gf2"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_x7q88"]
-material = ExtResource("52_hcu5p")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcu5p"]
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-cull_mode = 2
-albedo_texture = ExtResource("51_676n0")
-
-[sub_resource type="QuadMesh" id="QuadMesh_q1gf2"]
-material = SubResource("StandardMaterial3D_hcu5p")
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_g318b"]
 size = Vector3(150, 1, 150)
 
@@ -176,6 +154,7 @@ environment = SubResource("Environment_j7dey")
 transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 1, 2.6191978)
 
 [node name="PlayerSpawner" parent="." unique_id=1399950565 instance=ExtResource("1_bvu6y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, 17)
 
 [node name="NpcSpawner" parent="." unique_id=179832769 instance=ExtResource("1_npcsp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.06403, 0, 6.1561947)
@@ -927,87 +906,6 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -38,
 [node name="Pizzeria" parent="NavigationRegion3D/City/StreetProps" unique_id=186132626 instance=ExtResource("42_acbas")]
 transform = Transform3D(-1, 0, 1.1920929e-07, 0, 1, 0, -1.1920929e-07, 0, -1, -10, 0.11, 37)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="NavigationRegion3D/City" unique_id=2026538672]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -18.412914, 0.100001335, 16.35798)
-mesh = SubResource("BoxMesh_q1gf2")
-surface_material_override/0 = ExtResource("50_g5ewm")
-
-[node name="Bush2" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2" unique_id=1154717319]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0793476, 0.38125205, 0)
-mesh = SubResource("SphereMesh_q1gf2")
-surface_material_override/0 = ExtResource("50_an80b")
-
-[node name="Leabes2" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush2" unique_id=107757542]
-transform = Transform3D(1.505, 0, 0, 0, 1.505, 0, 0, 0, 1.505, -0.022802353, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes3" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush2" unique_id=612530171]
-transform = Transform3D(-0.31846172, -1.1946715, -0.858118, -0.4156614, 0.9153058, -1.1200293, 1.4109685, 5.222075e-08, -0.52363366, -0.022800446, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes4" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush2" unique_id=341015192]
-transform = Transform3D(1.0517445, 1.0658984, 0.15072726, -0.595278, 0.75143313, -1.1601799, -0.89694035, 0.7511549, 0.946725, -0.022798538, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes5" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush2" unique_id=324965510]
-transform = Transform3D(-0.5649057, 1.0206349, 0.9508995, -0.595278, 0.7514332, -1.16018, -1.2615664, -0.81158954, 0.12164308, -0.022797585, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Bush3" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2" unique_id=197740738]
-transform = Transform3D(0.024861496, 0.9970931, 0.07202278, 0.32534721, -0.07619301, 0.9425199, 0.94526774, -4.3584322e-08, -0.32629573, -1.6333742, 0.102719545, -0.42632866)
-mesh = SubResource("SphereMesh_q1gf2")
-surface_material_override/0 = ExtResource("50_an80b")
-
-[node name="Leabes2" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush3" unique_id=480145058]
-transform = Transform3D(1.505, 0, 0, 0, 1.505, 0, 0, 0, 1.505, -0.022802353, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes3" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush3" unique_id=1231524185]
-transform = Transform3D(-0.31846172, -1.1946715, -0.858118, -0.4156614, 0.9153058, -1.1200293, 1.4109685, 5.222075e-08, -0.52363366, -0.022800446, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes4" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush3" unique_id=1975210649]
-transform = Transform3D(1.0517445, 1.0658984, 0.15072726, -0.595278, 0.75143313, -1.1601799, -0.89694035, 0.7511549, 0.946725, -0.022798538, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes5" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush3" unique_id=1289742623]
-transform = Transform3D(-0.5649057, 1.0206349, 0.9508995, -0.595278, 0.7514332, -1.16018, -1.2615664, -0.81158954, 0.12164308, -0.022797585, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Bush4" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2" unique_id=371850220]
-transform = Transform3D(0.024861496, 0.9970931, 0.07202278, 0.32534721, -0.07619301, 0.9425199, 0.94526774, -4.3584322e-08, -0.32629573, -1.7878437, -0.10742211, 0.2172966)
-mesh = SubResource("SphereMesh_q1gf2")
-surface_material_override/0 = ExtResource("50_an80b")
-
-[node name="Leabes2" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush4" unique_id=1253835667]
-transform = Transform3D(1.505, 0, 0, 0, 1.505, 0, 0, 0, 1.505, -0.022802353, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes3" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush4" unique_id=245706111]
-transform = Transform3D(-0.31846172, -1.1946715, -0.858118, -0.4156614, 0.9153058, -1.1200293, 1.4109685, 5.222075e-08, -0.52363366, -0.022800446, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes4" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush4" unique_id=1784267275]
-transform = Transform3D(1.0517445, 1.0658984, 0.15072726, -0.595278, 0.75143313, -1.1601799, -0.89694035, 0.7511549, 0.946725, -0.022798538, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes5" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2/Bush4" unique_id=274053236]
-transform = Transform3D(-0.5649057, 1.0206349, 0.9508995, -0.595278, 0.7514332, -1.16018, -1.2615664, -0.81158954, 0.12164308, -0.022797585, 0.010337114, 0)
-mesh = SubResource("QuadMesh_x7q88")
-
-[node name="Leabes" type="MeshInstance3D" parent="NavigationRegion3D/City/MeshInstance3D2" unique_id=2099477014]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2167435, 0.1243422, 0)
-mesh = SubResource("QuadMesh_q1gf2")
-
-[node name="bush" parent="NavigationRegion3D/City/MeshInstance3D2" unique_id=1286786721 instance=ExtResource("53_g5ewm")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.3314114, 0.04035589, -0.36515427)
-
-[node name="bush2" parent="NavigationRegion3D/City/MeshInstance3D2" unique_id=195446910 instance=ExtResource("53_g5ewm")]
-transform = Transform3D(0.9387725, 0, 0.34453762, 0, 1, 0, -0.34453762, 0, 0.9387725, 1.6951218, 0.028134435, 0.40353203)
-
-[node name="bush3" parent="NavigationRegion3D/City/MeshInstance3D2" unique_id=469841509 instance=ExtResource("53_g5ewm")]
-transform = Transform3D(1.0506759, 0, -0.6865195, 0, 1, 0, 0.9920206, 0, 0.7271114, 1.9295006, -0.1598573, -0.19639397)
-
 [node name="KelaBuilding" parent="NavigationRegion3D/City" unique_id=131200258 instance=ExtResource("34_j2hit")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 14, 0.2, 24)
 
@@ -1059,5 +957,53 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 40, 
 
 [node name="ClothingStore" parent="NavigationRegion3D/City" unique_id=500594451 instance=ExtResource("53_pfh3i")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -12, 0.11, 55)
+
+[node name="greenbox4x2" parent="." unique_id=706508434 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -18.562601, 0.1, 11)
+
+[node name="greenbox4x5" parent="." unique_id=1932065781 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -18.562601, 0.1, 23)
+
+[node name="greenbox4x12" parent="." unique_id=1675417149 instance=ExtResource("58_676n0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.01934, 0.1, 29.858685)
+
+[node name="greenbox4x13" parent="." unique_id=35972224 instance=ExtResource("58_676n0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0193396, 0.1, 29.858685)
+
+[node name="greenbox4x14" parent="." unique_id=1824728641 instance=ExtResource("58_676n0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.01934, 0.1, 15.858685)
+
+[node name="greenbox4x15" parent="." unique_id=380199623 instance=ExtResource("58_676n0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.639631, 0.1, 15.858685)
+
+[node name="greenbox4x16" parent="." unique_id=1979827763 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 28.360369, 0.1, 11.858685)
+
+[node name="greenbox4x17" parent="." unique_id=246033681 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 28.360369, 0.1, -0.14131546)
+
+[node name="greenbox4x3" parent="." unique_id=544377987 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -18.562601, 0.1, 36)
+
+[node name="greenbox4x6" parent="." unique_id=846192424 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -18.562601, 0.1, 48)
+
+[node name="greenbox4x4" parent="." unique_id=1934271857 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -27.562601, 0.1, 11)
+
+[node name="greenbox4x7" parent="." unique_id=1282526217 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -29.562601, 0.1, 27)
+
+[node name="greenbox4x10" parent="." unique_id=821159543 instance=ExtResource("58_676n0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.814095, 0.1, 17.457573)
+
+[node name="greenbox4x11" parent="." unique_id=701702777 instance=ExtResource("58_676n0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.814095, 0.1, 17.457573)
+
+[node name="greenbox4x8" parent="." unique_id=1296189810 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -27.562601, 0.1, 36)
+
+[node name="greenbox4x9" parent="." unique_id=1131654421 instance=ExtResource("58_676n0")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -27.562601, 0.1, 48)
 
 [editable path="NavigationRegion3D/City/CasinoSkyscraper"]

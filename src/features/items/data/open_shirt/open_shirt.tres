@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://bqcn1fdfekj48"]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://b8typrq34ta7"]
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://c6gt0iu5rmm03" path="res://src/features/items/data/open_shirt/open_shirt.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://dk00xsjrbpmtr" path="res://src/features/items/data/open_shirt/open_shirt_icon.png" id="2_cw32w"]
 
 [resource]
 script = ExtResource("1")
@@ -10,5 +11,6 @@ display_name = "Open Shirt"
 world_item_path = "res://src/features/items/data/open_shirt/open_shirt_world.tscn"
 equip_item_path = "res://src/features/items/data/open_shirt/open_shirt_equip.tscn"
 display_scene = ExtResource("2")
-prop_slot = 1
+icon = ExtResource("2_cw32w")
 base_value = 30
+prop_slot = 1

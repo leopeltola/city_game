@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://csqm17e5047db"]
 
+[ext_resource type="Texture2D" uid="uid://bdo1mangikxw5" path="res://src/features/items/data/pizza/pizza_sauce/pizza_sauce_icon.png" id="1_7c6un"]
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_yxux3"]
 
 [resource]
@@ -8,5 +9,6 @@ name = "pizza_sauce"
 display_name = "Pizza Sauce"
 world_item_path = "uid://1nup4qdg8vba"
 equip_item_path = "uid://dhoc77vikl1yt"
-metadata/_custom_type_script = "uid://1v4ix87tn325"
+icon = ExtResource("1_7c6un")
 base_value = 5
+metadata/_custom_type_script = "uid://1v4ix87tn325"

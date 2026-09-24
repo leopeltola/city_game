@@ -43,13 +43,13 @@ _subresources={
 "materials": {
 "leaves": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/leaves/leaves_alpha.tres",
-"use_external/path": "uid://ocya2q3325lb"
+"use_external/fallback_path": "res://assets/textures/leaves/leaves_alpha_animated.tres",
+"use_external/path": "uid://m7s2tja6ov58"
 },
 "leaves_base": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/textures/leaves/leaves.tres",
-"use_external/path": "uid://dbj6ddd1bxwoj"
+"use_external/fallback_path": "res://assets/textures/leaves/leaves_animated.tres",
+"use_external/path": "uid://cbyx7sg2uxe4r"
 }
 }
 }

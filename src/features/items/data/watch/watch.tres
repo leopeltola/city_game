@@ -1,11 +1,13 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://ccwiykwmxhs6w"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://gi8cftx18k8x" path="res://src/features/items/data/watch/watch_icon.png" id="1_3cl8b"]
 
 [resource]
 script = ExtResource("1")
 name = "watch"
-prop_slot = 5
 world_item_path = "res://src/features/items/data/watch/watch_world.tscn"
 equip_item_path = "res://src/features/items/data/watch/watch_equip.tscn"
+icon = ExtResource("1_3cl8b")
 base_value = 300
+prop_slot = 5

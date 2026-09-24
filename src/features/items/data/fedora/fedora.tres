@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://v72nhi7nropg" path="res://src/features/items/data/fedora/fedora.glb" id="1_s510r"]
+[ext_resource type="Texture2D" uid="uid://djlg80o3dexbx" path="res://src/features/items/data/fedora/fedora_icon.png" id="2_wwdgt"]
 
 [resource]
 script = ExtResource("1")
@@ -9,5 +10,6 @@ name = "fedora"
 world_item_path = "res://src/features/items/data/fedora/fedora_world.tscn"
 equip_item_path = "res://src/features/items/data/fedora/fedora_equip.tscn"
 display_scene = ExtResource("1_s510r")
-prop_slot = 2
+icon = ExtResource("2_wwdgt")
 base_value = 40
+prop_slot = 2

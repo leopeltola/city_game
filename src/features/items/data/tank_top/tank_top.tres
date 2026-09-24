@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://bnyedc8b3l0aj"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://geoxcck83yfg" path="res://src/features/items/data/tank_top/tank_top.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://ymof2bj2tc77" path="res://src/features/items/data/tank_top/tank_top_icon.png" id="2_f6en6"]
 
 [resource]
 script = ExtResource("1")
@@ -10,5 +11,6 @@ display_name = "Tank Top"
 world_item_path = "res://src/features/items/data/tank_top/tank_top_world.tscn"
 equip_item_path = "res://src/features/items/data/tank_top/tank_top_equip.tscn"
 display_scene = ExtResource("2")
-prop_slot = 1
+icon = ExtResource("2_f6en6")
 base_value = 20
+prop_slot = 1

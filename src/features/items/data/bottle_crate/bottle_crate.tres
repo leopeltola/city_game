@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://ciqsttqw5asp3"]
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_h8nvy"]
+[ext_resource type="Texture2D" uid="uid://c8npmkuudtktj" path="res://src/features/items/data/bottle_crate/bottle_crate_icon.png" id="1_l22pg"]
 
 [resource]
 script = ExtResource("1_h8nvy")
@@ -8,8 +9,9 @@ name = "bottle_crate"
 display_name = "Bottle Crate"
 world_item_path = "res://src/features/items/data/bottle_crate/bottle_crate_world.tscn"
 equip_item_path = "res://src/features/items/data/bottle_crate/bottle_crate_equip.tscn"
+icon = ExtResource("1_l22pg")
 instance_data = Dictionary[StringName, Variant]({
 &"bottles": 6
 })
-metadata/_custom_type_script = "uid://1v4ix87tn325"
 base_value = 80
+metadata/_custom_type_script = "uid://1v4ix87tn325"

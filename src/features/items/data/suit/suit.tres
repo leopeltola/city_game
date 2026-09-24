@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemType" format=3]
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://c8t2j1hhgym65"]
 
-[ext_resource type="Script" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://0nwpi5wyujs6" path="res://src/features/items/data/suit/suit.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://d1gmen2korxlk" path="res://src/features/items/data/suit/suit_icon.png" id="2_31tus"]
 
 [resource]
 script = ExtResource("1")
@@ -10,5 +11,6 @@ display_name = "Suit"
 world_item_path = "res://src/features/items/data/suit/suit_world.tscn"
 equip_item_path = "res://src/features/items/data/suit/suit_equip.tscn"
 display_scene = ExtResource("2")
-prop_slot = 1
+icon = ExtResource("2_31tus")
 base_value = 150
+prop_slot = 1

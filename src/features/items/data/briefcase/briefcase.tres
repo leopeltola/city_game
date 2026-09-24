@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://csa3w7v7ekwtf" path="res://src/features/items/data/briefcase/briefcase.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://chxrdflpwur6k" path="res://src/features/items/data/briefcase/briefcase_icon.png" id="2_et1d3"]
 
 [resource]
 script = ExtResource("1")
@@ -10,8 +11,9 @@ display_name = "Briefcase"
 world_item_path = "res://src/features/items/data/briefcase/briefcase_world.tscn"
 equip_item_path = "res://src/features/items/data/briefcase/briefcase_equip.tscn"
 display_scene = ExtResource("2")
+icon = ExtResource("2_et1d3")
 instance_data = Dictionary[StringName, Variant]({
 &"money": 500
 })
-prop_slot = 5
 base_value = 200
+prop_slot = 5

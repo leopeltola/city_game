@@ -69,8 +69,22 @@ func is_camera_out() -> bool:
 	return camera_out
 
 
+## True while the mounted equip pins the active slot (see [member ItemEquip.lock_slot]).
+func is_active_slot_locked() -> bool:
+	return _equipped_node != null and _equipped_node.lock_slot
+
+
+## False while the mounted equip forbids dropping the held item (see [member ItemEquip.can_drop]).
+func can_drop_active() -> bool:
+	return _equipped_node == null or _equipped_node.can_drop
+
+
 ## Toggles the camera gear in/out. Mounting is handled by the camera_out setter.
+## Refuses to raise the camera while the active equip pins the slot (see
+## [method is_active_slot_locked]): a lock_slot item must stay physically out.
 func toggle_camera() -> void:
+	if not camera_out and is_active_slot_locked():
+		return
 	camera_out = not camera_out
 
 

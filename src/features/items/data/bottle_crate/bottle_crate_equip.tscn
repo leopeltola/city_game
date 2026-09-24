@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://dy006s7jagpm2" path="res://src/features/items/data/bottle_crate/glass_clink.wav" id="2_toob8"]
 [ext_resource type="PackedScene" uid="uid://dhrimq0wo1rgo" path="res://src/features/items/data/bottle_crate/bottle_crate.glb" id="3_bln1f"]
 [ext_resource type="PackedScene" uid="uid://b80rbmge8pvv0" path="res://src/features/items/data/bottle_crate/wine_bottle.glb" id="4_t6g2d"]
-[ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="5_hanchor"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="5_hanchor"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_toob8"]
 random_pitch = 1.2779517
@@ -25,6 +25,7 @@ break_impact_velocity = 3.89
 airtime_stagger = 0.09
 item_type = ExtResource("2_k0i8g")
 idle_animation_override = "crate_carry"
+lock_slot = true
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
 [node name="RightHandAnchor" type="Node3D" parent="." unique_id=412657903]

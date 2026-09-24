@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://flyycm8fxx7e"]
+
+[ext_resource type="Script" uid="uid://dh336w7sw10" path="res://src/features/items/tools/icon_photographer.gd" id="1_photo"]
+
+[sub_resource type="Environment" id="Environment_studio"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.7
+reflected_light_source = 1
+
+[node name="IconPhotographer" type="Node3D" unique_id=221841315]
+script = ExtResource("1_photo")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=254259796]
+unique_name_in_owner = true
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport" unique_id=121359889]
+unique_name_in_owner = true
+environment = SubResource("Environment_studio")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=164209233]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5026498)
+projection = 1
+current = true
+size = 1.0546621
+near = 0.01
+far = 11.0053
+
+[node name="KeyLight" type="DirectionalLight3D" parent="SubViewport" unique_id=318960786]
+unique_name_in_owner = true
+transform = Transform3D(0.8660254, 0.35355338, -0.35355338, 0, 0.70710677, 0.70710677, 0.5, -0.6123724, 0.6123724, 0, 0, 0)
+light_energy = 0.8
+
+[node name="Pivot" type="Node3D" parent="SubViewport" unique_id=182731382]
+unique_name_in_owner = true

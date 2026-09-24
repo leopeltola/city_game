@@ -1,35 +1,24 @@
 [gd_scene format=3 uid="uid://dvu2t6cq0gt6r"]
 
 [ext_resource type="Script" uid="uid://ds7qv0tb7qklg" path="res://src/features/items/player/item_inventory_ui.gd" id="1_1aojl"]
+[ext_resource type="AudioStream" uid="uid://cd8lmkjde326n" path="res://src/features/items/player/assets/sfx/inv_select.ogg" id="3_mvxoe"]
 
-[node name="ItemInventoryUI" type="MarginContainer" unique_id=757571756]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dafhm"]
+streams_count = 1
+stream_0/stream = ExtResource("3_mvxoe")
+
+[node name="ItemInventoryUI" type="MarginContainer" unique_id=1481921536]
 offset_right = 40.0
 offset_bottom = 40.0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 script = ExtResource("1_1aojl")
+select_sfx = SubResource("AudioStreamRandomizer_dafhm")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1000394130]
-layout_mode = 2
-
-[node name="1" type="ColorRect" parent="HBoxContainer" unique_id=2140764254]
+[node name="Slots" type="HBoxContainer" parent="." unique_id=1269763447]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-color = Color(0, 0, 0, 0.09019608)
-
-[node name="2" type="ColorRect" parent="HBoxContainer" unique_id=1696921045]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-color = Color(0, 0, 0, 0.09019608)
-
-[node name="3" type="ColorRect" parent="HBoxContainer" unique_id=720267414]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-color = Color(0, 0, 0, 0.09019608)
-
-[node name="4" type="ColorRect" parent="HBoxContainer" unique_id=1754187216]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-color = Color(0, 0, 0, 0.09019608)
+theme_override_constants/separation = 8
+alignment = 1

@@ -29,6 +29,7 @@ custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
 theme_override_constants/tab_separation = 1
 current_tab = 0
+tab_focus_mode = 0
 
 [node name="Information" parent="CenterContainer/TabContainer" unique_id=1217193896 instance=ExtResource("2_id41w")]
 unique_name_in_owner = true
