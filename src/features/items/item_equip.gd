@@ -21,6 +21,14 @@ const InteractRay := preload("res://src/features/interaction/interact_ray.gd")
 @export var item_type: ItemType = null
 ## Idle animation override reported to PlayerAnimator. Empty == the player's default idle.
 @export var idle_animation_override := ""
+## When true the owner cannot switch away from the active slot while this equip is
+## mounted: slot scrolling, pickup auto-select and the camera toggle are blocked, and the
+## camera is lowered as soon as this becomes the active equip. Used by "heavy" items and
+## by item-less mission gear (e.g. handcuffs).
+@export var lock_slot := false
+## When false the owner cannot drop the held item with the drop key. Removal by other
+## systems (confiscation, knock-outs, interactions) is unaffected.
+@export var can_drop := true
 
 ## ItemManager instance id. -1 means "not backed by an item", valid for unarmed gear.
 var item_id: int = -1
