@@ -1,3 +1,4 @@
+class_name NpcSpawner
 extends Node3D
 ## Server-side spawner for NPCs. Uses a MultiplayerSpawner so every peer instantiates
 ## the same Npc scene; the server owns and simulates them (authority = peer 1).

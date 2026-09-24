@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://dtwg4u0tfdpkq" path="res://src/features/city/sky/day_night_sky.gdshader" id="1_8at8h"]
 [ext_resource type="PackedScene" uid="uid://bejfv2je50wk7" path="res://src/features/player/player_spawner.tscn" id="1_bvu6y"]
 [ext_resource type="PackedScene" path="res://src/features/npc/npc_spawner.tscn" id="1_npcsp"]
-[ext_resource type="PackedScene" uid="uid://wqgpumbu260x" path="res://src/features/npc/police/police.tscn" id="1_police"]
+[ext_resource type="PackedScene" path="res://src/features/npc/police/police_spawner.tscn" id="1_polsp"]
 [ext_resource type="Texture2D" uid="uid://c5smh658xpm4a" path="res://assets/textures/skies/sky_14_2k_day.png" id="2_3wrof"]
 [ext_resource type="Texture2D" uid="uid://cqtajnkhui4j6" path="res://assets/textures/skies/sky_14_2k_night.jpg" id="3_5cqoa"]
 [ext_resource type="Script" uid="uid://rmxhvlbn4xgi" path="res://src/features/items/item_spawner.gd" id="3_hxguo"]
@@ -89,6 +89,20 @@ volumetric_fog_emission = Color(0.5255756, 0.71479553, 0.8275363, 1)
 volumetric_fog_ambient_inject = 1.55
 volumetric_fog_sky_affect = 0.76
 
+[sub_resource type="Curve3D" id="Curve3D_hcu5p"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.1662445, 0.100097656, 4.4149837, 0, 0, 0, 0, 0, 0, -0.40965462, 0.1003418, -13.319234, 0, 0, 0, 0, 0, 0, -2.692625, 0.099975586, -13.290745, 0, 0, 0, 0, 0, 0, -2.6383018, 0.099975586, -9.21645, 0, 0, 0, 0, 0, 0, -2.8012733, 0.099975586, 4.799122),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="Curve3D" id="Curve3D_g5ewm"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.30059814, 0.100097656, -0.22289467, 0, 0, 0, 0, 0, 0, -18.138437, 0.100097656, 1.8263607, 0, 0, 0, 0, 0, 0, -18.41788, 0.100097656, 10.861713, 0, 0, 0, 0, 0, 0, -0.6731911, 0.100097656, 10.489122),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
 [sub_resource type="Curve3D" id="Curve3D_lccsq"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, -25.704636, 0, 65.982834, -0.03480339, 0, 2.7625241, 0.03480339, 0, -2.7625241, -25.687435, 0, 4.047417, -1.0762463, 5.53367e-05, 1.0882562, 1.0762463, -5.53367e-05, -1.0882562, -24.916784, 6.673361e-05, -0.82120085, -2.8719254, 0, 0.0038795471, 2.8719254, 0, -0.0038795471, -20.013916, 0.00012207031, -1.7773635, 0, 0, 0, 0, 0, 0, 3.9531732, 0.00012207031, -1.786531),
@@ -136,6 +150,8 @@ size = Vector2(4.24, 2.48)
 [sub_resource type="BoxShape3D" id="BoxShape3D_g318b"]
 size = Vector3(150, 1, 150)
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_as8yq"]
+
 [node name="InGame" type="Node3D" unique_id=1046277669]
 
 [node name="DayLight" type="DirectionalLight3D" parent="." unique_id=1233711505]
@@ -166,19 +182,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.992152, 0, 1.3968039)
 [node name="NpcSpawner3" parent="." unique_id=2128046748 instance=ExtResource("1_npcsp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.461277, 0, 4.224866)
 
-[node name="PoliceSpawner" parent="." unique_id=1977587604 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, 27)
-npc_scene = ExtResource("1_police")
+[node name="Path3D" type="Path3D" parent="." unique_id=886721680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.542498, 0, 27.077015)
+curve = SubResource("Curve3D_hcu5p")
+
+[node name="PoliceSpawner" parent="." unique_id=1977587604 node_paths=PackedStringArray("patrol_route") instance=ExtResource("1_polsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.542498, 0, 27.077015)
+patrol_route = NodePath("../Path3D")
 spawn_radius = 2.0
 
-[node name="PoliceSpawner2" parent="." unique_id=687059525 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 2)
-npc_scene = ExtResource("1_police")
+[node name="Police2Route" type="Path3D" parent="." unique_id=222050566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.616682, 0, 16.298218)
+curve = SubResource("Curve3D_g5ewm")
+
+[node name="PoliceSpawner2" parent="." unique_id=687059525 node_paths=PackedStringArray("patrol_route") instance=ExtResource("1_polsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.616682, 0, 16.298218)
+patrol_route = NodePath("../Police2Route")
 spawn_radius = 2.0
 
-[node name="PoliceSpawner3" parent="." unique_id=1153110020 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0, -3)
-npc_scene = ExtResource("1_police")
+[node name="PoliceSpawner3" parent="." unique_id=1153110020 instance=ExtResource("1_polsp")]
+transform = Transform3D(-0.1040717, 0, 0.9945698, 0, 1, 0, -0.9945698, 0, -0.1040717, 22.210165, 0, 2.114667)
 spawn_radius = 2.0
 
 [node name="RoadMarking" parent="." unique_id=813629382 instance=ExtResource("6_lccsq")]
@@ -1009,5 +1032,27 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -27.
 
 [node name="ElectricScooter" parent="." unique_id=39877560 instance=ExtResource("60_g5ewm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.53332, 1.5831704, 22)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=914465544]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=594136458]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 3.0118828, -74.33287)
+shape = SubResource("WorldBoundaryShape3D_as8yq")
+debug_color = Color(0.93261075, 0.1965968, 0.39678195, 1)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D" unique_id=313137378]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, -70.65669, 3.0118828, -4.162674)
+shape = SubResource("WorldBoundaryShape3D_as8yq")
+debug_color = Color(0.93261075, 0.1965968, 0.39678195, 1)
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D" unique_id=1369321718]
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, -15.000179, 3.0118828, 65.68908)
+shape = SubResource("WorldBoundaryShape3D_as8yq")
+debug_color = Color(0.93261075, 0.1965968, 0.39678195, 1)
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticBody3D" unique_id=1775938011]
+transform = Transform3D(0.006039714, -0.99998176, 4.3710592e-08, 0, -4.371139e-08, -1, 0.99998176, 0.006039714, -2.640043e-10, 71.09198, 3.0118828, -1.3636227)
+shape = SubResource("WorldBoundaryShape3D_as8yq")
+debug_color = Color(0.93261075, 0.1965968, 0.39678195, 1)
 
 [editable path="NavigationRegion3D/City/CasinoSkyscraper"]

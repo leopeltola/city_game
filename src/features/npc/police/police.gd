@@ -4,6 +4,9 @@ extends Npc
 ## (vision cone + line of sight), chases them, beats them down with a baton and, once
 ## the suspect is ragdolled and within reach, arrests them: CrimeManager confiscates
 ## their belongings and the target client is escorted to a free jail cell.
+##
+## When idle it can walk a patrol route (see [member patrol_route]); without one it
+## just stands at its spawn position.
 
 enum State { IDLE, CHASE, ATTACK, ESCORT, RETURN }
 
@@ -31,6 +34,15 @@ const BATON_SCENE := preload("res://src/features/items/data/police_baton/police_
 ## How close to the post counts as arrived.
 @export var return_arrive_distance := 1.5
 
+@export_group("Patrol")
+## Optional path the officer loops around while idle. Leave empty to just stand at
+## its spawn position. The path is read in world space, so it can be a level
+## [Path3D] or a child of the officer marked [code]top_level[/code].
+@export var patrol_route: Path3D = null
+## How far ahead along the path the officer steers while walking it. Larger values
+## smooth out tight corners at the cost of cutting them.
+@export var patrol_lookahead := 2.0
+
 @export_group("Jail Key")
 ## Chance the officer drops its belt key each time it is hit.
 @export_range(0.0, 1.0) var key_drop_chance := 0.35
@@ -46,6 +58,9 @@ var _baton: MeleeEquip = null
 ## Whether the officer is currently carrying a jail key (shown on the belt).
 var has_key := true
 var _key_renew_timer := 0.0
+## Cached patrol data, rebuilt lazily when the assigned route changes.
+var _patrol_curve: Curve3D = null
+var _patrol_length := 0.0
 
 @onready var _nav_agent: NavigationAgent3D = %NavigationAgent3D
 @onready var _belt_key: Node3D = %BeltJailkey
@@ -132,9 +147,7 @@ func _update_locomotion() -> void:
 		State.RETURN:
 			_do_return()
 		_:
-			locomotion.desired_direction = Vector3.ZERO
-			locomotion.run_requested = false
-			move_speed_multiplier = 1.0
+			_do_idle()
 
 
 ## Picks the nearest wanted player the officer can see, or gives up after the grace.
@@ -246,11 +259,43 @@ func _do_escort() -> void:
 func _do_return() -> void:
 	move_speed_multiplier = 1.0
 	locomotion.run_requested = false
-	if global_position.distance_to(_spawn_position) <= return_arrive_distance:
+	var post := _spawn_position
+	if _patrol_active():
+		post = _patrol_sample(0.0)
+	if global_position.distance_to(post) <= return_arrive_distance:
 		_state = State.IDLE
 		locomotion.desired_direction = Vector3.ZERO
 		return
-	_navigate_to(_spawn_position)
+	_navigate_to(post)
+
+
+## Stands still, or walks the patrol route on a loop when one is assigned.
+func _do_idle() -> void:
+	move_speed_multiplier = 1.0
+	locomotion.run_requested = false
+	if not _patrol_active():
+		locomotion.desired_direction = Vector3.ZERO
+		return
+	_navigate_to(_patrol_sample(patrol_lookahead))
+
+
+## True when a usable patrol route is assigned, refreshing the cached curve/length
+## when the route's curve changes.
+func _patrol_active() -> bool:
+	if patrol_route == null or not is_instance_valid(patrol_route):
+		return false
+	if _patrol_curve != patrol_route.curve:
+		_patrol_curve = patrol_route.curve
+		_patrol_length = _patrol_curve.get_baked_length() if _patrol_curve != null else 0.0
+	return _patrol_length > 0.0
+
+
+## Returns the world-space point [param distance_ahead] along the route, wrapping
+## around the end so the officer loops.
+func _patrol_sample(distance_ahead: float) -> Vector3:
+	var offset := _patrol_curve.get_closest_offset(patrol_route.to_local(global_position))
+	offset = fposmod(offset + distance_ahead, _patrol_length)
+	return patrol_route.to_global(_patrol_curve.sample_baked(offset))
 
 
 ## Hands the ragdolled suspect over to CrimeManager (confiscation + escort).

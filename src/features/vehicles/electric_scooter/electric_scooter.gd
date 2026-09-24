@@ -81,6 +81,11 @@ func interact(player_id: int) -> void:
 	super(player_id)
 
 
+func get_hit(damage: float, force: Vector3 = Vector3.ZERO, interrupt: bool = true, ragdoll: bool = false) -> void:
+	pass
+
+
+
 func _apply_controls(delta: float) -> void:
 	if _self_righting:
 		_apply_self_right(delta)

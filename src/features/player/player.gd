@@ -214,12 +214,18 @@ func _rpc_play_sfx(id: StringName) -> void:
 ## Sets the cuffed state and (on the target client) the cell to auto-walk to.
 @rpc("any_peer", "reliable", "call_local")
 func _rpc_set_arrested(value: bool, target: Vector3) -> void:
+	if not value:
+		# Is being freed from arrest (means arrived in jail)
+		await get_tree().create_timer(1).timeout
 	arrested = value
 	escort_target = target
 	if value:
 		_arrival_sent = false
+		equipment.mount_scene(preload("res://src/features/items/data/handcuffs/handcuffs_equip.tscn"))
 	if value and is_instance_valid(nav_agent):
 		nav_agent.target_position = target
+	if not arrested:
+		equipment.mount_unarmed()
 
 
 ## Teleports the player (server fallback when the escort never arrives).

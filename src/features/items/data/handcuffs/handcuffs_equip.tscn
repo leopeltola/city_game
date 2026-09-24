@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://b0q86vwvquqgt"]
+
+[ext_resource type="Script" uid="uid://cuouyiv4rgvf" path="res://src/features/items/item_equip.gd" id="1_ov870"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://c43bjhi1f8tfs" path="res://src/features/items/data/handcuffs/handcuffs.glb" id="4"]
+
+[node name="HandcuffsEquip" type="Node3D" unique_id=936046483]
+script = ExtResource("1_ov870")
+idle_animation_override = "handcuffed"
+lock_slot = true
+can_drop = false
+
+[node name="HeldAnchor" type="Node3D" parent="." unique_id=491211809]
+script = ExtResource("3")
+
+[node name="handcuffs" parent="HeldAnchor" unique_id=204361720 instance=ExtResource("4")]

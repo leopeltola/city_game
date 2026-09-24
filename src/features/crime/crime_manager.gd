@@ -13,7 +13,7 @@ signal bounty_changed(player_id: int, new_bounty: int)
 signal player_arrested(player_id: int)
 
 ## How long the escort may take before the server force-detains the suspect.
-const ARREST_ESCORT_TIMEOUT_MS := 20000
+const ARREST_ESCORT_TIMEOUT_MS := 50000
 
 ## Guilt over committed crimes, which can be pictured.
 ## Schema: { player_id(int): Array[{"label": String, "time": int, "lasts": int, "amount": int}] }

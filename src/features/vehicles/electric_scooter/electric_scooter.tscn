@@ -19,6 +19,9 @@ radius = 0.096191406
 [sub_resource type="BoxShape3D" id="BoxShape3D_33vke"]
 size = Vector3(1.0396118, 0.7332001, 0.62298584)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_q1gf2"]
+size = Vector3(0.35107422, 0.95562744, 0.97998047)
+
 [node name="ElectricScooter" type="RigidBody3D" unique_id=39877560]
 physics_material_override = SubResource("PhysicsMaterial_aco40")
 script = ExtResource("1_8e34p")
@@ -55,5 +58,15 @@ shape = SubResource("BoxShape3D_33vke")
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=1497090241]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.083368905, 0.29331028, 0.027895356)
+
+[node name="HittableArea" type="Area3D" parent="." unique_id=1056554689]
+unique_name_in_owner = true
+collision_layer = 16
+collision_mask = 0
+
+[node name="HittableAreaCollisionShape" type="CollisionShape3D" parent="HittableArea" unique_id=76383514]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00024414063, 0.76138306, -0.010009766)
+shape = SubResource("BoxShape3D_q1gf2")
 
 [editable path="electric_scooter"]
