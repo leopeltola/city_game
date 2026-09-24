@@ -81,9 +81,28 @@ func interact(player_id: int) -> void:
 	super(player_id)
 
 
+## A hit of any kind throws the rider off and ragdolls them, whatever the incoming
+## [param ragdoll] flag asked for. The scooter itself is unharmed.
 func get_hit(damage: float, force: Vector3 = Vector3.ZERO, interrupt: bool = true, ragdoll: bool = false) -> void:
-	pass
+	_rpc_get_hit.rpc(damage, force, interrupt)
 
+
+# Broadcast so the knock-off runs on the controller peer, the only one that actually
+# holds the rider attached (analogous to _rpc_right_self).
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_get_hit(damage: float, force: Vector3, interrupt: bool) -> void:
+	if not _is_controller():
+		return
+	_throw_rider(damage, force, interrupt)
+
+
+# Detaches the rider and starts their ragdoll, thrown by [param force].
+func _throw_rider(damage: float, force: Vector3, interrupt: bool) -> void:
+	var player := get_rider()
+	if player == null:
+		return
+	_stop_riding()
+	player.get_hit(damage, force, interrupt, true)
 
 
 func _apply_controls(delta: float) -> void:
@@ -171,12 +190,7 @@ func _tilt_angle() -> float:
 
 
 func _crash() -> void:
-	var player := get_rider()
-	if player == null:
-		return
-	var throw := linear_velocity * crash_force_scale
-	_stop_riding()
-	player.get_hit(0.0, throw, true, true)
+	_throw_rider(0.0, linear_velocity * crash_force_scale, true)
 
 
 # Any peer may ask for the hop; only the controller applies it.
