@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cyc5abd8m3wr6"]
+
+[ext_resource type="PackedScene" uid="uid://cgoouuvmqg7wh" path="res://src/features/interior/club/congas.tscn" id="1_3ammr"]
+[ext_resource type="PackedScene" uid="uid://bsxlbl47xnw7a" path="res://src/features/npc/band_player/band_player.tscn" id="2_ywxrh"]
+[ext_resource type="PackedScene" uid="uid://b7p0sa35tddnk" path="res://src/features/interior/club/piano.tscn" id="3_56g01"]
+[ext_resource type="PackedScene" uid="uid://c7e81ggsph6gs" path="res://src/features/interior/club/timbales.tscn" id="4_mb31b"]
+
+[node name="band" type="Node3D" unique_id=599817378]
+
+[node name="Congas" parent="." unique_id=1221876010 instance=ExtResource("1_3ammr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.9020058)
+
+[node name="BandPlayer" parent="." unique_id=2066811467 node_paths=PackedStringArray("instrument") instance=ExtResource("2_ywxrh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.9020058)
+instrument = NodePath("../Congas")
+
+[node name="Piano" parent="." unique_id=600611817 instance=ExtResource("3_56g01")]
+transform = Transform3D(-0.30936804, 0, 0.9509424, 0, 1, 0, -0.9509424, 0, -0.30936804, 1.5787053, -2.3841858e-07, -0.41050434)
+
+[node name="BandPlayer2" parent="." unique_id=1670038583 node_paths=PackedStringArray("instrument") instance=ExtResource("2_ywxrh")]
+transform = Transform3D(-0.30936804, 0, 0.9509424, 0, 1, 0, -0.9509424, 0, -0.30936804, 0, 0, 0)
+instrument = NodePath("../Piano")
+
+[node name="Timbales" parent="." unique_id=1746301248 instance=ExtResource("4_mb31b")]
+transform = Transform3D(0.93259037, 0, 0.36093655, 0, 1, 0, -0.36093655, 0, 0.93259037, -1.6629425, 0, -1.5397034)
+
+[node name="BandPlayer3" parent="." unique_id=117691084 node_paths=PackedStringArray("instrument") instance=ExtResource("2_ywxrh")]
+transform = Transform3D(0.93259037, 0, 0.36093655, 0, 1, 0, -0.36093655, 0, 0.93259037, -1.6629425, 0, -1.5397034)
+instrument = NodePath("../Timbales")

@@ -55,6 +55,7 @@
 [ext_resource type="PackedScene" uid="uid://b26uwc072v7qd" path="res://src/features/city/kela/kela_building.tscn" id="34_j2hit"]
 [ext_resource type="PackedScene" uid="uid://c8xqutmxfag3h" path="res://src/features/city/casino/casino_building.tscn" id="35_64k4k"]
 [ext_resource type="Script" uid="uid://bq336tdab1r16" path="res://src/features/city/sky/day_night_cycle.gd" id="37_d3xh7"]
+[ext_resource type="PackedScene" uid="uid://l6ia14kl8sgh" path="res://src/features/city/dormitory/dormitory.tscn" id="39_g5ewm"]
 [ext_resource type="PackedScene" uid="uid://cu524h6xwkue7" path="res://src/features/city/pizzeria/pizzeria.tscn" id="42_acbas"]
 [ext_resource type="PackedScene" uid="uid://c4fh8jrnxg5k1" path="res://src/features/city/clothing_store/clothing_store.tscn" id="53_pfh3i"]
 [ext_resource type="PackedScene" uid="uid://c3im7y4y2ygdc" path="res://src/features/city/street_props/greenbox_4x2.tscn" id="58_676n0"]
@@ -339,17 +340,17 @@ navigation_mesh = SubResource("NavigationMesh_q1gf2")
 [node name="CasinoSkyscraper" parent="NavigationRegion3D/City" unique_id=1418599293 instance=ExtResource("17_xdh1b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.46692, 0.13125515, -9.959579)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 969999495) index="0" unique_id=2137893935]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/City/CasinoSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1418599293, 592319556) index="0" unique_id=2137893935]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/City/CasinoSkyscraper/Skyscraper/StaticBody3D" unique_id=1988896395]
 shape = SubResource("ConcavePolygonShape3D_a54ph")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 1607977321) index="0" unique_id=1235067300]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/City/CasinoSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1418599293, 612543169) index="0" unique_id=1235067300]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/City/CasinoSkyscraper/Skyscraper_001/StaticBody3D" unique_id=562831225]
 shape = SubResource("ConcavePolygonShape3D_2h7sf")
 
-[node name="Skyscraper_003" parent="NavigationRegion3D/City/CasinoSkyscraper" index="5" unique_id=1491844758]
+[node name="Skyscraper_003" parent="NavigationRegion3D/City/CasinoSkyscraper" index="5" unique_id=982927261]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0038805008, 4.3149405, 0.014133453)
 
 [node name="casino_table" parent="NavigationRegion3D/City/CasinoSkyscraper" unique_id=475239430 instance=ExtResource("24_txgtg")]
@@ -530,6 +531,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 21)
 [node name="Plaza22" parent="NavigationRegion3D/City/Roads" unique_id=1226597663 instance=ExtResource("22_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 31)
 
+[node name="Plaza38" parent="NavigationRegion3D/City/Roads" unique_id=1643510701 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 41)
+
+[node name="Plaza39" parent="NavigationRegion3D/City/Roads" unique_id=1855332467 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 51)
+
+[node name="Plaza40" parent="NavigationRegion3D/City/Roads" unique_id=1001446701 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 0, 51)
+
+[node name="Plaza41" parent="NavigationRegion3D/City/Roads" unique_id=1772097372 instance=ExtResource("22_4e13v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 0, 41)
+
 [node name="Plaza23" parent="NavigationRegion3D/City/Roads" unique_id=505631250 instance=ExtResource("22_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 0, 31)
 
@@ -568,6 +581,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -9)
 
 [node name="Plaza9" parent="NavigationRegion3D/City/Roads" unique_id=1554906058 instance=ExtResource("22_4e13v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -9)
+
+[node name="Dormitory" parent="NavigationRegion3D/City/Roads" unique_id=975006867 instance=ExtResource("39_g5ewm")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34, 0, 40)
 
 [node name="PoliceStation" parent="NavigationRegion3D/City" unique_id=1111426076 instance=ExtResource("27_4e71p")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -35, 0, 29)

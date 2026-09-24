@@ -7,4 +7,4 @@ class_name StaticMusicInstrument
 
 
 func get_facing_direction() -> Vector3:
-	return %FacingPos.global_position - self.global_position
+	return %FacingPos.position - self.position
