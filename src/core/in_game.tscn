@@ -28,6 +28,7 @@
 [ext_resource type="Resource" uid="uid://b270yli33aj6e" path="res://src/features/items/data/jail_key/jail_key.tres" id="15_bgufk"]
 [ext_resource type="PackedScene" uid="uid://dn7ak0xe3mbva" path="res://src/features/city/ground/road_turn.tscn" id="15_rur3b"]
 [ext_resource type="PackedScene" uid="uid://dhkrvkv2u5i5u" path="res://src/features/city/buildings/modular1_building/modular1_building.tscn" id="16_nj3ha"]
+[ext_resource type="Resource" path="res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set.tres" id="16_xc4ik"]
 [ext_resource type="PackedScene" uid="uid://bn6f3do6iguhn" path="res://src/features/city/assets/models/modular1/base2.glb" id="17_4e13v"]
 [ext_resource type="PackedScene" uid="uid://5xgfs6mm0l3b" path="res://src/features/city/assets/models/modular1/base1.glb" id="17_a54ph"]
 [ext_resource type="PackedScene" uid="uid://c18owk4geliw8" path="res://src/features/hud/hud.tscn" id="17_rur3b"]
@@ -270,6 +271,11 @@ item_type = ExtResource("5_udf63")
 transform = Transform3D(0.9788628, -0.20451781, 0, 0.20451781, 0.9788628, 0, 0, 0, 1, -35.618156, 1.212012, 35.440994)
 script = ExtResource("3_hxguo")
 item_type = ExtResource("14_xc4ik")
+
+[node name="BriefcaseSpawner2" type="Node3D" parent="Spawners" unique_id=542530099]
+transform = Transform3D(0.9788628, -0.20451781, 0, 0.20451781, 0.9788628, 0, 0, 0, 1, -35.618156, 1.212012, 33.440994)
+script = ExtResource("3_hxguo")
+item_type = ExtResource("16_xc4ik")
 
 [node name="GlassesSpawner" type="Node3D" parent="Spawners" unique_id=754323634]
 transform = Transform3D(0.9788628, -0.20451781, 0, 0.20451781, 0.9788628, 0, 0, 0, 1, 9.8135805, 1.212012, -1.5078738)

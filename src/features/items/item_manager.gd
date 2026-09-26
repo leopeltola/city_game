@@ -11,6 +11,7 @@ extends Node
 
 
 const _item_types: Dictionary[StringName, ItemType] = {
+	"lock_pick_set": preload("res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set.tres"),
 	"saxophone": preload("res://src/features/items/data/saxophone/saxophone.tres"),
 	"drum_sticks": preload("res://src/features/items/data/drum_sticks/drum_sticks.tres"),
 	"cigar": preload("res://src/features/items/data/cigar/cigar.tres"),

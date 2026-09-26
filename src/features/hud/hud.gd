@@ -104,6 +104,10 @@ func prompt_welfare() -> WelfarePrompt.Result:
 	return await %WelfarePrompt.prompt()
 
 
+func prompt_lockpick() -> bool:
+	return await %LockPickPrompt.prompt()
+
+
 ## Returns true while the money prompt is on screen.
 func is_money_prompt_open() -> bool:
 	return %MoneyPrompt.visible
@@ -119,6 +123,11 @@ func is_personal_menu_open() -> bool:
 	return %PersonalMenu.visible
 
 
+## Returns true while the lockpick prompt is on screen.
+func is_lockpick_prompt_open() -> bool:
+	return %LockPickPrompt.visible
+
+
 func show_interact_label(text: String) -> void:
 	%InteractLabel.text = text
 	%InteractLabel.show()
@@ -132,4 +141,4 @@ func hide_interact_label() -> void:
 
 ## Returns true if an active modal or overlay should block player gameplay inputs.
 func is_blocking_input() -> bool:
-	return is_money_prompt_open() or is_welfare_prompt_open()
+	return is_money_prompt_open() or is_welfare_prompt_open() or is_lockpick_prompt_open()

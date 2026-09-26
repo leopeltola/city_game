@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dy50ad8raajw1" path="res://src/features/items/props/prop_equip.gd" id="1"]
+[ext_resource type="Resource" path="res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set.tres" id="2"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://dbaih08c617yx" path="res://src/features/items/data/lock_picking/screw_driver/screw_driver.glb" id="4"]
+
+[node name="LockPickSetEquip" type="Node3D"]
+script = ExtResource("1")
+item_type = ExtResource("2")
+
+[node name="HeldAnchor" type="Node3D" parent="."]
+script = ExtResource("3")
+
+[node name="lock_pick_set" parent="HeldAnchor" instance=ExtResource("4")]
+
+[node name="WornVisual" type="Node3D" parent="."]
+
+[node name="lock_pick_set" parent="WornVisual" instance=ExtResource("4")]

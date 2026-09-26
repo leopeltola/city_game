@@ -79,29 +79,34 @@ visible = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.17928788, 0.2, 0.22054878)
 visible = true
 
-[node name="@BoneAttachment3D@23067" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1753203889) index="4" unique_id=203319285]
+[node name="@BoneAttachment3D@23067" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1606195714) index="4" unique_id=203319285]
 transform = Transform3D(-0.17773044, 0.0039778943, 0.9840712, 0.08529665, -0.996166, 0.019431917, 0.9803756, 0.08739143, 0.17670974, -0.43316364, 0.637197, 0.23583409)
 bone_name = "HandSlot.R"
 bone_idx = 24
 
-[node name="@LookAtModifier3D@23069" type="LookAtModifier3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1753203889) index="6" unique_id=1192021904]
+[node name="@LookAtModifier3D@23069" type="LookAtModifier3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1606195714) index="6" unique_id=1192021904]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.00792313, 1.0593438, 3.2247233)
 target_node = NodePath(".")
 bone_name = "Head_2"
 bone = 1
 
-[node name="BeltJailkey" parent="Visual/guy/Armature/Skeleton3D/TorsoSlotBone" parent_id_path=PackedInt32Array(457456582) index="1" unique_id=702123231 instance=ExtResource("3_8ofvy")]
-unique_name_in_owner = true
-transform = Transform3D(-2.3014228e-07, -0.1493427, 0.9887855, -6.685845e-08, -0.9887855, -0.1493427, 1, -1.0047873e-07, 2.1757654e-07, -0.3028944, 0.37996554, -2.647987e-08)
-
-[node name="@BoneAttachment3D@23070" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1753203889) index="8" unique_id=1684288150]
+[node name="@BoneAttachment3D@23070" type="BoneAttachment3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1606195714) index="8" unique_id=1684288150]
 transform = Transform3D(0.99999696, -0.0024563014, -5.810362e-05, -5.456973e-12, -0.023648312, 0.99972034, -0.0024569882, -0.9997173, -0.02364824, -2.605346e-05, 1.5762098, -0.010603789)
 bone_name = "HeadItemSlot"
 bone_idx = 6
 
-[node name="@PhysicalBoneSimulator3D@23072" type="PhysicalBoneSimulator3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1753203889) index="10" unique_id=1735936736]
+[node name="@PhysicalBoneSimulator3D@23072" type="PhysicalBoneSimulator3D" parent="Visual/guy/Armature/Skeleton3D" parent_id_path=PackedInt32Array(119801285, 1606195714) index="10" unique_id=1735936736]
 unique_name_in_owner = true
 visible = false
+
+[node name="BeltJailkey" parent="Visual/guy/Armature/Skeleton3D/TorsoSlotBone" parent_id_path=PackedInt32Array(457456582) index="1" unique_id=702123231 instance=ExtResource("3_8ofvy")]
+unique_name_in_owner = true
+transform = Transform3D(-2.3014228e-07, -0.1493427, 0.9887855, -6.685845e-08, -0.9887855, -0.1493427, 1, -1.0047873e-07, 2.1757654e-07, -0.3028944, 0.37996554, -2.647987e-08)
+
+[node name="Physical Bone Hand_R" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="6" unique_id=300513579]
+transform = Transform3D(-0.2914427, 0.82653797, 0.4815559, 0.9474187, 0.3189422, 0.02595827, -0.132133, 0.4638004, -0.8760308, -0.47511166, 0.7339575, 0.195778)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8859587e-07, 2.6077032e-07, 0.09803903)
+body_offset = Transform3D(-0.95924973, -0.24180281, -0.14619057, -7.301569e-07, 0.51738065, -0.85575545, 0.28256017, -0.8208829, -0.49629733, 0.01433301, 0.08389729, 0.048656553)
 
 [node name="ActorLocomotion" parent="." index="20" unique_id=274812644]
 walk_speed = 2.0

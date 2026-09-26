@@ -18,10 +18,10 @@ func get_prompt(player_id: int) -> String:
 	elif not claimed and not can_interact(player_id):
 		return "Need Cash"
 	if claimed and door.locked:
-		return "Door is locked"
+		return "Door locked"
 	if claimed and can_interact(player_id):
 		if door.locked:
-			return "Door is locked"
+			return "Door locked"
 		elif door_open:
 			return "Close"
 		else:

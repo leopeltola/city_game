@@ -25,11 +25,12 @@ func get_price():
 	return price
 
 
+
 func _on_interacted(player_id: int) -> void:
 	var player: Player = PlayerManager.get_player_node_by_id(player_id)
 
 	var item: ItemEquip = player.get_equipped_item()
-
+	
 	if owner_id > 0 and not locked:
 		_rpc_request_open.rpc_id(1)
 	elif owner_id < 0:
@@ -45,8 +46,22 @@ func _on_interacted(player_id: int) -> void:
 			_rpc_request_claim.rpc_id(1, player_id)
 
 
+
+func attempt_lock_pick(player_id : int) -> void:
+	CrimeManager.add_guilt(player_id, "Burglary", 90, 200)
+	var is_success = await HUD.instance.prompt_lockpick()
+	print("IS IT SUCCESS? RESULT: ",is_success)
+	if is_success:
+		_rpc_request_lock.rpc_id(1)
+
 func _on_lock_used(player_id: int) -> void:
-	_rpc_request_lock.rpc_id(1)
+	if player_id != owner_id:
+		var player: Player = PlayerManager.get_player_node_by_id(player_id)
+		var item: ItemEquip = player.get_equipped_item()
+		if locked and item and item.item_type and item.item_type.name == "lock_pick_set":
+			attempt_lock_pick(player_id)
+	else:
+		_rpc_request_lock.rpc_id(1)
 
 
 @rpc("any_peer", "reliable", "call_local")
@@ -105,10 +120,11 @@ func _open_door() -> void:
 @rpc("authority", "call_local", "reliable")
 func _rpc_set_door(open: bool) -> void:
 	is_open = open
-
 	if open:
 		animation_player.play("open")
 		door_handle.set_open(true)
+		%NavigationLink3D.enabled = true
 	else:
 		animation_player.play_backwards("open")
 		door_handle.set_open(false)
+		%NavigationLink3D.enabled = true

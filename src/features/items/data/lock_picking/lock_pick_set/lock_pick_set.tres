@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://bguw1o5md3uic"]
+
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://dbaih08c617yx" path="res://src/features/items/data/lock_picking/screw_driver/screw_driver.glb" id="2"]
+[ext_resource type="Texture2D" uid="uid://dloffoinqlxxo" path="res://icon.svg" id="2_bkemu"]
+
+[resource]
+script = ExtResource("1")
+name = "lock_pick_set"
+display_name = "Lock Pick Set"
+world_item_path = "res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set_world.tscn"
+equip_item_path = "res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set_equip.tscn"
+display_scene = ExtResource("2")

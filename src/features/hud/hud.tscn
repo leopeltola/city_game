@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://clyw4ta2imx4o" path="res://src/features/hud/personal_menu/personal_menu.tscn" id="6_ypb4a"]
 [ext_resource type="PackedScene" uid="uid://b3c06lv2dg0nq" path="res://src/features/hud/personal_menu/mail_ui/messages_toast.tscn" id="7_0r6hx"]
 [ext_resource type="PackedScene" uid="uid://boq8whx20hnp1" path="res://src/features/hud/crime/crime_overlay.tscn" id="8_ofddy"]
+[ext_resource type="PackedScene" uid="uid://blqlnn4e200q0" path="res://src/features/hud/prompts/lock_pick_prompt.tscn" id="9_8lm3w"]
 
 [sub_resource type="FontVariation" id="FontVariation_ioa1u"]
 base_font = ExtResource("3_dsqr1")
@@ -98,4 +99,9 @@ value = 1.0
 show_percentage = false
 
 [node name="CrimeOverlay" parent="." unique_id=68613745 instance=ExtResource("8_ofddy")]
+layout_mode = 1
+
+[node name="LockPickPrompt" parent="." unique_id=786769455 instance=ExtResource("9_8lm3w")]
+unique_name_in_owner = true
+visible = false
 layout_mode = 1

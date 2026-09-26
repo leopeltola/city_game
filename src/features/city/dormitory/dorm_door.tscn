@@ -113,4 +113,9 @@ libraries/ = SubResource("AnimationLibrary_6mkra")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=109108671]
 replication_config = SubResource("SceneReplicationConfig_6mkra")
 
+[node name="NavigationLink3D" type="NavigationLink3D" parent="." unique_id=1070701658]
+unique_name_in_owner = true
+start_position = Vector3(0, 0, 1)
+end_position = Vector3(0, 0, -1)
+
 [editable path="DoorPivot/AnimatableBody3D/dorm_door"]
