@@ -1,19 +1,19 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c0slp28wjsyhq"]
 
 [ext_resource type="Script" uid="uid://dy50ad8raajw1" path="res://src/features/items/props/prop_equip.gd" id="1"]
-[ext_resource type="Resource" path="res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set.tres" id="2"]
+[ext_resource type="Resource" uid="uid://bguw1o5md3uic" path="res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set.tres" id="2"]
 [ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://dbaih08c617yx" path="res://src/features/items/data/lock_picking/screw_driver/screw_driver.glb" id="4"]
 
-[node name="LockPickSetEquip" type="Node3D"]
+[node name="LockPickSetEquip" type="Node3D" unique_id=1267078398]
 script = ExtResource("1")
 item_type = ExtResource("2")
 
-[node name="HeldAnchor" type="Node3D" parent="."]
+[node name="HeldAnchor" type="Node3D" parent="." unique_id=1258651545]
 script = ExtResource("3")
 
-[node name="lock_pick_set" parent="HeldAnchor" instance=ExtResource("4")]
+[node name="lock_pick_set" parent="HeldAnchor" unique_id=1908942364 instance=ExtResource("4")]
 
-[node name="WornVisual" type="Node3D" parent="."]
+[node name="WornVisual" type="Node3D" parent="." unique_id=1487103709]
 
-[node name="lock_pick_set" parent="WornVisual" instance=ExtResource("4")]
+[node name="lock_pick_set" parent="WornVisual" unique_id=748737208 instance=ExtResource("4")]

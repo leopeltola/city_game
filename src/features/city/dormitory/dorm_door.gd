@@ -38,7 +38,7 @@ func _on_interacted(player_id: int) -> void:
 			var item_id = item.item_id
 			var total_amount: int = ItemManager.get_item_data(item_id, "money", 0)
 			var remaining := total_amount - price
-			if remaining <= 0:
+			if remaining <= 0 and item.item_type.name == "cash":
 				(player.inventory as PlayerInventory).pop_active_item()
 				ItemManager.destroy_item(item_id)
 			else:

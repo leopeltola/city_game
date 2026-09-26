@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://bhkl0q4xpy325"]
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1_3v51p"]
+[ext_resource type="PackedScene" uid="uid://cmh1ulyic8m3m" path="res://src/features/items/data/bat/bat.glb" id="1_oycxk"]
 [ext_resource type="Texture2D" uid="uid://cjg1004g7bgek" path="res://src/features/items/data/bat/bat_icon.png" id="1_y0jhd"]
 
 [resource]
@@ -9,6 +10,7 @@ name = "bat"
 display_name = "Bat"
 world_item_path = "uid://bdx5ismm5bh76"
 equip_item_path = "uid://b1m0cxbm5lkgg"
+display_scene = ExtResource("1_oycxk")
 icon = ExtResource("1_y0jhd")
 base_value = 50
 metadata/_custom_type_script = "uid://1v4ix87tn325"

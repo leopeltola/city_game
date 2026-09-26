@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bffe5tvi37je5"]
+
+[ext_resource type="PackedScene" uid="uid://vjuejqjcbcpl" path="res://src/features/city/weapon_store/assets/weapon_store.glb" id="1_jrqt5"]
+[ext_resource type="PackedScene" uid="uid://dbgdd487d3dtm" path="res://src/features/city/dormitory/dorm_door.tscn" id="2_hmmtd"]
+[ext_resource type="PackedScene" uid="uid://c8y3bh4fyindx" path="res://src/features/interior/pizzeria/pizzeria_table.glb" id="3_d7fwv"]
+[ext_resource type="PackedScene" uid="uid://dg8c8hq31il1e" path="res://src/features/interior/clothing_store/accessory_mannequin.tscn" id="4_20x7h"]
+[ext_resource type="Resource" uid="uid://bguw1o5md3uic" path="res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set.tres" id="5_0tfjv"]
+[ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="6_rh7g3"]
+
+[node name="WeaponStore" type="Node3D" unique_id=1393975320]
+
+[node name="weapon_store" parent="." unique_id=415543458 instance=ExtResource("1_jrqt5")]
+
+[node name="DormDoor" parent="." unique_id=2109936884 instance=ExtResource("2_hmmtd")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 3.1, 1.2)
+
+[node name="pizzeria_table" parent="." unique_id=66155364 instance=ExtResource("3_d7fwv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0156713, 0.0019351318, -1.4549255)
+
+[node name="pizzeria_table2" parent="." unique_id=1537948513 instance=ExtResource("3_d7fwv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0156713, 0.0019351318, 0.54507446)
+
+[node name="AccessoryMannequin" parent="." unique_id=1691759729 instance=ExtResource("4_20x7h")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4.025086, 0.76967454, -1.4694312)
+shown_item = ExtResource("5_0tfjv")
+price = 200
+
+[node name="AccessoryMannequin2" parent="." unique_id=483504002 instance=ExtResource("4_20x7h")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.9470596, 0.76967454, 0.50046897)
+shown_item = ExtResource("6_rh7g3")
+price = 500

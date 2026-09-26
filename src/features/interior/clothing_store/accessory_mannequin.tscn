@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://byhbaphgo44pn" path="res://src/features/interior/clothing_store/shop_mannequin.gd" id="1_rs3kd"]
 [ext_resource type="Resource" uid="uid://8nbmgp43nxsk" path="res://src/features/items/data/briefcase/briefcase.tres" id="2_bds0n"]
-[ext_resource type="PackedScene" uid="uid://csa3w7v7ekwtf" path="res://src/features/items/data/briefcase/briefcase.glb" id="3_dveog"]
 [ext_resource type="Script" uid="uid://i7x3a2qiskq" path="res://src/features/interior/clothing_store/mannequin_interactable_area.gd" id="4_bcu7r"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcu7r"]
@@ -24,8 +23,6 @@ item_container = NodePath("ItemContainer")
 
 [node name="ItemContainer" type="Node3D" parent="." unique_id=405467485]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.37071875, 0)
-
-[node name="briefcase" parent="ItemContainer" unique_id=877886230 instance=ExtResource("3_dveog")]
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1118108720]
 
