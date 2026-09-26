@@ -108,5 +108,4 @@ func get_max_to_add() -> int:
 
 
 func _on_tree_exiting():
-	print("Briefcase exiting tree")
 	player.animator.cancel_action()

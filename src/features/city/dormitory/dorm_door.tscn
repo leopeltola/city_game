@@ -1,9 +1,15 @@
 [gd_scene format=3 uid="uid://dbgdd487d3dtm"]
 
+[ext_resource type="Script" uid="uid://c3bklgmlnn817" path="res://src/features/city/dormitory/dorm_door.gd" id="1_6mkra"]
 [ext_resource type="PackedScene" uid="uid://cbju6ss7y6dss" path="res://src/features/city/dormitory/assets/dorm_door.glb" id="1_gruje"]
+[ext_resource type="Script" uid="uid://dqlw7bbyn2ggc" path="res://src/features/city/dormitory/door_interactable_area.gd" id="3_s1w38"]
+[ext_resource type="Script" uid="uid://dovejlp0teqrh" path="res://src/features/city/dormitory/lock_interactable_area.gd" id="4_58ri8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gruje"]
 size = Vector3(1.4, 2, 0.2)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6mkra"]
+radius = 0.2
 
 [sub_resource type="Animation" id="Animation_6mkra"]
 length = 0.001
@@ -18,6 +24,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_s1w38"]
+resource_name = "close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DoorPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5707964, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_gruje"]
@@ -38,24 +59,58 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6mkra"]
 _data = {
 &"RESET": SubResource("Animation_6mkra"),
+&"close": SubResource("Animation_s1w38"),
 &"open": SubResource("Animation_gruje")
 }
 
-[node name="DormDoor" type="Node3D" unique_id=2109936884]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6mkra"]
+properties/0/path = NodePath(".:owner_id")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="DormDoor" type="Node3D" unique_id=2109936884 node_paths=PackedStringArray("door_handle", "door_lock")]
+script = ExtResource("1_6mkra")
+owner_id = -1
+door_handle = NodePath("DoorPivot/DoorInteractableArea")
+door_lock = NodePath("DoorPivot/LockInteractableArea")
 
 [node name="DoorPivot" type="Node3D" parent="." unique_id=1860544537]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0.7, 0, 0)
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="DoorPivot" unique_id=1464005572]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0, 0)
+sync_to_physics = false
 
 [node name="dorm_door" parent="DoorPivot/AnimatableBody3D" unique_id=877094859 instance=ExtResource("1_gruje")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DoorPivot/AnimatableBody3D" unique_id=387584868]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_gruje")
+debug_color = Color(0.9764706, 0.5882353, 0.36862746, 1)
+
+[node name="DoorInteractableArea" type="Area3D" parent="DoorPivot" unique_id=427728628 node_paths=PackedStringArray("door")]
+unique_name_in_owner = true
+transform = Transform3D(0.9999997, 0, 0, 0, 1, 0, 0, 0, 0.9999997, -1.1194152, 0.8037156, 0)
+script = ExtResource("3_s1w38")
+door = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorPivot/DoorInteractableArea" unique_id=1124923595]
+shape = SubResource("SphereShape3D_6mkra")
+
+[node name="LockInteractableArea" type="Area3D" parent="DoorPivot" unique_id=1384725184 node_paths=PackedStringArray("door")]
+unique_name_in_owner = true
+transform = Transform3D(0.9999996, 0, 0, 0, 1, 0, 0, 0, 0.9999996, -1.1194149, 1.1177354, 0)
+script = ExtResource("4_58ri8")
+door = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorPivot/LockInteractableArea" unique_id=954204365]
+shape = SubResource("SphereShape3D_6mkra")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=42339275]
+unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_6mkra")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=109108671]
+replication_config = SubResource("SceneReplicationConfig_6mkra")
 
 [editable path="DoorPivot/AnimatableBody3D/dorm_door"]

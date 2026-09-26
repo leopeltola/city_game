@@ -13,7 +13,7 @@ equip_item_path = "res://src/features/items/data/briefcase/briefcase_equip.tscn"
 display_scene = ExtResource("2")
 icon = ExtResource("2_et1d3")
 instance_data = Dictionary[StringName, Variant]({
-&"money": 500
+&"money": 50000
 })
 base_value = 200
 prop_slot = 5
