@@ -18,7 +18,7 @@ signal open_attempt(success: bool)
 
 @export_group("Lock Settings")
 ## Half-width of the sweet spot in degrees. 2.5 creates a 5-degree total window (+/- 2.5 deg).
-@export var sweet_spot_tolerance: float = 2.5
+@export var sweet_spot_tolerance: float = 5
 
 # Oikeat kulmat lukon avaamiseksi
 var screw_driver_sweet_spot: float = 0.0
