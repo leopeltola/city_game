@@ -7,6 +7,7 @@
 script = ExtResource("1_l1j25")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1432088765]
+unique_name_in_owner = true
 top_level = true
 cast_shadow = 0
 polygon = PackedVector2Array(0, -0.1, -0.1, 0.01, 0.1, 0.001)
