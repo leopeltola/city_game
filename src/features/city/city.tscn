@@ -9,11 +9,11 @@
 [ext_resource type="Resource" uid="uid://csqm17e5047db" path="res://src/features/items/data/pizza/pizza_sauce/pizza_sauce.tres" id="7_qtjqi"]
 [ext_resource type="Resource" uid="uid://decolqh3h5w4h" path="res://src/features/items/data/pizza/pizza/pizza.tres" id="8_g2e5w"]
 [ext_resource type="Resource" uid="uid://8nbmgp43nxsk" path="res://src/features/items/data/briefcase/briefcase.tres" id="9_ldgky"]
-[ext_resource type="Resource" path="res://src/features/items/data/aviator_glasses/aviator_glasses.tres" id="10_sbj63"]
+[ext_resource type="Resource" uid="uid://dwxvpuppmklyu" path="res://src/features/items/data/aviator_glasses/aviator_glasses.tres" id="10_sbj63"]
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="11_kmwga"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="12_onj02"]
 [ext_resource type="Resource" uid="uid://g414q8ein5tj" path="res://src/features/items/data/fedora/fedora.tres" id="13_fk8d2"]
-[ext_resource type="Resource" path="res://src/features/items/data/watch/watch.tres" id="14_l3gqk"]
+[ext_resource type="Resource" uid="uid://ccwiykwmxhs6w" path="res://src/features/items/data/watch/watch.tres" id="14_l3gqk"]
 [ext_resource type="Resource" uid="uid://1hrurp1qfqws" path="res://src/features/items/data/police_hat/police_hat.tres" id="15_mbsjk"]
 [ext_resource type="Resource" uid="uid://dxctft40qvhih" path="res://src/features/items/data/police_body/police_body.tres" id="16_q7ial"]
 [ext_resource type="Resource" uid="uid://b270yli33aj6e" path="res://src/features/items/data/jail_key/jail_key.tres" id="17_pp7f6"]
@@ -42,7 +42,6 @@
 [ext_resource type="PackedScene" uid="uid://dc2n0lqer30in" path="res://src/features/city/buildings/modular2_building/modular2_building_midlayer.glb" id="40_6jcah"]
 [ext_resource type="PackedScene" uid="uid://d387pf1f1vxhc" path="res://src/features/city/buildings/modular2_building/modular2_building_rooflayer.glb" id="41_70tcd"]
 [ext_resource type="Material" uid="uid://monjl4k3eeb1" path="res://assets/textures/chain_link/chain_link.tres" id="42_dptrr"]
-[ext_resource type="PackedScene" uid="uid://dln1ucilt6pj2" path="res://src/features/city/street_props/lamp.glb" id="43_5bh8i"]
 [ext_resource type="PackedScene" uid="uid://bxu36b6vyrf6i" path="res://src/features/city/street_props/park_bench.glb" id="44_58jgy"]
 [ext_resource type="PackedScene" uid="uid://blsuorotrv5bo" path="res://src/features/city/street_props/trash_can.glb" id="45_ye135"]
 [ext_resource type="PackedScene" uid="uid://dmp5lcjvp26px" path="res://src/features/city/street_props/trash_container.glb" id="46_3pw1h"]
@@ -51,10 +50,13 @@
 [ext_resource type="PackedScene" uid="uid://cu524h6xwkue7" path="res://src/features/city/pizzeria/pizzeria.tscn" id="54_ar7rs"]
 [ext_resource type="PackedScene" uid="uid://c4fh8jrnxg5k1" path="res://src/features/city/clothing_store/clothing_store.tscn" id="55_dv6i6"]
 [ext_resource type="PackedScene" uid="uid://c3im7y4y2ygdc" path="res://src/features/city/street_props/greenbox_4x2.tscn" id="56_6gavq"]
+[ext_resource type="PackedScene" uid="uid://l6ia14kl8sgh" path="res://src/features/city/dormitory/dormitory.tscn" id="56_c0pgw"]
 [ext_resource type="PackedScene" uid="uid://b26uwc072v7qd" path="res://src/features/city/kela/kela_building.tscn" id="56_pee6x"]
+[ext_resource type="PackedScene" uid="uid://bffe5tvi37je5" path="res://src/features/city/weapon_store/weapon_store.tscn" id="57_14cvr"]
 [ext_resource type="PackedScene" uid="uid://cips3w1fegymw" path="res://src/features/city/street_props/prop_path_3d.tscn" id="57_35lrm"]
 [ext_resource type="PackedScene" uid="uid://bwboswlefrlgv" path="res://src/features/city/kela/application/welfare_application.tscn" id="57_y1wkk"]
 [ext_resource type="PackedScene" uid="uid://b8gnmpny42n0i" path="res://src/features/city/street_props/street_lamp.tscn" id="58_14cvr"]
+[ext_resource type="PackedScene" uid="uid://cqcpba2sfdkx2" path="res://src/features/city/ground/road_marking.tscn" id="58_35lrm"]
 [ext_resource type="PackedScene" uid="uid://dntxffruu7h41" path="res://src/features/city/police_station/police_station.tscn" id="58_m2nen"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_a54ph"]
@@ -82,6 +84,20 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 14
+
+[sub_resource type="Curve3D" id="Curve3D_qpjse"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -51.702663, 0.099975586, -21.4281, 0, 0, 0, 0, 0, 0, -28.63491, 0.099975586, -21.079906, 0, 0, 0, 0, 0, 0, -28.610031, 0.099975586, 4.153528, -3.468647, 0, -0.10907745, 3.468647, 0, 0.10907745, -24.605812, 0.099975586, 8.680029, 0, 0, 0, 0, 0, 0, -8.414864, 0.099975586, 8.505935, 0, 0, 0, 0, 0, 0, -8.282637, 0.099975586, 41.703606, 0, 0, 0, 0, 0, 0, -51.437477, 0.099975586, 41.530586, 0, 0, 0, 0, 0, 0, -51.456593, 0.100097656, -15.5010195),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[sub_resource type="Curve3D" id="Curve3D_14cvr"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -5.165821, -0.00012207031, 4.9071913, 3.3720322, 0, 0.030377865, -3.3720322, 0, -0.030377865, -22.267181, -0.00012207031, 5.375722, 0, 0, 0, 0, 0, 0, -25.664028, -0.00012207031, 1.978876, 0, 0, 0, 0, 0, 0, -25.195496, 0.00012207031, -24.844488),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
 
 [node name="City" type="Node3D" unique_id=1022881614]
 
@@ -3828,12 +3844,6 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -10.
 mesh = SubResource("PlaneMesh_g318b")
 surface_material_override/0 = ExtResource("42_dptrr")
 
-[node name="lamp" parent="StreetProps" unique_id=535170162 instance=ExtResource("43_5bh8i")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.2025504, 0.10000038, 26.13942)
-
-[node name="lamp2" parent="StreetProps" unique_id=1340381550 instance=ExtResource("43_5bh8i")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.2025504, 0.10000038, 35.381973)
-
 [node name="park_bench" parent="StreetProps" unique_id=2025114602 instance=ExtResource("44_58jgy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.353207, 0.10000038, -8.875831)
 
@@ -3869,15 +3879,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.893967, 0.099999905, -6.0
 
 [node name="park_bench3" parent="StreetProps" unique_id=895747434 instance=ExtResource("44_58jgy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.42646, 0.09999943, -3.1471105)
-
-[node name="lamp3" parent="StreetProps" unique_id=1131434218 instance=ExtResource("43_5bh8i")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -28.8069, 0.10000014, -1.3087187)
-
-[node name="lamp4" parent="StreetProps" unique_id=1570758427 instance=ExtResource("43_5bh8i")]
-transform = Transform3D(-0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071068, -27.706318, 0.100001335, 7.4937477)
-
-[node name="lamp5" parent="StreetProps" unique_id=1644126370 instance=ExtResource("43_5bh8i")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -19.033772, 0.100001335, 8.534113)
 
 [node name="park_bench4" parent="StreetProps" unique_id=40391911 instance=ExtResource("44_58jgy")]
 transform = Transform3D(-1, 0, 8.742277e-08, 0, 1, 0, -8.742277e-08, 0, -1, -15.018241, 0.10000038, 21.760517)
@@ -3991,159 +3992,6 @@ omni_range = 4.145
 [node name="PoliceStation" parent="." unique_id=1111426076 instance=ExtResource("58_m2nen")]
 transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, -3, 0.043575525, -41)
 
-[node name="OldRoads" type="Node3D" parent="." unique_id=1060580851]
-visible = false
-
-[node name="StraightRoad" parent="OldRoads" unique_id=14974197 instance=ExtResource("29_ci6na")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
-
-[node name="StraightRoad2" parent="OldRoads" unique_id=769258080 instance=ExtResource("29_ci6na")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 1)
-
-[node name="StraightRoad3" parent="OldRoads" unique_id=946475667 instance=ExtResource("29_ci6na")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 11)
-
-[node name="StraightRoad4" parent="OldRoads" unique_id=1906756434 instance=ExtResource("29_ci6na")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 21)
-
-[node name="StraightRoad5" parent="OldRoads" unique_id=97601350 instance=ExtResource("29_ci6na")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 31)
-
-[node name="StraightRoad6" parent="OldRoads" unique_id=339718017 instance=ExtResource("29_ci6na")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 41)
-
-[node name="StraightRoad7" parent="OldRoads" unique_id=115016604 instance=ExtResource("29_ci6na")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 51)
-
-[node name="StraightRoad8" parent="OldRoads" unique_id=1132984227 instance=ExtResource("29_ci6na")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 61)
-
-[node name="3Way2" parent="OldRoads" unique_id=573958852 instance=ExtResource("31_wy0cf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 1)
-
-[node name="TurnRoad" parent="OldRoads" unique_id=2054006 instance=ExtResource("30_3ti1p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 1)
-
-[node name="TurnRoad2" parent="OldRoads" unique_id=504104637 instance=ExtResource("30_3ti1p")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 17, 0, 11)
-
-[node name="TurnRoad3" parent="OldRoads" unique_id=95444660 instance=ExtResource("30_3ti1p")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 7, 0, 11)
-
-[node name="TurnRoad4" parent="OldRoads" unique_id=1379660482 instance=ExtResource("30_3ti1p")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -23, 0, 1)
-
-[node name="Plaza" parent="OldRoads" unique_id=844178079 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 11)
-
-[node name="Plaza11" parent="OldRoads" unique_id=2028632743 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 21)
-
-[node name="Plaza26" parent="OldRoads" unique_id=625758565 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 21)
-
-[node name="Plaza27" parent="OldRoads" unique_id=1315698158 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 31)
-
-[node name="Plaza32" parent="OldRoads" unique_id=1991357042 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 41)
-
-[node name="Plaza34" parent="OldRoads" unique_id=1306984050 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 51)
-
-[node name="Plaza35" parent="OldRoads" unique_id=1867698154 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 61)
-
-[node name="Plaza36" parent="OldRoads" unique_id=169180943 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 61)
-
-[node name="Plaza37" parent="OldRoads" unique_id=1998644099 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 51)
-
-[node name="Plaza33" parent="OldRoads" unique_id=768092539 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 41)
-
-[node name="Plaza28" parent="OldRoads" unique_id=1420162416 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 31)
-
-[node name="Plaza29" parent="OldRoads" unique_id=1907146039 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 31)
-
-[node name="Plaza30" parent="OldRoads" unique_id=2023587223 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 31)
-
-[node name="Plaza31" parent="OldRoads" unique_id=2035810626 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 31)
-
-[node name="Plaza12" parent="OldRoads" unique_id=1930647222 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 21)
-
-[node name="Plaza13" parent="OldRoads" unique_id=1706193496 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 21)
-
-[node name="Plaza14" parent="OldRoads" unique_id=176097776 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 21)
-
-[node name="Plaza15" parent="OldRoads" unique_id=1779316350 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 11)
-
-[node name="Plaza16" parent="OldRoads" unique_id=1438300338 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 1)
-
-[node name="Plaza17" parent="OldRoads" unique_id=317073201 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, -9)
-
-[node name="Plaza2" parent="OldRoads" unique_id=1404721544 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 11)
-
-[node name="Plaza10" parent="OldRoads" unique_id=315306408 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 11)
-
-[node name="Plaza21" parent="OldRoads" unique_id=1339939524 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 21)
-
-[node name="Plaza22" parent="OldRoads" unique_id=1202486857 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 31)
-
-[node name="Plaza23" parent="OldRoads" unique_id=1968162414 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 0, 31)
-
-[node name="Plaza24" parent="OldRoads" unique_id=1717148567 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 0, 21)
-
-[node name="Plaza25" parent="OldRoads" unique_id=603615440 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 0, 11)
-
-[node name="Plaza3" parent="OldRoads" unique_id=1520151747 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 1)
-
-[node name="Plaza4" parent="OldRoads" unique_id=1146687386 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, -9)
-
-[node name="Plaza5" parent="OldRoads" unique_id=1163670105 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -9)
-
-[node name="Plaza6" parent="OldRoads" unique_id=1168613228 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, -9)
-
-[node name="Plaza18" parent="OldRoads" unique_id=916632123 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, -19)
-
-[node name="Plaza19" parent="OldRoads" unique_id=39721515 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -19)
-
-[node name="Plaza20" parent="OldRoads" unique_id=909786144 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -19)
-
-[node name="Plaza7" parent="OldRoads" unique_id=672852249 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -9)
-
-[node name="Plaza8" parent="OldRoads" unique_id=232793247 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -9)
-
-[node name="Plaza9" parent="OldRoads" unique_id=1001094810 instance=ExtResource("28_7kmfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -9)
-
 [node name="PropPath3D" parent="." unique_id=1857625460 instance=ExtResource("57_35lrm")]
 curve = SubResource("Curve3D_eqoeh")
 prop_scene = ExtResource("58_14cvr")
@@ -4202,6 +4050,56 @@ metadata/_prop_path_instance = true
 transform = Transform3D(-0.0062893773, 0.0069116876, -0.9999563, 3.0898198e-10, 0.99997616, 0.006911824, 0.9999802, 4.347076e-05, -0.006289227, -21.42171, 0.099975586, -6.1232753)
 metadata/_prop_path_instance = true
 
+[node name="PropPath3D2" parent="." unique_id=115787771 instance=ExtResource("57_35lrm")]
+curve = SubResource("Curve3D_qpjse")
+prop_scene = ExtResource("58_14cvr")
+gap = 20.01
+rotation_offset = Vector3(0, -90, 0)
+
+[node name="lamp" parent="PropPath3D2" unique_id=535170162 instance=ExtResource("58_14cvr")]
+transform = Transform3D(-0.9998861, 0, 0.015092655, 0, 1, 0, -0.015092655, 0, -0.9998861, -51.702663, 0.099975586, -21.4281)
+metadata/_prop_path_instance = true
+
+[node name="lamp2" parent="PropPath3D2" unique_id=1136423365 instance=ExtResource("58_14cvr")]
+transform = Transform3D(-0.9998861, 0, 0.015092655, 0, 1, 0, -0.015092655, 0, -0.9998861, -31.694939, 0.099975586, -21.126097)
+metadata/_prop_path_instance = true
+
+[node name="lamp3" parent="PropPath3D2" unique_id=753862173 instance=ExtResource("58_14cvr")]
+transform = Transform3D(-0.0009859278, 0, 0.9999995, 0, 1, 0, -0.9999995, 0, -0.0009859278, -28.618198, 0.09997558, -4.1303225)
+metadata/_prop_path_instance = true
+
+[node name="lamp4" parent="PropPath3D2" unique_id=1828132934 instance=ExtResource("58_14cvr")]
+transform = Transform3D(-0.99995446, 0, -0.009545641, 0, 1, 0, 0.009545642, 0, -0.99995446, -19.465069, 0.09997558, 8.689453)
+metadata/_prop_path_instance = true
+
+[node name="lamp5" parent="PropPath3D2" unique_id=1265494552 instance=ExtResource("58_14cvr")]
+transform = Transform3D(-0.0039829435, 0, 0.99999213, 0, 1, 0, -0.99999213, 0, -0.0039829435, -8.379184, 0.09997559, 17.464075)
+metadata/_prop_path_instance = true
+
+[node name="lamp6" parent="PropPath3D2" unique_id=466653821 instance=ExtResource("58_14cvr")]
+transform = Transform3D(-0.003982944, 0, 0.99999213, 0, 1, 0, -0.99999213, 0, -0.003982944, -8.299483, 0.099975586, 37.473953)
+metadata/_prop_path_instance = true
+
+[node name="lamp7" parent="PropPath3D2" unique_id=864478380 instance=ExtResource("58_14cvr")]
+transform = Transform3D(0.999992, 0, -0.0040092906, 0, 1, 0, 0.0040092906, 0, 0.999992, -24.062801, 0.099975586, 41.64034)
+metadata/_prop_path_instance = true
+
+[node name="lamp8" parent="PropPath3D2" unique_id=456029459 instance=ExtResource("58_14cvr")]
+transform = Transform3D(0.999992, 0, -0.0040092906, 0, 1, 0, 0.0040092906, 0, 0.999992, -44.07257, 0.099975586, 41.560112)
+metadata/_prop_path_instance = true
+
+[node name="lamp9" parent="PropPath3D2" unique_id=604432485 instance=ExtResource("58_14cvr")]
+transform = Transform3D(0.00033512918, 2.1318367e-06, -0.99999994, -2.1403976e-06, 1, 2.1311193e-06, 0.99999994, 2.1396831e-06, 0.00033512918, -51.441715, 0.10000265, 28.885769)
+metadata/_prop_path_instance = true
+
+[node name="lamp10" parent="PropPath3D2" unique_id=445789150 instance=ExtResource("58_14cvr")]
+transform = Transform3D(0.00033512918, 2.1318363e-06, -0.99999994, -2.1403976e-06, 1, 2.131119e-06, 0.99999994, 2.1396831e-06, 0.00033512918, -51.448425, 0.10004548, 8.875934)
+metadata/_prop_path_instance = true
+
+[node name="lamp11" parent="PropPath3D2" unique_id=68852358 instance=ExtResource("58_14cvr")]
+transform = Transform3D(0.00033512915, 2.1318363e-06, -0.99999994, -2.1403973e-06, 1, 2.131119e-06, 0.99999994, 2.139683e-06, 0.00033512915, -51.455128, 0.100088306, -11.134073)
+metadata/_prop_path_instance = true
+
 [node name="greenbox4x2" parent="." unique_id=706508434 instance=ExtResource("56_6gavq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.1, 10)
 
@@ -4243,6 +4141,16 @@ transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, -30,
 
 [node name="greenbox4x7" parent="." unique_id=1854429809 instance=ExtResource("56_6gavq")]
 transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, -30, 0.1, 14)
+
+[node name="Dormitory" parent="." unique_id=975006867 instance=ExtResource("56_c0pgw")]
+transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 54.65993, 0, -13.373088)
+
+[node name="WeaponStore" parent="." unique_id=1393975320 instance=ExtResource("57_14cvr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5161, 9.536743e-07, 5.802196)
+
+[node name="RoadMarking" parent="." unique_id=813629382 instance=ExtResource("58_35lrm")]
+curve = SubResource("Curve3D_14cvr")
+type = 1
 
 [editable path="BankSkyscraper"]
 [editable path="GenericBuildings/ModularBuilding29"]
