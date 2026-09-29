@@ -60,9 +60,10 @@ func _on_interacted(player_id: int) -> void:
 	var inv := p.inventory as PlayerInventory
 	if inv == null or not inv.try_add_item(item_id):
 		return # no space in inv, abort
-	# Increase Guilt if stealing
+	# Increase Guilt if stealing (the item's cash value is added on top of the usual amount)
 	if not has_right_to_pick_up(player_id):
-		CrimeManager.add_guilt(player_id, "Stole %s" % type.display_name, 90, 100)
+		var money_amount: int = ItemManager.get_item_data(item_id, "money", 0)
+		CrimeManager.add_guilt(player_id, "Stole %s" % type.display_name, 90, 100 + money_amount)
 	# destroy world item
 	_rpc_destroy_world_item.rpc_id(1)
 

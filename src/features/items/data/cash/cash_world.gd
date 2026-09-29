@@ -60,6 +60,7 @@ func _on_interacted(player_id: int) -> void:
 	var money_amount: int = ItemManager.get_item_data(item_id,"money",0)
 	var max_takeable_amount: int = 0
 	var should_destroy_world_item: bool = false
+	var stolen_amount: int = 0
 	
 	if is_briefcase:
 		max_takeable_amount = equipped.get_max_to_add()
@@ -70,17 +71,22 @@ func _on_interacted(player_id: int) -> void:
 			print("Max takeable amount is: " , max_takeable_amount)
 			ItemManager.set_and_sync_item_data(item_id,"money", money_amount - max_takeable_amount)
 			equipped.take_money(max_takeable_amount)
+			stolen_amount = max_takeable_amount
 		else:
 			ItemManager.set_and_sync_item_data(item_id, "money", 0)
 			should_destroy_world_item = true
 			equipped.take_money(money_amount)
+			stolen_amount = money_amount
 	else:
 		if inv == null or not inv.try_add_item(item_id):
 			return # no space in inv, abort
 		should_destroy_world_item = true
-	# Increase Guilt if stealing
+		stolen_amount = money_amount
+	# Increase Guilt if stealing. Scooping with a briefcase adds the taken money on top
+	# of the usual amount; stealing a cash stack is worth just its money.
 	# destroy world item
 	if not has_right_to_pick_up(player_id):
-		CrimeManager.add_guilt(player_id, "Stole %s" % type.display_name, 90, 100)
+		var guilt_amount: int = (100 + stolen_amount) if is_briefcase else stolen_amount
+		CrimeManager.add_guilt(player_id, "Stole %s" % type.display_name, 90, guilt_amount)
 	if should_destroy_world_item:
 			_rpc_destroy_world_item.rpc_id(1)
