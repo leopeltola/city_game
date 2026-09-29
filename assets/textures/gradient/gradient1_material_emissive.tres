@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c6earyl14lgxy"]
+
+[ext_resource type="Texture2D" uid="uid://bjsvmr2c37f0i" path="res://assets/textures/gradient/gradients1.webp" id="1_gvdmg"]
+
+[resource]
+albedo_texture = ExtResource("1_gvdmg")
+emission_enabled = true
+emission = Color(0.8675702, 0.8273475, 0.7545893, 1)
+emission_energy_multiplier = 3.54
