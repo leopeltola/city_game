@@ -1,14 +1,26 @@
 class_name Npc
 extends Humanoid
-## A server-simulated, non-playable humanoid. Currently just stands still; it is
-## hittable like a player, drops some of its cash on every hit and ragdolls + despawns
-## when its health reaches zero. AI comes later.
+## A server-simulated, non-playable humanoid. Base NPCs stand still and are hittable
+## like a player: they drop some of their cash on every hit and ragdoll + despawn when
+## their health reaches zero. Subclasses add AI (police, citizens, band players).
 ##
 ## The server simulates the NPC (is_local = Net.is_server) so the shared melee/hit RPC
 ## paths replay on every peer automatically; clients only interpolate the transform.
 
 ## Cash this NPC carries. Dropped as world items when hit.
 @export var cash := 100
+
+@export_group("Navigation")
+## How far the current goal must drift before a new path is requested.
+@export var nav_repath_distance := 0.75
+## Minimum seconds between path requests once the current path has ended.
+@export var nav_repath_interval := 0.25
+
+@onready var _nav_agent: NavigationAgent3D = %NavigationAgent3D
+## Goal currently assigned to the navigation agent.
+var _nav_target := Vector3.INF
+## Time left before a finished path may be re-targeted.
+var _nav_repath_timer := 0.0
 
 func _ready() -> void:
 	is_local = Net.is_server
@@ -54,3 +66,34 @@ func _drop_cash(amount: int) -> void:
 	ItemManager.create_world_item_for(
 		item_id, global_position + Vector3(0.0, 1.0, 0.0), Vector3.ZERO, force, ItemWorld.NPC_OWNER_ID
 	)
+
+
+## Steers toward [param position] using the navmesh agent, falling back to direct
+## steering when there is no agent or it yields no usable direction (e.g. off-mesh).
+func _navigate_to(position: Vector3) -> void:
+	var direction := Vector3.ZERO
+	if _nav_agent != null:
+		_nav_repath_timer = maxf(_nav_repath_timer - get_physics_process_delta_time(), 0.0)
+		var drift := _nav_target - position
+		drift.y = 0.0
+		if drift.length_squared() > nav_repath_distance * nav_repath_distance \
+				or (_nav_agent.is_navigation_finished() and _nav_repath_timer <= 0.0):
+			_nav_target = position
+			_nav_repath_timer = nav_repath_interval
+			_nav_agent.target_position = position
+		direction = _nav_agent.get_next_path_position() - global_position
+		direction.y = 0.0
+	if direction.length_squared() < 0.001:
+		direction = position - global_position
+		direction.y = 0.0
+	locomotion.desired_direction = direction.normalized()
+	if not locomotion.desired_direction.is_zero_approx():
+		_face(direction)
+
+
+## Rotates the NPC to face a world-space direction.
+func _face(direction: Vector3) -> void:
+	direction.y = 0.0
+	if direction.length_squared() < 0.001:
+		return
+	rotation.y = atan2(-direction.x, -direction.z)

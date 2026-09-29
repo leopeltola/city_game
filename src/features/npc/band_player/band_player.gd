@@ -55,7 +55,7 @@ func _do_play(delta: float) -> void:
 		var dir := instrument.global_position - global_position
 		dir.y = 0.0
 		locomotion.desired_direction = dir.normalized() if dir.length_squared() > 0.001 else Vector3.ZERO
-		_face(instrument.get_facing_direction(), delta)
+		_turn_towards(instrument.get_facing_direction(), delta)
 	else:
 		locomotion.desired_direction = Vector3.ZERO
 
@@ -76,7 +76,7 @@ func _do_return(delta: float) -> void:
 	if dir.length_squared() > 0.001:
 		dir = dir.normalized()
 		locomotion.desired_direction = dir
-		_face(dir, delta) # Smoothly turn towards travel direction
+		_turn_towards(dir, delta) # Smoothly turn towards travel direction
 	else:
 		locomotion.desired_direction = Vector3.ZERO
 
@@ -85,7 +85,7 @@ func _do_return(delta: float) -> void:
 
 
 ## Smoothly rotates the band player to face a world-space direction.
-func _face(direction: Vector3, delta: float) -> void:
+func _turn_towards(direction: Vector3, delta: float) -> void:
 	direction.y = 0.0
 	if direction.length_squared() < 0.001:
 		return

@@ -13,6 +13,9 @@ signal action_started(anim_name: StringName)
 signal action_finished(anim_name: StringName)
 signal action_cancelled(anim_name: StringName)
 
+## Idle clip played when neither an explicit override nor an equipment idle is set.
+const DEFAULT_IDLE := "idle"
+
 @export var humanoid: Humanoid = null
 @export var anim_player: AnimationPlayer = null
 
@@ -22,6 +25,8 @@ var _override_anim := ""
 var _idle_anim := ""
 ## Blend to use when restarting idle (set by play_action's end blend / cancel).
 var _idle_blend := 0.1
+## Idle clip forced over the equipment idle while set (e.g. a fleeing NPC). Empty = none.
+var _idle_override := ""
 
 
 func _ready() -> void:
@@ -43,10 +48,12 @@ func _process(_delta: float) -> void:
 
 
 func _current_idle_name() -> String:
+	if not _idle_override.is_empty():
+		return _idle_override
 	var idle := ""
 	if humanoid != null and humanoid.equipment != null:
 		idle = humanoid.equipment.get_idle_animation_override()
-	return idle if not idle.is_empty() else "idle"
+	return idle if not idle.is_empty() else DEFAULT_IDLE
 
 
 func is_action_playing() -> bool:
@@ -83,6 +90,18 @@ func cancel_action(blend_time: float = 0.1) -> void:
 	_idle_blend = 0.0
 	anim_player.play(_idle_anim, blend_time)
 	action_cancelled.emit(prev)
+
+
+## Forces an idle clip over the equipment idle (e.g. a fleeing NPC). Empty clears it.
+func set_idle_override(anim_name: String) -> void:
+	if _idle_override == anim_name:
+		return
+	_idle_override = anim_name
+	_idle_anim = ""
+
+
+func clear_idle_override() -> void:
+	set_idle_override("")
 
 
 ## Hit-window events. Authored on a rig clip's Method track (targeting this node),
