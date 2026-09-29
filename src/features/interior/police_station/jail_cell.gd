@@ -29,6 +29,11 @@ func get_stand_position() -> Vector3:
 	return stand_point.global_position
 
 
+## True while the player with [param player_id] is inside this cell.
+func is_occupant(player_id: int) -> bool:
+	return _occupants.has(player_id)
+
+
 func _on_body_entered(body: Node3D) -> void:
 	if body is Player:
 		_occupants[body.player_id] = body

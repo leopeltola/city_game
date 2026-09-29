@@ -119,6 +119,9 @@ func _photographed_player() -> Dictionary:
 	for target: Player in PlayerManager.get_player_nodes():
 		if target == player or not is_instance_valid(target):
 			continue
+		# Players held in a jail cell cannot be photographed for identification.
+		if _is_jailed(target.player_id):
+			continue
 		var chest: Vector3 = target.global_position + Vector3(0.0, 1.25, 0.0)
 		if not _photo_camera.is_position_in_frustum(chest):
 			continue
@@ -131,11 +134,20 @@ func _photographed_player() -> Dictionary:
 				visible_weight += sample.weight
 
 		var distance_factor := clampf(1.0 - origin.distance_to(chest) / MAX_IDENT_DISTANCE, 0.0, 1.0)
-		var identifiability := int(roundf(100.0 * visible_weight / total_weight * distance_factor))
+		var identifiability := clampi(int(roundf(200.0 * visible_weight / total_weight * distance_factor)), 0, 100)
 		if identifiability > best.identifiability:
 			best = { "player_id": target.player_id, "identifiability": identifiability }
 
 	return best
+
+
+## True while [param player_id] is inside a jail cell.
+func _is_jailed(player_id: int) -> bool:
+	for node: Node in get_tree().get_nodes_in_group("jail_cell"):
+		var cell := node as JailCell
+		if cell != null and cell.is_occupant(player_id):
+			return true
+	return false
 
 
 ## True when a ray from the camera reaches [target_point] on [target] without being
@@ -154,12 +166,7 @@ func _rpc_request_photo_item(photo_id: int, subject_player_id: int, identifiabil
 		return
 	if not ImageManager.has_image(photo_id):
 		return
-	var item_id = ItemManager.create_item_of_type("photo", {
-		&"photo_id": photo_id,
-		&"subject_player_id": subject_player_id,
-		&"guilt": CrimeManager.get_guilt(subject_player_id),
-		&"identifiability": identifiability,
-	})
+	var item_id = ItemManager.create_item_of_type("photo", _build_photo_instance_data(photo_id, subject_player_id, identifiability))
 	if item_id == null:
 		return
 	_rpc_photo_item_created.rpc_id(multiplayer.get_remote_sender_id(), item_id)
@@ -175,19 +182,32 @@ func _rpc_photo_item_created(item_id: int) -> void:
 
 func _create_photo_item_local(photo_id: int, subject_player_id: int, identifiability: int) -> void:
 	_capturing = false
-	var item_id = ItemManager.create_item_of_type("photo", {
-		&"photo_id": photo_id,
-		&"subject_player_id": subject_player_id,
-		&"guilt": CrimeManager.get_guilt(subject_player_id),
-		&"identifiability": identifiability,
-	})
+	var item_id = ItemManager.create_item_of_type("photo", _build_photo_instance_data(photo_id, subject_player_id, identifiability))
 	if item_id != null:
 		_give_photo_item(item_id)
+
+
+## Builds a photo's replicated instance data. Server-side: snapshots the subject's active
+## guilt per crime so accepting one photo can invalidate just those crimes in others.
+func _build_photo_instance_data(photo_id: int, subject_player_id: int, identifiability: int) -> Dictionary:
+	var entries := CrimeManager.get_guilt_entries(subject_player_id)
+	var guilt := 0
+	for amount: int in entries.values():
+		guilt += amount
+	return {
+		&"photo_id": photo_id,
+		&"subject_player_id": subject_player_id,
+		&"guilt": guilt,
+		&"guilt_entries": entries,
+		&"identifiability": identifiability,
+	}
 
 
 ## Equips the photo in the active slot, or drops it as a world item when the
 ## inventory is full.
 func _give_photo_item(item_id: int) -> void:
+	if is_instance_valid(player) and player.equipment != null:
+		player.equipment.start_camera_cooldown()
 	if not is_instance_valid(player) or not is_instance_valid(player.inventory):
 		return
 	var inv := player.inventory as PlayerInventory

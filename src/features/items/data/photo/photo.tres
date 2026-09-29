@@ -12,6 +12,7 @@ equip_item_path = "res://src/features/items/data/photo/photo_equip.tscn"
 icon = ExtResource("1_38sq2")
 instance_data = Dictionary[StringName, Variant]({
 &"guilt": 0,
+&"guilt_entries": {},
 &"identifiability": 0,
 &"photo_id": -1,
 &"subject_player_id": 0

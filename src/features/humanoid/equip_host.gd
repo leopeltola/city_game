@@ -20,6 +20,9 @@ const UNARMED_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/
 ## Camera gear toggled with the "camera" action.
 const CAMERA_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/camera/camera_equip.tscn")
 
+## Seconds before the camera can be pulled out again after a photo is taken.
+const CAMERA_COOLDOWN := 40.0
+
 ## The actor this host belongs to. Equips reach the actor's animator/status through it.
 @export var player: Humanoid = null
 ## Neutral mount that the whole equip scene parents under (stays put). Per-hand
@@ -43,6 +46,35 @@ const CAMERA_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/c
 				mount_active()
 
 var _equipped_node: ItemEquip = null
+## Seconds left before the camera can be pulled out again. Local to the owner's client.
+var _camera_cooldown := 0.0
+
+
+func _ready() -> void:
+	set_process(false)
+
+
+func _process(delta: float) -> void:
+	if _camera_cooldown <= 0.0:
+		set_process(false)
+		return
+	_camera_cooldown = maxf(_camera_cooldown - delta, 0.0)
+
+
+## True while the camera is on cooldown and cannot be pulled out.
+func is_camera_on_cooldown() -> bool:
+	return _camera_cooldown > 0.0
+
+
+## Seconds remaining on the camera cooldown, 0 when ready.
+func get_camera_cooldown_remaining() -> float:
+	return _camera_cooldown
+
+
+## Restarts the full camera cooldown. Call after a photo is taken.
+func start_camera_cooldown() -> void:
+	_camera_cooldown = CAMERA_COOLDOWN
+	set_process(true)
 
 
 ## Returns the hand slot node for a given hand side (driven by that hand's bone).
@@ -83,7 +115,7 @@ func can_drop_active() -> bool:
 ## Refuses to raise the camera while the active equip pins the slot (see
 ## [method is_active_slot_locked]): a lock_slot item must stay physically out.
 func toggle_camera() -> void:
-	if not camera_out and is_active_slot_locked():
+	if not camera_out and (is_active_slot_locked() or is_camera_on_cooldown()):
 		return
 	camera_out = not camera_out
 

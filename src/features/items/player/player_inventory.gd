@@ -59,6 +59,7 @@ func _ready() -> void:
 	# equip node whose _ready reaches into player.animator, which needs Player._ready
 	# to have run first. Remote peers are covered by the replicated setters instead.
 	_refresh_equip.call_deferred()
+	ItemManager.item_destroyed.connect(_on_item_destroyed)
 
 
 func _input(event: InputEvent) -> void:
@@ -474,6 +475,22 @@ func clear_stale_active(item_id: int) -> void:
 	if item_slots[active_index] == item_id:
 		item_slots[active_index] = -1
 		inventory_updated.emit()
+
+
+# Clears any slot holding a destroyed item, re-mounting the equip when it was the active
+# one. Runs on every peer so a photo that expires in someone's inventory disappears.
+func _on_item_destroyed(item_id: int) -> void:
+	if not item_slots.has(item_id):
+		return
+	var active_cleared := false
+	for i in item_slots.size():
+		if item_slots[i] == item_id:
+			item_slots[i] = -1
+			if i == active_index:
+				active_cleared = true
+	if active_cleared:
+		_refresh_equip()
+	inventory_updated.emit()
 
 
 # Returns the indices of all slots currently holding an item.

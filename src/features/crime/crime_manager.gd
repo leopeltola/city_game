@@ -16,8 +16,15 @@ signal player_arrested(player_id: int)
 const ARREST_ESCORT_TIMEOUT_MS := 50000
 
 ## Guilt over committed crimes, which can be pictured.
-## Schema: { player_id(int): Array[{"label": String, "time": int, "lasts": int, "amount": int}] }
+## Schema: { player_id(int): Array[{"id": int, "label": String, "time": int, "lasts": int, "amount": int}] }
 var _guilt_data: Dictionary[int, Array] = {}
+
+## Guilt entry ids already converted to bounty. Server only: an accepted crime can never
+## be claimed by another photo.
+var _accepted_guilt_ids: Dictionary[int, bool] = {}
+
+## Next unique guilt entry id. Server only.
+var _next_guilt_id := 0
 
 ## Bounty (€) per player. If non-zero, player is wanted.
 var _bounty_data: Dictionary[int, int] = {}
@@ -104,6 +111,46 @@ func get_guilt(player_id: int) -> int:
 	for entry: Dictionary in _guilt_data[player_id]:
 		total += int(entry.get("amount", 0))
 	return total
+
+
+## Snapshot of a player's active guilt as { entry_id: amount }. Used server-side to stamp
+## a photo with the exact crimes it captured, so each can later be invalidated on its own.
+func get_guilt_entries(player_id: int) -> Dictionary[int, int]:
+	var entries: Dictionary[int, int] = {}
+	if not _guilt_data.has(player_id):
+		return entries
+	for entry: Dictionary in _guilt_data[player_id]:
+		entries[int(entry.get("id", -1))] = int(entry.get("amount", 0))
+	return entries
+
+
+## Sum of [param entries] amounts whose crime has not already been accepted by another
+## photo. Server-side.
+func get_claimable_guilt(entries: Dictionary) -> int:
+	var total := 0
+	for id: Variant in entries:
+		if not _accepted_guilt_ids.has(int(id)):
+			total += int(entries[id])
+	return total
+
+
+## Marks every crime in [param entries] as accepted for [param player_id], removing them
+## from their active guilt (so no other photo can claim them) and syncing the remainder.
+## Server-authoritative.
+func accept_guilt(player_id: int, entries: Dictionary) -> void:
+	if not Net.is_server:
+		return
+	for id: Variant in entries:
+		_accepted_guilt_ids[int(id)] = true
+	if _guilt_data.has(player_id):
+		var list: Array = _guilt_data[player_id]
+		var removed := false
+		for i in range(list.size() - 1, -1, -1):
+			if _accepted_guilt_ids.has(int(list[i].get("id", -1))):
+				list.remove_at(i)
+				removed = true
+		if removed:
+			_sync_guilt_to_player(player_id)
 
 
 ## Returns the local player's guilt on clients.
@@ -313,11 +360,13 @@ func _rpc_notify_arrived(player_id: int) -> void:
 func _rpc_add_guilt(player_id: int, label: String, lasts_s: int, amount: int) -> void:
 	assert(Net.is_server)
 	var entry: Dictionary = {
+		"id": _next_guilt_id,
 		"label": label,
 		"time": Time.get_ticks_msec(),
 		"lasts": lasts_s * 1000,
 		"amount": amount,
 	}
+	_next_guilt_id += 1
 	if not _guilt_data.has(player_id):
 		_guilt_data[player_id] = []
 	_guilt_data[player_id].append(entry)

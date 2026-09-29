@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/items/player/camera_slot.gd" id="1_camslot"]
+[ext_resource type="Texture2D" path="res://src/features/items/data/photo/photo_icon.png" id="2_photoicon"]
+
+[node name="CameraSlot" type="Panel"]
+custom_minimum_size = Vector2(48, 48)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("1_camslot")
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_photoicon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Index" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 26.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 0.45)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.6)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "C"
+
+[node name="CooldownOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Dim" type="ColorRect" parent="CooldownOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.05, 0.05, 0.05, 0.55)
+
+[node name="CooldownLabel" type="Label" parent="CooldownOverlay"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1

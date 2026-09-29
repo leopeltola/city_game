@@ -11,6 +11,7 @@ func _ready() -> void:
 	super()
 	_photo_id = ItemManager.get_item_data(item_id, "photo_id", -1)
 	ImageManager.image_registered.connect(_on_image_registered)
+	ItemManager.item_data_changed.connect(_on_item_data_changed)
 	_apply_labels()
 	_apply_texture()
 
@@ -18,6 +19,8 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	if ImageManager.image_registered.is_connected(_on_image_registered):
 		ImageManager.image_registered.disconnect(_on_image_registered)
+	if ItemManager.item_data_changed.is_connected(_on_item_data_changed):
+		ItemManager.item_data_changed.disconnect(_on_item_data_changed)
 	if _texture_held:
 		ImageManager.release_texture(_photo_id)
 		_texture_held = false
@@ -33,6 +36,12 @@ func _apply_labels() -> void:
 		return
 	%EuroLabel.text = "%s€" % ItemManager.get_item_data(item_id, "guilt", 0)
 	%PercentageLabel.text = "%s%%" % ItemManager.get_item_data(item_id, "identifiability", 0)
+
+
+# Refreshes the euro label when another photo's acceptance reduces this one's guilt.
+func _on_item_data_changed(changed_id: int, key: StringName) -> void:
+	if changed_id == item_id and key == &"guilt":
+		_apply_labels()
 
 
 func _on_image_registered(photo_id: int) -> void:

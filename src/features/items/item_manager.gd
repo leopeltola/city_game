@@ -10,6 +10,13 @@ extends Node
 ## local allocation without server round-trips.
 
 
+## Emitted on every peer when an existing item's instance data changes.
+signal item_data_changed(item_id: int, key: StringName)
+
+## Emitted on every peer when an item is destroyed.
+signal item_destroyed(item_id: int)
+
+
 const _item_types: Dictionary[StringName, ItemType] = {
 	"lock_pick_set": preload("res://src/features/items/data/lock_picking/lock_pick_set/lock_pick_set.tres"),
 	"saxophone": preload("res://src/features/items/data/saxophone/saxophone.tres"),
@@ -149,6 +156,10 @@ func _rpc_request_destroy_item(item_id: int) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func _rpc_apply_destroy_item(item_id: int) -> void:
 	_items.erase(item_id)
+	for node: Node in get_tree().get_nodes_in_group("world_item"):
+		if node is ItemWorld and node.item_id == item_id:
+			node.queue_free()
+	item_destroyed.emit(item_id)
 
 
 ## Returns the live replicated data dictionary for the given item.
@@ -193,6 +204,41 @@ func _rpc_apply_item_data(item_id: int, key: StringName, value: Variant) -> void
 	if not item_data:
 		return
 	item_data[key] = value
+	item_data_changed.emit(item_id, key)
+
+
+## Returns every live item id whose type name matches [param type_name].
+func get_item_ids_by_type(type_name: StringName) -> Array[int]:
+	var ids: Array[int] = []
+	for item_id: int in _items:
+		if StringName(_items[item_id].get("type", &"")) == type_name:
+			ids.append(item_id)
+	return ids
+
+
+## Server-side: after crimes are accepted, reduce every photo that captured them to the
+## guilt it can still claim, destroying any photo left with nothing. Works whether the
+## photo is on the ground or in an inventory.
+func invalidate_photos_for_guilt(accepted_ids: Dictionary) -> void:
+	if not Net.is_server:
+		return
+	for item_id: int in get_item_ids_by_type(&"photo"):
+		var entries: Dictionary = get_item_data(item_id, "guilt_entries", {})
+		if entries.is_empty():
+			continue
+		var touched := false
+		var remaining := 0
+		for id: Variant in entries:
+			if accepted_ids.has(int(id)):
+				touched = true
+			else:
+				remaining += int(entries[id])
+		if not touched:
+			continue
+		if remaining <= 0:
+			destroy_item(item_id)
+		else:
+			set_and_sync_item_data(item_id, &"guilt", remaining)
 
 
 func get_item_types() -> Array[ItemType]:

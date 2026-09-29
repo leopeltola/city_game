@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dkttiovyg70ex" path="res://src/features/player/player_camera.gd" id="11_camfx"]
 [ext_resource type="Script" uid="uid://dqq1qmojxsaot" path="res://src/features/humanoid/equip_host.gd" id="12_equip"]
 [ext_resource type="Script" uid="uid://cwy8dp63xtqmg" path="res://src/features/items/player/item_dropper.gd" id="13_dropper"]
+[ext_resource type="PackedScene" path="res://src/features/items/player/camera_slot.tscn" id="14_camslot"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1mqja"]
 random_pitch = 1.158962
@@ -237,6 +238,11 @@ offset_right = 128.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
+inv = NodePath("../../PlayerInventory")
+
+[node name="CameraSlot" parent="CanvasLayer" index="2" node_paths=PackedStringArray("inv") instance=ExtResource("14_camslot")]
+unique_name_in_owner = true
+visible = false
 inv = NodePath("../../PlayerInventory")
 
 [node name="OwnNameLabel" type="Label" parent="CanvasLayer" index="1" unique_id=412661646]

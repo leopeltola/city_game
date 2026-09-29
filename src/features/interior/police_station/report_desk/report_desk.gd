@@ -1,7 +1,9 @@
 extends Interactable
 ## Police station front desk. A player submits a photo of a suspect here: the photo's
-## identifiability is rolled and, if it passes, the guilt snapshotted on the photo is
-## added to the subject's bounty (making them wanted). The photo is always consumed.
+## identifiability is rolled and, if it passes, the guilt still claimable on the photo is
+## added to the subject's bounty (making them wanted). Each crime can only be accepted
+## once, so the submitted photo's crimes are invalidated in every other photo. The photo
+## is always consumed.
 
 func get_prompt(player_id: int) -> String:
 	return prompt if can_interact(player_id) else "No photo to submit"
@@ -52,16 +54,22 @@ func _submit(player_id: int) -> void:
 		return
 
 	var subject_id: int = ItemManager.get_item_data(photo_id, "subject_player_id", 0)
-	var guilt: int = ItemManager.get_item_data(photo_id, "guilt", 0)
+	var entries: Dictionary = ItemManager.get_item_data(photo_id, "guilt_entries", {})
 	var identifiability: int = ItemManager.get_item_data(photo_id, "identifiability", 0)
 
+	var claimable: int = CrimeManager.get_claimable_guilt(entries)
 	var accepted := false
-	if subject_id != 0 and subject_id != player_id and guilt > 0:
+	if subject_id != 0 and subject_id != player_id and claimable > 0:
 		accepted = randf() * 100.0 <= float(identifiability)
 	if accepted:
+		var accepted_ids: Dictionary = {}
+		for id: Variant in entries:
+			accepted_ids[int(id)] = true
+		CrimeManager.accept_guilt(subject_id, entries)
+		ItemManager.invalidate_photos_for_guilt(accepted_ids)
 		CrimeManager.set_bounty(
 			subject_id,
-			CrimeManager.get_player_bounty(subject_id) + guilt,
+			CrimeManager.get_player_bounty(subject_id) + claimable,
 		)
 
 	var pd: PlayerData = PlayerManager.get_player_by_id(player_id)
@@ -75,7 +83,7 @@ func _submit(player_id: int) -> void:
 			player_id,
 			"Police Department",
 			"Evidence Accepted",
-			"The photo was clear enough to identify the suspect. %s€ has been added to their bounty." % guilt,
+			"The photo was clear enough to identify the suspect. %s€ has been added to their bounty." % claimable,
 		)
 	else:
 		MessageManager.send_message_to(
