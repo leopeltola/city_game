@@ -26,7 +26,6 @@ var _rising := false
 var _rise_time := 0.0 ## rise counter
 var _ragdoll_timer: SceneTreeTimer = null
 
-
 var _owner: Humanoid:
 	get:
 		return owner as Humanoid
@@ -163,10 +162,11 @@ func _ragdoll_impulse_scale_for(bone_name: StringName) -> float:
 ## Toggles the physical bone bodies' collision so the idle kinematic bodies never
 ## block anyone, while an active ragdoll collides with the world.
 func _set_ragdoll_bone_collision(active: bool) -> void:
-	var h := _owner
-	if not is_instance_valid(h.physical_bones):
+	if not is_instance_valid(_owner.physical_bones):
 		return
-	for bone: Node in h.physical_bones.get_children():
+
+	for bone: Node in _owner.physical_bones.get_children():
 		if bone is PhysicalBone3D:
-			bone.collision_layer = 2 if active else 0
-			bone.collision_mask = 1 if active else 0
+			bone.set_collision_layer_value(2, active)
+			bone.set_collision_mask_value(1, active)
+			bone.set_collision_mask_value(7, active)

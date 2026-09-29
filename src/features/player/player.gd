@@ -134,17 +134,21 @@ func _update_locomotion() -> void:
 func _update_escort_locomotion() -> void:
 	locomotion.run_requested = false
 
-	if is_instance_valid(nav_agent):
-		nav_agent.target_position = escort_target
-		var next := nav_agent.get_next_path_position()
-		var dir := next - global_position
+	if _arrival_sent:
+		locomotion.desired_direction = Vector3.ZERO
+		return
+
+	if is_instance_valid(nav_agent) and not nav_agent.is_navigation_finished():
+		var dir := nav_agent.get_next_path_position() - global_position
 		dir.y = 0.0
 		if dir.length_squared() < 0.001:
 			dir = escort_target - global_position
 			dir.y = 0.0
 		locomotion.desired_direction = dir.normalized()
+	else:
+		locomotion.desired_direction = Vector3.ZERO
 
-	if global_position.distance_to(escort_target) < 1.6 and not _arrival_sent:
+	if global_position.distance_to(escort_target) < 1.6:
 		_arrival_sent = true
 		CrimeManager.notify_arrived_at_jail(player_id)
 

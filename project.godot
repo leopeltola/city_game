@@ -71,6 +71,10 @@ folder_colors={
 
 import/blender/enabled=false
 
+[global_group]
+
+navigation_source=""
+
 [gui]
 
 theme/custom="uid://cc474s6hx67yx"
@@ -192,10 +196,18 @@ lockpick_open={
 [layer_names]
 
 3d_physics/layer_1="environment"
+3d_navigation/layer_1="safe"
 3d_physics/layer_2="player"
+3d_navigation/layer_2="road"
 3d_physics/layer_3="interaction"
 3d_physics/layer_4="item"
 3d_physics/layer_5="hittable"
+3d_physics/layer_6="vehicle"
+3d_physics/layer_7="road"
+
+[navigation]
+
+3d/default_edge_connection_margin=0.5
 
 [physics]
 
