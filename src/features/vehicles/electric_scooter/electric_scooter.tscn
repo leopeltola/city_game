@@ -23,6 +23,8 @@ size = Vector3(1.0396118, 0.7332001, 0.62298584)
 size = Vector3(0.35107422, 0.95562744, 0.97998047)
 
 [node name="ElectricScooter" type="RigidBody3D" unique_id=39877560]
+collision_layer = 32
+collision_mask = 65
 physics_material_override = SubResource("PhysicsMaterial_aco40")
 script = ExtResource("1_8e34p")
 engine_force = 20.0

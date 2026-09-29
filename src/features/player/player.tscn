@@ -92,7 +92,7 @@ visible = true
 [node name="CollisionShape3D9" parent="." index="10" unique_id=1216377150]
 visible = true
 
-[node name="Skeleton3D" parent="Visual/guy/Armature" parent_id_path=PackedInt32Array(119801285, 1452480796) index="0" unique_id=1500338824]
+[node name="Skeleton3D" parent="Visual/guy/Armature" parent_id_path=PackedInt32Array(119801285, 911951721) index="0" unique_id=1753203889]
 bones/9/position = Vector3(-0.15388101, 0.2075868, -0.05807007)
 bones/9/rotation = Quaternion(0.09100439, 0.36922756, -0.108184904, 0.91852343)
 bones/10/position = Vector3(-0.05880459, 0.16228352, 0.08914064)

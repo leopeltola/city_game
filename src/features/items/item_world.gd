@@ -26,7 +26,14 @@ func _ready() -> void:
 
 	interaction_area.prompt = "Pick up %s" % type.display_name
 	interaction_area.interacted.connect(_on_interacted)
-
+	
+	# Toggle collision layers
+	set_collision_layer_value(3, true) # mark as interaction
+	set_collision_layer_value(4, true) # mark as item
+	set_collision_mask_value(1, true) # col with environment
+	set_collision_mask_value(4, true) # col with items
+	set_collision_mask_value(7, true) # col with road
+	
 	if debug_label:
 		debug_label.text = "ID %s" % item_id
 
