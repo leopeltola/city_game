@@ -34,6 +34,12 @@ const BATON_SCENE := preload("res://src/features/items/data/police_baton/police_
 ## How close to the post counts as arrived.
 @export var return_arrive_distance := 1.5
 
+@export_group("Navigation")
+## How far the pursuit goal must drift before a new path is requested.
+@export var nav_repath_distance := 0.75
+## Minimum seconds between path requests once the current path has ended.
+@export var nav_repath_interval := 0.25
+
 @export_group("Patrol")
 ## Optional path the officer loops around while idle. Leave empty to just stand at
 ## its spawn position. The path is read in world space, so it can be a level
@@ -61,6 +67,10 @@ var _key_renew_timer := 0.0
 ## Cached patrol data, rebuilt lazily when the assigned route changes.
 var _patrol_curve: Curve3D = null
 var _patrol_length := 0.0
+## Goal currently assigned to the navigation agent.
+var _nav_target := Vector3.INF
+## Time left before a finished path may be re-targeted.
+var _nav_repath_timer := 0.0
 
 @onready var _nav_agent: NavigationAgent3D = %NavigationAgent3D
 @onready var _belt_key: Node3D = %BeltJailkey
@@ -335,7 +345,14 @@ func _try_attack() -> void:
 func _navigate_to(position: Vector3) -> void:
 	var direction := Vector3.ZERO
 	if _nav_agent != null:
-		_nav_agent.target_position = position
+		_nav_repath_timer = maxf(_nav_repath_timer - get_physics_process_delta_time(), 0.0)
+		var drift := _nav_target - position
+		drift.y = 0.0
+		if drift.length_squared() > nav_repath_distance * nav_repath_distance \
+				or (_nav_agent.is_navigation_finished() and _nav_repath_timer <= 0.0):
+			_nav_target = position
+			_nav_repath_timer = nav_repath_interval
+			_nav_agent.target_position = position
 		direction = _nav_agent.get_next_path_position() - global_position
 		direction.y = 0.0
 	if direction.length_squared() < 0.001:
