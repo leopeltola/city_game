@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bwutnfqbytmqn" path="res://src/features/items/item_multiplayer_spawner.gd" id="4_anh6s"]
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="6_j2hit"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="7_64k4k"]
+[ext_resource type="PackedScene" path="res://src/features/npc/guard/guard_spawner.tscn" id="11_rur3b"]
 [ext_resource type="Resource" uid="uid://8nbmgp43nxsk" path="res://src/features/items/data/briefcase/briefcase.tres" id="12_tugk2"]
 [ext_resource type="PackedScene" uid="uid://c18owk4geliw8" path="res://src/features/hud/hud.tscn" id="17_rur3b"]
 [ext_resource type="PackedScene" uid="uid://c2fqwx5kostkd" path="res://src/features/city/city.tscn" id="18_xdh1b"]
@@ -45,6 +46,16 @@ volumetric_fog_albedo = Color(0.81, 0.9113333, 1, 1)
 volumetric_fog_emission = Color(0.5255756, 0.71479553, 0.8275363, 1)
 volumetric_fog_ambient_inject = 1.55
 volumetric_fog_sky_affect = 0.76
+
+[sub_resource type="Curve3D" id="Curve3D_abikt"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 1.4490576, 2.3841858e-07, -1.5330048, 0, 0, 0, 0, 0, 0, -1.7143064, 2.3841858e-07, -1.3573074, 0, 0, 0, 0, 0, 0, -1.9180007, 2.3841858e-07, 3.567276, 0, 0, 0, 0, 0, 0, -8.155888, 0, 7.207123, 0, 0, 0, 0, 0, 0, -6.7978663, 0, 12.613998, 0, 0, 0, 0, 0, 0, 7.568395, 0, 14.533485, 0, 0, 0, 0, 0, 0, 7.520253, 2.3841858e-07, 4.129074, 0, 0, 0, 0, 0, 0, 7.8189225, 1.5000007, -7.2335663, 0, 0, 0, 0, 0, 0, -5.017018, 1.500001, -6.2963715, 0, 0, 0, 0, 0, 0, -2.8964067, 4.7683716e-07, 2.8011703, 0, 0, 0, 0, 0, 0, 0.41643, 0, 3.300087),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 11
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q1gf2"]
+size = Vector3(22.285782, 6.293091, 28.136688)
 
 [sub_resource type="Curve3D" id="Curve3D_hcu5p"]
 _data = {
@@ -409,140 +420,22 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -32.
 
 [node name="NpcSpawners" type="Node3D" parent="." unique_id=1744978829]
 
-[node name="NpcSpawner" parent="NpcSpawners" unique_id=179832769 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.015228, 0, 14.4000225)
+[node name="GuardCasinoPatrolRoute" type="Path3D" parent="NpcSpawners" unique_id=961449299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.152139, 0.10099983, 69.62894)
+top_level = true
+curve = SubResource("Curve3D_abikt")
 
-[node name="NpcSpawner2" parent="NpcSpawners" unique_id=308038086 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.992152, 0, 1.3968039)
+[node name="CasinoArea" type="Area3D" parent="NpcSpawners" unique_id=1017109086]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.152139, 0.10099983, 69.62894)
 
-[node name="NpcSpawner3" parent="NpcSpawners" unique_id=2128046748 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.461277, 0, 4.224866)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NpcSpawners/CasinoArea" unique_id=1905773112]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22737885, 2.6465454, 3.1873932)
+shape = SubResource("BoxShape3D_q1gf2")
 
-[node name="CitizenSpawner" parent="NpcSpawners" unique_id=1701429696 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.461277, 0, 4.224866)
-
-[node name="CitizenSpawner2" parent="NpcSpawners" unique_id=2125145200 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.848459, 0, -26.895164)
-
-[node name="CitizenSpawner3" parent="NpcSpawners" unique_id=158929991 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.123764, 0, -29.055265)
-
-[node name="CitizenSpawner4" parent="NpcSpawners" unique_id=1628628338 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.51725, 0, -27.491348)
-
-[node name="CitizenSpawner5" parent="NpcSpawners" unique_id=1231832748 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1514.7279, -2400.453, 176.49176)
-
-[node name="CitizenSpawner6" parent="NpcSpawners" unique_id=477905544 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1444.6272, -2400.453, 341.25394)
-
-[node name="CitizenSpawner7" parent="NpcSpawners" unique_id=1465308564 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1926.3391, -2400.453, -40.854584)
-
-[node name="CitizenSpawner8" parent="NpcSpawners" unique_id=1613947099 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -778.0637, -2400.453, 1120.7015)
-
-[node name="CitizenSpawner9" parent="NpcSpawners" unique_id=794866033 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -396.50253, -2400.453, 1141.6571)
-
-[node name="CitizenSpawner10" parent="NpcSpawners" unique_id=224342941 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -787.56244, -2400.453, 256.18213)
-
-[node name="CitizenSpawner11" parent="NpcSpawners" unique_id=2046757481 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64.69154, 0.2, -56.006737)
-
-[node name="CitizenSpawner12" parent="NpcSpawners" unique_id=804529378 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.70211, 0.2, -71.01145)
-
-[node name="CitizenSpawner13" parent="NpcSpawners" unique_id=798821533 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.66101456, 0.2, -113.62546)
-
-[node name="CitizenSpawner14" parent="NpcSpawners" unique_id=521159537 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.864067, 0.2, -84.954285)
-
-[node name="CitizenSpawner15" parent="NpcSpawners" unique_id=97217767 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.603188, 0.2, -86.60236)
-
-[node name="CitizenSpawner16" parent="NpcSpawners" unique_id=1624865555 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3839188, 0.2, -50.792866)
-
-[node name="CitizenSpawner17" parent="NpcSpawners" unique_id=1726454501 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 69.80707, 0.2, -53.71461)
-
-[node name="CitizenSpawner18" parent="NpcSpawners" unique_id=811206973 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.41835, 0.2, -56.50648)
-
-[node name="CitizenSpawner19" parent="NpcSpawners" unique_id=1775636346 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.11373, 0.2, -22.893219)
-
-[node name="CitizenSpawner20" parent="NpcSpawners" unique_id=1366941462 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.148563, 0.2, 19.2909)
-
-[node name="CitizenSpawner27" parent="NpcSpawners" unique_id=575435502 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.78626, 0.19999237, -5.9802685)
-
-[node name="CitizenSpawner28" parent="NpcSpawners" unique_id=87041651 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.556072, 0.19999237, -7.359666)
-
-[node name="CitizenSpawner29" parent="NpcSpawners" unique_id=418040064 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.130566, 0.19999237, 2.6950521)
-
-[node name="CitizenSpawner30" parent="NpcSpawners" unique_id=1813217379 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.27212, 0.19999237, -30.544624)
-
-[node name="CitizenSpawner31" parent="NpcSpawners" unique_id=1449767214 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.491432, 0.19999237, -45.739967)
-
-[node name="CitizenSpawner32" parent="NpcSpawners" unique_id=1049798950 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.195625, 0.19999237, -43.964485)
-
-[node name="CitizenSpawner33" parent="NpcSpawners" unique_id=2136343962 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.98616, 0.19999237, -59.71582)
-
-[node name="CitizenSpawner34" parent="NpcSpawners" unique_id=437872913 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.559746, 0.19999237, 18.19285)
-
-[node name="CitizenSpawner35" parent="NpcSpawners" unique_id=1761492 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.751854, 0.19999237, 40.57728)
-
-[node name="CitizenSpawner36" parent="NpcSpawners" unique_id=2083861169 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.44017, 0.19999237, 37.21939)
-
-[node name="CitizenSpawner37" parent="NpcSpawners" unique_id=152526308 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.34261, 0.19999237, 53.15556)
-
-[node name="CitizenSpawner38" parent="NpcSpawners" unique_id=623108607 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.00655, 0.19999237, 57.808712)
-
-[node name="CitizenSpawner39" parent="NpcSpawners" unique_id=424867442 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.556572, 0.19999237, 98.30112)
-
-[node name="CitizenSpawner40" parent="NpcSpawners" unique_id=1239619612 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8395476, 0.19999047, -42.24272)
-
-[node name="CitizenSpawner41" parent="NpcSpawners" unique_id=405989406 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.935926, 0.19998856, -39.700356)
-
-[node name="CitizenSpawner42" parent="NpcSpawners" unique_id=1096775854 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.095465, 0.19998856, -92.07476)
-
-[node name="CitizenSpawner21" parent="NpcSpawners" unique_id=56974562 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.326147, 0.2, 42.846436)
-
-[node name="CitizenSpawner22" parent="NpcSpawners" unique_id=2035243703 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.09176, 0.2, 2.7534533)
-
-[node name="CitizenSpawner23" parent="NpcSpawners" unique_id=366683919 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.533688, 0.2, -11.743377)
-
-[node name="CitizenSpawner24" parent="NpcSpawners" unique_id=1893030129 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67.67948, 0.2, -42.47038)
-
-[node name="CitizenSpawner25" parent="NpcSpawners" unique_id=942494073 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.100563, 0.2, -48.656204)
-
-[node name="CitizenSpawner26" parent="NpcSpawners" unique_id=484578434 instance=ExtResource("1_npcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.793, 0.2, 15.484)
+[node name="GuardSpawner" parent="NpcSpawners" unique_id=2100777832 node_paths=PackedStringArray("patrol_route", "guard_area") instance=ExtResource("11_rur3b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.152139, 0.10099983, 69.62894)
+patrol_route = NodePath("../GuardCasinoPatrolRoute")
+guard_area = NodePath("../CasinoArea")
 
 [node name="PoliceStationPatrolRoute" type="Path3D" parent="NpcSpawners" unique_id=886721680]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.542498, 0, 27.077015)
@@ -565,6 +458,143 @@ spawn_radius = 2.0
 [node name="PoliceSpawner3" parent="NpcSpawners" unique_id=1153110020 instance=ExtResource("1_polsp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.491325, 0, 2.2566895)
 spawn_radius = 2.0
+
+[node name="CitizenSpawners" type="Node3D" parent="NpcSpawners" unique_id=1307401452]
+
+[node name="NpcSpawner" parent="NpcSpawners/CitizenSpawners" unique_id=179832769 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.015228, 0, 14.4000225)
+
+[node name="NpcSpawner2" parent="NpcSpawners/CitizenSpawners" unique_id=308038086 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.992152, 0, 1.3968039)
+
+[node name="NpcSpawner3" parent="NpcSpawners/CitizenSpawners" unique_id=2128046748 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.461277, 0, 4.224866)
+
+[node name="CitizenSpawner" parent="NpcSpawners/CitizenSpawners" unique_id=1701429696 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.461277, 0, 4.224866)
+
+[node name="CitizenSpawner2" parent="NpcSpawners/CitizenSpawners" unique_id=2125145200 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.848459, 0, -26.895164)
+
+[node name="CitizenSpawner3" parent="NpcSpawners/CitizenSpawners" unique_id=158929991 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.123764, 0, -29.055265)
+
+[node name="CitizenSpawner4" parent="NpcSpawners/CitizenSpawners" unique_id=1628628338 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.51725, 0, -27.491348)
+
+[node name="CitizenSpawner5" parent="NpcSpawners/CitizenSpawners" unique_id=1231832748 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1514.7279, -2400.453, 176.49176)
+
+[node name="CitizenSpawner6" parent="NpcSpawners/CitizenSpawners" unique_id=477905544 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1444.6272, -2400.453, 341.25394)
+
+[node name="CitizenSpawner7" parent="NpcSpawners/CitizenSpawners" unique_id=1465308564 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1926.3391, -2400.453, -40.854584)
+
+[node name="CitizenSpawner8" parent="NpcSpawners/CitizenSpawners" unique_id=1613947099 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -778.0637, -2400.453, 1120.7015)
+
+[node name="CitizenSpawner9" parent="NpcSpawners/CitizenSpawners" unique_id=794866033 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -396.50253, -2400.453, 1141.6571)
+
+[node name="CitizenSpawner10" parent="NpcSpawners/CitizenSpawners" unique_id=224342941 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -787.56244, -2400.453, 256.18213)
+
+[node name="CitizenSpawner11" parent="NpcSpawners/CitizenSpawners" unique_id=2046757481 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64.69154, 0.2, -56.006737)
+
+[node name="CitizenSpawner12" parent="NpcSpawners/CitizenSpawners" unique_id=804529378 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.70211, 0.2, -71.01145)
+
+[node name="CitizenSpawner13" parent="NpcSpawners/CitizenSpawners" unique_id=798821533 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.66101456, 0.2, -113.62546)
+
+[node name="CitizenSpawner14" parent="NpcSpawners/CitizenSpawners" unique_id=521159537 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.864067, 0.2, -84.954285)
+
+[node name="CitizenSpawner15" parent="NpcSpawners/CitizenSpawners" unique_id=97217767 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.603188, 0.2, -86.60236)
+
+[node name="CitizenSpawner16" parent="NpcSpawners/CitizenSpawners" unique_id=1624865555 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3839188, 0.2, -50.792866)
+
+[node name="CitizenSpawner17" parent="NpcSpawners/CitizenSpawners" unique_id=1726454501 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 69.80707, 0.2, -53.71461)
+
+[node name="CitizenSpawner18" parent="NpcSpawners/CitizenSpawners" unique_id=811206973 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.41835, 0.2, -56.50648)
+
+[node name="CitizenSpawner19" parent="NpcSpawners/CitizenSpawners" unique_id=1775636346 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.11373, 0.2, -22.893219)
+
+[node name="CitizenSpawner20" parent="NpcSpawners/CitizenSpawners" unique_id=1366941462 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.148563, 0.2, 19.2909)
+
+[node name="CitizenSpawner27" parent="NpcSpawners/CitizenSpawners" unique_id=575435502 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.78626, 0.19999237, -5.9802685)
+
+[node name="CitizenSpawner28" parent="NpcSpawners/CitizenSpawners" unique_id=87041651 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.556072, 0.19999237, -7.359666)
+
+[node name="CitizenSpawner29" parent="NpcSpawners/CitizenSpawners" unique_id=418040064 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.130566, 0.19999237, 2.6950521)
+
+[node name="CitizenSpawner30" parent="NpcSpawners/CitizenSpawners" unique_id=1813217379 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.27212, 0.19999237, -30.544624)
+
+[node name="CitizenSpawner31" parent="NpcSpawners/CitizenSpawners" unique_id=1449767214 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.491432, 0.19999237, -45.739967)
+
+[node name="CitizenSpawner32" parent="NpcSpawners/CitizenSpawners" unique_id=1049798950 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.195625, 0.19999237, -43.964485)
+
+[node name="CitizenSpawner33" parent="NpcSpawners/CitizenSpawners" unique_id=2136343962 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.98616, 0.19999237, -59.71582)
+
+[node name="CitizenSpawner34" parent="NpcSpawners/CitizenSpawners" unique_id=437872913 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.559746, 0.19999237, 18.19285)
+
+[node name="CitizenSpawner35" parent="NpcSpawners/CitizenSpawners" unique_id=1761492 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.751854, 0.19999237, 40.57728)
+
+[node name="CitizenSpawner36" parent="NpcSpawners/CitizenSpawners" unique_id=2083861169 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.44017, 0.19999237, 37.21939)
+
+[node name="CitizenSpawner37" parent="NpcSpawners/CitizenSpawners" unique_id=152526308 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.34261, 0.19999237, 53.15556)
+
+[node name="CitizenSpawner38" parent="NpcSpawners/CitizenSpawners" unique_id=623108607 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.00655, 0.19999237, 57.808712)
+
+[node name="CitizenSpawner39" parent="NpcSpawners/CitizenSpawners" unique_id=424867442 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.556572, 0.19999237, 98.30112)
+
+[node name="CitizenSpawner40" parent="NpcSpawners/CitizenSpawners" unique_id=1239619612 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8395476, 0.19999047, -42.24272)
+
+[node name="CitizenSpawner41" parent="NpcSpawners/CitizenSpawners" unique_id=405989406 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.935926, 0.19998856, -39.700356)
+
+[node name="CitizenSpawner42" parent="NpcSpawners/CitizenSpawners" unique_id=1096775854 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.095465, 0.19998856, -92.07476)
+
+[node name="CitizenSpawner21" parent="NpcSpawners/CitizenSpawners" unique_id=56974562 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.326147, 0.2, 42.846436)
+
+[node name="CitizenSpawner22" parent="NpcSpawners/CitizenSpawners" unique_id=2035243703 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.09176, 0.2, 2.7534533)
+
+[node name="CitizenSpawner23" parent="NpcSpawners/CitizenSpawners" unique_id=366683919 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.533688, 0.2, -11.743377)
+
+[node name="CitizenSpawner24" parent="NpcSpawners/CitizenSpawners" unique_id=1893030129 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67.67948, 0.2, -42.47038)
+
+[node name="CitizenSpawner25" parent="NpcSpawners/CitizenSpawners" unique_id=942494073 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.100563, 0.2, -48.656204)
+
+[node name="CitizenSpawner26" parent="NpcSpawners/CitizenSpawners" unique_id=484578434 instance=ExtResource("1_npcsp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.793, 0.2, 15.484)
 
 [node name="ItemMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1943494257]
 spawn_path = NodePath("../WorldItemContainer")

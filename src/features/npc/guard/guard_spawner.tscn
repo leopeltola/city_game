@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://src/features/npc/npc_spawner.tscn" id="1_base"]
+[ext_resource type="Script" path="res://src/features/npc/guard/guard_spawner.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://src/features/npc/guard/guard.tscn" id="3_guard"]
+
+[node name="GuardSpawner" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+npc_scene = ExtResource("3_guard")

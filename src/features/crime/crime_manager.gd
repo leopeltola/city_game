@@ -12,6 +12,10 @@ signal bounty_changed(player_id: int, new_bounty: int)
 ## Emitted when a player is put under arrest (cuffed and escorted).
 signal player_arrested(player_id: int)
 
+## Emitted on the server whenever a crime is recorded, naming the offending player.
+## Witnessing NPCs (guards) listen for it and react if the crime is in their area.
+signal crime_committed(player_id: int, label: String)
+
 ## How long the escort may take before the server force-detains the suspect.
 const ARREST_ESCORT_TIMEOUT_MS := 50000
 
@@ -73,6 +77,13 @@ func add_guilt(player_id: int, label: String, lasts_s: int, amount: int) -> void
 		_rpc_add_guilt(player_id, label, lasts_s, amount)
 	elif Net.is_client:
 		_rpc_add_guilt.rpc_id(1, player_id, label, lasts_s, amount)
+
+
+## Emits [signal crime_committed] on the server so witnessing NPCs (guards) can react.
+## Safe to call on any peer: non-servers are ignored.
+func notify_crime(player_id: int, label: String) -> void:
+	if Net.is_server:
+		crime_committed.emit(player_id, label)
 
 
 ## Converts a player's active guilt into bounty and clears their guilt.
@@ -371,6 +382,7 @@ func _rpc_add_guilt(player_id: int, label: String, lasts_s: int, amount: int) ->
 		_guilt_data[player_id] = []
 	_guilt_data[player_id].append(entry)
 	_sync_guilt_to_player(player_id)
+	notify_crime(player_id, label)
 
 
 @rpc("any_peer", "call_remote", "reliable")

@@ -103,6 +103,7 @@ func _on_hit_received(damage: float, attacker_id: int = 0) -> void:
 		return
 	_face(attacker.global_position - global_position)
 	CrimeManager.add_bounty(attacker_id, maxi(25, roundi(damage * 4.0)))
+	CrimeManager.notify_crime(attacker_id, "Assaulted an officer")
 
 
 func _try_drop_key() -> void:

@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://ci0mie2vks2pf"]
+
+[ext_resource type="PackedScene" uid="uid://cyyl8frr1oc0s" path="res://src/features/humanoid/humanoid.tscn" id="1_human"]
+[ext_resource type="Script" uid="uid://c05vpd8lffonm" path="res://src/features/npc/guard/guard.gd" id="2_guard"]
+[ext_resource type="Script" uid="uid://dqq1qmojxsaot" path="res://src/features/humanoid/equip_host.gd" id="3_equip"]
+[ext_resource type="Script" uid="uid://b0m6wthlkb05q" path="res://src/features/npc/npc_loadout.gd" id="4_loadout"]
+[ext_resource type="Resource" uid="uid://n8wvviv2c3uo" path="res://src/features/items/data/guard_body/guard_body.tres" id="5_body"]
+[ext_resource type="Resource" uid="uid://dyy84nocthlrb" path="res://src/features/items/data/guard_hat/guard_hat.tres" id="6_hat"]
+
+[node name="Guard" unique_id=1073360910 node_paths=PackedStringArray("equipment") instance=ExtResource("1_human")]
+script = ExtResource("2_guard")
+vision_range = 20.0
+vision_angle_deg = 80.0
+lose_sight_grace = 3.0
+attack_range = 1.0
+attack_cooldown = 0.9
+chase_speed_multiplier = 1.0
+return_arrive_distance = 1.5
+patrol_lookahead = 2.0
+cash = 100
+nav_repath_distance = 0.75
+nav_repath_interval = 0.25
+equipment = NodePath("EquipHost")
+
+[node name="Physical Bone Hand_L" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="2" unique_id=756653337]
+transform = Transform3D(-0.29144964, -0.8265349, -0.48155707, -0.94741654, 0.31894815, 0.025962545, 0.13213278, 0.46380195, -0.8760301, 0.4751182, 0.73395824, 0.19577938)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.264736e-06, 4.604459e-06, 0.09804309)
+body_offset = Transform3D(-0.95924723, 0.24181013, 0.14619558, 1.1771917e-06, 0.5173835, -0.85575384, -0.282569, -0.82087904, -0.49629885, -0.014333367, 0.083898365, 0.04866281)
+
+[node name="Physical Bone Midfinger_L" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="4" unique_id=624866655]
+transform = Transform3D(0.008297521, 0.9999636, -0.0020098703, 0.99993247, -0.0083136065, -0.008131675, -0.008148088, -0.0019422615, -0.99996495, 0.42584026, 0.73407084, 0.34507215)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00010631652, -1.4533657e-05, 0.044612575)
+body_offset = Transform3D(1.0000002, -2.4233705e-06, -8.423813e-06, -8.446164e-06, -3.5488047e-06, -1.0000002, 2.3791235e-06, 1.0000001, -3.5557896e-06, 0.000106692314, 0.044612586, 1.4692545e-05)
+
+[node name="Physical Bone Thumb_L" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="5" unique_id=715386643]
+transform = Transform3D(-0.066414505, 0.778326, 0.624338, 0.98963606, -0.028458139, 0.14075053, 0.12731728, 0.62721527, -0.7683693, 0.30326495, 0.71099955, 0.24237505)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9991196e-08, -2.548033e-07, 0.045477565)
+body_offset = Transform3D(1.0000005, -5.9604645e-08, -4.3958426e-07, -4.6938658e-07, 5.632639e-06, -1.0000001, 2.2351742e-08, 1.0000002, 5.6028366e-06, 0, 0.04547757, 0)
+
+[node name="Physical Bone Hand_R" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="6" unique_id=300513579]
+transform = Transform3D(-0.2914427, 0.82653797, 0.4815559, 0.9474187, 0.3189422, 0.02595827, -0.132133, 0.4638004, -0.8760308, -0.47511166, 0.7339575, 0.195778)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8859587e-07, 2.6077032e-07, 0.09803903)
+body_offset = Transform3D(-0.95924973, -0.24180281, -0.14619057, -7.301569e-07, 0.51738065, -0.85575545, 0.28256017, -0.8208829, -0.49629733, 0.01433301, 0.08389729, 0.048656553)
+
+[node name="Physical Bone Thumb_R" parent="Visual/guy/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1735936736) index="9" unique_id=1553699268]
+transform = Transform3D(-0.06641365, -0.7783294, -0.62433374, -0.98963594, -0.028458914, 0.14075123, -0.12731868, 0.6272108, -0.7683727, -0.30326447, 0.71099734, 0.242375)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4298029e-06, -1.3553585e-08, 0.0454779)
+body_offset = Transform3D(1.0000002, 1.3411045e-07, -1.3262033e-06, -1.3634562e-06, 3.2782555e-07, -1.0000002, -8.195639e-08, 1.0000002, 2.9802322e-07, 1.4901161e-06, 0.04547791, 0)
+
+[node name="ActorLocomotion" parent="." index="16" unique_id=274812644]
+walk_speed = 2.0
+sprint_speed = 4.5
+
+[node name="EquipHost" type="Node" parent="." index="20" unique_id=806751750 node_paths=PackedStringArray("player", "_equip_root", "_right_equip_slot", "_left_equip_slot")]
+script = ExtResource("3_equip")
+player = NodePath("..")
+_equip_root = NodePath("../EquipRoot")
+_right_equip_slot = NodePath("../RightItemSlot")
+_left_equip_slot = NodePath("../LeftItemSlot")
+
+[node name="NpcLoadout" type="Node" parent="." index="23" unique_id=1691654732]
+script = ExtResource("4_loadout")
+torso = ExtResource("5_body")
+hat = ExtResource("6_hat")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="24" unique_id=662493891]
+unique_name_in_owner = true
+path_desired_distance = 0.5
+navigation_layers = 3
+
+[editable path="Visual/guy"]
