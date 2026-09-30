@@ -16,16 +16,34 @@ extends Humanoid
 ## Minimum seconds between path requests once the current path has ended.
 @export var nav_repath_interval := 0.25
 
+@export_group("Network")
+## Seconds between transform syncs. Lower values are smoother but cost more bandwidth.
+@export var network_sync_interval := 0.1
+## Peers whose player body is further than this stop receiving the NPC at all. The
+## server despawns it on that peer, so it costs neither bandwidth nor client CPU.
+@export var interest_radius := 60.0
+## Extra range a peer keeps once it has the NPC, so NPCs do not pop in and out when
+## a player walks along the edge of [member interest_radius].
+@export var interest_hysteresis := 15.0
+
 @onready var _nav_agent: NavigationAgent3D = %NavigationAgent3D
+@onready var network_synchronizer: MultiplayerSynchronizer = %MultiplayerSynchronizer
 ## Goal currently assigned to the navigation agent.
 var _nav_target := Vector3.INF
 ## Time left before a finished path may be re-targeted.
 var _nav_repath_timer := 0.0
+## Peer id -> whether that peer currently has this NPC, used to apply the hysteresis.
+var _interest_peers: Dictionary[int, bool] = { }
 
 func _ready() -> void:
 	is_local = Net.is_server
 	super()
 	_mount_default_equipment()
+
+	if Net.is_server:
+		network_synchronizer.replication_interval = network_sync_interval
+		network_synchronizer.add_visibility_filter(_is_peer_in_interest_range)
+		Net.peer_disconnected.connect(_on_peer_disconnected)
 
 
 ## Virtual: mounts this NPC's fixed gear. Base NPCs get bare fists; subclasses can
@@ -33,6 +51,31 @@ func _ready() -> void:
 func _mount_default_equipment() -> void:
 	if equipment:
 		equipment.mount_unarmed()
+
+
+## Visibility filter deciding whether [param peer_id] keeps this NPC. When it returns
+## false the NPC is despawned on that peer (it was spawned through a MultiplayerSpawner)
+## and both sync and broadcast RPC traffic for it are skipped. Peer 0 is the "every
+## peer" sentinel and must stay false, otherwise the NPC becomes public to everyone.
+func _is_peer_in_interest_range(peer_id: int) -> bool:
+	if not Net.is_server or peer_id == 0:
+		return false
+
+	var player_position: Variant = PlayerManager.get_peer_position_or_null(peer_id)
+	if player_position == null:
+		return true # Peer has no spawned player body yet: don't hide the world from it.
+	var target: Vector3 = player_position
+
+	var was_visible: bool = _interest_peers.get(peer_id, false)
+	var radius := interest_radius + (interest_hysteresis if was_visible else 0.0)
+	var in_range: bool = global_position.distance_squared_to(target) <= radius * radius
+	_interest_peers[peer_id] = in_range
+	return in_range
+
+
+## Drops cached interest state for a peer that left.
+func _on_peer_disconnected(peer_id: int) -> void:
+	_interest_peers.erase(peer_id)
 
 
 ## Virtual hook from Humanoid: runs on every peer, but only the server acts.

@@ -406,6 +406,8 @@ unique_name_in_owner = true
 script = ExtResource("7_props")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=215648110]
+unique_name_in_owner = true
+replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_human")
 
 [node name="HittableArea" type="Area3D" parent="." unique_id=1207957130]

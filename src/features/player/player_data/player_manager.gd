@@ -129,6 +129,16 @@ func get_player_node_by_id(player_id: int) -> Player:
 	return null
 
 
+## World position of the player body controlled by [param peer_id], or null when that
+## peer has no spawned player node yet (used for NPC interest management).
+func get_peer_position_or_null(peer_id: int) -> Variant:
+	var pd := get_player_by_peer_id(peer_id)
+	if pd == null:
+		return null
+	var node := get_player_node_by_id(pd.player_id)
+	return node.global_position if node != null else null
+
+
 func get_local_player_node_or_null() -> Player:
 	var lp = get_local_player_or_null()
 	if lp:

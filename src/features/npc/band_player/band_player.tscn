@@ -449,6 +449,8 @@ script = ExtResource("8_x73yj")
 script = ExtResource("9_0s022")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=115136500]
+unique_name_in_owner = true
+replication_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_yvlqw")
 
 [node name="HittableArea" type="Area3D" parent="." unique_id=592279798]
