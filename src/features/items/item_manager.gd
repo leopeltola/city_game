@@ -163,18 +163,27 @@ func _rpc_apply_destroy_item(item_id: int) -> void:
 	item_destroyed.emit(item_id)
 
 
-## Returns the live replicated data dictionary for the given item.
-## READ-ONLY: do not mutate, or you will desync peers. Use get_item_data() for safe reads.
-## Returns an empty dictionary if the item was not found.
-func get_item_data_dict_raw(item_id: int) -> Dictionary:
-	return _items.get(item_id, { })
+## Returns true if [param item_id] is a live item.
+func has_item(item_id: int) -> bool:
+	return _items.has(item_id)
 
 
 ## Returns item's instance data value for [param key].
 ## [br][br]
 ## Returns [param default] if the item or key is missing.
 func get_item_data(item_id: int, key: StringName, default: Variant = null) -> Variant:
-	return get_item_data_dict_raw(item_id).get(key, default)
+	return _items.get(item_id, { }).get(key, default)
+
+
+## Returns the monetary value (€) of [param item_id]: cash stacks are worth their
+## instance `money`, everything else its type's [member ItemType.base_value].
+func get_item_value(item_id: int) -> int:
+	var type_name: Variant = get_item_data(item_id, "type")
+	if type_name == null:
+		return 0
+	if StringName(type_name) == &"cash":
+		return int(get_item_data(item_id, "money", 0))
+	return get_item_type(type_name).base_value
 
 
 ## Requests an update to an item's data.

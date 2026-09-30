@@ -31,6 +31,9 @@ const STOLEN_CARD_PURCHASE_LIMIT := 1000
 ## History entries kept per player; oldest are dropped past this.
 const MAX_HISTORY := 100
 
+## Seconds to wait between spawned bills when a payout is split into multiple stacks.
+const BILL_SPAWN_DELAY := 0.4
+
 ## player_id -> balance (€). Server-authoritative, broadcast on change.
 var _balance: Dictionary[int, int] = { }
 
@@ -246,6 +249,31 @@ func cancel_card(player_id: int) -> void:
 		"Your debit card was cancelled. Keep the money."
 	)
 	card_changed.emit(player_id)
+
+
+## Server-side: spawns [param amount] (€) as cash world items at [param position],
+## splitting into stacks no larger than [constant PlayerInventory.CASH_STACK_LIMIT] and
+## staggering the spawns by [constant BILL_SPAWN_DELAY]. [param owner_player_id] marks the
+## bills as owned (stealing them counts as theft). [param on_bill] is called with the
+## remaining amount after each bill, for caller-side presentation.
+func spawn_cash_stacks(
+	amount: int,
+	position: Vector3,
+	rotation: Vector3 = Vector3.ZERO,
+	owner_player_id: int = 0,
+	on_bill: Callable = Callable(),
+) -> void:
+	assert(Net.is_server, "spawn_cash_stacks is server-only")
+	var remaining := amount
+	while remaining > 0:
+		var bill: int = mini(PlayerInventory.CASH_STACK_LIMIT, remaining)
+		var item_id: int = ItemManager.create_item_of_type(&"cash", { &"money": bill })
+		ItemManager.create_world_item_for(item_id, position, rotation, Vector3.ZERO, owner_player_id)
+		remaining -= bill
+		if on_bill.is_valid():
+			on_bill.call(remaining)
+		if remaining > 0:
+			await get_tree().create_timer(BILL_SPAWN_DELAY).timeout
 
 #endregion
 

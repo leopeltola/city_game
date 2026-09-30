@@ -32,11 +32,8 @@ func spawn_cash(amount: int) -> void:
 @rpc("any_peer", "reliable", "call_remote")
 func _rpc_spawn_cash(amount: int) -> void:
 	assert(Net.is_server)
-	var remaining: int = amount
-	while remaining > 0:
-		var bill: int = mini(1000, remaining)
-		var id: int = ItemManager.create_item_of_type("cash", { "money": bill })
-		ItemManager.create_world_item_for(id, %CashSpawnPos.global_position, %CashSpawnPos.global_rotation, Vector3.ZERO)
-		remaining -= bill
-		if remaining > 0:
-			await get_tree().create_timer(0.1).timeout
+	await MoneyManager.spawn_cash_stacks(
+		amount,
+		%CashSpawnPos.global_position,
+		%CashSpawnPos.global_rotation,
+	)

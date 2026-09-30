@@ -10,6 +10,9 @@ const PlayerDataScene := preload("res://src/features/player/player_data/player_d
 var _player_data: Dictionary[int, PlayerData] = { }
 ## Player ID: [PlayerData] mapping.
 var _player_nodes: Dictionary[int, Player] = { }
+## Monotonic source of player ids. Never derived from the player count, so ids are not
+## reused when a player leaves mid-session.
+var _next_player_id := 0
 
 
 func _ready() -> void:
@@ -42,13 +45,18 @@ func _on_node_spawned(node: Node) -> void:
 	assert(player)
 	if not player:
 		return
+	_register_player(player)
 
-	# Register the node in the local dictionary
+
+## Registers [param player] once and announces them. Idempotent: both the spawner's
+## `spawned` signal and the server's explicit call funnel through here, so a joining
+## player is only ever registered and announced once.
+func _register_player(player: PlayerData) -> void:
+	if _player_data.has(player.peer_id):
+		return
 	_player_data[player.peer_id] = player
-
 	player_added.emit(player)
 	print("PlayerData spawned on %s\n\t%s" % [multiplayer.get_unique_id(), player])
-
 	push_warning("%s joined" % player.player_name)
 	ToastOverlay.show_info("%s joined" % player.player_name)
 
@@ -131,13 +139,21 @@ func get_local_player_node_or_null() -> Player:
 func register_player_node(player: Player) -> void:
 	assert(player)
 	_player_nodes[player.player_id] = player
+	player.tree_exiting.connect(_unregister_player_node.bind(player), CONNECT_ONE_SHOT)
+
+
+## Drops [param player] from the node lookup when it leaves the tree.
+func _unregister_player_node(player: Player) -> void:
+	if _player_nodes.get(player.player_id) == player:
+		_player_nodes.erase(player.player_id)
 
 
 ## Creates and spawns a player node for the specified peer. Must be called on server.
 func _create_player_for(peer_id: int) -> PlayerData:
 	assert(Net.is_server)
 
-	var player_id = _player_data.size() + 1
+	_next_player_id += 1
+	var player_id = _next_player_id
 	var data = {
 		"player_id": player_id,
 		"peer_id": peer_id,
@@ -147,13 +163,9 @@ func _create_player_for(peer_id: int) -> PlayerData:
 	# spawn() triggers the custom function on the server and notifies clients
 	var pd = %PlayerSpawner.spawn(data) as PlayerData
 
-	# Keep the server dictionary authoritative. _on_node_spawned also registers via
-	# the spawned signal, but registering here guarantees lookups work regardless.
-	_player_data[pd.peer_id] = pd
-	player_added.emit(pd)
-
-	push_warning("%s joined" % pd.player_name)
-	ToastOverlay.show_info("%s joined" % pd.player_name)
+	# Normally registered by _on_node_spawned through the spawner's `spawned` signal;
+	# this is idempotent and only covers the case where that signal did not fire.
+	_register_player(pd)
 
 	return pd
 
@@ -164,6 +176,8 @@ func _reset() -> void:
 		if is_instance_valid(p):
 			p.queue_free()
 	_player_data.clear()
+	_player_nodes.clear()
+	_next_player_id = 0
 
 
 func _remove_player(pd: PlayerData) -> void:

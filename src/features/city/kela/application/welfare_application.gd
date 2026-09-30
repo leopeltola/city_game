@@ -51,8 +51,8 @@ func interact(player_id: int) -> void:
 	_sw.restart()
 
 
-## Spawns cash into the world via the server. Payouts above the bill cap are split into
-## multiple bills, staggered by [BILL_SPAWN_DELAY].
+## Spawns cash into the world via the server, split into bills by
+## [method MoneyManager.spawn_cash_stacks].
 func spawn_cash(amount: int) -> void:
 	if Net.is_client:
 		Audio.play_sfx_3d(cash_spawn_sfx, cash_spawn_pos.global_position, 0, 30)
@@ -64,11 +64,8 @@ func spawn_cash(amount: int) -> void:
 @rpc("any_peer", "reliable", "call_remote")
 func _rpc_spawn_cash(amount: int) -> void:
 	assert(Net.is_server)
-	var remaining: int = amount
-	while remaining > 0:
-		var bill: int = mini(1000, remaining)
-		var id: int = ItemManager.create_item_of_type("cash", { "money": bill })
-		ItemManager.create_world_item_for(id, cash_spawn_pos.global_position, cash_spawn_pos.global_rotation)
-		remaining -= bill
-		if remaining > 0:
-			await get_tree().create_timer(.4).timeout
+	await MoneyManager.spawn_cash_stacks(
+		amount,
+		cash_spawn_pos.global_position,
+		cash_spawn_pos.global_rotation,
+	)

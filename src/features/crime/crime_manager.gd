@@ -326,9 +326,8 @@ func _inventory_value(inventory: PlayerInventory) -> int:
 	if inventory == null:
 		return 0
 	var total := 0
-	for item_id: int in inventory.item_slots:
-		if item_id != -1:
-			total += _item_value(item_id)
+	for item_id in inventory.get_item_ids():
+		total += ItemManager.get_item_value(item_id)
 	return total
 
 
@@ -337,22 +336,9 @@ func _worn_value(prop_system: PropSystem) -> int:
 	if prop_system == null:
 		return 0
 	var total := 0
-	for item_id: int in prop_system.worn_slots:
-		if item_id != -1:
-			total += _item_value(item_id)
+	for item_id in prop_system.get_worn_item_ids():
+		total += ItemManager.get_item_value(item_id)
 	return total
-
-
-## Value of a single item: cash stacks are worth their `money`, everything else its
-## type's base_value.
-func _item_value(item_id: int) -> int:
-	var type_name: Variant = ItemManager.get_item_data(item_id, "type")
-	if type_name == null:
-		return 0
-	if StringName(type_name) == &"cash":
-		return int(ItemManager.get_item_data(item_id, "money", 0))
-	var type: ItemType = ItemManager.get_item_type(type_name)
-	return type.base_value if type != null else 0
 
 
 @rpc("any_peer", "call_remote", "reliable")

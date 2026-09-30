@@ -5,13 +5,6 @@ const ToggleButton = preload("res://src/features/interaction/buttons/toggle_butt
 const SYMBOL_COUNT: int = 7
 const STEP_ANGLE: float = TAU / SYMBOL_COUNT
 
-## Maximum amount a single spawned bill can hold; larger payouts are split into multiple bills.
-const MAX_BILL_AMOUNT: int = PlayerInventory.CASH_STACK_LIMIT
-## Delay between staggered bill spawns when a payout is split.
-const BILL_SPAWN_DELAY: float = 0.4
-## Force applied to bills at spawn
-const BILL_LAUNCH_FORCE: Vector3 = Vector3(0, 0.0, 0.0)
-
 ## Multipliers mapped per symbol index for 2-of-a-kind combinations.
 const COMBO_PAIRS: Dictionary[int, float] = {
 	0: 0.0,
@@ -93,7 +86,7 @@ func _ready() -> void:
 
 
 ## Spawns cash into the world via the server. Payouts above the bill cap are split into
-## multiple bills, staggered by [BILL_SPAWN_DELAY].
+## multiple bills by [method MoneyManager.spawn_cash_stacks].
 func spawn_cash(amount: int) -> void:
 	if Net.is_client:
 		_rpc_spawn_cash.rpc_id(1, amount)
@@ -104,15 +97,13 @@ func spawn_cash(amount: int) -> void:
 @rpc("any_peer", "reliable", "call_remote")
 func _rpc_spawn_cash(amount: int) -> void:
 	assert(Net.is_server)
-	var remaining: int = amount
-	while remaining > 0:
-		var bill: int = mini(MAX_BILL_AMOUNT, remaining)
-		var id: int = ItemManager.create_item_of_type("cash", { "money": bill })
-		ItemManager.create_world_item_for(id, %CashSpawnPos.global_position, %CashSpawnPos.global_rotation, Vector3.ZERO, _round_owner_player_id)
-		remaining -= bill
-		_rpc_on_cash_bill_spawned.rpc(remaining)
-		if remaining > 0:
-			await get_tree().create_timer(BILL_SPAWN_DELAY).timeout
+	await MoneyManager.spawn_cash_stacks(
+		amount,
+		%CashSpawnPos.global_position,
+		%CashSpawnPos.global_rotation,
+		_round_owner_player_id,
+		func(remaining: int) -> void: _rpc_on_cash_bill_spawned.rpc(remaining),
+	)
 
 
 @rpc("authority", "reliable", "call_local")

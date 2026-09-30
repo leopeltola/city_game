@@ -218,10 +218,7 @@ func get_slot_item_id(slot_index: int) -> int:
 ## Authority-only. 
 func try_add_item(item_id: int) -> bool:
 	assert(is_multiplayer_authority(), "try_add_item is authority-only")
-	assert(
-		not ItemManager.get_item_data_dict_raw(item_id).is_empty(),
-		"try_add_item called with unknown item ID %d" % item_id,
-	)
+	assert(ItemManager.has_item(item_id), "try_add_item called with unknown item ID %d" % item_id)
 
 	if ItemManager.get_item_data(item_id, "type") == "cash":
 		return _try_add_cash(item_id)
@@ -268,11 +265,10 @@ func wear_item(item_id: int) -> void:
 
 	if get_active_item_id() != item_id:
 		return
-	var item_data := ItemManager.get_item_data_dict_raw(item_id)
-	if item_data.is_empty():
+	if not ItemManager.has_item(item_id):
 		return
-	var type := ItemManager.get_item_type(item_data["type"])
-	if type == null or type.prop_slot == PropSystem.PropSlot.NONE:
+	var type := ItemManager.get_item_type(ItemManager.get_item_data(item_id, "type"))
+	if type.prop_slot == PropSystem.PropSlot.NONE:
 		return
 	var prop_system := player.prop_system
 	if prop_system == null:
@@ -341,6 +337,15 @@ func _try_add_cash(item_id: int) -> bool:
 ## Returns true if there is at least one free slot.
 func has_free_slot() -> bool:
 	return item_slots.has(-1)
+
+
+## Returns the item id held in every occupied slot (skipping empty ones).
+func get_item_ids() -> Array[int]:
+	var ids: Array[int] = []
+	for item_id in item_slots:
+		if item_id != -1:
+			ids.append(item_id)
+	return ids
 
 
 # Returns the index of the first free slot (active slot first), or -1 if the inventory is full.

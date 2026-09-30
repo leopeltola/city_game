@@ -1,5 +1,5 @@
 class_name Police
-extends Npc
+extends PatrollingNpc
 ## Police officer NPC. Server-simulated like every Npc. It watches for wanted players
 ## (vision cone + line of sight), chases them, beats them down with a baton and, once
 ## the suspect is ragdolled and within reach, arrests them: CrimeManager confiscates
@@ -8,42 +8,11 @@ extends Npc
 ## When idle it can walk a patrol route (see [member patrol_route]); without one it
 ## just stands at its spawn position.
 
-enum State { IDLE, CHASE, ATTACK, ESCORT, RETURN }
-
 const BATON_SCENE := preload("res://src/features/items/data/police_baton/police_baton_equip.tscn")
 
-@export_group("Perception")
-## Maximum distance a suspect can be spotted at.
-@export var vision_range := 20.0
-## Full cone angle (degrees) the officer can see within.
-@export var vision_angle_deg := 80.0
-## How long the officer keeps chasing after losing sight of the suspect.
-@export var lose_sight_grace := 3.0
-
-@export_group("Combat")
-## Distance at which the officer stops and swings the baton.
-@export var attack_range := 1.8
-## Seconds between baton swings.
-@export var attack_cooldown := 1.2
+@export_group("Arrest")
 ## Distance at which a ragdolled suspect can be cuffed.
 @export var arrest_range := 2.0
-
-@export_group("Movement")
-## Speed multiplier while chasing/escorting.
-@export var chase_speed_multiplier := 1.0
-## How close to the post counts as arrived.
-@export var return_arrive_distance := 1.5
-
-@export_group("Patrol")
-## Optional path the officer loops around while idle. Leave empty to just stand at
-## its spawn position. The path is read in world space, so it can be a level
-## [Path3D] or a child of the officer marked [code]top_level[/code].
-@export var patrol_route: Path3D = null
-## How close to a patrol point counts as reached before heading to the next one.
-@export var patrol_arrive_distance := 1.5
-## Seconds without getting closer to a patrol point before skipping it, so a point that
-## sits off the navmesh can't stall the route forever.
-@export var patrol_stuck_timeout := 3.0
 
 @export_group("Jail Key")
 ## Chance the officer drops its belt key each time it is hit.
@@ -51,24 +20,10 @@ const BATON_SCENE := preload("res://src/features/items/data/police_baton/police_
 ## Seconds after losing a key before the officer is issued a new one.
 @export var key_renew_seconds := 60.0
 
-var _state: State = State.IDLE
-var _target: Player = null
-var _attack_timer := 0.0
-var _lost_sight_timer := 0.0
-var _spawn_position := Vector3.ZERO
 var _baton: MeleeEquip = null
 ## Whether the officer is currently carrying a jail key (shown on the belt).
 var has_key := true
 var _key_renew_timer := 0.0
-## Cached patrol data, rebuilt lazily when the assigned route changes.
-var _patrol_curve: Curve3D = null
-var _patrol_point_count := 0
-## Index of the patrol point currently being walked to.
-var _patrol_index := 0
-## Seconds spent without making progress toward the current patrol point.
-var _patrol_stuck_time := 0.0
-## Closest this officer has gotten to the current patrol point.
-var _patrol_best_distance := INF
 
 @onready var _belt_key: Node3D = %BeltJailkey
 
@@ -76,7 +31,6 @@ var _patrol_best_distance := INF
 func _ready() -> void:
 	super()
 	add_to_group("police")
-	_spawn_position = global_position
 	_baton = equipment.get_equipped_node() as MeleeEquip
 	if _baton != null:
 		# The NPC is server-local; make sure the host's input never swings its baton.
@@ -114,6 +68,83 @@ func _on_hit_received(damage: float, attacker_id: int = 0) -> void:
 	CrimeManager.notify_crime(attacker_id, "Assaulted an officer")
 
 
+# --- PatrollingNpc hooks ---
+
+
+func _on_pre_locomotion(delta: float) -> void:
+	_update_key_renewal(delta)
+
+
+## A wanted player is a valid suspect; one who is detained or no longer wanted is dropped.
+func _is_target_valid(target: Player) -> bool:
+	if not is_instance_valid(target):
+		return false
+	if CrimeManager.is_player_detained(target.player_id):
+		return false
+	return CrimeManager.is_player_wanted(target.player_id)
+
+
+## The officer keeps chase only while the suspect is both in range and visible.
+func _has_sight(target: Player) -> bool:
+	return global_position.distance_to(target.global_position) <= vision_range and _can_see(target)
+
+
+## Picks the nearest wanted player the officer can see.
+func _find_suspect() -> Player:
+	var best: Player = null
+	var best_distance := vision_range
+	for candidate: Player in PlayerManager.get_player_nodes():
+		if candidate == null or not is_instance_valid(candidate):
+			continue
+		if not CrimeManager.is_player_wanted(candidate.player_id):
+			continue
+		if CrimeManager.is_player_detained(candidate.player_id) or candidate.arrested:
+			continue
+		var distance := global_position.distance_to(candidate.global_position)
+		if distance > vision_range or not _can_see(candidate):
+			continue
+		if distance < best_distance:
+			best = candidate
+			best_distance = distance
+	return best
+
+
+## Cuffs a downed suspect in reach; otherwise keeps walking to the body.
+func _on_target_down(distance: float) -> bool:
+	if distance <= arrest_range:
+		_arrest()
+		return true
+	return false
+
+
+## Follows the arrested suspect to the station.
+func _do_escort() -> void:
+	if _target == null or not is_instance_valid(_target) \
+			or CrimeManager.is_player_detained(_target.player_id) \
+			or not CrimeManager.is_player_wanted(_target.player_id):
+		_target = null
+		_state = State.RETURN
+		return
+
+	var distance := global_position.distance_to(_target.global_position)
+	if distance > 2.0:
+		move_speed_multiplier = chase_speed_multiplier
+		locomotion.run_requested = true
+		_navigate_to(_target.global_position)
+	else:
+		move_speed_multiplier = 1.0
+		locomotion.desired_direction = Vector3.ZERO
+		locomotion.run_requested = false
+		_face(_target.global_position - global_position)
+
+
+func _attack_weapon() -> MeleeEquip:
+	return _baton
+
+
+# --- Jail key ---
+
+
 func _try_drop_key() -> void:
 	if not has_key or randf() > key_drop_chance:
 		return
@@ -149,207 +180,7 @@ func _update_key_renewal(delta: float) -> void:
 		_set_has_key(true)
 
 
-func _update_locomotion() -> void:
-	if not is_local:
-		return
-
-	var delta := get_physics_process_delta_time()
-	_attack_timer = maxf(_attack_timer - delta, 0.0)
-	_update_key_renewal(delta)
-	_update_target(delta)
-
-	match _state:
-		State.CHASE, State.ATTACK:
-			_do_chase()
-		State.ESCORT:
-			_do_escort()
-		State.RETURN:
-			_do_return()
-		_:
-			_do_idle()
-
-
-## Picks the nearest wanted player the officer can see, or gives up after the grace.
-func _update_target(delta: float) -> void:
-	if _state == State.ESCORT:
-		return
-	if _target != null and (
-			not is_instance_valid(_target)
-			or CrimeManager.is_player_detained(_target.player_id)
-			or not CrimeManager.is_player_wanted(_target.player_id)
-	):
-		_target = null
-		_state = State.RETURN
-
-	var best: Player = null
-	var best_distance := vision_range
-	for candidate: Player in PlayerManager.get_player_nodes():
-		if candidate == null or not is_instance_valid(candidate):
-			continue
-		if not CrimeManager.is_player_wanted(candidate.player_id):
-			continue
-		if CrimeManager.is_player_detained(candidate.player_id) or candidate.arrested:
-			continue
-		var distance := global_position.distance_to(candidate.global_position)
-		if distance > vision_range or not _can_see(candidate):
-			continue
-		if distance < best_distance:
-			best = candidate
-			best_distance = distance
-
-	if best != null:
-		_target = best
-		_lost_sight_timer = lose_sight_grace
-		if _state != State.ATTACK:
-			_state = State.CHASE
-	elif _target != null:
-		_lost_sight_timer -= delta
-		if _lost_sight_timer <= 0.0:
-			_target = null
-			_state = State.RETURN
-
-
-## Vision cone test plus a line-of-sight raycast to the suspect's body.
-func _can_see(candidate: Player) -> bool:
-	var to_target := candidate.global_position - global_position
-	to_target.y = 0.0
-	if to_target.length_squared() > 0.001:
-		var forward := -global_transform.basis.z
-		forward.y = 0.0
-		var angle := rad_to_deg(acos(clampf(forward.normalized().dot(to_target.normalized()), -1.0, 1.0)))
-		if angle > vision_angle_deg * 0.5:
-			return false
-
-	var query := PhysicsRayQueryParameters3D.create(
-		global_position + Vector3(0.0, 1.5, 0.0),
-		candidate.global_position + Vector3(0.0, 1.0, 0.0),
-		1 | 2,
-	)
-	query.exclude = [get_rid()]
-	var hit := get_world_3d().direct_space_state.intersect_ray(query)
-	return not hit.is_empty() and hit.get("collider") == candidate
-
-
-func _do_chase() -> void:
-	if _target == null:
-		_state = State.RETURN
-		return
-
-	var distance := global_position.distance_to(_target.global_position)
-	if _target.is_ragdolled and distance <= arrest_range:
-		_arrest()
-		return
-	if distance <= attack_range and not _target.is_ragdolled:
-		_state = State.ATTACK
-		move_speed_multiplier = 1.0
-		locomotion.desired_direction = Vector3.ZERO
-		locomotion.run_requested = false
-		_face(_target.global_position - global_position)
-		_try_attack()
-		return
-
-	_state = State.CHASE
-	move_speed_multiplier = chase_speed_multiplier
-	locomotion.run_requested = true
-	_navigate_to(_target.global_position)
-
-
-## Follows the arrested suspect to the station.
-func _do_escort() -> void:
-	if _target == null or not is_instance_valid(_target) \
-			or CrimeManager.is_player_detained(_target.player_id) \
-			or not CrimeManager.is_player_wanted(_target.player_id):
-		_target = null
-		_state = State.RETURN
-		return
-
-	var distance := global_position.distance_to(_target.global_position)
-	if distance > 2.0:
-		move_speed_multiplier = chase_speed_multiplier
-		locomotion.run_requested = true
-		_navigate_to(_target.global_position)
-	else:
-		move_speed_multiplier = 1.0
-		locomotion.desired_direction = Vector3.ZERO
-		locomotion.run_requested = false
-		_face(_target.global_position - global_position)
-
-
-func _do_return() -> void:
-	move_speed_multiplier = 1.0
-	locomotion.run_requested = false
-	var post := _spawn_position
-	if _patrol_active():
-		_set_patrol_index(_closest_patrol_point())
-		post = _patrol_waypoint(_patrol_index)
-	if global_position.distance_to(post) <= return_arrive_distance:
-		_state = State.IDLE
-		locomotion.desired_direction = Vector3.ZERO
-		return
-	_navigate_to(post)
-
-
-## Stands still, or walks the patrol route point by point when one is assigned.
-func _do_idle() -> void:
-	move_speed_multiplier = 1.0
-	locomotion.run_requested = false
-	if not _patrol_active():
-		locomotion.desired_direction = Vector3.ZERO
-		return
-
-	var target := _patrol_waypoint(_patrol_index)
-	var distance := global_position.distance_to(target)
-	if distance <= patrol_arrive_distance or _patrol_gave_up(distance):
-		_set_patrol_index((_patrol_index + 1) % _patrol_point_count)
-		target = _patrol_waypoint(_patrol_index)
-	_navigate_to(target)
-
-
-## True when a usable patrol route is assigned, refreshing the cached curve/points
-## when the route's curve changes.
-func _patrol_active() -> bool:
-	if patrol_route == null or not is_instance_valid(patrol_route):
-		return false
-	if _patrol_curve != patrol_route.curve:
-		_patrol_curve = patrol_route.curve
-		_patrol_point_count = _patrol_curve.get_point_count() if _patrol_curve != null else 0
-		_set_patrol_index(_closest_patrol_point())
-	return _patrol_point_count >= 2
-
-
-## Sets the patrol point being walked to and resets its progress tracking.
-func _set_patrol_index(index: int) -> void:
-	_patrol_index = index
-	_patrol_stuck_time = 0.0
-	_patrol_best_distance = INF
-
-
-## Index of the patrol point closest to the officer's current position.
-func _closest_patrol_point() -> int:
-	var best := 0
-	var best_distance := INF
-	for i in _patrol_point_count:
-		var distance := global_position.distance_squared_to(_patrol_waypoint(i))
-		if distance < best_distance:
-			best_distance = distance
-			best = i
-	return best
-
-
-## World-space position of the patrol route point at [param index].
-func _patrol_waypoint(index: int) -> Vector3:
-	return patrol_route.to_global(_patrol_curve.get_point_position(index))
-
-
-## True once the officer has stalled at [param distance] from the current point for
-## [member patrol_stuck_timeout], so an unreachable point doesn't block the route.
-func _patrol_gave_up(distance: float) -> bool:
-	if distance < _patrol_best_distance - 0.1:
-		_patrol_best_distance = distance
-		_patrol_stuck_time = 0.0
-	else:
-		_patrol_stuck_time += get_physics_process_delta_time()
-	return _patrol_stuck_time >= patrol_stuck_timeout
+# --- Arrest ---
 
 
 ## Hands the ragdolled suspect over to CrimeManager (confiscation + escort).
@@ -362,12 +193,3 @@ func _arrest() -> void:
 	move_speed_multiplier = 1.0
 	locomotion.desired_direction = Vector3.ZERO
 	locomotion.run_requested = false
-
-
-func _try_attack() -> void:
-	if _baton == null or _attack_timer > 0.0:
-		return
-	if _target == null or _target.is_ragdolled:
-		return
-	if _baton.try_attack():
-		_attack_timer = attack_cooldown

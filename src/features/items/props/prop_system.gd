@@ -103,6 +103,15 @@ func is_slot_occupied(slot: PropSystem.PropSlot) -> bool:
 	return get_worn_item_id(slot) != -1
 
 
+## Returns the item id worn in every occupied body slot (skipping empty ones).
+func get_worn_item_ids() -> Array[int]:
+	var ids: Array[int] = []
+	for item_id in worn_slots:
+		if item_id != -1:
+			ids.append(item_id)
+	return ids
+
+
 ## Returns the node props in [param slot] mount under (null for NONE).
 func get_slot_node(slot: PropSystem.PropSlot) -> Node3D:
 	return _slot_nodes.get(slot) as Node3D

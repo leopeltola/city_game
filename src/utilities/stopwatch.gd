@@ -19,7 +19,7 @@ func measure() -> int:
 
 
 ## Returns the elapsed time in seconds since the stopwatch started.
-func measure_s() -> int:
+func measure_s() -> float:
 	return (Time.get_ticks_msec() - start_time_ms) * 0.001
 
 

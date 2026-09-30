@@ -147,15 +147,14 @@ func mount_active() -> void:
 	# The item may have been destroyed (e.g. full cash insert into the slot machine)
 	# while a stale slot snapshot is still being replicated. Guard against it so we
 	# never hand a nil type name to get_item_type().
-	var item_data := ItemManager.get_item_data_dict_raw(item_id)
-	if item_data.is_empty():
-		push_error("Tried equipping item but item_id not found: ID: %s\nitem_data: %s" % [item_id, item_data])
+	if not ItemManager.has_item(item_id):
+		push_error("Tried equipping item but item_id not found: ID: %s" % item_id)
 		if inventory != null:
 			inventory.clear_stale_active(item_id)
 		mount_unarmed()
 		return
 
-	var type: ItemType = ItemManager.get_item_type(item_data["type"])
+	var type: ItemType = ItemManager.get_item_type(ItemManager.get_item_data(item_id, "type"))
 	var equipped_item: ItemEquip = type.get_equip_item_scene().instantiate()
 
 	equipped_item.item_id = item_id
