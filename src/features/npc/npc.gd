@@ -68,24 +68,33 @@ func _drop_cash(amount: int) -> void:
 	)
 
 
-## Steers toward [param position] using the navmesh agent, falling back to direct
-## steering when there is no agent or it yields no usable direction (e.g. off-mesh).
+## Steers toward [param position] by following the navmesh path one point at a time
+## through the [NavigationAgent3D]. The goal is only handed to the agent when it has
+## drifted far enough to matter; from there the agent's own path points drive the
+## movement (get_next_path_position), so the NPC walks the actual navmesh route instead
+## of cutting straight at the goal. When the path is finished the NPC stops and leaves
+## arrival/next-goal handling to the caller. Direct steering is used only when there is
+## no agent at all.
 func _navigate_to(position: Vector3) -> void:
 	var direction := Vector3.ZERO
-	if _nav_agent != null:
+	if _nav_agent == null:
+		direction = position - global_position
+		direction.y = 0.0
+	else:
 		_nav_repath_timer = maxf(_nav_repath_timer - get_physics_process_delta_time(), 0.0)
 		var drift := _nav_target - position
 		drift.y = 0.0
-		if drift.length_squared() > nav_repath_distance * nav_repath_distance \
-				or (_nav_agent.is_navigation_finished() and _nav_repath_timer <= 0.0):
+		var needs_repath := drift.length_squared() > nav_repath_distance * nav_repath_distance
+		if _nav_agent.is_navigation_finished() and _nav_repath_timer <= 0.0:
+			needs_repath = true
+		if needs_repath:
 			_nav_target = position
 			_nav_repath_timer = nav_repath_interval
 			_nav_agent.target_position = position
-		direction = _nav_agent.get_next_path_position() - global_position
-		direction.y = 0.0
-	if direction.length_squared() < 0.001:
-		direction = position - global_position
-		direction.y = 0.0
+		if not _nav_agent.is_navigation_finished():
+			# The agent's next path point, not the final goal: walks the navmesh route.
+			direction = _nav_agent.get_next_path_position() - global_position
+			direction.y = 0.0
 	locomotion.desired_direction = direction.normalized()
 	if not locomotion.desired_direction.is_zero_approx():
 		_face(direction)

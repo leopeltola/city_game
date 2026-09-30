@@ -39,9 +39,11 @@ const BATON_SCENE := preload("res://src/features/items/data/police_baton/police_
 ## its spawn position. The path is read in world space, so it can be a level
 ## [Path3D] or a child of the officer marked [code]top_level[/code].
 @export var patrol_route: Path3D = null
-## How far ahead along the path the officer steers while walking it. Larger values
-## smooth out tight corners at the cost of cutting them.
-@export var patrol_lookahead := 2.0
+## How close to a patrol point counts as reached before heading to the next one.
+@export var patrol_arrive_distance := 1.5
+## Seconds without getting closer to a patrol point before skipping it, so a point that
+## sits off the navmesh can't stall the route forever.
+@export var patrol_stuck_timeout := 3.0
 
 @export_group("Jail Key")
 ## Chance the officer drops its belt key each time it is hit.
@@ -60,7 +62,13 @@ var has_key := true
 var _key_renew_timer := 0.0
 ## Cached patrol data, rebuilt lazily when the assigned route changes.
 var _patrol_curve: Curve3D = null
-var _patrol_length := 0.0
+var _patrol_point_count := 0
+## Index of the patrol point currently being walked to.
+var _patrol_index := 0
+## Seconds spent without making progress toward the current patrol point.
+var _patrol_stuck_time := 0.0
+## Closest this officer has gotten to the current patrol point.
+var _patrol_best_distance := INF
 
 @onready var _belt_key: Node3D = %BeltJailkey
 
@@ -272,7 +280,8 @@ func _do_return() -> void:
 	locomotion.run_requested = false
 	var post := _spawn_position
 	if _patrol_active():
-		post = _patrol_sample(0.0)
+		_set_patrol_index(_closest_patrol_point())
+		post = _patrol_waypoint(_patrol_index)
 	if global_position.distance_to(post) <= return_arrive_distance:
 		_state = State.IDLE
 		locomotion.desired_direction = Vector3.ZERO
@@ -280,33 +289,67 @@ func _do_return() -> void:
 	_navigate_to(post)
 
 
-## Stands still, or walks the patrol route on a loop when one is assigned.
+## Stands still, or walks the patrol route point by point when one is assigned.
 func _do_idle() -> void:
 	move_speed_multiplier = 1.0
 	locomotion.run_requested = false
 	if not _patrol_active():
 		locomotion.desired_direction = Vector3.ZERO
 		return
-	_navigate_to(_patrol_sample(patrol_lookahead))
+
+	var target := _patrol_waypoint(_patrol_index)
+	var distance := global_position.distance_to(target)
+	if distance <= patrol_arrive_distance or _patrol_gave_up(distance):
+		_set_patrol_index((_patrol_index + 1) % _patrol_point_count)
+		target = _patrol_waypoint(_patrol_index)
+	_navigate_to(target)
 
 
-## True when a usable patrol route is assigned, refreshing the cached curve/length
+## True when a usable patrol route is assigned, refreshing the cached curve/points
 ## when the route's curve changes.
 func _patrol_active() -> bool:
 	if patrol_route == null or not is_instance_valid(patrol_route):
 		return false
 	if _patrol_curve != patrol_route.curve:
 		_patrol_curve = patrol_route.curve
-		_patrol_length = _patrol_curve.get_baked_length() if _patrol_curve != null else 0.0
-	return _patrol_length > 0.0
+		_patrol_point_count = _patrol_curve.get_point_count() if _patrol_curve != null else 0
+		_set_patrol_index(_closest_patrol_point())
+	return _patrol_point_count >= 2
 
 
-## Returns the world-space point [param distance_ahead] along the route, wrapping
-## around the end so the officer loops.
-func _patrol_sample(distance_ahead: float) -> Vector3:
-	var offset := _patrol_curve.get_closest_offset(patrol_route.to_local(global_position))
-	offset = fposmod(offset + distance_ahead, _patrol_length)
-	return patrol_route.to_global(_patrol_curve.sample_baked(offset))
+## Sets the patrol point being walked to and resets its progress tracking.
+func _set_patrol_index(index: int) -> void:
+	_patrol_index = index
+	_patrol_stuck_time = 0.0
+	_patrol_best_distance = INF
+
+
+## Index of the patrol point closest to the officer's current position.
+func _closest_patrol_point() -> int:
+	var best := 0
+	var best_distance := INF
+	for i in _patrol_point_count:
+		var distance := global_position.distance_squared_to(_patrol_waypoint(i))
+		if distance < best_distance:
+			best_distance = distance
+			best = i
+	return best
+
+
+## World-space position of the patrol route point at [param index].
+func _patrol_waypoint(index: int) -> Vector3:
+	return patrol_route.to_global(_patrol_curve.get_point_position(index))
+
+
+## True once the officer has stalled at [param distance] from the current point for
+## [member patrol_stuck_timeout], so an unreachable point doesn't block the route.
+func _patrol_gave_up(distance: float) -> bool:
+	if distance < _patrol_best_distance - 0.1:
+		_patrol_best_distance = distance
+		_patrol_stuck_time = 0.0
+	else:
+		_patrol_stuck_time += get_physics_process_delta_time()
+	return _patrol_stuck_time >= patrol_stuck_timeout
 
 
 ## Hands the ragdolled suspect over to CrimeManager (confiscation + escort).

@@ -33,8 +33,8 @@ func clear_menus() -> void:
 	hide_personal_menu()
 
 
-func queue_msg_toast(from: String, title: String, msg: String) -> void:
-	%MessagesToast.queue_msg_toast(from, title, msg)
+func show_msg_toast(from: String, title: String, msg: String) -> void:
+	%MessagesToast.show_msg_toast(from, title, msg)
 
 
 ## Sets stamina bar value in the 0-1 range with juice for chunk costs and exhaustion.

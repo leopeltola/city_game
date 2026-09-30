@@ -40,6 +40,6 @@ beard = ExtResource("6_lp3cp")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="24" unique_id=662493891]
 unique_name_in_owner = true
-path_desired_distance = 0.5
+path_desired_distance = 1.0
 
 [editable path="Visual/guy"]

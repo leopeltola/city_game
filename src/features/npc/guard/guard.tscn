@@ -16,7 +16,6 @@ attack_range = 1.0
 attack_cooldown = 0.9
 chase_speed_multiplier = 1.0
 return_arrive_distance = 1.5
-patrol_lookahead = 2.0
 cash = 100
 nav_repath_distance = 0.75
 nav_repath_interval = 0.25
@@ -65,7 +64,7 @@ hat = ExtResource("6_hat")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="24" unique_id=662493891]
 unique_name_in_owner = true
-path_desired_distance = 0.5
+path_desired_distance = 1.0
 navigation_layers = 3
 
 [editable path="Visual/guy"]
