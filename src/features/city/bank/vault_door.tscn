@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bdpnludk300lc"]
+
+[ext_resource type="PackedScene" uid="uid://qqbqwraa4yq8" path="res://src/features/city/bank/assets/vault_door.glb" id="1_koywa"]
+
+[node name="VaultDoor" type="Node3D" unique_id=753930218]
+
+[node name="vault_door" parent="." unique_id=1307549806 instance=ExtResource("1_koywa")]
+
+[node name="Door" parent="vault_door" index="0" unique_id=1107060336]
+transform = Transform3D(0.41469327, 0, -0.9099613, 0, 1, 0, 0.9099613, 0, 0.41469327, -1.4082367, 1.0376439, 0.2359801)
+
+[editable path="vault_door"]

@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://cdr3jn45bf0ma"]
+
+[ext_resource type="PackedScene" uid="uid://d1dnt44i74qnk" path="res://src/features/city/bank/assets/bank.glb" id="1_jn8bg"]
+[ext_resource type="PackedScene" uid="uid://dve33aig6wtvp" path="res://src/features/bank/bank_card_desk.tscn" id="2_okhr5"]
+[ext_resource type="PackedScene" uid="uid://m87c3n4offy4" path="res://src/features/bank/bank_deposit.tscn" id="3_pc7j6"]
+[ext_resource type="PackedScene" uid="uid://bdpnludk300lc" path="res://src/features/city/bank/vault_door.tscn" id="4_2idvf"]
+
+[node name="Bank" type="Node3D" unique_id=654942822]
+
+[node name="bank" parent="." unique_id=140416475 instance=ExtResource("1_jn8bg")]
+
+[node name="BankCardDesk" parent="." unique_id=1720204715 instance=ExtResource("2_okhr5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.7811036, 2.000001, 1.984774)
+
+[node name="BankDeposit" parent="." unique_id=1111595191 instance=ExtResource("3_pc7j6")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.448995, 1.9999999, 2.7630577)
+
+[node name="BankDeposit2" parent="." unique_id=62032585 instance=ExtResource("3_pc7j6")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.449, 2, 1.263)
+
+[node name="BankDeposit3" parent="." unique_id=789205481 instance=ExtResource("3_pc7j6")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.449, 2, -0.237)
+
+[node name="VaultDoor" parent="." unique_id=753930218 instance=ExtResource("4_2idvf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -15.4)
+
+[node name="BankCardDesk2" parent="." unique_id=1292493949 instance=ExtResource("2_okhr5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1963692, 2, -6.860935)
+
+[node name="BankCardDesk3" parent="." unique_id=1732163958 instance=ExtResource("2_okhr5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.182477, 2, -6.860935)
+
+[node name="BankCardDesk4" parent="." unique_id=1437253044 instance=ExtResource("2_okhr5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7761307, 2, -6.860935)
+
+[node name="BankCardDesk5" parent="." unique_id=1343835493 instance=ExtResource("2_okhr5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7650342, 2, -6.860935)
+
+[node name="BankCardDesk6" parent="." unique_id=1080908729 instance=ExtResource("2_okhr5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.814729, 2, -6.860935)
+
+[node name="BankCardDesk7" parent="." unique_id=1297545735 instance=ExtResource("2_okhr5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7788553, 2, -6.860935)
+
+[node name="BankCardDesk8" parent="." unique_id=302024737 instance=ExtResource("2_okhr5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.829828, 2, -6.860935)

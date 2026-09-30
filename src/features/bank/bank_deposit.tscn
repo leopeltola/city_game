@@ -1,22 +1,26 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://m87c3n4offy4"]
 
-[ext_resource type="Script" path="res://src/features/bank/bank_deposit.gd" id="1_dep"]
+[ext_resource type="Script" uid="uid://gqrvhjgb6gbc" path="res://src/features/bank/bank_deposit.gd" id="1_dep"]
+[ext_resource type="PackedScene" uid="uid://b7r6p65mc2wu5" path="res://src/features/interior/bank/atm.glb" id="2_bd3x4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dep"]
 size = Vector3(0.7, 1.2, 0.6)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dep"]
-size = Vector3(0.7, 1.2, 0.6)
+size = Vector3(0.7, 1.4876953, 0.6)
 
-[node name="BankDeposit" type="Area3D"]
+[node name="BankDeposit" type="Area3D" unique_id=1111595191]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_dep")
 
-[node name="Body" type="MeshInstance3D" parent="."]
+[node name="Body" type="MeshInstance3D" parent="." unique_id=948237702]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+visible = false
 mesh = SubResource("BoxMesh_dep")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=321064752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74384767, 0.33069527)
 shape = SubResource("BoxShape3D_dep")
+
+[node name="atm" parent="." unique_id=609725421 instance=ExtResource("2_bd3x4")]

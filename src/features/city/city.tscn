@@ -28,11 +28,10 @@
 [ext_resource type="PackedScene" uid="uid://d387pf1f1vxhc" path="res://src/features/city/buildings/modular2_building/modular2_building_rooflayer.glb" id="41_70tcd"]
 [ext_resource type="Material" uid="uid://monjl4k3eeb1" path="res://assets/textures/chain_link/chain_link.tres" id="42_dptrr"]
 [ext_resource type="PackedScene" uid="uid://bot8mf1qu4vnf" path="res://src/features/vehicles/electric_scooter/electric_scooter.tscn" id="43_6fbtl"]
-[ext_resource type="PackedScene" path="res://src/features/bank/bank_deposit.tscn" id="44_7sfia"]
 [ext_resource type="PackedScene" uid="uid://bxu36b6vyrf6i" path="res://src/features/city/street_props/park_bench.glb" id="44_58jgy"]
-[ext_resource type="PackedScene" path="res://src/features/bank/bank_card_desk.tscn" id="45_qciam"]
 [ext_resource type="PackedScene" uid="uid://blsuorotrv5bo" path="res://src/features/city/street_props/trash_can.glb" id="45_ye135"]
 [ext_resource type="PackedScene" uid="uid://dmp5lcjvp26px" path="res://src/features/city/street_props/trash_container.glb" id="46_3pw1h"]
+[ext_resource type="PackedScene" uid="uid://cdr3jn45bf0ma" path="res://src/features/city/bank/bank.tscn" id="46_qciam"]
 [ext_resource type="PackedScene" uid="uid://bkm3nveganw6c" path="res://src/features/city/street_props/chain_fence.glb" id="47_ql6hy"]
 [ext_resource type="PackedScene" uid="uid://c085gkinj7n7d" path="res://src/features/city/street_props/rail_fence.glb" id="48_k1f1x"]
 [ext_resource type="PackedScene" uid="uid://cu524h6xwkue7" path="res://src/features/city/pizzeria/pizzeria.tscn" id="54_ar7rs"]
@@ -471,7 +470,7 @@ _data = {
 }
 point_count = 2
 
-[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_qylfo"]
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_e7w1s"]
 resource_local_to_scene = true
 size = Vector3(14.437531, 9.2, 12.310984)
 
@@ -509,17 +508,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.461277, 0, 4.224866)
 [node name="BankSkyscraper" parent="." unique_id=1605071772 instance=ExtResource("19_jep4s")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 7.533081, 0.13125515, 16.04042)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="BankSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1605071772, 969999495) index="0" unique_id=992086348]
+[node name="StaticBody3D" type="StaticBody3D" parent="BankSkyscraper/Skyscraper" parent_id_path=PackedInt32Array(1605071772, 592319556) index="0" unique_id=992086348]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BankSkyscraper/Skyscraper/StaticBody3D" unique_id=1523682868]
 shape = SubResource("ConcavePolygonShape3D_a54ph")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="BankSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1605071772, 1607977321) index="0" unique_id=609739090]
+[node name="StaticBody3D" type="StaticBody3D" parent="BankSkyscraper/Skyscraper_001" parent_id_path=PackedInt32Array(1605071772, 612543169) index="0" unique_id=609739090]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BankSkyscraper/Skyscraper_001/StaticBody3D" unique_id=108403610]
 shape = SubResource("ConcavePolygonShape3D_2h7sf")
 
-[node name="Skyscraper_003" parent="BankSkyscraper" index="5" unique_id=1491844758]
+[node name="Skyscraper_003" parent="BankSkyscraper" index="5" unique_id=982927261]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0038805008, 4.3149405, 0.014133453)
 
 [node name="casino_table" parent="BankSkyscraper" unique_id=928227027 instance=ExtResource("20_dv5q5")]
@@ -3362,7 +3361,7 @@ secondary_color = Color(0.2723947, 0.171588, 0.12876156, 1)
 
 [node name="OccluderInstance3D" parent="GenericBuildings/ModularBuilding29" index="0" unique_id=1431447966]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6, 0)
-occluder = SubResource("BoxOccluder3D_qylfo")
+occluder = SubResource("BoxOccluder3D_e7w1s")
 
 [node name="Module_276344632_2550" parent="GenericBuildings/ModularBuilding29" unique_id=228329230 instance=ExtResource("39_1mn5s")]
 
@@ -4732,11 +4731,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.14406, 0.5752325, 22.0444
 [node name="ElectricScooter4" parent="." unique_id=1392229596 instance=ExtResource("43_6fbtl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.911224, 0.5752325, 54.059395)
 
-[node name="BankDeposit" parent="." unique_id=1064166481 instance=ExtResource("44_7sfia")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.930164, 0.33125544, 16.111332)
-
-[node name="BankCardDesk" parent="." unique_id=2005189836 instance=ExtResource("45_qciam")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.535804, 0.3312559, 18.934395)
+[node name="Bank" parent="." unique_id=654942822 instance=ExtResource("46_qciam")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 62, 0, 45)
 
 [editable path="BankSkyscraper"]
 [editable path="GenericBuildings/ModularBuilding29"]

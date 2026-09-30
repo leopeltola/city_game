@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dve33aig6wtvp"]
 
-[ext_resource type="Script" path="res://src/features/bank/bank_card_desk.gd" id="1_desk"]
+[ext_resource type="Script" uid="uid://bsh1pwlr485rm" path="res://src/features/bank/bank_card_desk.gd" id="1_desk"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_desk"]
 size = Vector3(1.6, 1.1, 0.8)
@@ -8,19 +8,26 @@ size = Vector3(1.6, 1.1, 0.8)
 [sub_resource type="BoxShape3D" id="BoxShape3D_desk"]
 size = Vector3(1.6, 1.1, 0.8)
 
-[node name="BankCardDesk" type="Area3D"]
+[sub_resource type="SphereMesh" id="SphereMesh_soem1"]
+
+[node name="BankCardDesk" type="Area3D" unique_id=1292493949]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_desk")
 
-[node name="Body" type="MeshInstance3D" parent="."]
+[node name="DebugBody" type="MeshInstance3D" parent="." unique_id=124106386]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+visible = false
 mesh = SubResource("BoxMesh_desk")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=254182934]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 shape = SubResource("BoxShape3D_desk")
 
-[node name="ItemSpawnPos" type="Node3D" parent="."]
+[node name="ItemSpawnPos" type="Node3D" parent="." unique_id=232179026]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.7)
+
+[node name="DebugPosition" type="MeshInstance3D" parent="ItemSpawnPos" unique_id=99415891]
+visible = false
+mesh = SubResource("SphereMesh_soem1")
