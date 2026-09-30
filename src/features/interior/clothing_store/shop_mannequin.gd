@@ -19,23 +19,13 @@ func _ready() -> void:
 
 
 func _on_interacted(player_id: int) -> void:
-	var player: Player = PlayerManager.get_player_node_by_id(player_id)
-	if not player:
+	var label := "Purchase"
+	if shown_item:
+		label = "Bought %s" % shown_item.display_name
+	if not MoneyManager.pay(player_id, price, label):
 		return
 
-	var item := player.get_equipped_item()
-	if item and item.item_type and item.item_type.instance_data.has("money"):
-		var item_id = item.item_id
-		var total_amount: int = ItemManager.get_item_data(item_id, "money", 0)
-		var remaining := total_amount - price
-
-		if remaining <= 0:
-			(player.inventory as PlayerInventory).pop_active_item()
-			ItemManager.destroy_item(item_id)
-		else:
-			ItemManager.set_and_sync_item_data(item_id, "money", remaining)
-
-		spawn_item()
+	spawn_item()
 
 
 func get_price() -> int:

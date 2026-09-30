@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/bank/bank_card_desk.gd" id="1_desk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_desk"]
+size = Vector3(1.6, 1.1, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_desk"]
+size = Vector3(1.6, 1.1, 0.8)
+
+[node name="BankCardDesk" type="Area3D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_desk")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("BoxMesh_desk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+shape = SubResource("BoxShape3D_desk")
+
+[node name="ItemSpawnPos" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.7)

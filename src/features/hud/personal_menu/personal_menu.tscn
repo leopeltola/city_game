@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://n00mik10cutg" path="res://src/features/hud/personal_menu/personal_menu.gd" id="2_e6eos"]
 [ext_resource type="PackedScene" uid="uid://dc2k0k5uhehuy" path="res://src/features/hud/personal_menu/information_ui/information_ui.tscn" id="2_id41w"]
 [ext_resource type="PackedScene" uid="uid://5tubv0e7r1ka" path="res://src/features/hud/personal_menu/mail_ui/mail_ui.tscn" id="2_u4wdq"]
+[ext_resource type="PackedScene" path="res://src/features/hud/personal_menu/finances_ui/finances_ui.tscn" id="3_fin"]
 
 [node name="PersonalMenu" type="Control" unique_id=1818278617]
 layout_mode = 3
@@ -36,6 +37,11 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Messages" parent="CenterContainer/TabContainer" unique_id=1117558386 instance=ExtResource("2_u4wdq")]
+visible = false
+layout_mode = 2
+
+[node name="Finances" parent="CenterContainer/TabContainer" instance=ExtResource("3_fin")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 

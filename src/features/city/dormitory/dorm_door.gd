@@ -27,22 +27,10 @@ func get_price():
 
 
 func _on_interacted(player_id: int) -> void:
-	var player: Player = PlayerManager.get_player_node_by_id(player_id)
-
-	var item: ItemEquip = player.get_equipped_item()
-	
 	if owner_id > 0 and not locked:
 		_rpc_request_open.rpc_id(1)
 	elif owner_id < 0:
-		if item and item.item_type and item.item_type.instance_data.has("money"):
-			var item_id = item.item_id
-			var total_amount: int = ItemManager.get_item_data(item_id, "money", 0)
-			var remaining := total_amount - price
-			if remaining <= 0 and item.item_type.name == "cash":
-				(player.inventory as PlayerInventory).pop_active_item()
-				ItemManager.destroy_item(item_id)
-			else:
-				ItemManager.set_and_sync_item_data(item_id, "money", remaining)
+		if MoneyManager.pay(player_id, price, "Bought an apartment"):
 			_rpc_request_claim.rpc_id(1, player_id)
 
 

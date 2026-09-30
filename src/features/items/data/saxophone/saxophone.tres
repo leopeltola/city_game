@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://caw2esweiy2v6" path="res://src/features/items/data/saxophone/saxophone.glb" id="2"]
-[ext_resource type="Texture2D" uid="uid://dloffoinqlxxo" path="res://icon.svg" id="2_wxcsq"]
+[ext_resource type="Texture2D" uid="uid://drnnnfsxh6xnr" path="res://src/features/items/data/saxophone/saxophone_icon.png" id="2_wxcsq"]
 
 [resource]
 script = ExtResource("1")
@@ -11,3 +11,4 @@ display_name = "Saxophone"
 world_item_path = "res://src/features/items/data/saxophone/saxophone_world.tscn"
 equip_item_path = "res://src/features/items/data/saxophone/saxophone_equip.tscn"
 display_scene = ExtResource("2")
+icon = ExtResource("2_wxcsq")

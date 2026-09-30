@@ -1,6 +1,7 @@
 extends Control
 
 @onready var _information: InformationUI = %Information
+@onready var _finances: FinancesUI = %Finances
 
 var _prev_mouse_mode: Input.MouseMode
 
@@ -30,5 +31,8 @@ func set_tab(tab: StringName) -> void:
 			_information.refresh()
 		"messages":
 			%TabContainer.current_tab = 1
+		"finances":
+			%TabContainer.current_tab = 2
+			_finances.refresh()
 		_:
 			assert(false, "Tab '%s' not found in PersonalMenu" % tab)

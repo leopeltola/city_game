@@ -23,6 +23,7 @@ const _item_types: Dictionary[StringName, ItemType] = {
 	"drum_sticks": preload("res://src/features/items/data/drum_sticks/drum_sticks.tres"),
 	"cigar": preload("res://src/features/items/data/cigar/cigar.tres"),
 	"briefcase": preload("res://src/features/items/data/briefcase/briefcase.tres"),
+	"debit_card": preload("res://src/features/items/data/debit_card/debit_card.tres"),
 	"bandana": preload("res://src/features/items/data/bandana/bandana.tres"),
 	"hoodie": preload("res://src/features/items/data/hoodie/hoodie.tres"),
 	"ski_mask": preload("res://src/features/items/data/ski_mask/ski_mask.tres"),

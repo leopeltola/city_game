@@ -5,21 +5,10 @@ func _ready():
 
 
 func get_prompt(player_id: int) -> String:
-	return prompt if can_interact(player_id) else "Need Cash"
+	return prompt if can_interact(player_id) else "Need %d€" % get_parent().get_price()
 
 
 func can_interact(player_id: int) -> bool:
-	var player: Player = PlayerManager.get_player_node_by_id(player_id)
-	if not player or not active:
+	if not active:
 		return false
-	var item := player.get_equipped_item()
-	if item and item.item_type and item.item_type.instance_data.has("money"):
-		var item_id = item.item_id
-		var cash_amount = ItemManager.get_item_data(item_id, "money", 0)
-		var price = get_parent().get_price()
-
-		if cash_amount >= price:
-			return true
-		else:
-			return false
-	return false
+	return MoneyManager.can_pay(player_id, get_parent().get_price())

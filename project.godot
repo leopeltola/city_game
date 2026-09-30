@@ -36,6 +36,7 @@ MessageManager="*uid://dh8i121qvbdew"
 CrimeManager="*uid://6b81kb4w853p"
 ImageManager="*uid://b4ygt8euit7k7"
 CharacterImage="*res://src/utilities/character_image/character_image.tscn"
+MoneyManager="*res://src/features/bank/money_manager.gd"
 
 [display]
 

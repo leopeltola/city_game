@@ -358,14 +358,9 @@ func _on_cash_input_interacted(player_id: int) -> void:
 		return
 
 	var put_in := mini(result.amount, total_amount)
+	if not MoneyManager.take_cash(player_id, put_in):
+		return
 
-	var remaining := total_amount - put_in
-	if remaining <= 0 and equipped and equipped.item_type and equipped.item_type.name == "cash":
-		(player.inventory as PlayerInventory).pop_active_item()
-		ItemManager.destroy_item(item_id)
-	else:
-		ItemManager.set_and_sync_item_data(item_id, "money", remaining)
-	
 	if _round_owner_player_id == 0:
 		_rpc_set_round_owning_player.rpc(player_id)
 	_rpc_add_balance.rpc(put_in)

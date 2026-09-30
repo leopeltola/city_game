@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dhe5mko4xqxx4"]
+
+[ext_resource type="Texture2D" uid="uid://d213a8yp1knx3" path="res://src/features/items/data/debit_card/debit_card_overlay.png" id="1_3g6n3"]
+
+[resource]
+transparency = 1
+albedo_texture = ExtResource("1_3g6n3")

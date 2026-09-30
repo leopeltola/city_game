@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bbaxc2gq7qbvb"]
+
+[ext_resource type="Script" uid="uid://cuouyiv4rgvf" path="res://src/features/items/item_equip.gd" id="1_equip"]
+[ext_resource type="Resource" uid="uid://14tjme3ixy1p" path="res://src/features/items/data/debit_card/debit_card.tres" id="2_card"]
+[ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3_anchor"]
+[ext_resource type="PackedScene" uid="uid://beaqjh83wamte" path="res://src/features/items/data/debit_card/debit_card.glb" id="4_mj0py"]
+[ext_resource type="FontFile" uid="uid://becdvm01ieft6" path="res://src/features/ui/theme/assets/fonts/inter/Inter_18pt-Medium.ttf" id="5_htapk"]
+
+[sub_resource type="FontVariation" id="FontVariation_q1gf2"]
+base_font = ExtResource("5_htapk")
+
+[node name="DebitCardEquip" type="Node3D" unique_id=1747806660]
+script = ExtResource("1_equip")
+item_type = ExtResource("2_card")
+idle_animation_override = "cash_idle"
+
+[node name="RightHandAnchor" type="Node3D" parent="." unique_id=82113174]
+script = ExtResource("3_anchor")
+
+[node name="debit_card" parent="RightHandAnchor" unique_id=1783337529 instance=ExtResource("4_mj0py")]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, -4.371139e-08, 0, 0.054827645, 0)
+
+[node name="Label3D" type="Label3D" parent="RightHandAnchor/debit_card" unique_id=2106480859]
+transform = Transform3D(0.465, 0, 0, 0, -2.0325796e-08, 0.465, 0, -0.465, -2.0325796e-08, 0.070566714, 0.011098519, -0.030719593)
+pixel_size = 0.001
+shaded = true
+modulate = Color(0.18950242, 0.18950242, 0.18950242, 1)
+text = "Player"
+font = SubResource("FontVariation_q1gf2")
+font_size = 28
+outline_size = 0
+horizontal_alignment = 2

@@ -41,7 +41,7 @@ func _process(_delta: float) -> void:
 	if inv == null or inv.item_slots.size() < _slots.size():
 		return
 	for i in _slots.size():
-		_slots[i].set_count(_get_slot_count(inv.get_slot_item_id(i)))
+		_slots[i].set_count(_get_slot_count(inv.get_slot_item_id(i), i == inv.active_index))
 
 
 # Instantiates one slot per inventory slot and lays them out in the row.
@@ -71,9 +71,9 @@ func _update(initial := false) -> void:
 		var is_active := (i == inv.active_index)
 
 		if initial:
-			slot.set_slot(_get_slot_icon(item_id), _get_slot_count(item_id))
+			slot.set_slot(_get_slot_icon(item_id), _get_slot_count(item_id, is_active))
 		elif item_id != _prev_ids[i]:
-			slot.set_slot(_get_slot_icon(item_id), _get_slot_count(item_id))
+			slot.set_slot(_get_slot_icon(item_id), _get_slot_count(item_id, is_active))
 			if item_id == -1:
 				slot.play_remove()
 			else:
@@ -128,8 +128,15 @@ func _get_slot_icon(item_id: int) -> Texture2D:
 
 
 # Returns a label for stackable money items (cash / briefcase), or "".
-func _get_slot_count(item_id: int) -> String:
+# The local player's own debit card shows their account balance while it is held.
+func _get_slot_count(item_id: int, is_active := false) -> String:
 	if item_id == -1:
+		return ""
+	if StringName(ItemManager.get_item_data(item_id, "type")) == MoneyManager.CARD_TYPE:
+		var owner_id: int = int(ItemManager.get_item_data(item_id, "owner_player_id", 0))
+		var local := PlayerManager.get_local_player_or_null()
+		if is_active and local != null and owner_id == local.player_id:
+			return "%d€" % MoneyManager.get_balance(owner_id)
 		return ""
 	var money: Variant = ItemManager.get_item_data(item_id, "money", null)
 	if money is int and money > 0:

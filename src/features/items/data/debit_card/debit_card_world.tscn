@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://ssnfpwy77gpr"]
+
+[ext_resource type="Script" uid="uid://dhyfcgqpgydqa" path="res://src/features/items/item_world.gd" id="1_world"]
+[ext_resource type="Resource" uid="uid://14tjme3ixy1p" path="res://src/features/items/data/debit_card/debit_card.tres" id="2_card"]
+[ext_resource type="PackedScene" uid="uid://cum3c03ptrqm" path="res://src/features/items/world_item_interactable_area.tscn" id="3_area"]
+[ext_resource type="PackedScene" uid="uid://beaqjh83wamte" path="res://src/features/items/data/debit_card/debit_card.glb" id="4_0w76m"]
+[ext_resource type="FontFile" uid="uid://becdvm01ieft6" path="res://src/features/ui/theme/assets/fonts/inter/Inter_18pt-Medium.ttf" id="5_em28k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_card"]
+size = Vector3(0.34708524, 0.04732541, 0.070823245)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(0.36525238, 0.060423546, 0.1)
+
+[sub_resource type="FontVariation" id="FontVariation_31k4w"]
+base_font = ExtResource("5_em28k")
+
+[node name="DebitCardWorld" type="RigidBody3D" unique_id=306867488 node_paths=PackedStringArray("interaction_area")]
+collision_layer = 12
+collision_mask = 9
+script = ExtResource("1_world")
+type = ExtResource("2_card")
+interaction_area = NodePath("WorldItemInteractableArea")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1746097315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00013721734, -0.0010759728, 0.008411621)
+shape = SubResource("BoxShape3D_card")
+
+[node name="WorldItemInteractableArea" parent="." unique_id=1890234629 instance=ExtResource("3_area")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldItemInteractableArea" unique_id=1588586154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0020802282, -0.00040017813, 0)
+shape = SubResource("BoxShape3D_interact")
+
+[node name="debit_card" parent="." unique_id=1783337529 instance=ExtResource("4_0w76m")]
+
+[node name="Label3D" type="Label3D" parent="debit_card" unique_id=1312022477]
+transform = Transform3D(0.465, 0, 0, 0, -2.0325796e-08, 0.465, 0, -0.465, -2.0325796e-08, 0.070566714, 0.011098519, -0.030719593)
+pixel_size = 0.001
+shaded = true
+modulate = Color(0.18950242, 0.18950242, 0.18950242, 1)
+text = "Player"
+font = SubResource("FontVariation_31k4w")
+font_size = 28
+outline_size = 0
+horizontal_alignment = 2

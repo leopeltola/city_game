@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/hud/personal_menu/finances_ui/finances_ui.gd" id="1_fin"]
+
+[node name="FinancesUI" type="MarginContainer"]
+offset_right = 354.0
+offset_bottom = 248.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_fin")
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BalanceHeader" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="BalanceTitle" type="Label" parent="VBoxContainer/BalanceHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Bank account"
+
+[node name="BalanceLabel" type="Label" parent="VBoxContainer/BalanceHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0€"
+horizontal_alignment = 2
+
+[node name="Separator" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+color = Color(0.7982593, 0.7982595, 0.7982593, 1)
+
+[node name="CardsTitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Debit cards"
+
+[node name="CardsContainer" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Separator2" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+color = Color(0.7982593, 0.7982595, 0.7982593, 1)
+
+[node name="HistoryTitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Transactions"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+
+[node name="HistoryContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6

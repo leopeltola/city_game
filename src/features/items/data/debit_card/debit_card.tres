@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://14tjme3ixy1p"]
+
+[ext_resource type="Script" uid="uid://1v4ix87tn325" path="res://src/features/items/item_type.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://beaqjh83wamte" path="res://src/features/items/data/debit_card/debit_card.glb" id="1_egn2h"]
+[ext_resource type="Texture2D" uid="uid://dokcmu8t34op3" path="res://src/features/items/data/debit_card/debit_card_icon.png" id="2_egn2h"]
+
+[resource]
+script = ExtResource("1")
+name = "debit_card"
+display_name = "Debit Card"
+world_item_path = "res://src/features/items/data/debit_card/debit_card_world.tscn"
+equip_item_path = "res://src/features/items/data/debit_card/debit_card_equip.tscn"
+display_scene = ExtResource("1_egn2h")
+icon = ExtResource("2_egn2h")
+instance_data = Dictionary[StringName, Variant]({
+&"card_number": 0,
+&"owner_player_id": 0
+})
+base_value = 500
+metadata/_custom_type_script = "uid://1v4ix87tn325"

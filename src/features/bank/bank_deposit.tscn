@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/bank/bank_deposit.gd" id="1_dep"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dep"]
+size = Vector3(0.7, 1.2, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dep"]
+size = Vector3(0.7, 1.2, 0.6)
+
+[node name="BankDeposit" type="Area3D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_dep")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_dep")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("BoxShape3D_dep")
