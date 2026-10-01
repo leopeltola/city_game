@@ -60,8 +60,10 @@ const STAGGER_EFFECT_ID := &"stagger"
 
 ## Authoritative world transform written by the local actor and replicated via
 ## MultiplayerSynchronizer. Remote peers interpolate their body toward these.
-var network_position: Vector3
-var network_rotation: Vector3
+## Vector3.INF means "not assigned yet": the network spawn state (which Godot applies
+## before _ready) leaves a finite value behind, so _ready can tell the two apart.
+var network_position: Vector3 = Vector3.INF
+var network_rotation: Vector3 = Vector3.INF
 
 ## Marks whether the actor is ragdolled, blocks actions etc.
 var is_ragdolled: bool:
@@ -70,9 +72,20 @@ var is_ragdolled: bool:
 
 
 func _ready() -> void:
-	network_position = global_position
-	network_rotation = global_rotation
-	_set_ragdoll_bone_collision(false)
+	# Godot applies the MultiplayerSynchronizer spawn state before _ready. Only seed
+	# from the local transform when nothing assigned them yet (the authority actor, or
+	# a non-networked instance such as CharacterPortrait); otherwise we would clobber
+	# the authoritative position a remote peer just received.
+	if not network_position.is_finite():
+		network_position = global_position
+		network_rotation = global_rotation
+	else:
+		# ActorNetworkSync only copies network_position onto the body in
+		# _physics_process, so without this the actor would render at the spawner's
+		# static transform for a frame before snapping to its real position.
+		global_position = network_position
+		global_rotation = network_rotation
+	ragdoll.set_bone_collision(false)
 
 
 func _process(delta: float) -> void:
@@ -233,13 +246,3 @@ func _rpc_trigger_block_success() -> void:
 	is_blocking = false
 	animator.cancel_action(0.1)
 
-
-## Toggles the physical bone bodies' collision so the idle kinematic bodies never
-## block anyone, while an active ragdoll collides with the world.
-func _set_ragdoll_bone_collision(active: bool) -> void:
-	if not is_instance_valid(physical_bones):
-		return
-	for bone: Node in physical_bones.get_children():
-		if bone is PhysicalBone3D:
-			bone.collision_layer = 2 if active else 0
-			bone.collision_mask = 1 if active else 0

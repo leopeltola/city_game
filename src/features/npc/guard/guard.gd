@@ -47,13 +47,6 @@ func _ready() -> void:
 		guard_area.body_exited.connect(_on_area_body_exited)
 		_seed_occupants.call_deferred()
 	CrimeManager.crime_committed.connect(_on_crime_committed)
-	_log("ready: area=%s fists=%s" % [guard_area, _fists])
-
-
-## Logs a decision to the server console when [constant DEBUG] is on.
-func _log(message: String) -> void:
-	if DEBUG:
-		print("[Guard %s] %s" % [name, message])
 
 
 ## Picks up players already inside the zone when the guard connects, so a guard
@@ -88,16 +81,6 @@ func _on_crime_committed(player_id: int, _label: String) -> void:
 	if not is_local or _target != null:
 		return
 	var player: Player = PlayerManager.get_player_node_by_id(player_id)
-	if player == null or not is_instance_valid(player):
-		_log("crime by %s ignored: no player node" % player_id)
-		return
-	if not _is_in_area(player):
-		_log("crime by %s ignored: outside area" % player_id)
-		return
-	if not _can_see(player):
-		_log("crime by %s ignored: no line of sight" % player_id)
-		return
-	_log("aggro on %s (witnessed '%s')" % [player_id, _label])
 	_aggro(player)
 
 
@@ -110,7 +93,6 @@ func _on_hit_received(damage: float, attacker_id: int = 0) -> void:
 	if attacker == null or not is_instance_valid(attacker):
 		return
 	_face(attacker.global_position - global_position)
-	_log("attacked by %s: aggro" % attacker_id)
 	_aggro(attacker)
 
 

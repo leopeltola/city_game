@@ -251,6 +251,15 @@ func cancel_card(player_id: int) -> void:
 	card_changed.emit(player_id)
 
 
+## Credits [param amount] to [param player_id]'s account and records [param label] in its
+## history. Called on the acting peer; routes the mutation to the server. Used for rewards
+## and payouts.
+func credit_account(player_id: int, amount: int, label: String = "Reward") -> void:
+	if amount <= 0:
+		return
+	_request_balance_change(player_id, amount, label)
+
+
 ## Server-side: spawns [param amount] (€) as cash world items at [param position],
 ## splitting into stacks no larger than [constant PlayerInventory.CASH_STACK_LIMIT] and
 ## staggering the spawns by [constant BILL_SPAWN_DELAY]. [param owner_player_id] marks the

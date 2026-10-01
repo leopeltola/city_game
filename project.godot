@@ -205,6 +205,7 @@ lockpick_open={
 3d_physics/layer_5="hittable"
 3d_physics/layer_6="vehicle"
 3d_physics/layer_7="road"
+3d_physics/layer_8="ragdoll"
 
 [navigation]
 

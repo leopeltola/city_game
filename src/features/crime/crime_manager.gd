@@ -19,6 +19,10 @@ signal crime_committed(player_id: int, label: String)
 ## How long the escort may take before the server force-detains the suspect.
 const ARREST_ESCORT_TIMEOUT_MS := 50000
 
+## Fraction (percent) of a photo's accepted bounty paid to the submitter once the suspect
+## is jailed.
+const PHOTO_BOUNTY_REWARD_PERCENT := 25
+
 ## Guilt over committed crimes, which can be pictured.
 ## Schema: { player_id(int): Array[{"id": int, "label": String, "time": int, "lasts": int, "amount": int}] }
 var _guilt_data: Dictionary[int, Array] = {}
@@ -32,6 +36,10 @@ var _next_guilt_id := 0
 
 ## Bounty (€) per player. If non-zero, player is wanted.
 var _bounty_data: Dictionary[int, int] = {}
+
+## subject_id -> Array[{"submitter_id": int, "amount": int}], the bounty added by accepted
+## photo submissions. Server only. Paid out (and cleared) when the suspect is jailed.
+var _bounty_contributions: Dictionary[int, Array] = {}
 
 ## player_id -> reserved JailCell while being escorted / detained. Server only.
 var _jail_reservations: Dictionary[int, JailCell] = {}
@@ -112,6 +120,19 @@ func add_bounty(player_id: int, amount: int) -> void:
 		_rpc_add_bounty(player_id, amount)
 	elif Net.is_client:
 		_rpc_add_bounty.rpc_id(1, player_id, amount)
+
+
+## Server-only: records that [param submitter_id] added [param amount] (€) to
+## [param subject_id]'s bounty via an accepted photo. Paid out when the suspect is jailed.
+func record_bounty_contribution(subject_id: int, submitter_id: int, amount: int) -> void:
+	if not Net.is_server or amount <= 0:
+		return
+	if not _bounty_contributions.has(subject_id):
+		_bounty_contributions[subject_id] = []
+	_bounty_contributions[subject_id].append({
+		"submitter_id": submitter_id,
+		"amount": amount,
+	})
 
 
 ## Returns the total guilt of a given player in euros.
@@ -199,16 +220,39 @@ func is_player_detained(player_id: int) -> bool:
 
 
 ## Server-only bookkeeping: marks [param player_id] as locked in a cell. Clearing it
-## frees their cell reservation. Not a player state.
+## frees their cell reservation. Not a player state. Jailing pays out photo rewards once.
 func set_detained(player_id: int, value: bool) -> void:
 	if not Net.is_server:
 		return
 	if value:
-		_detained[player_id] = true
+		if not _detained.has(player_id):
+			_detained[player_id] = true
+			_pay_bounty_rewards(player_id)
 	else:
 		_detained.erase(player_id)
 		_jail_reservations.erase(player_id)
 		_arrest_deadlines.erase(player_id)
+
+
+## Server-only: pays every recorded contributor 25% of what they added to
+## [param subject_id]'s bounty, then clears the record so a single jailing never pays
+## twice. The reward is minted; the bounty itself is untouched.
+func _pay_bounty_rewards(subject_id: int) -> void:
+	var contributions: Array = _bounty_contributions.get(subject_id, [])
+	if contributions.is_empty():
+		return
+	_bounty_contributions.erase(subject_id)
+	for entry: Dictionary in contributions:
+		var reward := int(entry["amount"]) * PHOTO_BOUNTY_REWARD_PERCENT / 100
+		if reward <= 0:
+			continue
+		MoneyManager.credit_account(entry["submitter_id"], reward, "Bounty reward")
+		MessageManager.send_message_to(
+			entry["submitter_id"],
+			"Police Department",
+			"Bounty Reward",
+			"The suspect you identified has been jailed. %d€ was paid into your account." % reward,
+		)
 
 
 ## Puts a player under arrest: confiscates their belongings, opens their cell door and

@@ -60,6 +60,10 @@ func _mount_default_equipment() -> void:
 func _is_peer_in_interest_range(peer_id: int) -> bool:
 	if not Net.is_server or peer_id == 0:
 		return false
+	# Never cull an actor we cannot place, or one mid-ragdoll: a flung ragdoll must
+	# not be despawned on the peers watching it.
+	if not global_position.is_finite() or is_ragdolled:
+		return true
 
 	var player_position: Variant = PlayerManager.get_peer_position_or_null(peer_id)
 	if player_position == null:

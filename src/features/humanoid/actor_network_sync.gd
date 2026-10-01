@@ -6,6 +6,10 @@ extends Node
 
 ## How quickly remote actors catch up to the latest synced position.
 @export var interp_speed := 12.0
+## Metres the rendered body may be from the authoritative transform before we snap
+## instead of interpolating. Turns teleports (respawns, arrests, ragdoll resets) into
+## an instant pop rather than a fast dash across the gap.
+@export var max_snap_distance := 5.0
 var _interp_ready := false
 var disabled := false
 
@@ -13,7 +17,8 @@ func interpolate(delta: float) -> void:
 	if disabled:
 		return
 	var h := owner as Humanoid
-	if not _interp_ready:
+	var error_sq := h.global_position.distance_squared_to(h.network_position)
+	if not _interp_ready or error_sq > max_snap_distance * max_snap_distance:
 		h.global_position = h.network_position
 		h.global_rotation = h.network_rotation
 		_interp_ready = true

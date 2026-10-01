@@ -27,11 +27,12 @@ collision_layer = 32
 collision_mask = 65
 physics_material_override = SubResource("PhysicsMaterial_aco40")
 script = ExtResource("1_8e34p")
-engine_force = 20.0
-max_speed = 13.08
+engine_force = 15.0
+max_speed = 11.0
 lateral_grip = 3.0
-steer_strength = 30.0
-balance_strength = 2.5
+steer_strength = 15.0
+balance_strength = 2.0
+ragdoll_tilt_degrees = 48.0
 
 [node name="electric_scooter" parent="." unique_id=377879878 instance=ExtResource("2_f8p5m")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)

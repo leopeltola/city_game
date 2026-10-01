@@ -7,6 +7,13 @@ extends Node
 ## Shared by players and NPCs. The local player's camera (when set) follows the head
 ## bone while down.
 
+## Physics layer the ragdoll bones use while simulated (project.godot layer 8,
+## "ragdoll"). Their own layer, so a flopped actor is never detectable as a player.
+const RAGDOLL_LAYER := 8
+## World layers the bones collide with while flopped: environment and road.
+const WORLD_LAYER := 1
+const ROAD_LAYER := 7
+
 @export_group("Ragdoll")
 ## How long a ragdolled victim stays flopped before standing back up
 @export var ragdoll_duration := 1.5
@@ -18,6 +25,10 @@ extends Node
 @export var ragdoll_head_impulse_scale := 0.6
 ## Multiplier on the root impulse applied to the hands
 @export var ragdoll_limb_impulse_scale := 0.25
+## Largest distance the origin may be dragged by the ragdoll in a single physics
+## frame. Guards the authoritative position against a physics spike (a fling) or a
+## non-finite bone read poisoning it.
+@export var max_origin_step := 1.0
 
 ## Marks whether the actor is ragdolled, blocks actions etc.
 var is_ragdolled := false
@@ -49,7 +60,7 @@ func start(force: Vector3) -> void:
 	if is_instance_valid(h.movement_collision):
 		h.movement_collision.disabled = true
 	if is_instance_valid(h.physical_bones):
-		_set_ragdoll_bone_collision(true)
+		set_bone_collision(true)
 		h.physical_bones.physical_bones_start_simulation()
 		for bone: Node in h.physical_bones.get_children():
 			if bone is PhysicalBone3D:
@@ -65,10 +76,7 @@ func start(force: Vector3) -> void:
 func process_ragdoll(_delta: float) -> void:
 	var h := _owner
 	var root_pos := await _bone_global_position("Root")
-	h.global_position.x = root_pos.x
-	h.global_position.z = root_pos.z
-	h.network_position = h.global_position
-	h.network_rotation = h.global_rotation
+	_follow_root_bone(root_pos)
 	if h.is_local and is_instance_valid(h.camera):
 		h.camera.global_position = await _bone_global_position("Head_2")
 
@@ -102,10 +110,7 @@ func process_rise(delta: float) -> void:
 func process_rise_physics(_delta: float) -> void:
 	var h := _owner
 	var root_pos := await _bone_global_position("Root")
-	h.global_position.x = root_pos.x
-	h.global_position.z = root_pos.z
-	h.network_position = h.global_position
-	h.network_rotation = h.global_rotation
+	_follow_root_bone(root_pos)
 	if h.is_local and is_instance_valid(h.camera):
 		h.camera.global_position = await _bone_global_position("Head_2")
 
@@ -117,7 +122,7 @@ func _finish_rise() -> void:
 	if is_instance_valid(h.physical_bones):
 		h.physical_bones.influence = 1.0
 		h.physical_bones.physical_bones_stop_simulation()
-		_set_ragdoll_bone_collision(false)
+		set_bone_collision(false)
 	if is_instance_valid(h.movement_collision):
 		h.movement_collision.disabled = false
 	h.velocity = Vector3.ZERO
@@ -133,6 +138,23 @@ func _finish_rise() -> void:
 		tw.set_parallel(true)
 		tw.tween_property(h.camera, "position", Vector3(0.0, 0.15345, -0.060455), 0.1)
 		tw.tween_property(h.camera, "rotation", Vector3.ZERO, 0.1)
+
+
+## Moves the actor's origin to follow the ragdoll's root bone (X/Z only, keeping the
+## standing height). Rejects non-finite reads and clamps one frame's displacement so a
+## physics spike cannot fling the origin across the map or poison network_position.
+func _follow_root_bone(bone_position: Vector3) -> void:
+	var h := _owner
+	if not bone_position.is_finite():
+		return
+	var offset := Vector3(
+		bone_position.x - h.global_position.x, 0.0, bone_position.z - h.global_position.z
+	)
+	if offset.length() > max_origin_step:
+		offset = offset.normalized() * max_origin_step
+	h.global_position += offset
+	h.network_position = h.global_position
+	h.network_rotation = h.global_rotation
 
 
 ## World-space position of a named rig bone, used to track the ragdoll's head/root.
@@ -160,13 +182,18 @@ func _ragdoll_impulse_scale_for(bone_name: StringName) -> float:
 
 
 ## Toggles the physical bone bodies' collision so the idle kinematic bodies never
-## block anyone, while an active ragdoll collides with the world.
-func _set_ragdoll_bone_collision(active: bool) -> void:
+## block anyone, while an active ragdoll collides with the world. The layers are
+## assigned explicitly (not bit-set) so the result never depends on authored values.
+func set_bone_collision(active: bool) -> void:
 	if not is_instance_valid(_owner.physical_bones):
 		return
 
+	var layer := (1 << (RAGDOLL_LAYER - 1)) if active else 0
+	var mask := 0
+	if active:
+		mask |= 1 << (WORLD_LAYER - 1)
+		mask |= 1 << (ROAD_LAYER - 1)
 	for bone: Node in _owner.physical_bones.get_children():
 		if bone is PhysicalBone3D:
-			bone.set_collision_layer_value(2, active)
-			bone.set_collision_mask_value(1, active)
-			bone.set_collision_mask_value(7, active)
+			bone.collision_layer = layer
+			bone.collision_mask = mask

@@ -71,6 +71,7 @@ func _submit(player_id: int) -> void:
 			subject_id,
 			CrimeManager.get_player_bounty(subject_id) + claimable,
 		)
+		CrimeManager.record_bounty_contribution(subject_id, player_id, claimable)
 
 	var pd: PlayerData = PlayerManager.get_player_by_id(player_id)
 	if pd == null:
@@ -79,11 +80,12 @@ func _submit(player_id: int) -> void:
 	_rpc_consume_photo.rpc_id(pd.peer_id, photo_id)
 
 	if accepted:
+		var reward: int = claimable * CrimeManager.PHOTO_BOUNTY_REWARD_PERCENT / 100
 		MessageManager.send_message_to(
 			player_id,
 			"Police Department",
 			"Evidence Accepted",
-			"The photo was clear enough to identify the suspect. %s€ has been added to their bounty." % claimable,
+			"The photo was clear enough to identify the suspect. %s€ has been added to their bounty. You will receive %s€ once they are jailed." % [claimable, reward],
 		)
 	else:
 		MessageManager.send_message_to(
