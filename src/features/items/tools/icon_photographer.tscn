@@ -12,6 +12,9 @@ reflected_light_source = 1
 
 [node name="IconPhotographer" type="Node3D" unique_id=221841315]
 script = ExtResource("1_photo")
+rotation_overrides = Dictionary[StringName, Vector3]({
+&"debit_card": Vector3(80, 80, 80)
+})
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=254259796]
 unique_name_in_owner = true
