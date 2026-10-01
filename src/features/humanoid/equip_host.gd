@@ -21,7 +21,7 @@ const UNARMED_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/
 const CAMERA_EQUIP_SCENE: PackedScene = preload("res://src/features/items/data/camera/camera_equip.tscn")
 
 ## Seconds before the camera can be pulled out again after a photo is taken.
-const CAMERA_COOLDOWN := 40.0
+const CAMERA_COOLDOWN := 15.0
 
 ## The actor this host belongs to. Equips reach the actor's animator/status through it.
 @export var player: Humanoid = null
