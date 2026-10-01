@@ -11,7 +11,9 @@ world_item_path = "uid://lssi5fnlfvsn"
 equip_item_path = "uid://cq85g2w5xaxl5"
 icon = ExtResource("1_7rueo")
 instance_data = Dictionary[StringName, Variant]({
-&"is_empty": true
+&"is_empty": true,
+&"location": &"",
+&"reward": 0
 })
 base_value = 2
 metadata/_custom_type_script = "uid://1v4ix87tn325"

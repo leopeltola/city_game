@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://bj3prdfge4t0j" path="res://src/features/interior/bank/plant.glb" id="6_xpsyw"]
 [ext_resource type="PackedScene" uid="uid://jy8p3mhkwvey" path="res://src/features/interior/bank/notice_board.glb" id="7_3l52i"]
 [ext_resource type="PackedScene" uid="uid://we3n7sklupbq" path="res://src/features/interior/bank/tubelamp.glb" id="8_o76h5"]
+[ext_resource type="PackedScene" path="res://src/features/missions/mission_location.tscn" id="9_f5ju2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7x8t4"]
+size = Vector3(1.8717041, 2.0066407, 1)
 
 [node name="KelaBuilding" type="Node3D" unique_id=131200258]
 
@@ -80,4 +84,13 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1
 [node name="tubelamp6" parent="FurnitureContainer" unique_id=97257331 instance=ExtResource("8_o76h5")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 1.018, 3.2146373)
 
+[node name="PizzaDelivery" parent="." unique_id=707731770 instance=ExtResource("9_f5ju2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.0707774, 0.35600132, 1.0201311)
+location_name = &"kela"
+
+[node name="CollisionShape3D" parent="PizzaDelivery" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031921387, 0.61087364, 0)
+shape = SubResource("BoxShape3D_7x8t4")
+
 [editable path="building"]
+[editable path="PizzaDelivery"]

@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/interior/pizzeria/pizza_mission_board.gd" id="1_board"]
+[ext_resource type="PackedScene" uid="uid://jy8p3mhkwvey" path="res://src/features/interior/bank/notice_board.glb" id="2_board"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_board"]
+size = Vector3(1.4, 1.4, 0.6)
+
+[node name="PizzaMissionBoard" type="Area3D"]
+script = ExtResource("1_board")
+prompt = "Assign Delivery"
+
+[node name="notice_board" parent="." instance=ExtResource("2_board")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_board")

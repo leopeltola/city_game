@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/missions/mission_location.gd" id="1_mloc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mloc"]
+size = Vector3(1, 1.4, 1)
+
+[node name="MissionLocation" type="Area3D"]
+script = ExtResource("1_mloc")
+prompt = "Deliver Pizza"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_mloc")
+
+[node name="DropPoint" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)

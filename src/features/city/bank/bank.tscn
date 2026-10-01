@@ -4,6 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://dve33aig6wtvp" path="res://src/features/bank/bank_card_desk.tscn" id="2_okhr5"]
 [ext_resource type="PackedScene" uid="uid://m87c3n4offy4" path="res://src/features/bank/bank_deposit.tscn" id="3_pc7j6"]
 [ext_resource type="PackedScene" uid="uid://bdpnludk300lc" path="res://src/features/city/bank/vault_door.tscn" id="4_2idvf"]
+[ext_resource type="PackedScene" path="res://src/features/missions/mission_location.tscn" id="5_mloc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nx7fv"]
+size = Vector3(1.8717041, 1.4, 1)
 
 [node name="Bank" type="Node3D" unique_id=654942822]
 
@@ -41,3 +45,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7788553, 2, -6.860935)
 
 [node name="BankCardDesk8" parent="." unique_id=302024737 instance=ExtResource("2_okhr5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.829828, 2, -6.860935)
+
+[node name="PizzaDelivery" parent="." unique_id=669556883 instance=ExtResource("5_mloc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6.273615)
+location_name = &"bank"
+
+[node name="CollisionShape3D" parent="PizzaDelivery" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031921387, 0.91419387, 0)
+shape = SubResource("BoxShape3D_nx7fv")
+
+[editable path="PizzaDelivery"]

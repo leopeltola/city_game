@@ -9,6 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://ln5uarworkc6" path="res://src/features/interior/casino/casino_table.glb" id="10_0axky"]
 [ext_resource type="PackedScene" uid="uid://daewxbpt0g5sd" path="res://src/features/interior/casino/bench.glb" id="11_t4bbe"]
 [ext_resource type="PackedScene" uid="uid://cfje0kyuwhxbs" path="res://src/features/gambling/slot_machine/slot_machine.tscn" id="12_t4bbe"]
+[ext_resource type="PackedScene" path="res://src/features/missions/mission_location.tscn" id="13_mloc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xbkp3"]
+size = Vector3(1.6333008, 1.4, 1)
 
 [node name="CasinoBuilding" type="Node3D" unique_id=108205738]
 
@@ -167,4 +171,13 @@ spot_range = 9.675
 [node name="BankDeposit" parent="." unique_id=1111595191 instance=ExtResource("9_xbkp3")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 7.1663857, 1.5000007, 8.158162)
 
+[node name="PizzaDelivery" parent="." unique_id=186959652 instance=ExtResource("13_mloc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1716162, 9.4273)
+location_name = &"casino"
+
+[node name="CollisionShape3D" parent="PizzaDelivery" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025146484, 0.9999999, 0)
+shape = SubResource("BoxShape3D_xbkp3")
+
 [editable path="interior_base"]
+[editable path="PizzaDelivery"]

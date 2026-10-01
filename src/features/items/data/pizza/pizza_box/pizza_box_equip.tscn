@@ -32,3 +32,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0033772774, 0)
 [node name="pizza_box_lid" parent="RightHandAnchor/Visual" unique_id=1941230624 instance=ExtResource("5_xoa5k")]
 transform = Transform3D(1, 0, 0, 0, 0.55075127, 0.83466965, 0, -0.8346696, 0.55075115, 0, 0.35533437, -0.2130962)
 visible = false
+
+[node name="NoteLabel" type="Label3D" parent="RightHandAnchor"]
+unique_name_in_owner = true
+visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+billboard = 1
+no_depth_test = true
+text = "Note"
+font_size = 32
