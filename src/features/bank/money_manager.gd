@@ -61,6 +61,7 @@ func _on_player_added(pd: PlayerData) -> void:
 	await get_tree().process_frame
 	for player_id: int in _balance:
 		_rpc_sync_balance.rpc_id(pd.peer_id, player_id, _balance[player_id])
+	_rpc_sync_history.rpc_id(pd.peer_id, pd.player_id, _history_snapshot(pd.player_id))
 
 
 #region Reads
@@ -75,6 +76,13 @@ func get_history(player_id: int) -> Array[Dictionary]:
 	var entries: Array[Dictionary] = []
 	entries.assign(_history.get(player_id, []) as Array)
 	return entries
+
+
+## Asks the server to resend the local owner's history. Called by the finances UI so a
+## client always has the current list, even if it missed earlier delta pushes.
+func request_history() -> void:
+	if Net.is_client:
+		_rpc_request_history.rpc_id(Net.SERVER_ID)
 
 
 ## Returns every live debit card item owned by [param player_id], wherever it is.
@@ -341,20 +349,13 @@ func _apply_balance_change(player_id: int, delta: int, label: String) -> void:
 func _add_history(player_id: int, amount: int, label: String) -> void:
 	if not _history.has(player_id):
 		_history[player_id] = []
-	var entries: Array = _history[player_id]
-	entries.append({
+	_history[player_id].append({
 		"amount": amount,
 		"label": label,
 		"time": int(Time.get_unix_time_from_system()),
 	})
-	while entries.size() > MAX_HISTORY:
-		entries.pop_front()
-
-
-func _sync_history_to_owner(player_id: int) -> void:
-	var pd: PlayerData = PlayerManager.get_player_by_id(player_id)
-	if pd:
-		_rpc_sync_history.rpc_id(pd.peer_id, get_history(player_id))
+	while _history[player_id].size() > MAX_HISTORY:
+		_history[player_id].pop_front()
 
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -370,10 +371,41 @@ func _rpc_sync_balance(player_id: int, amount: int) -> void:
 	balance_changed.emit(player_id, amount)
 
 
+func _sync_history_to_owner(player_id: int) -> void:
+	# The authoritative peer is a player too, and the sync RPCs are `call_remote`, so it
+	# must refresh its own UI directly.
+	history_changed.emit(player_id)
+	var pd: PlayerData = PlayerManager.get_player_by_id(player_id)
+	if pd == null:
+		push_error("MoneyManager: no PlayerData for player %d; history sync skipped." % player_id)
+	elif pd.peer_id != multiplayer.get_unique_id():
+		# `call_remote` RPCs to the local peer are rejected; the emit above already
+		# refreshed the authoritative UI.
+		_rpc_sync_history.rpc_id(pd.peer_id, player_id, _history_snapshot(player_id))
+
+
+# Returns [param player_id]'s history as a plain (untyped) Array, the shape the RPC
+# argument is declared with.
+func _history_snapshot(player_id: int) -> Array:
+	var entries: Array = []
+	entries.assign(get_history(player_id))
+	return entries
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _rpc_request_history() -> void:
+	assert(Net.is_server)
+	var pd: PlayerData = PlayerManager.get_player_by_peer_id(multiplayer.get_remote_sender_id())
+	if pd:
+		_sync_history_to_owner(pd.player_id)
+
+
 @rpc("authority", "call_remote", "reliable")
 func _rpc_sync_history(player_id: int, entries: Array) -> void:
 	assert(Net.is_client)
-	_history[player_id] = entries
+	var copy: Array[Dictionary] = []
+	copy.assign(entries)
+	_history[player_id] = copy
 	history_changed.emit(player_id)
 
 #endregion

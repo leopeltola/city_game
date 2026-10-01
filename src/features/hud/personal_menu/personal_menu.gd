@@ -33,6 +33,6 @@ func set_tab(tab: StringName) -> void:
 			%TabContainer.current_tab = 1
 		"finances":
 			%TabContainer.current_tab = 2
-			_finances.refresh()
+			_finances.refresh_from_server()
 		_:
 			assert(false, "Tab '%s' not found in PersonalMenu" % tab)

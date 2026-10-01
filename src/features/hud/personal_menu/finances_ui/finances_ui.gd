@@ -31,6 +31,13 @@ func refresh() -> void:
 	_refresh_history(player_id)
 
 
+## Rebuilds and asks the server for the latest history. Use when the tab is opened, so a
+## client that missed earlier pushes still gets the full list.
+func refresh_from_server() -> void:
+	MoneyManager.request_history()
+	refresh()
+
+
 func _refresh_if_visible() -> void:
 	if visible:
 		refresh()
@@ -38,7 +45,7 @@ func _refresh_if_visible() -> void:
 
 func _on_visibility_changed() -> void:
 	if visible:
-		refresh()
+		refresh_from_server()
 
 
 func _refresh_cards(player_id: int) -> void:
