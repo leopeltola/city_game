@@ -71,8 +71,7 @@ func _ready() -> void:
 		%CameraSlot.queue_free()
 
 
-func _process(delta: float) -> void:
-	super(delta)
+func _process(_delta: float) -> void:
 	if Input.is_action_pressed("show_player_names") and Net.is_client:
 		%NameLabel3D.text = player_data.player_name
 		%NameLabel3D.show()

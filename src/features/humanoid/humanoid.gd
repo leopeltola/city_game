@@ -88,22 +88,18 @@ func _ready() -> void:
 	ragdoll.set_bone_collision(false)
 
 
-func _process(delta: float) -> void:
-	if is_instance_valid(ragdoll) and ragdoll.is_rising():
-		ragdoll.process_rise(delta)
-
-
 func _physics_process(delta: float) -> void:
-	if not is_local:
-		network_sync.interpolate(delta)
-		return
-
 	hittable_area_col_shape.disabled = is_ragdolled # Can't be hit if ragdolled
 	if is_ragdolled:
-		if ragdoll.is_rising():
-			ragdoll.process_rise_physics(delta)
-		else:
-			ragdoll.process_ragdoll(delta)
+		# The physics ragdoll simulates on every peer (started through the shared
+		# _rpc_get_hit), so each peer sees the same flop. ActorRagdoll owns the whole
+		# flop/rise timeline and the origin tracking; while flopped the normal transform
+		# interpolation is skipped so it cannot fight the local simulation.
+		ragdoll.tick(delta)
+		return
+
+	if not is_local:
+		network_sync.interpolate(delta)
 		return
 
 	_update_locomotion()
@@ -156,6 +152,12 @@ func has_stamina(_amount: float) -> bool:
 ## camera and may drop an item; NPCs lose health and drop cash. [param attacker_id] is
 ## the attacking player, or 0 for non-player sources.
 func _on_hit_received(_damage: float, _attacker_id: int = 0) -> void:
+	pass
+
+
+## Virtual hook called by [ActorRagdoll] when the actor enters or leaves an active
+## ragdoll. Subclasses can react (e.g. raise the transform sync rate while flying).
+func _on_ragdoll_state_changed(_active: bool) -> void:
 	pass
 
 
@@ -215,11 +217,17 @@ func _rpc_get_hit(
 	ragdoll: bool,
 	attacker_id: int,
 ) -> void:
-	if is_ragdolled:
-		return
 	velocity += force
 	_apply_hit_slow(damage)
 	_on_hit_received(damage, attacker_id)
+
+	# A ragdoll hit restarts the flop even mid-ragdoll: the body is lying there and must
+	# react, not slide along the floor. A non-ragdoll hit only adds knockback (already
+	# applied above) and is ignored while down.
+	if is_ragdolled:
+		if ragdoll:
+			self.ragdoll.start(force)
+		return
 
 	if ragdoll:
 		self.ragdoll.start(force)
@@ -245,4 +253,3 @@ func _apply_hit_slow(damage: float) -> void:
 func _rpc_trigger_block_success() -> void:
 	is_blocking = false
 	animator.cancel_action(0.1)
-

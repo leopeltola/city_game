@@ -38,8 +38,17 @@ scene = ExtResource("5_grwx5")
 height = 3.45
 metadata/_custom_type_script = "uid://dheva72pividh"
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_q1gf2"]
+size = Vector3(8.3967285, 5.0307007, 8.324951)
+
 [node name="Modular1Building" type="Node3D" unique_id=1343563861]
 script = ExtResource("1_yajmn")
 bases = Array[ExtResource("2_tcobc")]([SubResource("Resource_4r2mf"), SubResource("Resource_8ekmf")])
 stories = Array[ExtResource("2_tcobc")]([SubResource("Resource_q1gf2"), SubResource("Resource_g318b")])
 roofs = Array[ExtResource("2_tcobc")]([SubResource("Resource_b3iag")])
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1062547163]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=526852275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.040649414, 2.4689026, -0.029174805)
+shape = SubResource("BoxShape3D_q1gf2")

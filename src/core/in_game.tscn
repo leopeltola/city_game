@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bwutnfqbytmqn" path="res://src/features/items/item_multiplayer_spawner.gd" id="4_anh6s"]
 [ext_resource type="Resource" uid="uid://ciqsttqw5asp3" path="res://src/features/items/data/bottle_crate/bottle_crate.tres" id="6_j2hit"]
 [ext_resource type="Resource" uid="uid://dx75cf3mfbggv" path="res://src/features/items/data/cash/cash.tres" id="7_64k4k"]
+[ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="8_abikt"]
 [ext_resource type="PackedScene" path="res://src/features/npc/guard/guard_spawner.tscn" id="11_rur3b"]
 [ext_resource type="Resource" uid="uid://8nbmgp43nxsk" path="res://src/features/items/data/briefcase/briefcase.tres" id="12_tugk2"]
 [ext_resource type="PackedScene" uid="uid://c18owk4geliw8" path="res://src/features/hud/hud.tscn" id="17_rur3b"]
@@ -144,6 +145,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.831448, 0, 16.820786)
 transform = Transform3D(0.9788628, -0.20451781, 0, 0.20451781, 0.9788628, 0, 0, 0, 1, -0.06307411, 1.1110339, 11.0879135)
 script = ExtResource("3_hxguo")
 item_type = ExtResource("6_j2hit")
+
+[node name="BottleCrateSpawner2" type="Node3D" parent="Spawners" unique_id=80438623]
+transform = Transform3D(0.9788628, -0.20451781, 0, 0.20451781, 0.9788628, 0, 0, 0, 1, -0.8462912, 1.1110337, 9.5142975)
+script = ExtResource("3_hxguo")
+item_type = ExtResource("8_abikt")
 
 [node name="CashSpawner2" type="Node3D" parent="Spawners" unique_id=1594633420]
 transform = Transform3D(0.9788628, -0.20451781, 0, 0.20451781, 0.9788628, 0, 0, 0, 1, 17.542774, 1.5886322, 7.041192)

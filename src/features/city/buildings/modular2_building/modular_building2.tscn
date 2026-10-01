@@ -32,6 +32,12 @@ data = PackedVector3Array(6.2, 0.5, -6.2, 6.2, 3, -6, 6.2, 0.5, -6, 6.2, 0.5, -6
 [sub_resource type="BoxShape3D" id="BoxShape3D_q1gf2"]
 size = Vector3(14.400726, 6.6125946, 12.327759)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_g318b"]
+size = Vector3(5.8545074, 3.739746, 12.123474)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f0sk6"]
+size = Vector3(3.2007465, 3.739746, 10.210556)
+
 [node name="ModularBuilding2" type="Node3D" unique_id=1693065470]
 script = ExtResource("1_j0uyl")
 bases = Array[ExtResource("2_f0sk6")]([SubResource("Resource_j0uyl")])
@@ -49,8 +55,30 @@ occluder = SubResource("BoxOccluder3D_g318b")
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1683742701]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1698566086]
+visible = false
 shape = SubResource("ConcavePolygonShape3D_f0sk6")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D" unique_id=1329533473]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.017715454, 6.375233, 0.054992676)
+visible = false
 shape = SubResource("BoxShape3D_q1gf2")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D" unique_id=1732809608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1210403, 1.7609863, -0.03543091)
+shape = SubResource("BoxShape3D_g318b")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticBody3D" unique_id=1545633475]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.172208, 1.7609863, -0.03543091)
+shape = SubResource("BoxShape3D_g318b")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="StaticBody3D" unique_id=1064092199]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2642784, 1.7609863, -0.020973206)
+shape = SubResource("BoxShape3D_f0sk6")
+
+[node name="modular2_building_baselayer" parent="." unique_id=501823765 instance=ExtResource("3_75mmd")]
+
+[node name="BaseFloor" parent="modular2_building_baselayer" index="0" unique_id=709442412]
+instance_shader_parameters/main_color = Color(0.8535616, 0.5771508, 0.57742745, 1)
+instance_shader_parameters/secondary_color = Color(0.4503343, 0.3923931, 0.34857777, 1)
+
+[editable path="modular2_building_baselayer"]

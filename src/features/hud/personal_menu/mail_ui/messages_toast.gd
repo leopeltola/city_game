@@ -95,5 +95,4 @@ func _on_toast_finished(toast: ToastItem) -> void:
 
 
 func _on_message_received(message) -> void:
-	print(message, PlayerManager.get_local_player_or_null())
 	show_msg_toast(message["sender"], message["title"], message["msg"])

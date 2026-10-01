@@ -19,6 +19,9 @@ extends Humanoid
 @export_group("Network")
 ## Seconds between transform syncs. Lower values are smoother but cost more bandwidth.
 @export var network_sync_interval := 0.1
+## Transform sync rate used while this NPC is mid-ragdoll. Remote peers pull their local
+## flop toward this position, so it wants fresher samples than the idle/walking rate.
+@export var ragdoll_sync_interval := 1.0 / 30.0
 ## Peers whose player body is further than this stop receiving the NPC at all. The
 ## server despawns it on that peer, so it costs neither bandwidth nor client CPU.
 @export var interest_radius := 60.0
@@ -80,6 +83,17 @@ func _is_peer_in_interest_range(peer_id: int) -> bool:
 ## Drops cached interest state for a peer that left.
 func _on_peer_disconnected(peer_id: int) -> void:
 	_interest_peers.erase(peer_id)
+
+
+## Virtual from Humanoid: replicate the flying body more often so the reconciliation
+## target the peers ease onto stays fresh.
+func _on_ragdoll_state_changed(active: bool) -> void:
+	if not Net.is_server:
+		return
+	if active:
+		network_synchronizer.replication_interval = ragdoll_sync_interval
+	else:
+		network_synchronizer.replication_interval = network_sync_interval
 
 
 ## Virtual hook from Humanoid: runs on every peer, but only the server acts.

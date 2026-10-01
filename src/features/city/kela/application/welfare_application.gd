@@ -46,7 +46,7 @@ func interact(player_id: int) -> void:
 		MessageManager.send_message_to(PlayerManager.get_local_player().player_id, "Kela", "Welfare Application Rejected", "Terms not accepted")
 		return
 
-	MessageManager.send_message_to(PlayerManager.get_local_player().player_id, "Kela", "Welfare Application Accepted", "Your welfare application has been accepted. \n20€ has been given to you as cash.")
+	MessageManager.send_message_to(PlayerManager.get_local_player().player_id, "Kela", "Welfare Application Accepted", "Your welfare application has been accepted. \n\n20€ has been given to you as cash.")
 	spawn_cash(20)
 	_sw.restart()
 
