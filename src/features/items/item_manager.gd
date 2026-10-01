@@ -100,6 +100,10 @@ func _rpc_request_create_item(item_id: int, type_name: StringName, instance_data
 # Server-side application of a create request: stores the item and syncs it to all peers.
 func _execute_create_item(item_id: int, type_name: StringName, instance_data: Dictionary) -> void:
 	var data := get_item_type(type_name).get_data_dict(item_id, instance_data)
+	# A spawn may have registered this item first from a client payload; keep the runtime
+	# fields it already applied (position, owner, launch_force) instead of resetting them.
+	if _items.has(item_id):
+		data.merge(_items[item_id], true)
 	_items[item_id] = data
 	_rpc_create_item.rpc(data)
 
@@ -116,24 +120,38 @@ func _rpc_create_item(data: Dictionary) -> void:
 ## Can be called on both server and client. When called on client, execution is delayed. 
 func create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO, owner_player_id: int = 0) -> void:
 	assert(ItemMultiplayerSpawner.instance, "ItemMultiplayerSpawner not present")
-	assert(_items.has(item_id))
+
+	var data: Dictionary = _items.get(item_id, { })
+	if data.is_empty():
+		push_warning("ItemManager.create_world_item_for: unknown item id %d" % item_id)
+		return
 
 	if Net.is_server:
-		_rpc_create_world_item_for(item_id, position, rotation, force, owner_player_id)
+		_rpc_create_world_item_for(item_id, position, rotation, force, owner_player_id, data)
 	elif Net.is_client:
-		_rpc_create_world_item_for.rpc_id(1, item_id, position, rotation, force, owner_player_id)
+		_rpc_create_world_item_for.rpc_id(1, item_id, position, rotation, force, owner_player_id, data)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO, owner_player_id: int = 0) -> void:
+func _rpc_create_world_item_for(item_id: int, position: Vector3, rotation: Vector3 = Vector3.ZERO, force: Vector3 = Vector3.ZERO, owner_player_id: int = 0, data: Dictionary = { }) -> void:
 	assert(Net.is_server)
-	var data := _items[item_id]
-	data["position"] = position
-	data["rotation"] = rotation
-	data["launch_force"] = force
+
+	# A client-created item may not be registered on the server yet (or was already
+	# destroyed). Rebuild it from the payload the caller sent along, and tell every peer.
+	if not _items.has(item_id):
+		if data.is_empty():
+			push_warning("ItemManager: dropped world spawn for unknown item id %d" % item_id)
+			return
+		_items[item_id] = data
+		_rpc_create_item.rpc(data)
+
+	var spawn_data: Dictionary = _items[item_id]
+	spawn_data["position"] = position
+	spawn_data["rotation"] = rotation
+	spawn_data["launch_force"] = force
 	if owner_player_id:
-		data["owner"] = owner_player_id # player id, 0 = none
-	ItemMultiplayerSpawner.instance.spawn(data)
+		spawn_data["owner"] = owner_player_id # player id, 0 = none
+	ItemMultiplayerSpawner.instance.spawn(spawn_data)
 
 
 ## Destroys the given item's data. 
