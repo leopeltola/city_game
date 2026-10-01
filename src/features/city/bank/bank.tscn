@@ -9,9 +9,6 @@
 
 [node name="bank" parent="." unique_id=140416475 instance=ExtResource("1_jn8bg")]
 
-[node name="BankCardDesk" parent="." unique_id=1720204715 instance=ExtResource("2_okhr5")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.7811036, 2.000001, 1.984774)
-
 [node name="BankDeposit" parent="." unique_id=1111595191 instance=ExtResource("3_pc7j6")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.448995, 1.9999999, 2.7630577)
 
