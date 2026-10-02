@@ -2,6 +2,8 @@ extends Node
 
 var sfx_players: Array[AudioStreamPlayer] = []
 var sfx_players_3d: Array[AudioStreamPlayer3D] = []
+# Cache of resource_path -> AudioStream for networked SFX playback
+var _stream_cache: Dictionary = {}
 # Music Management
 var music_players: Array[AudioStreamPlayer] = []
 var _active_music_idx: int = 0
@@ -48,9 +50,23 @@ func _check_cli_mute() -> void:
 		get_window().title = get_window().title + " [MUTE]"
 
 
-func play_sfx(audio_stream: AudioStream, volume_db: float = 0) -> void:
+## Play a non-positional sound. Set [param play_on_all_clients] to true to have every
+## connected peer play it too (the caller included); the stream is sent by resource
+## path, so it must be a file resource.
+func play_sfx(audio_stream: AudioStream, volume_db: float = 0, play_on_all_clients: bool = false) -> void:
 	if not audio_stream:
 		return
+	if play_on_all_clients and Net.is_connected:
+		if audio_stream.resource_path.is_empty():
+			push_warning("Audio: cannot play %s on all clients (no resource_path); playing locally" % audio_stream)
+		else:
+			_rpc_play_sfx.rpc(audio_stream.resource_path, volume_db)
+			return
+
+	_play_sfx_local(audio_stream, volume_db)
+
+
+func _play_sfx_local(audio_stream: AudioStream, volume_db: float) -> void:
 	var pl := _get_empty_sfx_player()
 	if not pl:
 		return
@@ -60,10 +76,23 @@ func play_sfx(audio_stream: AudioStream, volume_db: float = 0) -> void:
 	pl.play()
 
 
-## Play a positional 3D sound at [position] in the world.
-func play_sfx_3d(audio_stream: AudioStream, position: Vector3, volume_db: float = 0, max_distance: float = 15.0) -> void:
+## Play a positional 3D sound at [position] in the world. Set [param play_on_all_clients]
+## to true to have every connected peer play it too (the caller included); the stream is
+## sent by resource path, so it must be a file resource.
+func play_sfx_3d(audio_stream: AudioStream, position: Vector3, volume_db: float = 0, max_distance: float = 15.0, play_on_all_clients: bool = false) -> void:
 	if not audio_stream:
 		return
+	if play_on_all_clients and Net.is_connected:
+		if audio_stream.resource_path.is_empty():
+			push_warning("Audio: cannot play %s on all clients (no resource_path); playing locally" % audio_stream)
+		else:
+			_rpc_play_sfx_3d.rpc(audio_stream.resource_path, position, volume_db, max_distance)
+			return
+
+	_play_sfx_3d_local(audio_stream, position, volume_db, max_distance)
+
+
+func _play_sfx_3d_local(audio_stream: AudioStream, position: Vector3, volume_db: float, max_distance: float) -> void:
 	var pl := _get_empty_sfx_player_3d()
 	if not pl:
 		return
@@ -73,6 +102,31 @@ func play_sfx_3d(audio_stream: AudioStream, position: Vector3, volume_db: float 
 	pl.max_distance = max_distance
 	pl.global_position = position
 	pl.play()
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_play_sfx(stream_path: String, volume_db: float) -> void:
+	var stream := _load_stream(stream_path)
+	if stream:
+		_play_sfx_local(stream, volume_db)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _rpc_play_sfx_3d(stream_path: String, position: Vector3, volume_db: float, max_distance: float) -> void:
+	var stream := _load_stream(stream_path)
+	if stream:
+		_play_sfx_3d_local(stream, position, volume_db, max_distance)
+
+
+func _load_stream(stream_path: String) -> AudioStream:
+	if _stream_cache.has(stream_path):
+		return _stream_cache[stream_path] as AudioStream
+	var stream := load(stream_path) as AudioStream
+	if stream:
+		_stream_cache[stream_path] = stream
+	else:
+		push_warning("Audio: failed to load sound at %s" % stream_path)
+	return stream
 
 
 ## Play a single track with optional crossfade
