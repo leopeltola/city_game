@@ -118,6 +118,12 @@ func _apply_controls(delta: float) -> void:
 		return
 	if not has_rider:
 		return
+	# A dismount now takes a server round-trip, during which rider_id is still set.
+	# Ignore a rider who has already been ragdolled (e.g. thrown off by a crash or a
+	# hit) so controls and _crash() don't fire again while the server confirms.
+	var rider := get_rider()
+	if rider == null or rider.is_ragdolled:
+		return
 	_apply_grip()
 	_apply_throttle()
 	_apply_steering()

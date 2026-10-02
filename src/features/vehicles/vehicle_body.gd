@@ -5,6 +5,10 @@ extends RigidBody3D
 ## it is parked) and the state replication that keeps every other peer eased
 ## toward the controller.
 ##
+## Rider assignment is server-arbitrated: clients request a board/dismount and only
+## the server broadcasts [method _rpc_set_rider], so two players racing for the same
+## vehicle can never both attach.
+##
 ## Subclasses override [method _physics_process] and [method _unhandled_input] to
 ## add their own controls and must call super() in both so rider handling and
 ## replication keep working.
@@ -35,6 +39,14 @@ func _ready() -> void:
 	can_sleep = false
 	net_position = global_position
 	net_rotation = global_rotation
+	PlayerManager.player_left.connect(_on_player_left)
+
+
+# A rider leaving mid-ride would otherwise leave rider_id pointing at a freed
+# player: no peer is controller and the vehicle is orphaned. The server clears it.
+func _on_player_left(data: PlayerData) -> void:
+	if multiplayer.is_server() and data.player_id == rider_id:
+		_server_set_rider(0)
 
 
 func _physics_process(delta: float) -> void:
@@ -101,27 +113,42 @@ func can_interact(player_id: int) -> bool:
 
 
 func interact(player_id: int) -> void:
-	_start_riding(player_id)
-
-
-func _start_riding(rider: int) -> void:
-	var player := PlayerManager.get_player_node_by_id(rider)
-	if not player:
-		return
-	%RemoteTransform3D.remote_path = player.get_path()
-	player.in_vehicle = true
-	_rpc_set_rider.rpc(rider)
+	if multiplayer.is_server():
+		_server_set_rider(player_id)
+	else:
+		_rpc_request_ride.rpc_id(SERVER_ID, player_id)
 
 
 func _stop_riding() -> void:
-	var player := get_rider()
-	%RemoteTransform3D.remote_path = ""
-	if player:
-		player.in_vehicle = false
-		# The RemoteTransform3D forced the vehicle's full tilt onto the rider, so
-		# level them back to a yaw-only rotation or they stand up skewed.
-		player.global_rotation = Vector3(0.0, global_rotation.y, 0.0)
-	_rpc_set_rider.rpc(0)
+	if multiplayer.is_server():
+		_server_set_rider(0)
+	else:
+		_rpc_request_ride.rpc_id(SERVER_ID, 0)
+
+
+# Board/dismount request from a client. The server is the only arbiter of rider
+# state, so two players racing for the same vehicle can never both attach (which
+# used to leave each rider's peer believing the *other* one was the controller).
+@rpc("any_peer", "call_remote", "reliable")
+func _rpc_request_ride(player_id: int) -> void:
+	if not multiplayer.is_server():
+		return
+	if player_id > 0:
+		var data := PlayerManager.get_player_by_id(player_id)
+		# Only let a peer claim a player that it actually owns.
+		if data == null or data.peer_id != multiplayer.get_remote_sender_id():
+			return
+	_server_set_rider(player_id)
+
+
+# Server-only: validates and then broadcasts the one authoritative rider state.
+func _server_set_rider(player_id: int) -> void:
+	if player_id > 0:
+		if has_rider and rider_id != player_id:
+			return # already occupied; first rider wins
+		if PlayerManager.get_player_by_id(player_id) == null:
+			return
+	_rpc_set_rider.rpc(player_id)
 
 
 # Applies a state from the network. The server relays a client's state so the
@@ -138,13 +165,30 @@ func _rpc_sync_state(pos: Vector3, rot: Vector3, lin: Vector3, ang: Vector3) -> 
 		_rpc_sync_state.rpc(pos, rot, lin, ang)
 
 
+# The single place rider state is applied, in order, on every peer. Idempotent:
+# whoever the server names is attached, and any previous rider is released.
 @rpc("any_peer", "call_local", "reliable")
 func _rpc_set_rider(player_id: int) -> void:
-	# player_id may be 0, which means no-one -> server simulates it
+	if rider_id == player_id:
+		return
+	var previous := get_rider()
+	if previous:
+		previous.in_vehicle = false
+		# The RemoteTransform3D forced the vehicle's full tilt onto the rider, so
+		# level them back to a yaw-only rotation or they stand up skewed. Skip while
+		# ragdolled: a crash detaches after the flop has already started.
+		if not previous.is_ragdolled:
+			previous.global_rotation = Vector3(0.0, global_rotation.y, 0.0)
+	rider_id = player_id
 	var net_id := SERVER_ID
 	if player_id > 0:
 		var data := PlayerManager.get_player_by_id(player_id)
 		if data:
 			net_id = data.peer_id # player net id
-	rider_id = player_id
 	set_multiplayer_authority(net_id)
+	var player := get_rider()
+	if player:
+		%RemoteTransform3D.remote_path = player.get_path()
+		player.in_vehicle = true
+	else:
+		%RemoteTransform3D.remote_path = ""
