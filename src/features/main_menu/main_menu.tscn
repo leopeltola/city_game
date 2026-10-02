@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cponjrynpiw40" path="res://src/features/main_menu/lobby_menu.tscn" id="2_d3a7t"]
 [ext_resource type="FontVariation" uid="uid://crg8pwcywimra" path="res://src/features/ui/theme/font_title.tres" id="2_h6vdu"]
 [ext_resource type="PackedScene" uid="uid://cqbhgp5t1ryvv" path="res://src/features/main_menu/create_lobby_menu.tscn" id="3_3shxk"]
+[ext_resource type="PackedScene" path="res://src/features/main_menu/lobby_screen.tscn" id="4_lobby"]
 
 [node name="MainMenu" type="Control" unique_id=496020962]
 layout_mode = 3
@@ -74,6 +75,11 @@ visible = false
 layout_mode = 2
 
 [node name="CreateLobbyMenu" parent="MarginContainer/CenterContainer" unique_id=34379040 instance=ExtResource("3_3shxk")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="LobbyScreen" parent="MarginContainer/CenterContainer" instance=ExtResource("4_lobby")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2

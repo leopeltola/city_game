@@ -3,8 +3,6 @@ extends NetConnector
 
 
 const DEFAULT_ROOM_ID := "default"
-const SIGNALING_SERVER_URL := "wss://simplewebrtc.pelto.dev/v2/ws"
-const GAME_ID := "peltodev-multiplayer-template"
 const WEBRTC_TOPOLOGY := SimpleWebRTC.Topology.SERVER_AUTHORITATIVE
 
 var _is_join_intent: bool = false
@@ -77,5 +75,5 @@ func _on_state_changed(new_state: int) -> void:
 
 
 func _apply_webrtc_defaults() -> void:
-	SimpleWebRTC.signaling_server_url = SIGNALING_SERVER_URL
-	SimpleWebRTC.game_id = GAME_ID
+	SimpleWebRTC.signaling_server_url = Net.SIGNALING_SERVER_URL
+	SimpleWebRTC.game_id = Net.GAME_ID

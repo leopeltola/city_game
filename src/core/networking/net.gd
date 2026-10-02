@@ -14,6 +14,11 @@ signal join_failed
 signal joined_game
 
 const SERVER_ID := 1
+const DEFAULT_MAX_CLIENTS := 32
+## Production signaling/relay endpoint and game scope. Shared by clients and the
+## headless server process so both sides always target the same service.
+const SIGNALING_SERVER_URL := "wss://simplewebrtc.pelto.dev/v2/ws"
+const GAME_ID := "peltodev-multiplayer-template"
 const WebRTCConnectorScript := preload("res://src/core/networking/connectors/webrtc_connector.gd")
 const ENetConnectorScript := preload("res://src/core/networking/connectors/enet_connector.gd")
 
@@ -55,7 +60,7 @@ func _ready() -> void:
 #region Lifecycle
 
 ## Hosts a lobby at [room_id] with the specified [max_clients].
-func start_server(id: String = "", max_clients: int = 32) -> Error:
+func start_server(id: String = "", max_clients: int = DEFAULT_MAX_CLIENTS) -> Error:
 	assert(not is_connected)
 	if is_connected:
 		return ERR_ALREADY_IN_USE

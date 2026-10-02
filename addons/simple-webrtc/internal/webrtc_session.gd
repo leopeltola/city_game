@@ -60,16 +60,15 @@ func poll() -> void:
 
 
 func handle_peer_joined(remote_peer_id: int, should_offer: bool) -> void:
-	if remote_peer_id == 0:
+	if remote_peer_id == 0 or not should_offer:
 		return
-	if should_offer:
-		var connection: WebRTCPeerConnection = _get_or_create_connection(remote_peer_id)
-		if connection == null:
-			return
-		var create_error: Error = connection.create_offer()
-		if create_error != OK:
-			connection_error.emit("Failed to create WebRTC offer")
-			return
+	var connection: WebRTCPeerConnection = _get_or_create_connection(remote_peer_id)
+	if connection == null:
+		return
+	var create_error: Error = connection.create_offer()
+	if create_error != OK:
+		connection_error.emit("Failed to create WebRTC offer")
+		return
 	_start_handshake_timer(remote_peer_id)
 
 
@@ -102,8 +101,13 @@ func handle_signal(message: Dictionary) -> void:
 
 func remove_connection(remote_peer_id: int) -> void:
 	var connection: WebRTCPeerConnection = _rtc_connections.get(remote_peer_id)
-	if connection != null:
-		connection.close()
+	if connection == null:
+		# In server_authoritative topology a client only holds the server
+		# connection, so a peer_left for anyone else must not be mapped to peer 1
+		# and tear the server connection down.
+		_cancel_handshake_timer(remote_peer_id)
+		return
+	connection.close()
 	var multiplayer_remote_peer_id: int = _to_multiplayer_peer_id(remote_peer_id)
 	if _webrtc_peer.has_peer(multiplayer_remote_peer_id):
 		_webrtc_peer.remove_peer(multiplayer_remote_peer_id)

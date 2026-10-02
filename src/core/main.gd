@@ -7,6 +7,8 @@ const LOADING_SCREEN_SCENE := preload("res://src/features/main_menu/loading_scre
 const INGAME_SCENE_PATH := "res://src/core/in_game.tscn"
 
 var _current_ingame_instance: Node = null
+var _is_dedicated_server := false
+var _dev_mode := false
 var _loading_started := false
 
 const MIN_CLIENTS_TO_START := 2
@@ -14,7 +16,12 @@ const MIN_CLIENTS_TO_START := 2
 
 func _ready() -> void:
 	Main.instance = self
-	_apply_window_args()
+
+	var args := OS.get_cmdline_args()
+	_is_dedicated_server = "--dedicated-server" in args
+
+	if not _is_dedicated_server:
+		_apply_window_args()
 
 	PlayerManager.player_added.connect(
 		func(pd: PlayerData):
@@ -22,16 +29,20 @@ func _ready() -> void:
 				var pname: String = Settings.get_setting("player_name", "Player")
 				pd.set_own_name_to(pname)
 
-			if not Net.is_server:
+			# Dev networking skips the lobby entirely and starts as soon as enough
+			# players are connected, like the original ENET workflow.
+			if not _dev_mode or not Net.is_server:
 				return
-			print("Players: %s" % PlayerManager.get_player_count())
 			if PlayerManager.get_player_count() >= MIN_CLIENTS_TO_START and not _loading_started:
 				_loading_started = true
 				await get_tree().create_timer(0.3).timeout
 				rpc_start_loading.rpc()
 	)
 
-	_apply_dev_network_args()
+	if _is_dedicated_server:
+		_start_dedicated_server(args)
+	else:
+		_apply_dev_network_args()
 
 
 ## Cleans up active gameplay nodes and returns to the main menu.
@@ -40,7 +51,7 @@ func move_to_main_menu() -> void:
 		_current_ingame_instance.queue_free()
 
 	for c in get_children():
-		if c != %MainMenu:
+		if c != %MainMenu and c != Lobby.instance:
 			c.queue_free()
 
 	%MainMenu.show()
@@ -148,8 +159,38 @@ func _apply_dev_network_args() -> void:
 	if "--block-dev" in args:
 		return
 	if "--dev-server" in args:
+		_dev_mode = true
 		Net.backend = Net.Backend.ENET
 		Net.start_server()
 	if "--dev-join" in args:
+		_dev_mode = true
 		Net.backend = Net.Backend.ENET
 		Net.start_joining_game("127.0.0.1")
+
+
+## Boots this process as a headless authoritative server for a lobby created elsewhere.
+## Args are supplied by [ServerProcess] when the creating client spawns us.
+func _start_dedicated_server(args: PackedStringArray) -> void:
+	var room_id := _get_arg_value(args, "--room")
+	var leader_token := _get_arg_value(args, "--leader-token")
+	var capacity := Lobby.DEFAULT_CAPACITY
+	var capacity_str := _get_arg_value(args, "--capacity")
+	if capacity_str.is_valid_int():
+		capacity = capacity_str.to_int()
+
+	if Lobby.instance:
+		Lobby.instance.start_dedicated_server(room_id, leader_token, capacity)
+
+
+## Returns the value following [param key] in [param args], or "" when absent.
+func _get_arg_value(args: PackedStringArray, key: String) -> String:
+	var index := args.find(key)
+	if index >= 0 and index + 1 < args.size():
+		return args[index + 1]
+	return ""
+
+
+## Make sure the child server process does not outlive this client.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and Lobby.instance:
+		Lobby.instance.leave()

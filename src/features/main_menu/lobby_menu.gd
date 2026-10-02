@@ -62,12 +62,14 @@ func _on_lobby_feed_connected() -> void:
 
 func _on_connection_error(reason: String) -> void:
 	_set_joining(false)
-	ToastOverlay.show_info("Network error: %s" % reason)
+	if is_visible_in_tree():
+		ToastOverlay.show_info("Network error: %s" % reason)
 
 
 func _on_join_failed() -> void:
 	_set_joining(false)
-	ToastOverlay.show_info("Failed to join lobby")
+	if is_visible_in_tree():
+		ToastOverlay.show_info("Failed to join lobby")
 
 
 func _on_connection_closed() -> void:
@@ -101,7 +103,9 @@ func _clear_lobby_list() -> void:
 func _on_join_requested(room_id: String) -> void:
 	if _is_joining:
 		return
-	var result := Net.start_joining_game(room_id)
+	var result := OK
+	if Lobby.instance:
+		result = Lobby.instance.join_lobby(room_id)
 	if result != OK:
 		ToastOverlay.show_info("Failed to start join")
 		return
@@ -141,8 +145,8 @@ func _get_lobby_name(lobby: Dictionary, room_id: String) -> String:
 
 func _prepare_lobby_feed() -> void:
 	assert(Net.backend == Net.Backend.WEBRTC)
-	SimpleWebRTC.signaling_server_url = WebRTCConnector.SIGNALING_SERVER_URL
-	SimpleWebRTC.game_id = WebRTCConnector.GAME_ID
+	SimpleWebRTC.signaling_server_url = Net.SIGNALING_SERVER_URL
+	SimpleWebRTC.game_id = Net.GAME_ID
 	SimpleWebRTC.disconnect_lobby_feed()
 	var connect_error: Error = SimpleWebRTC.connect_lobby_feed()
 	if connect_error != OK:
