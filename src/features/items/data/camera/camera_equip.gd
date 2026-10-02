@@ -7,12 +7,23 @@ extends ItemEquip
 ## While mounted, the rig idle comes from idle_animation_override ("camera_idle",
 ## set on the scene). LMB plays the "camera_take_shot" clip on every peer and, on
 ## the local player, captures the SubViewport after a short delay, streams the image
-## to every peer via ImageManager, and has a photo item placed in hand.
+## to every peer via ImageManager, and has a photo item placed in hand. The shutter
+## click and flash fire partway through the clip, on every peer.
 
 const TAKE_SHOT_ANIM := "camera_take_shot"
 const TAKE_SHOT_START_BLEND := 0.1
 const TAKE_SHOT_END_BLEND := 0.15
 const CAPTURE_DELAY := 1.0
+## Delay from the start of the shot clip to the shutter click and to the flash, so both
+## land on the animation's mechanical beat instead of on input.
+const SHUTTER_SOUND_DELAY := 0.7
+const FLASH_DELAY := 1.0
+
+## Shutter click played on every peer when a shot is taken.
+@export var shutter_sound: AudioStream = null
+## Peak energy of the one-shot flash and how long it takes to fade out.
+@export var flash_energy := 6.0
+@export var flash_duration := 0.1
 
 ## Beyond this distance (m) a player scores nothing from the distance factor.
 const MAX_IDENT_DISTANCE := 15.0
@@ -32,17 +43,21 @@ var _capturing := false
 var _animator: ActorAnimator = null
 
 @onready var _photo_camera: Camera3D = %SubViewport/Camera3D
+@onready var _flash_light: OmniLight3D = %FlashLight
+var _flash_tween: Tween = null
 
 
 func _on_equipped() -> void:
 	super()
 	_busy = false
 	_capturing = false
+	_reset_flash()
 
 
 func _on_unequipped() -> void:
 	super()
 	_capturing = false
+	_reset_flash()
 	_unhook_animator()
 	_busy = false
 	if is_instance_valid(player) and is_instance_valid(player.animator):
@@ -72,9 +87,46 @@ func _rpc_take_shot() -> void:
 		return
 	_busy = true
 	player.animator.play_action(TAKE_SHOT_ANIM, TAKE_SHOT_START_BLEND, TAKE_SHOT_END_BLEND)
+	_play_flash()
+	_play_shutter()
 	if player.is_local:
 		_capturing = true
 		_capture_photo()
+
+
+## Waits for the clip's mechanical beat, then fires the one-shot flash. Runs on every
+## peer from _rpc_take_shot, so the flash is visible to everyone nearby.
+func _play_flash() -> void:
+	await get_tree().create_timer(FLASH_DELAY).timeout
+	if not is_instance_valid(self) or not is_inside_tree() or not is_instance_valid(_flash_light):
+		return
+	if _flash_tween != null and _flash_tween.is_valid():
+		_flash_tween.kill()
+	_flash_light.light_energy = flash_energy
+	_flash_light.visible = true
+	_flash_tween = create_tween()
+	_flash_tween.tween_property(_flash_light, "light_energy", 0.0, flash_duration)
+	_flash_tween.tween_callback(_flash_light.hide)
+
+
+## Kills any in-flight flash and turns the light off, so lowering the camera mid-flash
+## cannot leave it lit.
+func _reset_flash() -> void:
+	if _flash_tween != null and _flash_tween.is_valid():
+		_flash_tween.kill()
+	_flash_tween = null
+	if is_instance_valid(_flash_light):
+		_flash_light.light_energy = 0.0
+		_flash_light.visible = false
+
+
+## Waits for the clip's mechanical beat, then plays the shutter click on every peer, at
+## the camera's world position.
+func _play_shutter() -> void:
+	await get_tree().create_timer(SHUTTER_SOUND_DELAY).timeout
+	if not is_instance_valid(self) or not is_inside_tree() or shutter_sound == null:
+		return
+	Audio.play_sfx_3d(shutter_sound, _photo_camera.global_position, 0.0, 30.0)
 
 
 ## Waits for the shutter to settle, grabs the SubViewport frame, and turns it into
