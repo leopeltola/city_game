@@ -4,6 +4,9 @@
 [ext_resource type="AudioStream" uid="uid://bib4wg7ivmx25" path="res://assets/sfx/punch_1.ogg" id="2_p6uko"]
 [ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="3_hanchor"]
 [ext_resource type="AudioStream" uid="uid://cra7rulka3umi" path="res://src/features/items/data/fists/punch_air_swoosh.wav" id="3_nj7ri"]
+[ext_resource type="Resource" path="res://src/features/items/data/fists/punch_left.tres" id="4_left"]
+[ext_resource type="Resource" path="res://src/features/items/data/fists/punch_right.tres" id="5_right"]
+[ext_resource type="Script" uid="uid://5l4gglq2gdgl" path="res://src/features/items/melee/melee_attack.gd" id="6_attack"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kpc5l"]
 random_pitch = 1.1184494
@@ -16,7 +19,10 @@ radius = 0.16
 [node name="FistsEquip" type="Node3D" unique_id=1202237575]
 script = ExtResource("1_fists")
 hit_sound = SubResource("AudioStreamRandomizer_kpc5l")
-punch_sfx = ExtResource("3_nj7ri")
+attack_sound = ExtResource("3_nj7ri")
+attack_sound_volume_db = -31.0
+attacks = Array[ExtResource("6_attack")]([ExtResource("4_left"), ExtResource("5_right")])
+buffer_attack_input = true
 idle_animation_override = "fists_up_idle"
 
 [node name="RightHandAnchor" type="Node3D" parent="." unique_id=904612388]

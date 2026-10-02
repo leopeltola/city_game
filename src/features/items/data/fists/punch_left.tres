@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MeleeAttack" load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://5l4gglq2gdgl" path="res://src/features/items/melee/melee_attack.gd" id="1_attack"]
+
+[resource]
+script = ExtResource("1_attack")
+animation = "fists_up_punch_left"
+start_blend = 0.08
+end_blend = 0.08
+hands = Array[int]([1])
+damage = 2.0
+knockback_force = 4.0
+stamina_cost = 8.0
+interrupts_target = false
+stagger_on_block = true
+ragdoll = false
+move_speed_multiplier = 0.9
+look_drag_multiplier = 0.7
+stagger_on_hit = false
+hit_blend = 0.1
+block_blend = 0.45

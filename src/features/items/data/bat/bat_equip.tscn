@@ -9,6 +9,8 @@
 [ext_resource type="Resource" uid="uid://bhkl0q4xpy325" path="res://src/features/items/data/bat/bat.tres" id="7_v317b"]
 [ext_resource type="PackedScene" uid="uid://cmh1ulyic8m3m" path="res://src/features/items/data/bat/bat.glb" id="8_22mll"]
 [ext_resource type="Script" uid="uid://bd5u41465v87w" path="res://src/features/items/hand_anchor.gd" id="9_hanchor"]
+[ext_resource type="Script" uid="uid://5l4gglq2gdgl" path="res://src/features/items/melee/melee_attack.gd" id="10_attack"]
+[ext_resource type="Resource" path="res://src/features/items/data/bat/bat_swing.tres" id="11_swing"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j2mp7"]
 random_pitch = 1.1805152
@@ -35,9 +37,13 @@ radius = 0.067
 script = ExtResource("1_rdh1i")
 hit_sound = SubResource("AudioStreamRandomizer_j2mp7")
 block_sound = SubResource("AudioStreamRandomizer_042oc")
-swoosh_sound = SubResource("AudioStreamRandomizer_mcev4")
+attack_sound = SubResource("AudioStreamRandomizer_mcev4")
 item_type = ExtResource("7_v317b")
 idle_animation_override = "bat_hold"
+attacks = Array[ExtResource("10_attack")]([ExtResource("11_swing")])
+guard_animation = "bat_block"
+guard_look_drag_multiplier = 0.3
+guard_stamina_cost = 5.0
 metadata/_custom_type_script = "uid://cuouyiv4rgvf"
 
 [node name="RightHandAnchor" type="Node3D" parent="." unique_id=330184725]

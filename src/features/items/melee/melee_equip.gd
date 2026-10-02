@@ -1,8 +1,8 @@
 class_name MeleeEquip
 extends ItemEquip
 ## Reusable melee engine for one-shot swing attacks plus an optional guard (RMB).
-## Used by fists and bat today; future melee weapons extend it and only configure
-## their `attacks` list (see _configure_attacks) and hit shape.
+## Used by fists and bat today; future melee weapons extend it and only author their
+## `attacks` list as [MeleeAttack] resources on the equip scene, plus a hit shape.
 ##
 ## Model:
 ##  - Each swing is a MeleeAttack: a rig clip with a hit window authored as method
@@ -23,10 +23,19 @@ signal attack_hit(target: Node, attack: MeleeAttack)
 
 @export var hit_sound: AudioStream = null
 @export var block_sound: AudioStream = null
-## Played on every peer at the start of a swing.
-@export var swoosh_sound: AudioStream = null
+## Played on every peer at the start of a swing (a whoosh for the bat, a punch-air
+## swish for the fists, ...). Named by event, not by asset.
+@export var attack_sound: AudioStream = null
 
-## All swings this weapon can perform. Populated by _configure_attacks() (or exports).
+## Per-sound volume in dB (0 = unchanged, negative = quieter). Exposed as sliders so
+## each weapon can be balanced from the inspector without touching code.
+@export_range(-40.0, 10.0, 0.1, "suffix:dB") var attack_sound_volume_db := 0.0
+@export_range(-40.0, 10.0, 0.1, "suffix:dB") var hit_sound_volume_db := 0.0
+@export_range(-40.0, 10.0, 0.1, "suffix:dB") var block_sound_volume_db := 0.0
+
+## All swings this weapon can perform. Authored on the equip scene as [MeleeAttack]
+## resources. A subclass may also rebuild it at runtime by overriding
+## _configure_attacks(); the base leaves the exported data untouched.
 @export var attacks: Array[MeleeAttack] = []
 
 ## When true, a click while a swing is still playing is buffered and chained into the
@@ -63,8 +72,8 @@ func _on_equipped() -> void:
 	_melee_init()
 
 
-## Virtual: subclasses / scenes populate `attacks` (and guard options). Base leaves
-## whatever was exported in place.
+## Virtual: rebuild `attacks` / guard options in code for weapons that cannot be fully
+## expressed as scene resources. The base leaves the exported scene data in place.
 func _configure_attacks() -> void:
 	pass
 
@@ -129,7 +138,8 @@ func _on_unequipped() -> void:
 	_pending_attack = false
 
 
-## Helper for subclasses to build an attack entry.
+## Helper for code-defined attacks (see _configure_attacks). Prefer authoring
+## [MeleeAttack] resources on the scene's `attacks` export instead.
 func _make_attack(anim_name: String, dmg: float, knockback: float) -> MeleeAttack:
 	var attack := MeleeAttack.new()
 	attack.animation = anim_name
@@ -217,7 +227,7 @@ func _rpc_do_attack(index: int) -> void:
 	# Play first so a cancel emitted for any previous action fully settles (resetting
 	# modifiers) before we claim this swing's state.
 	player.animator.play_action(attack.animation, attack.start_blend, attack.end_blend)
-	_play_sfx_local("swoosh")
+	_play_sfx_local("attack")
 
 	_phase = Phase.ATTACKING
 	_active_attack = attack
@@ -264,27 +274,30 @@ func _rpc_stagger() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func _rpc_play_sfx(id: StringName) -> void:
-	var stream: AudioStream
-	match id:
-		"hit":
-			stream = hit_sound
-		"block":
-			stream = block_sound
-		_:
-			return
-	if stream != null:
-		Audio.play_sfx_3d(stream, global_position, 0, 10)
+	# The sound and its volume are scene data, identical on every peer, so the RPC
+	# only needs the event id and each peer resolves the stream locally.
+	_play_sfx_local(id)
 
 
+## Plays one of this weapon's configured sounds at its configured volume. [param id]
+## is the event: "attack", "hit" or "block".
 func _play_sfx_local(id: StringName) -> void:
 	var stream: AudioStream
+	var volume_db: float
 	match id:
-		"swoosh":
-			stream = swoosh_sound
+		"attack":
+			stream = attack_sound
+			volume_db = attack_sound_volume_db
+		"hit":
+			stream = hit_sound
+			volume_db = hit_sound_volume_db
+		"block":
+			stream = block_sound
+			volume_db = block_sound_volume_db
 		_:
 			return
 	if stream != null:
-		Audio.play_sfx_3d(stream, global_position, 0, 10)
+		Audio.play_sfx_3d(stream, global_position, volume_db, 10)
 
 # --- Hit detection (local only, while the swing's hit window is active) ---
 # The window itself is authored on the rig clip's Method track: PlayerAnimator

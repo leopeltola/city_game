@@ -8,6 +8,8 @@
 [ext_resource type="AudioStream" path="res://assets/sfx/whoosh_2.ogg" id="6_swooshb"]
 [ext_resource type="PackedScene" path="res://src/features/items/data/bat/bat.glb" id="7_batmesh"]
 [ext_resource type="Script" path="res://src/features/items/hand_anchor.gd" id="8_hanchor"]
+[ext_resource type="Script" path="res://src/features/items/melee/melee_attack.gd" id="9_attack"]
+[ext_resource type="Resource" path="res://src/features/items/data/police_baton/police_baton_swing.tres" id="10_swing"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hit"]
 random_pitch = 1.1805152
@@ -34,8 +36,12 @@ radius = 0.067
 script = ExtResource("1_baton")
 hit_sound = SubResource("AudioStreamRandomizer_hit")
 block_sound = SubResource("AudioStreamRandomizer_block")
-swoosh_sound = SubResource("AudioStreamRandomizer_swoosh")
+attack_sound = SubResource("AudioStreamRandomizer_swoosh")
 idle_animation_override = "bat_hold"
+attacks = Array[ExtResource("9_attack")]([ExtResource("10_swing")])
+guard_animation = "bat_block"
+guard_look_drag_multiplier = 0.3
+guard_stamina_cost = 5.0
 
 [node name="RightHandAnchor" type="Node3D" parent="."]
 script = ExtResource("8_hanchor")

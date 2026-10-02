@@ -7,34 +7,11 @@ extends MeleeEquip
 ##
 ## Scene layout: two HandAnchors (RIGHT + LEFT), each holding a ShapeCast3D at the
 ## corresponding fist. Each punch only enables the shape on the punching hand.
+## The jabs themselves are authored as [MeleeAttack] resources on the scene's
+## `attacks` export, left first (punch_left.tres enables the LEFT shape,
+## punch_right.tres the RIGHT shape). `buffer_attack_input` is set on the scene too.
 
 var _last_punch := -1
-
-
-func _configure_attacks() -> void:
-	if not attacks.is_empty():
-		return
-	buffer_attack_input = true
-	attacks = [
-		_make_punch("fists_up_punch_left", HandAnchor.HandSide.LEFT),
-		_make_punch("fists_up_punch_right", HandAnchor.HandSide.RIGHT),
-	]
-
-
-func _make_punch(anim_name: String, hand: HandAnchor.HandSide) -> MeleeAttack:
-	var punch := _make_attack(anim_name, 2.0, 4.0)
-	punch.hands = [hand]
-	punch.start_blend = 0.08
-	punch.end_blend = 0.08
-	punch.move_speed_multiplier = 0.9
-	punch.look_drag_multiplier = 0.7
-	punch.stamina_cost = 8.0
-	punch.stagger_on_hit = false # jabs keep their flow; bat swings cut short for impact
-	punch.interrupts_target = false # light jabs never cancel the victim's action
-	punch.stagger_on_block = true
-	punch.hit_blend = 0.1
-	punch.block_blend = 0.45
-	return punch
 
 
 ## Alternates left/right punches; a fresh combo (no punch thrown yet on this mount)
