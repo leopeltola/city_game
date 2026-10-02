@@ -15,6 +15,11 @@ const NPC_OWNER_ID := -1
 ## How long the original owner's pickup is protected after the item enters the world.
 const OWNERSHIP_GRACE_S := 15.0
 
+## Scale multiplier the visual starts at when a world item pops into being.
+const SPAWN_INTRO_SCALE := 0.35
+## Duration of the spawn pop-in tween.
+const SPAWN_INTRO_TIME := 0.25
+
 var item_id: int = -1 # -1 is invalid
 var launch_force: Vector3 = Vector3.ZERO
 var owner_player_id: int = 0 # 0 means owned by no-one
@@ -41,6 +46,23 @@ func _ready() -> void:
 
 	if not launch_force.is_zero_approx():
 		apply_central_impulse(launch_force)
+
+	_play_spawn_intro()
+
+
+## Pops the visual into being: starts small and overshoots back to full scale. Only the
+## visual children are scaled, so collision shapes and launch physics stay untouched.
+func _play_spawn_intro() -> void:
+	var tween := create_tween().set_parallel(true)
+	for child: Node in get_children():
+		var visual := child as Node3D
+		if visual == null or child is CollisionShape3D \
+				or child is CollisionObject3D or child is Label3D:
+			continue
+		var target: Vector3 = visual.scale
+		visual.scale = target * SPAWN_INTRO_SCALE
+		tween.tween_property(visual, "scale", target, SPAWN_INTRO_TIME) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func get_prompt(player_id: int) -> String:
