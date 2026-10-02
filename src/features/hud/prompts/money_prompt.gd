@@ -8,6 +8,9 @@ class Result:
 ## Default label text shown when no custom title is passed to [method prompt].
 const DEFAULT_TITLE := "Put in money"
 
+## Duration of the pop-in played when the prompt appears.
+const INTRO_TIME := 0.15
+
 @onready var label: Label = %Label
 @onready var line_edit: LineEdit = %LineEdit
 @onready var ok_button: Button = %OkButton
@@ -56,12 +59,22 @@ func prompt(max_val: int, default: int = 0, title: String = "") -> Result:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		get_viewport().warp_mouse(ok_button.get_global_rect().get_center())
 	show()
+	_play_intro()
 	line_edit.grab_focus()
 
 	var res: Result = await _resolved
 	hide()
 	Input.mouse_mode = _prev_mouse_mode
 	return res
+
+
+## Pops the prompt in from the screen center instead of snapping on.
+func _play_intro() -> void:
+	pivot_offset = size * 0.5
+	scale = Vector2(0.9, 0.9)
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(self, "scale", Vector2.ONE, INTRO_TIME) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _on_text_changed(new_text: String) -> void:

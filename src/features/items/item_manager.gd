@@ -177,7 +177,7 @@ func _rpc_apply_destroy_item(item_id: int) -> void:
 	_items.erase(item_id)
 	for node: Node in get_tree().get_nodes_in_group("world_item"):
 		if node is ItemWorld and node.item_id == item_id:
-			node.queue_free()
+			node.play_despawn()
 	item_destroyed.emit(item_id)
 
 

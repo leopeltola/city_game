@@ -19,11 +19,18 @@ const OWNERSHIP_GRACE_S := 15.0
 const SPAWN_INTRO_SCALE := 0.35
 ## Duration of the spawn pop-in tween.
 const SPAWN_INTRO_TIME := 0.25
+## Duration of the shrink-out tween played before the item is freed.
+const DESPAWN_TIME := 0.15
+## Target scale for the shrink-out; not exactly zero to avoid a singular basis for a frame.
+const DESPAWN_END_SCALE := Vector3(0.001, 0.001, 0.001)
 
 var item_id: int = -1 # -1 is invalid
 var launch_force: Vector3 = Vector3.ZERO
 var owner_player_id: int = 0 # 0 means owned by no-one
 @onready var spawn_stopwatch: Stopwatch = Stopwatch.new()
+
+## In-flight spawn intro, killed if the item is despawned mid-animation.
+var _intro_tween: Tween = null
 
 
 func _ready() -> void:
@@ -53,16 +60,43 @@ func _ready() -> void:
 ## Pops the visual into being: starts small and overshoots back to full scale. Only the
 ## visual children are scaled, so collision shapes and launch physics stay untouched.
 func _play_spawn_intro() -> void:
+	if _intro_tween:
+		_intro_tween.kill()
+	_intro_tween = create_tween().set_parallel(true)
+	for visual: Node3D in _get_visual_nodes():
+		var target: Vector3 = visual.scale
+		visual.scale = target * SPAWN_INTRO_SCALE
+		_intro_tween.tween_property(visual, "scale", target, SPAWN_INTRO_TIME) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+## Shrinks the visual out of existence, then frees this node. Used on pickup/consumption so
+## an item doesn't just blink away. Runs on every peer via the destroy RPCs.
+func play_despawn() -> void:
+	if _intro_tween:
+		_intro_tween.kill()
+		_intro_tween = null
+	if interaction_area:
+		interaction_area.active = false
+	freeze = true
 	var tween := create_tween().set_parallel(true)
+	for visual: Node3D in _get_visual_nodes():
+		tween.tween_property(visual, "scale", DESPAWN_END_SCALE, DESPAWN_TIME) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tween.chain().tween_callback(queue_free)
+
+
+## Direct children that carry the item's visuals (the .glb instance and any debug mesh),
+## i.e. Node3Ds that are not collision shapes, collision objects or labels.
+func _get_visual_nodes() -> Array[Node3D]:
+	var visuals: Array[Node3D] = []
 	for child: Node in get_children():
 		var visual := child as Node3D
 		if visual == null or child is CollisionShape3D \
 				or child is CollisionObject3D or child is Label3D:
 			continue
-		var target: Vector3 = visual.scale
-		visual.scale = target * SPAWN_INTRO_SCALE
-		tween.tween_property(visual, "scale", target, SPAWN_INTRO_TIME) \
-			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		visuals.append(visual)
+	return visuals
 
 
 func get_prompt(player_id: int) -> String:
@@ -126,7 +160,15 @@ func _interactor_equipped(player_id: int) -> ItemEquip:
 	return player.get_equipped_item() if player != null else null
 
 
+## Client asks the server to remove this world node (the item's data survives - it was
+## picked up / consumed into an inventory or another item).
 @rpc("any_peer", "call_remote", "reliable")
 func _rpc_destroy_world_item() -> void:
 	assert(Net.is_server)
-	queue_free()
+	_rpc_apply_destroy_world_item.rpc()
+
+
+## Server tells every peer to play the despawn, so the item shrinks out everywhere.
+@rpc("authority", "call_local", "reliable")
+func _rpc_apply_destroy_world_item() -> void:
+	play_despawn()

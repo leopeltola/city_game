@@ -17,6 +17,12 @@ extends Node3D
 
 const InteractRay := preload("res://src/features/interaction/interact_ray.gd")
 
+## Scale multiplier the equip starts at when it is mounted, so gear pops into the hand /
+## body slot instead of snapping in.
+const MOUNT_INTRO_SCALE := 0.8
+## Duration of the equip mount pop-in tween.
+const MOUNT_INTRO_TIME := 0.12
+
 ## Item type this equip visualizes. Null for unarmed gear (fists).
 @export var item_type: ItemType = null
 ## Idle animation override reported to PlayerAnimator. Empty == the player's default idle.
@@ -50,6 +56,17 @@ func _ready() -> void:
 	_validate()
 	_ready_done = true
 	_on_equipped()
+	_play_mount_intro()
+
+
+## Pops the equip into view: starts slightly small and overshoots back to its authored
+## scale. Hand anchors are driven to the hand with update_scale = false, so scaling the
+## root grows the held visual around the hand rather than the player's torso.
+func _play_mount_intro() -> void:
+	var target := scale
+	scale = target * MOUNT_INTRO_SCALE
+	create_tween().tween_property(self, "scale", target, MOUNT_INTRO_TIME) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 ## Validates the state this equip requires before it is mounted. Subclasses override to

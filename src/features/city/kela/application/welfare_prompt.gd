@@ -2,6 +2,9 @@ extends MarginContainer
 
 signal _resolved(result: Result)
 
+## Duration of the pop-in played when the form appears.
+const INTRO_TIME := 0.15
+
 @onready var name_edit: LineEdit = %NameLineEdit
 @onready var social_assistance_check: CheckBox = %SocialAssistanceCheckbox
 @onready var unemployment_check: CheckBox = %UnemploymentCheckbox
@@ -62,6 +65,7 @@ func prompt() -> Result:
 	terms_check.button_pressed = false
 
 	show()
+	_play_intro()
 	var _prev_mouse_mode := Input.mouse_mode
 	if _prev_mouse_mode != Input.MOUSE_MODE_VISIBLE:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -71,6 +75,15 @@ func prompt() -> Result:
 	hide()
 	Input.mouse_mode = _prev_mouse_mode
 	return result
+
+
+## Pops the form in from the screen center instead of snapping on.
+func _play_intro() -> void:
+	pivot_offset = size * 0.5
+	scale = Vector2(0.9, 0.9)
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(self, "scale", Vector2.ONE, INTRO_TIME) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _send() -> void:

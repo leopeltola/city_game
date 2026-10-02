@@ -7,6 +7,13 @@ const MoneyPrompt := preload("res://src/features/hud/prompts/money_prompt.gd")
 const WelfarePrompt := preload("res://src/features/city/kela/application/welfare_prompt.gd")
 
 var _stamina_tween: Tween
+var _interact_tween: Tween
+## Tracks whether the interact label is currently (fading) in, so the per-frame calls
+## from InteractRay only animate on the hidden <-> visible transition.
+var _interact_label_visible := false
+
+## Duration of the interact label / crosshair swap.
+const INTERACT_FADE_TIME := 0.12
 
 
 func _ready() -> void:
@@ -129,14 +136,49 @@ func is_lockpick_prompt_open() -> bool:
 
 
 func show_interact_label(text: String) -> void:
-	%InteractLabel.text = text
-	%InteractLabel.show()
-	%Crosshair.hide()
+	var label: Control = %InteractLabel
+	label.text = text
+	# InteractRay calls this every frame while a target is focused; only animate on the
+	# transition so the text can keep updating (steal countdown) without re-popping.
+	if _interact_label_visible:
+		return
+	_interact_label_visible = true
+	if _interact_tween:
+		_interact_tween.kill()
+
+	var crosshair: Control = %Crosshair
+	label.pivot_offset = label.size * 0.5
+	crosshair.pivot_offset = crosshair.size * 0.5
+	label.show()
+	label.modulate.a = 0.0
+	label.scale = Vector2(0.85, 0.85)
+
+	_interact_tween = create_tween().set_parallel(true)
+	_interact_tween.tween_property(label, "modulate:a", 1.0, INTERACT_FADE_TIME) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_interact_tween.tween_property(label, "scale", Vector2.ONE, INTERACT_FADE_TIME) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_interact_tween.tween_property(crosshair, "modulate:a", 0.0, INTERACT_FADE_TIME) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
 func hide_interact_label() -> void:
-	%InteractLabel.hide()
-	%Crosshair.show()
+	if not _interact_label_visible:
+		return
+	_interact_label_visible = false
+	if _interact_tween:
+		_interact_tween.kill()
+
+	var label: Control = %InteractLabel
+	var crosshair: Control = %Crosshair
+	_interact_tween = create_tween().set_parallel(true)
+	_interact_tween.tween_property(label, "modulate:a", 0.0, INTERACT_FADE_TIME) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_interact_tween.tween_property(label, "scale", Vector2(0.85, 0.85), INTERACT_FADE_TIME) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_interact_tween.tween_property(crosshair, "modulate:a", 1.0, INTERACT_FADE_TIME) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_interact_tween.chain().tween_callback(label.hide)
 
 
 ## Returns true if an active modal or overlay should block player gameplay inputs.
