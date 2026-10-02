@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cponjrynpiw40"]
 
 [ext_resource type="Script" uid="uid://dvvq3ok1a7rie" path="res://src/features/main_menu/lobby_menu.gd" id="1_jmdcs"]
+[ext_resource type="Script" path="res://src/features/ui/sound_button.gd" id="sound_button"]
 
 [node name="LobbyMenu" type="MarginContainer" unique_id=455128080]
 anchors_preset = 8
@@ -70,5 +71,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1968204462]
+script = ExtResource("sound_button")
 layout_mode = 2
 text = "Back"

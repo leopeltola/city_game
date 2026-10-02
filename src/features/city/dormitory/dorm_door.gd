@@ -1,5 +1,10 @@
 extends Node3D
 
+## Wooden impact played when the door opens or closes. _rpc_set_door already runs on
+## every peer, so no additional networking is needed.
+const DOOR_SFX: AudioStream = preload("res://assets/sfx/kenney_impacts/impactWood_medium_000.ogg")
+const CASH_SFX: AudioStream = preload("res://assets/sfx/slot_machine/cash_register.ogg")
+
 @export var owner_id: int
 @export var door_handle: Node3D
 @export var door_lock: Node3D
@@ -31,6 +36,7 @@ func _on_interacted(player_id: int) -> void:
 		_rpc_request_open.rpc_id(1)
 	elif owner_id < 0:
 		if MoneyManager.pay(player_id, price, "Bought an apartment"):
+			Audio.play_sfx_3d(CASH_SFX, global_position, -6.0, 25.0, true)
 			_rpc_request_claim.rpc_id(1, player_id)
 
 
@@ -108,6 +114,7 @@ func _open_door() -> void:
 @rpc("authority", "call_local", "reliable")
 func _rpc_set_door(open: bool) -> void:
 	is_open = open
+	Audio.play_sfx_3d(DOOR_SFX, global_position, -4.0, 25.0)
 	if open:
 		animation_player.play("open")
 		door_handle.set_open(true)

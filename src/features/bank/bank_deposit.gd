@@ -7,6 +7,8 @@ extends Interactable
 const PROMPT_DEPOSIT := "Deposit money"
 const PROMPT_NEED_CASH := "Need cash to deposit"
 
+const CASH_SFX: AudioStream = preload("res://assets/sfx/slot_machine/cash_register.ogg")
+
 
 func get_prompt(player_id: int) -> String:
 	return PROMPT_DEPOSIT if MoneyManager.get_held_money(player_id) > 0 else PROMPT_NEED_CASH
@@ -26,4 +28,5 @@ func interact(player_id: int) -> void:
 	var result := await HUD.instance.prompt_money(total, total, "Deposit money")
 	if result.cancelled or result.amount <= 0:
 		return
-	MoneyManager.deposit(player_id, mini(result.amount, total))
+	if MoneyManager.deposit(player_id, mini(result.amount, total)):
+		Audio.play_sfx_3d(CASH_SFX, global_position, -6.0, 25.0, true)

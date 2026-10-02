@@ -1,6 +1,8 @@
 class_name ShopMannequin
 extends Node3D
 
+const CASH_SFX: AudioStream = preload("res://assets/sfx/slot_machine/cash_register.ogg")
+
 @export var shown_item: ItemType
 @export var price: int = 100
 @export var item_container: Node3D
@@ -25,6 +27,7 @@ func _on_interacted(player_id: int) -> void:
 	if not MoneyManager.pay(player_id, price, label):
 		return
 
+	Audio.play_sfx_3d(CASH_SFX, global_position, -6.0, 25.0, true)
 	spawn_item()
 
 

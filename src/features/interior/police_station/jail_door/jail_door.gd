@@ -3,6 +3,10 @@ extends Node3D
 ## A jail cell door. Defaults to open and is closed by police when a suspect is put
 ## inside. A jail key can only OPEN it (never close), and is consumed on use.
 
+## Metal impact played when the door opens or closes. _rpc_set_door already runs on
+## every peer, so no additional networking is needed.
+const DOOR_SFX: AudioStream = preload("res://assets/sfx/kenney_impacts/impactMetal_heavy_000.ogg")
+
 @onready var door_handle: Interactable = %DoorHandleInteractableArea
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 
@@ -66,6 +70,7 @@ func _open_door() -> void:
 @rpc("authority", "call_local", "reliable")
 func _rpc_set_door(open: bool) -> void:
 	is_open = open
+	Audio.play_sfx_3d(DOOR_SFX, global_position, -4.0, 25.0)
 
 	if open:
 		animation_player.play("open")

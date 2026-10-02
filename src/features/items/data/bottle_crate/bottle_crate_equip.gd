@@ -5,6 +5,9 @@ signal bottle_broken(bottle: Node3D)
 
 @export var glass_clink: AudioStream
 
+## Glass breaking sound, broadcast to every peer when a bottle shatters.
+const BREAK_SFX: AudioStream = preload("res://src/features/items/data/bottle_crate/wine_bottle_breaking.ogg")
+
 ## Spring stiffness for sway tilt recovery.
 @export var sway_stiffness: float = 24.0
 ## Damping factor to prevent endless wobbling.
@@ -128,6 +131,9 @@ func shatter_bottle(bottle: Node3D) -> void:
 	_bottle_vy.erase(bottle)
 	_bottle_stagger.erase(bottle)
 	bottle_broken.emit(bottle)
+	# Only the owning client broadcasts, so the shatter is heard once by everyone.
+	if player != null and player.is_multiplayer_authority():
+		Audio.play_sfx_3d(BREAK_SFX, global_position, -2.0, 30.0, true)
 	bottle.queue_free()
 	ItemManager.set_and_sync_item_data(item_id, "bottles", bottles.size())
 

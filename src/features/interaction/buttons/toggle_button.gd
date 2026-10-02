@@ -1,5 +1,9 @@
 extends Node3D
 
+## Press click. The setter runs on every peer (via _rpc_set_pressed_down), so it plays
+## on all clients without extra networking.
+const PRESS_SFX: AudioStream = preload("res://assets/sfx/slot_machine/button_lock.ogg")
+
 ## Emitted whenever the button changes its pressed state.
 signal toggled(is_pressed: bool)
 
@@ -17,6 +21,8 @@ var _pressed_down := false:
 		if _pressed_down == val:
 			return
 		_pressed_down = val
+		if is_inside_tree():
+			Audio.play_sfx_3d(PRESS_SFX, global_position, -6.0, 15.0)
 		_animate_press(_pressed_down)
 		toggled.emit(_pressed_down)
 		if up_prompt and not _pressed_down:

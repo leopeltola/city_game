@@ -1,5 +1,6 @@
 extends Node3D
 
+const CASH_SFX: AudioStream = preload("res://assets/sfx/slot_machine/cash_register.ogg")
 
 
 func _ready():
@@ -21,6 +22,7 @@ func _on_interacted(player_id: int) -> void:
 	ItemManager.destroy_item(destroyed_item_id)
 	
 	spawn_cash(100)
+	Audio.play_sfx_3d(CASH_SFX, global_position, -6.0, 25.0, true)
 
 func spawn_cash(amount: int) -> void:
 	if Net.is_client:

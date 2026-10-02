@@ -8,6 +8,8 @@ const PROMPT_BUY := "Buy debit card (500€)"
 const PROMPT_NEED_FUNDS := "Need 500€ in account"
 const PROMPT_CANCEL := "Cancel debit card"
 
+const CASH_SFX: AudioStream = preload("res://assets/sfx/slot_machine/cash_register.ogg")
+
 ## Where the card is dropped when the buyer's inventory is full.
 @onready var _item_spawn: Node3D = %ItemSpawnPos
 
@@ -32,4 +34,5 @@ func interact(player_id: int) -> void:
 	if MoneyManager.has_card(player_id):
 		MoneyManager.cancel_card(player_id)
 		return
-	MoneyManager.issue_card(player_id, _item_spawn.global_position, _item_spawn.global_rotation)
+	if MoneyManager.issue_card(player_id, _item_spawn.global_position, _item_spawn.global_rotation):
+		Audio.play_sfx_3d(CASH_SFX, global_position, -6.0, 25.0, true)

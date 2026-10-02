@@ -7,6 +7,8 @@ extends Interactable
 ## discovered through [method get_all] without any manual wiring in the board. Users only
 ## ever deal with the [StringName] name; the node itself supplies the world position.
 
+const CASH_SFX: AudioStream = preload("res://assets/sfx/slot_machine/cash_register.ogg")
+
 @export var location_name: StringName = &""
 
 static var _by_name: Dictionary[StringName, MissionLocation] = { }
@@ -95,6 +97,6 @@ func _give_cash(player: Player, amount: int) -> void:
 	if amount <= 0:
 		return
 	var cash_id := ItemManager.create_item_of_type(&"cash", { &"money": amount })
-	if (player.inventory as PlayerInventory).try_add_item(cash_id):
-		return
-	ItemManager.create_world_item_for(cash_id, get_delivery_position(), Vector3.ZERO)
+	if not (player.inventory as PlayerInventory).try_add_item(cash_id):
+		ItemManager.create_world_item_for(cash_id, get_delivery_position(), Vector3.ZERO)
+	Audio.play_sfx_3d(CASH_SFX, get_delivery_position(), -6.0, 25.0, true)

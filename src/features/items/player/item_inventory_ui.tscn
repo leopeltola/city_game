@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ds7qv0tb7qklg" path="res://src/features/items/player/item_inventory_ui.gd" id="1_1aojl"]
 [ext_resource type="AudioStream" uid="uid://cd8lmkjde326n" path="res://src/features/items/player/assets/sfx/inv_select.ogg" id="3_mvxoe"]
+[ext_resource type="AudioStream" path="res://src/features/items/player/assets/sfx/inv_pickup.ogg" id="4_pickup"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dafhm"]
 streams_count = 1
@@ -15,6 +16,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 script = ExtResource("1_1aojl")
+pickup_sfx = ExtResource("4_pickup")
 select_sfx = SubResource("AudioStreamRandomizer_dafhm")
 
 [node name="Slots" type="HBoxContainer" parent="." unique_id=1269763447]

@@ -1,5 +1,8 @@
 extends RayCast3D
 
+## Soft click played when the local player successfully interacts with something.
+const INTERACT_SFX: AudioStream = preload("res://src/features/ui/assets/sfx/accept.ogg")
+
 @export var player: Player = null
 
 
@@ -56,3 +59,4 @@ func _unhandled_input(event: InputEvent) -> void:
 			"Interactable '%s' is interactable but shows no prompt" % i.name,
 		)
 		i.interact(player.player_id)
+		Audio.play_sfx(INTERACT_SFX, -12.0)

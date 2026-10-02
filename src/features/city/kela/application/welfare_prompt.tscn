@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dgcm76ojvm1l0" path="res://src/features/city/kela/application/welfare_prompt.gd" id="1_1ablb"]
 [ext_resource type="Texture2D" uid="uid://dk2wuyesagyuf" path="res://src/features/city/kela/assets/textures/application_form.jpg" id="1_edhv1"]
 [ext_resource type="FontFile" uid="uid://becdvm01ieft6" path="res://src/features/ui/theme/assets/fonts/inter/Inter_18pt-Medium.ttf" id="3_2wbg6"]
+[ext_resource type="Script" path="res://src/features/ui/sound_button.gd" id="sound_button"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1gf2"]
 bg_color = Color(1, 1, 1, 1)
@@ -141,6 +142,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=721327737]
+script = ExtResource("sound_button")
 unique_name_in_owner = true
 modulate = Color(1, 0.47000003, 0.47000003, 1)
 layout_mode = 2
@@ -148,6 +150,7 @@ size_flags_horizontal = 4
 text = "Cancel"
 
 [node name="SendButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=234662832]
+script = ExtResource("sound_button")
 unique_name_in_owner = true
 modulate = Color(0.728, 1, 0.65999997, 1)
 layout_mode = 2
