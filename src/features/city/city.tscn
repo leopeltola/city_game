@@ -29,6 +29,7 @@
 [ext_resource type="Material" uid="uid://monjl4k3eeb1" path="res://assets/textures/chain_link/chain_link.tres" id="42_dptrr"]
 [ext_resource type="PackedScene" uid="uid://bot8mf1qu4vnf" path="res://src/features/vehicles/electric_scooter/electric_scooter.tscn" id="43_6fbtl"]
 [ext_resource type="PackedScene" uid="uid://bxu36b6vyrf6i" path="res://src/features/city/street_props/park_bench.glb" id="44_58jgy"]
+[ext_resource type="PackedScene" uid="uid://dh4u0pqkur2bg" path="res://src/features/city/bar/bar.tscn" id="45_7sfia"]
 [ext_resource type="PackedScene" uid="uid://blsuorotrv5bo" path="res://src/features/city/street_props/trash_can.glb" id="45_ye135"]
 [ext_resource type="PackedScene" uid="uid://dmp5lcjvp26px" path="res://src/features/city/street_props/trash_container.glb" id="46_3pw1h"]
 [ext_resource type="PackedScene" uid="uid://cdr3jn45bf0ma" path="res://src/features/city/bank/bank.tscn" id="46_qciam"]
@@ -470,7 +471,7 @@ _data = {
 }
 point_count = 2
 
-[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_e7w1s"]
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_qciam"]
 resource_local_to_scene = true
 size = Vector3(14.437531, 9.2, 12.310984)
 
@@ -3361,7 +3362,11 @@ secondary_color = Color(0.2723947, 0.171588, 0.12876156, 1)
 
 [node name="OccluderInstance3D" parent="GenericBuildings/ModularBuilding29" index="0" unique_id=1431447966]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6, 0)
-occluder = SubResource("BoxOccluder3D_e7w1s")
+occluder = SubResource("BoxOccluder3D_qciam")
+
+[node name="BaseFloor" parent="GenericBuildings/ModularBuilding29/modular2_building_baselayer" parent_id_path=PackedInt32Array(876907101, 501823765) index="0" unique_id=1033224620]
+instance_shader_parameters/main_color = Color(0.43196452, 0.5792706, 0.64185166, 1)
+instance_shader_parameters/secondary_color = Color(0.2723947, 0.171588, 0.12876156, 1)
 
 [node name="Module_276344632_2550" parent="GenericBuildings/ModularBuilding29" unique_id=228329230 instance=ExtResource("39_1mn5s")]
 
@@ -4734,5 +4739,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.911224, 0.5752325, 54.0593
 [node name="Bank" parent="." unique_id=654942822 instance=ExtResource("46_qciam")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 62, 0.01, 45)
 
+[node name="Bar" parent="." unique_id=362981334 instance=ExtResource("45_7sfia")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -69, 0.11, -42)
+
 [editable path="BankSkyscraper"]
 [editable path="GenericBuildings/ModularBuilding29"]
+[editable path="GenericBuildings/ModularBuilding29/modular2_building_baselayer"]

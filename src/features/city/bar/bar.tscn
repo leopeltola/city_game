@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dh4u0pqkur2bg"]
+
+[ext_resource type="PackedScene" uid="uid://blxdkgbi8pupx" path="res://src/features/city/bar/assets/bar.glb" id="1_bf8fi"]
+[ext_resource type="PackedScene" uid="uid://c8y3bh4fyindx" path="res://src/features/interior/pizzeria/pizzeria_table.glb" id="2_gt6d8"]
+[ext_resource type="PackedScene" uid="uid://mgl58jvmmt3r" path="res://src/features/interior/pizzeria/pizzeria_chair.glb" id="3_4tl63"]
+
+[node name="Bar" type="Node3D" unique_id=362981334]
+
+[node name="bar" parent="." unique_id=1393936822 instance=ExtResource("1_bf8fi")]
+
+[node name="pizzeria_table" parent="." unique_id=66155364 instance=ExtResource("2_gt6d8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2)
+
+[node name="pizzeria_chair" parent="." unique_id=57387568 instance=ExtResource("3_4tl63")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -3, 0, 3)
+
+[node name="pizzeria_chair2" parent="." unique_id=243971014 instance=ExtResource("3_4tl63")]
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, -3, 0, 1)
+
+[node name="pizzeria_table2" parent="." unique_id=977461866 instance=ExtResource("2_gt6d8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+
+[node name="pizzeria_chair3" parent="." unique_id=1245366563 instance=ExtResource("3_4tl63")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 3, 0, 2)
+
+[node name="pizzeria_chair4" parent="." unique_id=2116805850 instance=ExtResource("3_4tl63")]
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 3, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=185353321]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1)
+light_color = Color(1, 1, 0.9882353, 1)
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=788721220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -7)
+light_color = Color(1, 1, 0.9882353, 1)
+omni_range = 3.0
