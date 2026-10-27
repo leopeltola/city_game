@@ -176,7 +176,8 @@ func _rpc_set_rider(player_id: int) -> void:
 		previous.in_vehicle = false
 		# The RemoteTransform3D forced the vehicle's full tilt onto the rider, so
 		# level them back to a yaw-only rotation or they stand up skewed. Skip while
-		# ragdolled: a crash detaches after the flop has already started.
+		# ragdolled: a crash detaches after the flop has already started, and
+		# ActorRagdoll levels them when the flop ends.
 		if not previous.is_ragdolled:
 			previous.global_rotation = Vector3(0.0, global_rotation.y, 0.0)
 	rider_id = player_id

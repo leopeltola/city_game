@@ -50,6 +50,11 @@ var _state_time := 0.0
 ## Latest root bone world position, read in the pose phase and used by the physics-phase
 ## servo so a peer whose rendering lags its physics still converges correctly.
 var _root_pos := Vector3.ZERO
+## Body orientation at the start of the rise and the upright yaw-only target it eases to.
+## A vehicle's RemoteTransform3D can leave its full tilt baked into the body, so the rise
+## levels it over the same blend as the physics -> idle pose instead of snapping upright.
+var _rise_start_rotation := Quaternion()
+var _rise_target_rotation := Quaternion()
 ## The local player's camera local transform before the flop moved it, restored on rise.
 var _camera_rest_position := Vector3.ZERO
 var _camera_rest_rotation := Vector3.ZERO
@@ -108,6 +113,9 @@ func tick(delta: float) -> void:
 		var t := _rise_progress()
 		if is_instance_valid(_owner.physical_bones):
 			_owner.physical_bones.influence = 1.0 - t
+		_owner.quaternion = _rise_start_rotation.slerp(_rise_target_rotation, t)
+		if _owner.is_local:
+			_owner.network_rotation = _owner.global_rotation
 		if t >= 1.0:
 			_finish_rise()
 		return
@@ -140,6 +148,10 @@ func _on_pose_ready() -> void:
 func _begin_rise() -> void:
 	var h := _owner
 	h.velocity = Vector3.ZERO
+	# Remember the inherited tilt (e.g. from a vehicle's RemoteTransform3D) and ease it
+	# to a yaw-only orientation over the rise, matching the physics -> idle blend below.
+	_rise_start_rotation = h.quaternion
+	_rise_target_rotation = Quaternion(Vector3.UP, h.global_rotation.y)
 	if is_instance_valid(h.animator):
 		h.animator.cancel_action(0.1)
 	if is_instance_valid(h.physical_bones):
