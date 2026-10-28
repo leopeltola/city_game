@@ -58,6 +58,13 @@ var _rise_target_rotation := Quaternion()
 ## The local player's camera local transform before the flop moved it, restored on rise.
 var _camera_rest_position := Vector3.ZERO
 var _camera_rest_rotation := Vector3.ZERO
+## Whether the authored camera transform has been captured. It is only stored once: a
+## re-hit restarts the flop while the camera is following the head bone, and capturing
+## that floored transform would make it the position every later rise returns to.
+var _camera_rest_stored := false
+## The camera restore tween, killed when a new flop starts so it cannot fight the head
+## tracking in _on_pose_ready.
+var _camera_rest_tween: Tween = null
 
 var _owner: Humanoid:
 	get:
@@ -72,6 +79,9 @@ func start(force: Vector3) -> void:
 	_rising = false
 	_state_time = 0.0
 	_root_pos = h.global_position
+	if _camera_rest_tween != null and _camera_rest_tween.is_valid():
+		_camera_rest_tween.kill()
+	_camera_rest_tween = null
 	_store_camera_rest()
 	h.velocity = Vector3.ZERO
 	h._on_ragdoll_state_changed(true)
@@ -222,13 +232,15 @@ func _servo_root_to_sync(root_pos: Vector3, delta: float) -> void:
 	root.apply_central_impulse(impulse.limit_length(ragdoll_max_sync_impulse))
 
 
-## Remembers the camera's authored local transform so the flop can restore it.
+## Remembers the camera's authored local transform so the flop can restore it. Stored
+## only once: during a re-hit the camera is at the flopped head, not its resting spot.
 func _store_camera_rest() -> void:
 	var h := _owner
-	if not is_instance_valid(h.camera):
+	if _camera_rest_stored or not is_instance_valid(h.camera):
 		return
 	_camera_rest_position = h.camera.position
 	_camera_rest_rotation = h.camera.rotation
+	_camera_rest_stored = true
 
 
 ## Eases the camera back from the head bone to its standing transform.
@@ -238,6 +250,7 @@ func _restore_camera() -> void:
 	tw.set_parallel(true)
 	tw.tween_property(h.camera, "position", _camera_rest_position, 0.1)
 	tw.tween_property(h.camera, "rotation", _camera_rest_rotation, 0.1)
+	_camera_rest_tween = tw
 
 
 ## World-space position of a named rig bone, used to track the ragdoll's head/root.

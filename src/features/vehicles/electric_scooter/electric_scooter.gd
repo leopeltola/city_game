@@ -2,8 +2,9 @@ class_name ElectricScooter
 extends Vehicle
 ## A self-balancing electric scooter. The rider steers by moving the mouse, keeps
 ## their balance with A/D (helped along by a constant small self-righting torque)
-## and ragdolls if they let it tip too far while on the ground. A flipped scooter
-## can be righted by interacting with it.
+## and ragdolls if they let it tip too far while on the ground or smash into a wall
+## at speed. Driving into someone fast enough hurts and ragdolls them, and counts as
+## assault. A flipped scooter can be righted by interacting with it.
 
 @export_group("Riding")
 ## Forward force applied while the throttle is held.
@@ -35,6 +36,38 @@ extends Vehicle
 ## Fraction of the scooter's velocity thrown into the ragdoll on a crash.
 @export var crash_force_scale: float = 0.6
 
+@export_group("Impact Crash")
+## Speed (m/s) the scooter must have before a wall hit can throw the rider off.
+@export var crash_impact_speed: float = 4.0
+## Speed (m/s) the scooter must be reduced to by the hit. This is what separates a
+## real wall crash from a curb/crosswalk bump, which redirects the scooter but keeps
+## it rolling.
+@export var crash_stop_speed: float = 3.0
+## How upright a surface normal may be before the hit counts as a ramp or the ground
+## rather than a wall. 0 is a vertical wall, 1 is perfectly flat ground.
+@export_range(0.0, 1.0) var crash_max_normal_up: float = 0.35
+
+@export_group("Running Over")
+## Minimum speed (m/s) at which driving into an actor hurts and ragdolls them. Below
+## this the scooter simply passes through people.
+@export var run_over_min_speed: float = 3.5
+## Damage per m/s of impact speed.
+@export var run_over_damage_per_speed: float = 3.0
+## Damage cap, so a freak launch cannot one-shot everyone.
+@export var run_over_max_damage: float = 60.0
+## Multiplier converting impact speed into the ragdoll throw force.
+@export var run_over_force_scale: float = 3.5
+## Upward part of the throw, so the victim is flipped rather than only shoved.
+@export var run_over_lift: float = 6.0
+## Seconds before the same actor can be run into again by this scooter.
+@export var run_over_cooldown: float = 0.75
+
+@export_group("Feedback")
+## Played to every peer where the scooter knocks someone over.
+@export var run_over_sfx: AudioStream = preload("res://assets/sfx/punch_1.ogg")
+## Played to every peer when a wall impact throws the rider off.
+@export var crash_sfx: AudioStream = preload("res://assets/sfx/kenney_impacts/impactMetal_medium_000.ogg")
+
 @export_group("Flipping")
 ## Tilt past which the scooter counts as flipped and rights itself on interaction.
 @export var flipped_tilt_degrees: float = 55.0
@@ -47,23 +80,97 @@ extends Vehicle
 ## How long the scooter keeps trying to right itself before giving up, in seconds.
 @export var right_self_duration: float = 2.0
 
+@onready var _runner_detector: ShapeCast3D = %RunnerDetector
+
 var _target_yaw := 0.0
 var _self_righting := false
 var _self_right_time := 0.0
+## Velocity from the previous _integrate_forces call. The change between calls is the
+## last step's collision response, and the old value is the momentum before the hit.
+var _last_integrate_velocity := Vector3.ZERO
+var _has_last_integrate_velocity := false
+## Set by an impact in _integrate_forces and consumed on the next physics frame.
+var _pending_crash_velocity := Vector3.ZERO
+var _has_pending_crash := false
+## Guards against throwing the same rider twice while the dismount round-trip lands.
+var _crash_cooldown := 0.0
+## Actor instance id -> msec of the last run-over, so one pass hits once.
+var _recent_run_overs: Dictionary[int, int] = {}
+## Rider currently excluded from the runner sweep, so their own body never eats a hit.
+var _detector_rider: Player = null
 
 
 func _ready() -> void:
 	super()
-	# Needed for the ground check in _is_grounded.
+	# Needed for the ground check in _is_grounded and the impact contacts below.
 	contact_monitor = true
 	max_contacts_reported = 8
 	_target_yaw = global_rotation.y
 
 
 func _physics_process(delta: float) -> void:
-	if _is_controller():
+	_crash_cooldown = maxf(_crash_cooldown - delta, 0.0)
+	if not _is_controller():
+		_has_pending_crash = false
+		_pending_crash_velocity = Vector3.ZERO
+	elif not has_rider:
+		# A parked scooter still needs _apply_controls for its self-righting hop.
+		_has_pending_crash = false
+		_pending_crash_velocity = Vector3.ZERO
 		_apply_controls(delta)
+	elif _has_pending_crash:
+		_has_pending_crash = false
+		var throw_velocity := _pending_crash_velocity
+		_pending_crash_velocity = Vector3.ZERO
+		if crash_sfx:
+			Audio.play_sfx_3d(crash_sfx, global_position, -3.0, 30.0, true)
+		_crash(throw_velocity)
+	else:
+		_apply_controls(delta)
+		_check_run_overs(delta)
 	super(delta)
+
+
+# Detects a hard collision with a wall (a contact whose normal is close to horizontal)
+# and turns it into a crash even when the deck never tips past the ragdoll angle.
+# The impulse itself is unreliable for a fresh contact, so the frame-to-frame speed
+# loss is used instead: a wall removes momentum, while a bump merely redirects it.
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	var velocity := state.linear_velocity
+	var old_horizontal := Vector3(_last_integrate_velocity.x, 0.0, _last_integrate_velocity.z)
+	var new_horizontal := Vector3(velocity.x, 0.0, velocity.z)
+	var old_speed := old_horizontal.length()
+	var new_speed := new_horizontal.length()
+	# Only losing most of the speed means a wall. A curb or crosswalk redirects the
+	# scooter (velocity vector changes a lot) but lets it keep rolling at speed.
+	var speed_loss := old_speed - new_speed
+	if (
+		_has_last_integrate_velocity
+		and old_speed >= crash_impact_speed
+		and new_speed <= crash_stop_speed
+		and speed_loss >= crash_impact_speed
+		and not _has_pending_crash
+		and _is_controller()
+		and has_rider
+	):
+		var rider := get_rider()
+		if rider != null and not rider.is_ragdolled:
+			for i in state.get_contact_count():
+				# Despite the name (and the outdated docs), this normal is world-space.
+				var normal := state.get_contact_local_normal(i).normalized()
+				# Ground and ramps push mostly upward; only near-vertical surfaces are walls.
+				if absf(normal.y) > crash_max_normal_up:
+					continue
+				# Throw the rider the way the scooter was already travelling. If the hit
+				# ate that velocity, reconstruct it from the wall normal instead.
+				var throw_velocity := _last_integrate_velocity
+				if throw_velocity.length() < speed_loss * 0.5:
+					throw_velocity = -normal * speed_loss
+				_pending_crash_velocity = throw_velocity
+				_has_pending_crash = true
+				break
+	_last_integrate_velocity = velocity
+	_has_last_integrate_velocity = true
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -130,7 +237,88 @@ func _apply_controls(delta: float) -> void:
 	_apply_balance(delta)
 
 	if _is_grounded() and _tilt_angle() > deg_to_rad(ragdoll_tilt_degrees):
-		_crash()
+		_crash(linear_velocity)
+
+
+# Runs on the controller peer. Sweeps the detector along this frame's motion so a fast
+# pass cannot tunnel through a pedestrian, then applies a normal hit to each new target.
+func _check_run_overs(delta: float) -> void:
+	var rider := get_rider()
+	if rider == null or rider.is_ragdolled:
+		return
+	var speed := _horizontal_speed()
+	if speed < run_over_min_speed:
+		return
+
+	_sync_detector_exception(rider)
+	_runner_detector.target_position = (
+		_runner_detector.global_basis.inverse() * (linear_velocity * delta)
+	)
+	_runner_detector.force_shapecast_update()
+
+	var now := Time.get_ticks_msec()
+	var cooldown_ms := int(run_over_cooldown * 1000.0)
+	for i in _runner_detector.get_collision_count():
+		var target := _runner_detector.get_collider(i) as Humanoid
+		if target == null or target == rider or target.is_ragdolled:
+			continue
+		var target_id := target.get_instance_id()
+		var last_hit: int = _recent_run_overs.get(target_id, -cooldown_ms)
+		if now - last_hit < cooldown_ms:
+			continue
+		_recent_run_overs[target_id] = now
+		_run_over(target, rider, speed)
+
+	_prune_run_overs(now, cooldown_ms)
+
+
+# Drives an actor down with the same damage, ragdoll and guilt effects as a melee hit.
+func _run_over(target: Humanoid, rider: Player, speed: float) -> void:
+	var damage := minf(speed * run_over_damage_per_speed, run_over_max_damage)
+	var direction := Vector3(linear_velocity.x, 0.0, linear_velocity.z).normalized()
+	if direction.is_zero_approx():
+		direction = _forward()
+	var force := direction * (speed * run_over_force_scale) + Vector3.UP * run_over_lift
+	target.get_hit(damage, force, true, true, rider.player_id)
+	_register_run_over_guilt(target, rider.player_id, damage)
+	if run_over_sfx:
+		Audio.play_sfx_3d(run_over_sfx, target.global_position, 0.0, 25.0, true)
+
+
+# Mirrors melee assault guilt, but skips police (they turn a hit into bounty instead).
+func _register_run_over_guilt(target: Humanoid, attacker_id: int, damage: float) -> void:
+	if attacker_id <= 0 or not target.has_method("get_crime_label"):
+		return
+	if target.is_in_group("police"):
+		return
+	var label := "Ran over %s" % target.get_crime_label()
+	var amount := maxi(25, roundi(damage * 4.0))
+	CrimeManager.add_guilt(attacker_id, label, 90, amount)
+
+
+# Keeps the rider out of the sweep. The rider's body has several shapes and would
+# otherwise fill the cast results, hiding the pedestrian actually in front.
+func _sync_detector_exception(rider: Player) -> void:
+	if is_instance_valid(_detector_rider) and rider == _detector_rider:
+		return
+	if is_instance_valid(_detector_rider):
+		_runner_detector.remove_exception(_detector_rider)
+	_detector_rider = rider
+	if _detector_rider != null:
+		_runner_detector.add_exception(_detector_rider)
+
+
+# Drops cooldown entries for actors the scooter can hit again.
+func _prune_run_overs(now: int, cooldown_ms: int) -> void:
+	if _recent_run_overs.size() < 32:
+		return
+	for target_id: int in _recent_run_overs.keys():
+		if now - _recent_run_overs[target_id] >= cooldown_ms:
+			_recent_run_overs.erase(target_id)
+
+
+func _horizontal_speed() -> float:
+	return Vector3(linear_velocity.x, 0.0, linear_velocity.z).length()
 
 
 # Cancels the sideways part of the velocity while grounded, so the scooter tracks
@@ -202,8 +390,14 @@ func _tilt_angle() -> float:
 	return acos(clampf(global_basis.y.dot(Vector3.UP), -1.0, 1.0))
 
 
-func _crash() -> void:
-	_throw_rider(0.0, linear_velocity * crash_force_scale, true)
+func _crash(throw_velocity: Vector3) -> void:
+	if _crash_cooldown > 0.0:
+		return
+	var rider := get_rider()
+	if rider == null or rider.is_ragdolled:
+		return
+	_crash_cooldown = 0.5
+	_throw_rider(0.0, throw_velocity * crash_force_scale, true)
 
 
 # Any peer may ask for the hop; only the controller applies it.

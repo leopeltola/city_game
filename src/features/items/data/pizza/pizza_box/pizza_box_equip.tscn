@@ -33,11 +33,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0033772774, 0)
 transform = Transform3D(1, 0, 0, 0, 0.55075127, 0.83466965, 0, -0.8346696, 0.55075115, 0, 0.35533437, -0.2130962)
 visible = false
 
-[node name="NoteLabel" type="Label3D" parent="RightHandAnchor"]
+[node name="NoteLabel" type="Label3D" parent="RightHandAnchor" unique_id=274705781]
 unique_name_in_owner = true
-visible = false
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
-billboard = 1
+transform = Transform3D(0.8405904, 0.5416713, 2.3677202e-08, 0, -4.371139e-08, 1, 0.5416713, -0.8405904, -3.6743376e-08, 0, 0.124625206, -0.09950644)
+pixel_size = 0.0035
 no_depth_test = true
 text = "Note"
-font_size = 32

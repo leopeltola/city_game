@@ -32,6 +32,9 @@ var net_linear_velocity: Vector3
 var net_angular_velocity: Vector3
 var has_net := false
 var _send_timer := 0.0
+## True once a dismount has been requested, so auto-dismounting a ragdolled rider does
+## not spam the server every physics frame while the round-trip lands.
+var _dismount_requested := false
 
 
 func _ready() -> void:
@@ -51,6 +54,12 @@ func _on_player_left(data: PlayerData) -> void:
 
 func _physics_process(delta: float) -> void:
 	if _is_controller():
+		# A rider can be ragdolled by a hit that never touched the vehicle (e.g. a
+		# melee hit on the player). Detach them, or the RemoteTransform3D keeps
+		# pinning the ragdoll to the deck and the rider cannot stand up in place.
+		var rider := get_rider()
+		if rider != null and rider.is_ragdolled:
+			_stop_riding()
 		_publish(delta)
 	else:
 		_follow(delta)
@@ -120,6 +129,9 @@ func interact(player_id: int) -> void:
 
 
 func _stop_riding() -> void:
+	if _dismount_requested:
+		return
+	_dismount_requested = true
 	if multiplayer.is_server():
 		_server_set_rider(0)
 	else:
@@ -181,6 +193,7 @@ func _rpc_set_rider(player_id: int) -> void:
 		if not previous.is_ragdolled:
 			previous.global_rotation = Vector3(0.0, global_rotation.y, 0.0)
 	rider_id = player_id
+	_dismount_requested = false
 	var net_id := SERVER_ID
 	if player_id > 0:
 		var data := PlayerManager.get_player_by_id(player_id)
